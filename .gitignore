@@ -1,0 +1,9 @@
+.abc
+.npm
+.sonar
+src/library
+log
+data
+build
+vendor
+composer.phar
