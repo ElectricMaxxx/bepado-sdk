@@ -52,9 +52,10 @@ class ProductImportContext extends BehatContext
     /**
      * @Given /^I configured the update interval to (\d+) products per hour$/
      */
-    public function iConfiguredTheUpdateIntervalToProductsPerHour($interval)
+    public function iConfiguredTheUpdateIntervalToProductsPerHour($productCount)
     {
-        throw new PendingException();
+        $this->offset = 0;
+        $this->productsPerInterval = $productCount;
     }
 
     /**
@@ -62,7 +63,7 @@ class ProductImportContext extends BehatContext
      */
     public function importIsTriggeredForTheTime($iteration)
     {
-        throw new PendingException();
+        $this->offset = ( $iteration - 1 ) * $this->productsPerInterval;
     }
 
     /**
