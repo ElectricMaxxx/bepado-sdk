@@ -15,7 +15,7 @@ The extension points, we need to cover are:
 In the follwing sections we will describe in detail how you can use the SDK and
 accomplish customization of the four points mentioned.
 
-.. @TODO: Wite
+.. @TODO: Write
 
 
 ..
