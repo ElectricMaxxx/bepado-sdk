@@ -26,12 +26,14 @@ class ProductImportContext extends BehatContext
     public function __construct()
     {
         $config = @parse_ini_file( __DIR__ . '/../../../build.properties' );
-        $this->gateway = new Gateway\MySQLi(new MySQLi(
+        $this->gateway = new Gateway\MySQLi($connection = new MySQLi(
             $config['db.hostname'],
             $config['db.userid'],
             $config['db.password'],
             $config['db.name']
         ));
+
+        $connection->query( 'TRUNCATE TABLE changes;' );
     }
 
     /**
