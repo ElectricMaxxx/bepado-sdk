@@ -1,5 +1,7 @@
 <?php
 
+namespace Mosaic\SDK;
+
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
@@ -7,17 +9,42 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
+use Mosaic\SdkApi\Struct\Product;
+
 /**
  * Features context.
  */
 class ProductImportContext extends BehatContext
 {
     /**
+     * Gateway
+     *
+     * @var Gateway
+     */
+    protected $gateway;
+
+    public function __construct()
+    {
+        $config = @parse_ini_file( __DIR__ . '/../../../build.properties' );
+        $this->gateway = new Gateway\MySQLi(new MySQLi(
+            $config['db.hostname'],
+            $config['db.userid'],
+            $config['db.password'],
+            $config['db.name']
+        ));
+    }
+
+    /**
      * @Given /^I have (\d+) products in my shop$/
      */
     public function iHaveProductsInMyShop($productCount)
     {
-        throw new PendingException();
+        for ($i = 0; $i < $productCount; ++$i) {
+            $this->gateway->recordInsert(new Product(array(
+                'shopId' => 'shop',
+                'sourceId' => 'product-' . $i,
+            )));
+        }
     }
 
     /**

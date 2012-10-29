@@ -7,6 +7,8 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
+require __DIR__ . '/../../../vendor/autoload.php';
+
 require __DIR__ . '/ProductImportContext.php';
 require __DIR__ . '/ShopPurchaseContext.php';
 
@@ -23,8 +25,8 @@ class FeatureContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-        $this->useContext('productImport', new ProductImportContext());
-        $this->useContext('shopPurchase', new ShopPurchaseContext());
+        $this->useContext('productImport', new \Mosaic\SDK\ProductImportContext());
+        $this->useContext('shopPurchase', new \Mosaic\SDK\ShopPurchaseContext());
     }
 }
 
