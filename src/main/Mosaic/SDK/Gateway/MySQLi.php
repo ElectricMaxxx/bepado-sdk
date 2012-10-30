@@ -35,13 +35,17 @@ class MySQLi extends Gateway
     }
 
     /**
-     * Get next changes
+     * Get next change
      *
      * @param int $limit
      * @return Struct\Changes[]
      */
     public function getNextChanges($limit)
     {
+        // @TODO:
+        // * Fetch next changes
+        // * Update latest revision
+        // * Remove all changes, which are processed
         throw new \RuntimeException('@TODO: Implement');
     }
 
@@ -56,11 +60,11 @@ class MySQLi extends Gateway
     {
         $this->connection->query('
             INSERT INTO
-                changes
+                mosaic_change
             VALUES (
                 "' . $this->connection->real_escape_string($product->sourceId) . '",
-                "' . $this->connection->real_escape_string(md5(serialize($product))) . '",
-                ' . time() . ',
+                "insert",
+                "' . $this->connection->real_escape_string($revision) . '",
                 null
             );
         ');
@@ -75,7 +79,16 @@ class MySQLi extends Gateway
      */
     public function recordUpdate(Product $product, $revision)
     {
-        throw new \RuntimeException('@TODO: Implement');
+        $this->connection->query('
+            INSERT INTO
+                mosaic_change
+            VALUES (
+                "' . $this->connection->real_escape_string($product->sourceId) . '",
+                "update",
+                "' . $this->connection->real_escape_string($revision) . '",
+                null
+            );
+        ');
     }
 
     /**
@@ -87,6 +100,15 @@ class MySQLi extends Gateway
      */
     public function recordDelete(Product $product, $revision)
     {
-        throw new \RuntimeException('@TODO: Implement');
+        $this->connection->query('
+            INSERT INTO
+                mosaic_change
+            VALUES (
+                "' . $this->connection->real_escape_string($product->sourceId) . '",
+                "delete",
+                "' . $this->connection->real_escape_string($revision) . '",
+                null
+            );
+        ');
     }
 }
