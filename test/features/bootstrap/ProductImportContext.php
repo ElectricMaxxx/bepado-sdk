@@ -11,6 +11,7 @@ use Behat\Gherkin\Node\PyStringNode,
 
 use Mosaic\SdkApi\Struct\Product;
 use Mosaic\Common\Rpc;
+use Mosaic\Common\Struct;
 
 /**
  * Features context.
@@ -23,6 +24,13 @@ class ProductImportContext extends BehatContext
      * @var Gateway
      */
     protected $gateway;
+
+    /**
+     * Rpc service registry
+     *
+     * @var Rpc\ServiceRegistry
+     */
+    protected $registry;
 
     /**
      * Product processing offset
@@ -53,13 +61,21 @@ class ProductImportContext extends BehatContext
             $config['db.password'],
             $config['db.name']
         ));
-        $connection->query('TRUNCATE TABLE changes;');
+        $connection->query('TRUNCATE TABLE mosaic_change;');
+        $connection->query('TRUNCATE TABLE mosaic_product;');
     }
 
     protected function initController()
     {
+        $this->service = new Rpc\ServiceRegistry();
+        $this->service->registerService(
+            'products',
+            array('export'),
+            new Service\Product($this->gateway)
+        );
+
         $this->controller = new Controller(
-            new Rpc\ServiceRegistry(),
+            $this->service,
             new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(),
             new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
                 new \Mosaic\Common\XmlHelper()
@@ -72,11 +88,15 @@ class ProductImportContext extends BehatContext
      */
     public function iHaveProductsInMyShop($productCount)
     {
+        $revisionProvider = new RevisionProvider\Time();
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->gateway->recordInsert(new Product(array(
-                'shopId' => 'shop',
-                'sourceId' => 'product-' . $i,
-            )));
+            $this->gateway->recordInsert(
+                new Product(array(
+                    'shopId' => 'shop',
+                    'sourceId' => 'product-' . $i,
+                )),
+                $revisionProvider->next()
+            );
         }
     }
 
@@ -102,7 +122,15 @@ class ProductImportContext extends BehatContext
      */
     public function productsAreSynchronized($productCount)
     {
-        throw new PendingException();
+        $return = $this->service->dispatch(
+            new Struct\RpcCall(array(
+                'service' => 'products',
+                'command' => 'export',
+                'arguments' => array(
+                    $this->productsPerInterval
+                )
+            ))
+        );
     }
 
     /**
