@@ -40,6 +40,12 @@ class ProductImportContext extends BehatContext
 
     public function __construct()
     {
+        $this->initDatabase();
+        $this->initController();
+    }
+
+    protected function initDatabase()
+    {
         $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
         $this->gateway = new Gateway\MySQLi($connection = new MySQLi(
             $config['db.hostname'],
@@ -47,9 +53,11 @@ class ProductImportContext extends BehatContext
             $config['db.password'],
             $config['db.name']
         ));
-
         $connection->query('TRUNCATE TABLE changes;');
+    }
 
+    protected function initController()
+    {
         $this->controller = new Controller(
             new Rpc\ServiceRegistry(),
             new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(),
