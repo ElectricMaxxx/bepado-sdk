@@ -31,8 +31,8 @@
 -- We recreate the DB entirely -- so that we do not care about violated constraints
 SET foreign_key_checks = 0;
 
--- Table: Changes (c)
-CREATE TABLE IF NOT EXISTS `mosaic_changes` (
+-- Table: Change (c)
+CREATE TABLE IF NOT EXISTS `mosaic_change` (
   `c_source_id` VARCHAR(64) NOT NULL,
   `c_operation` CHAR(8) NOT NULL,
   `c_revision` DECIMAL(10,5) NOT NULL,
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `mosaic_changes` (
   INDEX (`c_revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table: Products (p)
-CREATE TABLE IF NOT EXISTS `mosaic_products` (
+-- Table: Product (p)
+CREATE TABLE IF NOT EXISTS `mosaic_product` (
   `p_source_id` VARCHAR(64) NOT NULL,
   `p_hash` VARCHAR(64) NOT NULL,
   `p_sync_time` BIGINT UNSIGNED NOT NULL,
