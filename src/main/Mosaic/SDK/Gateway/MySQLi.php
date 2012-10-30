@@ -48,10 +48,11 @@ class MySQLi extends Gateway
     /**
      * Record product insert
      *
-     * @param Product $product
+     * @param Struct\Product $product
+     * @param string $revision
      * @return void
      */
-    public function recordInsert(Product $product)
+    public function recordInsert(Product $product, $revision)
     {
         $this->connection->query('
             INSERT INTO
@@ -68,10 +69,11 @@ class MySQLi extends Gateway
     /**
      * Record product update
      *
-     * @param Product $product
+     * @param Struct\Product $product
+     * @param string $revision
      * @return void
      */
-    public function recordUpdate(Product $product)
+    public function recordUpdate(Product $product, $revision)
     {
         throw new \RuntimeException('@TODO: Implement');
     }
@@ -79,10 +81,11 @@ class MySQLi extends Gateway
     /**
      * Record product delete
      *
-     * @param Product $product
+     * @param Struct\Product $product
+     * @param string $revision
      * @return void
      */
-    public function recordDelete(Product $product)
+    public function recordDelete(Product $product, $revision)
     {
         throw new \RuntimeException('@TODO: Implement');
     }
