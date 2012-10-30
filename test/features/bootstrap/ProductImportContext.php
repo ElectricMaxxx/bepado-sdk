@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
 use Mosaic\SdkApi\Struct\Product;
+use Mosaic\Common\Rpc;
 
 /**
  * Features context.
@@ -23,9 +24,23 @@ class ProductImportContext extends BehatContext
      */
     protected $gateway;
 
+    /**
+     * Product processing offset
+     *
+     * @var int
+     */
+    protected $offset;
+
+    /**
+     * Configured amount of products to fetch per interval
+     *
+     * @var int
+     */
+    protected $productsPerInterval;
+
     public function __construct()
     {
-        $config = @parse_ini_file( __DIR__ . '/../../../build.properties' );
+        $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
         $this->gateway = new Gateway\MySQLi($connection = new MySQLi(
             $config['db.hostname'],
             $config['db.userid'],
@@ -33,7 +48,15 @@ class ProductImportContext extends BehatContext
             $config['db.name']
         ));
 
-        $connection->query( 'TRUNCATE TABLE changes;' );
+        $connection->query('TRUNCATE TABLE changes;');
+
+        $this->controller = new Controller(
+            new Rpc\ServiceRegistry(),
+            new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(),
+            new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
+                new \Mosaic\Common\XmlHelper()
+            )
+        );
     }
 
     /**
