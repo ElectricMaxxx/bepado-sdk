@@ -13,6 +13,8 @@ use Mosaic\SdkApi\Struct\Product;
 use Mosaic\Common\Rpc;
 use Mosaic\Common\Struct;
 
+use Assert\Assertion;
+
 /**
  * Features context.
  */
@@ -122,15 +124,18 @@ class ProductImportContext extends BehatContext
      */
     public function productsAreSynchronized($productCount)
     {
-        $return = $this->service->dispatch(
+        $changes = $this->service->dispatch(
             new Struct\RpcCall(array(
                 'service' => 'products',
                 'command' => 'export',
                 'arguments' => array(
+                    $this->offset,
                     $this->productsPerInterval
                 )
             ))
         );
+
+        Assertion::eq($productCount, count($changes));
     }
 
     /**

@@ -34,8 +34,8 @@ class Product
         $this->gateway = $gateway;
     }
 
-    public function export($productCount)
+    public function export($revision, $productCount)
     {
-        return $this->gateway->getNextChanges($productCount);
+        return $this->gateway->getNextChanges($revision, $productCount);
     }
 }

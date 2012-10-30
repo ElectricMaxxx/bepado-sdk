@@ -8,6 +8,7 @@
 namespace Mosaic\SDK\Gateway;
 
 use Mosaic\SDK\Gateway;
+use Mosaic\SDK\Struct;
 use Mosaic\SdkApi\Struct\Product;
 
 /**
@@ -44,15 +45,39 @@ class MySQLi extends Gateway
      *
      * @param string $offset
      * @param int $limit
-     * @return Struct\Changes[]
+     * @return Struct\Change[]
      */
-    abstract public function getNextChanges($offset, $limit);
+    public function getNextChanges($offset, $limit)
     {
         // @TODO:
-        // * Update latest revision
         // * Fetch next changes
         // * Remove all changes, which are prior to the requested revision
-        throw new \RuntimeException('@TODO: Implement');
+        $result = $this->connection->query(
+            'SELECT
+                `c_source_id`,
+                `c_operation`,
+                `c_revision`
+            FROM
+                `mosaic_change`
+            WHERE
+                `c_revision` > ' . ((float) $offset) . '
+            LIMIT
+                ' . ((int) $limit)
+        );
+
+        $changes = array();
+        while ($row = $result->fetch_assoc()) {
+            $changes[] = new Struct\Change();
+        }
+
+        $this->connection->query(
+            'DELETE FROM
+                mosaic_change
+            WHERE
+                c_revision <= ' . ((float) $offset)
+        );
+
+        return $changes;
     }
 
     /**
