@@ -32,11 +32,21 @@
 SET foreign_key_checks = 0;
 
 -- Table: Changes (c)
-CREATE TABLE IF NOT EXISTS `changes` (
+CREATE TABLE IF NOT EXISTS `mosaic_changes` (
   `c_source_id` VARCHAR(64) NOT NULL,
-  `c_hash` VARCHAR(64) NOT NULL,
-  `c_sync_time` BIGINT UNSIGNED NOT NULL,
+  `c_operation` CHAR(8) NOT NULL,
+  `c_revision` DECIMAL(10,5) NOT NULL,
   `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`c_source_id`)
+  INDEX (`c_source_id`),
+  INDEX (`c_revision`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Table: Products (p)
+CREATE TABLE IF NOT EXISTS `mosaic_products` (
+  `p_source_id` VARCHAR(64) NOT NULL,
+  `p_hash` VARCHAR(64) NOT NULL,
+  `p_sync_time` BIGINT UNSIGNED NOT NULL,
+  `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`p_source_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
