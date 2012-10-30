@@ -29,7 +29,7 @@ class MySQLi extends Gateway
      *
      * @param \Mosaic\SDK\MySQLi $connection
      */
-    public function __construct( \Mosaic\SDK\MySQLi $connection )
+    public function __construct(\Mosaic\SDK\MySQLi $connection)
     {
         $this->connection = $connection;
     }
@@ -39,7 +39,7 @@ class MySQLi extends Gateway
      *
      * The offset specified the revision to start from
      *
-     * May remove all pending changes, which are prior to the last requested 
+     * May remove all pending changes, which are prior to the last requested
      * revision.
      *
      * @param string $offset
@@ -64,16 +64,16 @@ class MySQLi extends Gateway
      */
     public function recordInsert(Product $product, $revision)
     {
-        $this->connection->query('
-            INSERT INTO
+        $this->connection->query(
+            'INSERT INTO
                 mosaic_change
             VALUES (
                 "' . $this->connection->real_escape_string($product->sourceId) . '",
                 "insert",
                 "' . $this->connection->real_escape_string($revision) . '",
                 null
-            );
-        ');
+            );'
+        );
     }
 
     /**
@@ -85,16 +85,16 @@ class MySQLi extends Gateway
      */
     public function recordUpdate(Product $product, $revision)
     {
-        $this->connection->query('
-            INSERT INTO
+        $this->connection->query(
+            'INSERT INTO
                 mosaic_change
             VALUES (
                 "' . $this->connection->real_escape_string($product->sourceId) . '",
                 "update",
                 "' . $this->connection->real_escape_string($revision) . '",
                 null
-            );
-        ');
+            );'
+        );
     }
 
     /**
@@ -106,15 +106,15 @@ class MySQLi extends Gateway
      */
     public function recordDelete(Product $product, $revision)
     {
-        $this->connection->query('
-            INSERT INTO
+        $this->connection->query(
+            'INSERT INTO
                 mosaic_change
             VALUES (
                 "' . $this->connection->real_escape_string($product->sourceId) . '",
                 "delete",
                 "' . $this->connection->real_escape_string($revision) . '",
                 null
-            );
-        ');
+            );'
+        );
     }
 }
