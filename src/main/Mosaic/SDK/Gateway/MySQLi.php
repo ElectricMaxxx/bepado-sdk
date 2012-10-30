@@ -37,15 +37,21 @@ class MySQLi extends Gateway
     /**
      * Get next change
      *
+     * The offset specified the revision to start from
+     *
+     * May remove all pending changes, which are prior to the last requested 
+     * revision.
+     *
+     * @param string $offset
      * @param int $limit
      * @return Struct\Changes[]
      */
-    public function getNextChanges($limit)
+    abstract public function getNextChanges($offset, $limit);
     {
         // @TODO:
-        // * Fetch next changes
         // * Update latest revision
-        // * Remove all changes, which are processed
+        // * Fetch next changes
+        // * Remove all changes, which are prior to the requested revision
         throw new \RuntimeException('@TODO: Implement');
     }
 

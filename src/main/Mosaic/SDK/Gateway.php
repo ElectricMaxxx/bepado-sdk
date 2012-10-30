@@ -23,10 +23,16 @@ abstract class Gateway
     /**
      * Get next changes
      *
+     * The offset specified the revision to start from
+     *
+     * May remove all pending changes, which are prior to the last requested 
+     * revision.
+     *
+     * @param string $offset
      * @param int $limit
      * @return Struct\Changes[]
      */
-    abstract public function getNextChanges($limit);
+    abstract public function getNextChanges($offset, $limit);
 
     /**
      * Record product insert
