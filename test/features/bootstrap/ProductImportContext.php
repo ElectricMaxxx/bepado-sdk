@@ -48,6 +48,13 @@ class ProductImportContext extends BehatContext
      */
     protected $productsPerInterval;
 
+    /**
+     * Count of products which are overall affected by change
+     *
+     * @var int
+     */
+    protected $modifiedProductCount;
+
     public function __construct()
     {
         $this->initDatabase();
@@ -90,10 +97,46 @@ class ProductImportContext extends BehatContext
      */
     public function iHaveProductsInMyShop($productCount)
     {
-        $this->productCount = $productCount;
+        $this->modifiedProductCount += $productCount;
         $revisionProvider = new RevisionProvider\Time();
         for ($i = 0; $i < $productCount; ++$i) {
             $this->gateway->recordInsert(
+                new Product(array(
+                    'shopId' => 'shop',
+                    'sourceId' => 'product-' . $i,
+                )),
+                $revisionProvider->next()
+            );
+        }
+    }
+
+    /**
+     * @Given /^I update (\d+) products$/
+     */
+    public function iUpdateProducts($productCount)
+    {
+        $this->modifiedProductCount += $productCount;
+        $revisionProvider = new RevisionProvider\Time();
+        for ($i = 0; $i < $productCount; ++$i) {
+            $this->gateway->recordUpdate(
+                new Product(array(
+                    'shopId' => 'shop',
+                    'sourceId' => 'product-' . $i,
+                )),
+                $revisionProvider->next()
+            );
+        }
+    }
+
+    /**
+     * @Given /^I remove (\d+) products$/
+     */
+    public function iRemoveProducts($productCount)
+    {
+        $this->modifiedProductCount += $productCount;
+        $revisionProvider = new RevisionProvider\Time();
+        for ($i = 0; $i < $productCount; ++$i) {
+            $this->gateway->recordDelete(
                 new Product(array(
                     'shopId' => 'shop',
                     'sourceId' => 'product-' . $i,
@@ -113,9 +156,9 @@ class ProductImportContext extends BehatContext
     }
 
     /**
-     * @When /^Import is triggered for the (\d+)\. time$/
+     * @When /^Import is triggered(?: for the (\d+)\. time)?$/
      */
-    public function importIsTriggeredForTheTime($iteration)
+    public function importIsTriggeredForTheNthTime($iteration = 1)
     {
         $this->offset = $iteration;
     }
@@ -137,7 +180,6 @@ class ProductImportContext extends BehatContext
             );
 
             $overallProductCount += count($changes);
-
             if (count($changes)) {
                 $revision = end($changes)->revision;
             }
@@ -162,17 +204,9 @@ class ProductImportContext extends BehatContext
     {
         $changes = $this->syncChanges();
         Assertion::assertEquals(
-            $this->productCount,
+            $this->modifiedProductCount,
             count($changes) + (($this->offset - 1) * $this->productsPerInterval)
         );
-    }
-
-    /**
-     * @Given /^I update (\d+) products after the (\d+)\. run$/
-     */
-    public function iUpdateProductsAfterTheRun($productCount, $iteration)
-    {
-        throw new PendingException();
     }
 
     /**
@@ -180,31 +214,7 @@ class ProductImportContext extends BehatContext
      */
     public function allProductsAreAlreadySyncronized()
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given /^I update (\d+) products$/
-     */
-    public function iUpdateProducts($productCount)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When /^Import is triggered$/
-     */
-    public function importIsTriggered()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given /^I remove (\d+) products$/
-     */
-    public function iRemoveProducts($productCount)
-    {
-        throw new PendingException();
+        $this->syncChanges();
     }
 
     /**

@@ -33,7 +33,7 @@ Feature: Updates are executed using the shop admin interface or using the ERP.
     Scenario: Remaining product imports and product updates are handled both
         Given I have 123 products in my shop
           And I configured the update interval to 100 products per hour
-          And I update 40 products after the 1. run
+          And I update 40 products
          When Import is triggered for the 2. time
          Then All products are synchronized
 
