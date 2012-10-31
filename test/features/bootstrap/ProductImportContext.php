@@ -110,6 +110,7 @@ class ProductImportContext extends BehatContext
 
     /**
      * @Given /^I have (\d+) products in my shop$/
+     * @Given /^I add (\d+) products$/
      */
     public function iHaveProductsInMyShop($productCount)
     {
@@ -240,14 +241,6 @@ class ProductImportContext extends BehatContext
         foreach ($changes as $change) {
             Assertion::assertEquals("delete", $change->operation);
         }
-    }
-
-    /**
-     * @Given /^I add (\d+) products$/
-     */
-    public function iAddProducts($productCount)
-    {
-        throw new PendingException();
     }
 }
 
