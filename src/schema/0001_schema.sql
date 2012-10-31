@@ -35,7 +35,7 @@ SET foreign_key_checks = 0;
 CREATE TABLE IF NOT EXISTS `mosaic_change` (
   `c_source_id` VARCHAR(64) NOT NULL,
   `c_operation` CHAR(8) NOT NULL,
-  `c_revision` DECIMAL(10,5) NOT NULL,
+  `c_revision` DECIMAL(15,5) NOT NULL,
   `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX (`c_source_id`),
   INDEX (`c_revision`)
