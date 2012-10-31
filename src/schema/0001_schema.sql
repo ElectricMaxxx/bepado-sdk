@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `mosaic_change` (
   `c_revision` DECIMAL(15,5) NOT NULL,
   `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX (`c_source_id`),
-  INDEX (`c_revision`)
+  UNIQUE (`c_revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Table: Product (p)
