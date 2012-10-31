@@ -49,16 +49,32 @@ class ProductImportContext extends BehatContext
     protected $productsPerInterval;
 
     /**
+     * Last sync revision
+     *
+     * @var string
+     */
+    protected $lastRevision;
+
+    /**
      * Count of products which are overall affected by change
      *
      * @var int
      */
     protected $modifiedProductCount;
 
+    /**
+     * Revision provider
+     *
+     * @var RevisionProvider
+     */
+    protected $revisionProvider;
+
     public function __construct()
     {
         $this->initDatabase();
         $this->initController();
+
+        $this->revisionProvider = new RevisionProvider\Time();
     }
 
     protected function initDatabase()
@@ -98,14 +114,13 @@ class ProductImportContext extends BehatContext
     public function iHaveProductsInMyShop($productCount)
     {
         $this->modifiedProductCount += $productCount;
-        $revisionProvider = new RevisionProvider\Time();
         for ($i = 0; $i < $productCount; ++$i) {
             $this->gateway->recordInsert(
                 new Product(array(
                     'shopId' => 'shop',
                     'sourceId' => 'product-' . $i,
                 )),
-                $revisionProvider->next()
+                $this->revisionProvider->next()
             );
         }
     }
@@ -116,14 +131,13 @@ class ProductImportContext extends BehatContext
     public function iUpdateProducts($productCount)
     {
         $this->modifiedProductCount += $productCount;
-        $revisionProvider = new RevisionProvider\Time();
         for ($i = 0; $i < $productCount; ++$i) {
             $this->gateway->recordUpdate(
                 new Product(array(
                     'shopId' => 'shop',
                     'sourceId' => 'product-' . $i,
                 )),
-                $revisionProvider->next()
+                $this->revisionProvider->next()
             );
         }
     }
@@ -134,14 +148,13 @@ class ProductImportContext extends BehatContext
     public function iRemoveProducts($productCount)
     {
         $this->modifiedProductCount += $productCount;
-        $revisionProvider = new RevisionProvider\Time();
         for ($i = 0; $i < $productCount; ++$i) {
             $this->gateway->recordDelete(
                 new Product(array(
                     'shopId' => 'shop',
                     'sourceId' => 'product-' . $i,
                 )),
-                $revisionProvider->next()
+                $this->revisionProvider->next()
             );
         }
     }
@@ -165,7 +178,6 @@ class ProductImportContext extends BehatContext
 
     protected function syncChanges()
     {
-        $revision = null;
         $overallProductCount = 0;
         for ($i = 0; $i < $this->offset; ++$i) {
             $changes = $this->service->dispatch(
@@ -173,7 +185,7 @@ class ProductImportContext extends BehatContext
                     'service' => 'products',
                     'command' => 'export',
                     'arguments' => array(
-                        $revision,
+                        $this->lastRevision,
                         $this->productsPerInterval
                     )
                 ))
@@ -181,7 +193,7 @@ class ProductImportContext extends BehatContext
 
             $overallProductCount += count($changes);
             if (count($changes)) {
-                $revision = end($changes)->revision;
+                $this->lastRevision = end($changes)->revision;
             }
         }
 
@@ -214,7 +226,7 @@ class ProductImportContext extends BehatContext
      */
     public function allProductsAreAlreadySyncronized()
     {
-        $this->syncChanges();
+        while (count($this->syncChanges()));
     }
 
     /**
@@ -222,7 +234,12 @@ class ProductImportContext extends BehatContext
      */
     public function productsAreDeleted($productCount)
     {
-        throw new PendingException();
+        $changes = $this->syncChanges();
+
+        Assertion::assertEquals($productCount, count($changes));
+        foreach ($changes as $change) {
+            Assertion::assertEquals("delete", $change->operation);
+        }
     }
 
     /**
