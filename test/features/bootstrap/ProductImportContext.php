@@ -13,7 +13,7 @@ use Mosaic\SdkApi\Struct\Product;
 use Mosaic\Common\Rpc;
 use Mosaic\Common\Struct;
 
-use Assert\Assertion;
+use \PHPUnit_Framework_Assert as Assertion;
 
 /**
  * Features context.
@@ -90,6 +90,7 @@ class ProductImportContext extends BehatContext
      */
     public function iHaveProductsInMyShop($productCount)
     {
+        $this->productCount = $productCount;
         $revisionProvider = new RevisionProvider\Time();
         for ($i = 0; $i < $productCount; ++$i) {
             $this->gateway->recordInsert(
@@ -107,7 +108,7 @@ class ProductImportContext extends BehatContext
      */
     public function iConfiguredTheUpdateIntervalToProductsPerHour($productCount)
     {
-        $this->offset = 0;
+        $this->offset = 1;
         $this->productsPerInterval = $productCount;
     }
 
@@ -116,7 +117,33 @@ class ProductImportContext extends BehatContext
      */
     public function importIsTriggeredForTheTime($iteration)
     {
-        $this->offset = ( $iteration - 1 ) * $this->productsPerInterval;
+        $this->offset = $iteration;
+    }
+
+    protected function syncChanges()
+    {
+        $revision = null;
+        $overallProductCount = 0;
+        for ($i = 0; $i < $this->offset; ++$i) {
+            $changes = $this->service->dispatch(
+                new Struct\RpcCall(array(
+                    'service' => 'products',
+                    'command' => 'export',
+                    'arguments' => array(
+                        $revision,
+                        $this->productsPerInterval
+                    )
+                ))
+            );
+
+            $overallProductCount += count($changes);
+
+            if (count($changes)) {
+                $revision = end($changes)->revision;
+            }
+        }
+
+        return $changes;
     }
 
     /**
@@ -124,18 +151,8 @@ class ProductImportContext extends BehatContext
      */
     public function productsAreSynchronized($productCount)
     {
-        $changes = $this->service->dispatch(
-            new Struct\RpcCall(array(
-                'service' => 'products',
-                'command' => 'export',
-                'arguments' => array(
-                    $this->offset,
-                    $this->productsPerInterval
-                )
-            ))
-        );
-
-        Assertion::eq($productCount, count($changes));
+        $changes = $this->syncChanges();
+        Assertion::assertEquals($productCount, count($changes));
     }
 
     /**
@@ -143,7 +160,11 @@ class ProductImportContext extends BehatContext
      */
     public function allProductsAreSynchronized()
     {
-        throw new PendingException();
+        $changes = $this->syncChanges();
+        Assertion::assertEquals(
+            $this->productCount,
+            count($changes) + (($this->offset - 1) * $this->productsPerInterval)
+        );
     }
 
     /**
