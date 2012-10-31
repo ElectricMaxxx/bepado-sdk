@@ -49,9 +49,14 @@ class MySQLi extends Gateway
      */
     public function getNextChanges($offset, $limit)
     {
-        // @TODO:
-        // * Fetch next changes
-        // * Remove all changes, which are prior to the requested revision
+        $offset = $offset ?: 0;
+        // Float type cast does NOT work here, since the inaccuracy of floating 
+        // point representations otherwise omit changes. Yes, this actually
+        // really happens.
+        if (!preg_match('(^[\\d\\.]+$)', $offset)) {
+            throw new \InvalidArgumentException("Offset revision must be a numeric string.");
+        }
+
         $result = $this->connection->query(
             'SELECT
                 `c_source_id`,
@@ -60,21 +65,25 @@ class MySQLi extends Gateway
             FROM
                 `mosaic_change`
             WHERE
-                `c_revision` > ' . ((float) $offset) . '
+                `c_revision` > ' . $offset . '
             LIMIT
                 ' . ((int) $limit)
         );
 
         $changes = array();
         while ($row = $result->fetch_assoc()) {
-            $changes[] = new Struct\Change();
+            $changes[] = new Struct\Change(array(
+                'sourceId' => $row['c_source_id'],
+                'operation' => $row['c_operation'],
+                'revision' => $row['c_revision'],
+            ));
         }
 
         $this->connection->query(
             'DELETE FROM
                 mosaic_change
             WHERE
-                c_revision <= ' . ((float) $offset)
+                c_revision <= ' . $offset
         );
 
         return $changes;
