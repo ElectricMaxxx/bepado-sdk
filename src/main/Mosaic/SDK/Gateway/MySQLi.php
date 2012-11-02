@@ -50,7 +50,7 @@ class MySQLi extends Gateway
     public function getNextChanges($offset, $limit)
     {
         $offset = $offset ?: 0;
-        // Float type cast does NOT work here, since the inaccuracy of floating 
+        // Float type cast does NOT work here, since the inaccuracy of floating
         // point representations otherwise omit changes. Yes, this actually
         // really happens.
         if (!preg_match('(^[\\d\\.]+$)', $offset)) {
@@ -72,11 +72,13 @@ class MySQLi extends Gateway
 
         $changes = array();
         while ($row = $result->fetch_assoc()) {
-            $changes[] = new Struct\Change(array(
-                'sourceId' => $row['c_source_id'],
-                'operation' => $row['c_operation'],
-                'revision' => $row['c_revision'],
-            ));
+            $changes[] = new Struct\Change(
+                array(
+                    'sourceId' => $row['c_source_id'],
+                    'operation' => $row['c_operation'],
+                    'revision' => $row['c_revision'],
+                )
+            );
         }
 
         $this->connection->query(

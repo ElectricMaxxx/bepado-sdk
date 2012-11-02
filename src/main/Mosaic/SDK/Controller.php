@@ -39,8 +39,11 @@ class Controller
      */
     protected $unmarshaller;
 
-    public function __construct(Rpc\ServiceRegistry $registry, Rpc\Marshaller\CallUnmarshaller $unmarshaller, Rpc\Marshaller\CallMarshaller $marshaller)
-    {
+    public function __construct(
+        Rpc\ServiceRegistry $registry,
+        Rpc\Marshaller\CallUnmarshaller $unmarshaller,
+        Rpc\Marshaller\CallMarshaller $marshaller
+    ) {
         $this->registry = $registry;
         $this->unmarshaller = $unmarshaller;
         $this->marshaller = $marshaller;

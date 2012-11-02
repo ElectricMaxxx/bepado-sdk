@@ -26,8 +26,14 @@ class MySQLi extends \MySQLi
      * @param string $socket
      * @return void
      */
-    public function __construct($host = null, $username = null, $passwd = null, $dbname = null, $port = null, $socket = null)
-    {
+    public function __construct(
+        $host = null,
+        $username = null,
+        $passwd = null,
+        $dbname = null,
+        $port = null,
+        $socket = null
+    ) {
         $host     = $host ?: ini_get('mysqli.default_host');
         $username = $username ?: ini_get('mysqli.default_user');
         $passwd   = $passwd ?: ini_get('mysqli.default_pw');
