@@ -16,11 +16,20 @@ namespace Mosaic\SDK;
 interface ProductProvider
 {
     /**
-     * Get products from shop
+     * Get product data
      *
-     * @param int $offset
-     * @param int $limit
+     * Get product data for all the product IDs specified in the given string
+     * array.
+     *
+     * @param string[] $ids
      * @return Struct\Product[]
      */
-    public function getProducts($offset, $limit);
+    public function getProducts(array $ids);
+
+    /**
+     * Get all IDs of all exported products
+     *
+     * @return string[]
+     */
+    public function getExportedProductIDs();
 }
