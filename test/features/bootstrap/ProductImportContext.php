@@ -243,4 +243,3 @@ class ProductImportContext extends BehatContext
         }
     }
 }
-
