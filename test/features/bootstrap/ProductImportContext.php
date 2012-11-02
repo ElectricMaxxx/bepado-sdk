@@ -9,7 +9,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-use Mosaic\SdkApi\Struct\Product;
+use Mosaic\SDK\Struct\Product;
 use Mosaic\Common\Rpc;
 use Mosaic\Common\Struct;
 

@@ -9,7 +9,7 @@ namespace Mosaic\SDK\Gateway;
 
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\Struct;
-use Mosaic\SdkApi\Struct\Product;
+use Mosaic\SDK\Struct\Product;
 
 /**
  * Default MySQLi implementation of the storage gateway
