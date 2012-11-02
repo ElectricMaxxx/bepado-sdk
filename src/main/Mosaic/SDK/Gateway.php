@@ -60,4 +60,21 @@ abstract class Gateway
      * @return void
      */
     abstract public function recordDelete(Product $product, $revision);
+
+    /**
+     * Check if product has changed
+     *
+     * Return true, if product chenged since last check.
+     *
+     * @param Product $product
+     * @return boolean
+     */
+    abstract public function hasChanged(Product $product);
+
+    /**
+     * Get IDs of all recorded products
+     *
+     * @return string[]
+     */
+    abstract public function getAllProductIDs();
 }
