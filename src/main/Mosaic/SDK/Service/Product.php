@@ -34,6 +34,13 @@ class Product
         $this->gateway = $gateway;
     }
 
+    /**
+     * Export current change state to Mosaic
+     *
+     * @param string $revision
+     * @param int $productCount
+     * @return Struct\Change[]
+     */
     public function export($revision, $productCount)
     {
         return $this->gateway->getNextChanges($revision, $productCount);
