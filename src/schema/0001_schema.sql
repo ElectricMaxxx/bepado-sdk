@@ -35,7 +35,7 @@ SET foreign_key_checks = 0;
 CREATE TABLE IF NOT EXISTS `mosaic_change` (
   `c_source_id` VARCHAR(64) NOT NULL,
   `c_operation` CHAR(8) NOT NULL,
-  `c_revision` DECIMAL(15,5) NOT NULL,
+  `c_revision` DECIMAL(20, 10) NOT NULL,
   `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX (`c_source_id`),
   UNIQUE (`c_revision`)
@@ -45,7 +45,6 @@ CREATE TABLE IF NOT EXISTS `mosaic_change` (
 CREATE TABLE IF NOT EXISTS `mosaic_product` (
   `p_source_id` VARCHAR(64) NOT NULL,
   `p_hash` VARCHAR(64) NOT NULL,
-  `p_sync_time` BIGINT UNSIGNED NOT NULL,
   `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`p_source_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
