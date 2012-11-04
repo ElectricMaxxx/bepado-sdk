@@ -95,7 +95,8 @@ class Syncer
             foreach ($this->products->getProducts($toCheck) as $product) {
                 if ($this->gateway->hasChanged(
                     $product->sourceId,
-                    $this->hasher->hash($product))) {
+                    $this->hasher->hash($product)
+                )) {
                     $this->gateway->recordUpdate(
                         $product->sourceId,
                         $this->hasher->hash($product),
