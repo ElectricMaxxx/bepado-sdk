@@ -9,6 +9,8 @@ namespace Mosaic\SDK\Service;
 
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\ProductProvider;
+use Mosaic\SDK\RevisionProvider;
+use Mosaic\SDK\ProductHasher;
 
 /**
  * Service to sync product database with changes feed
@@ -29,7 +31,21 @@ class Syncer
      *
      * @var ProductProvider
      */
-    protected $provider;
+    protected $products;
+
+    /**
+     * Revision provider
+     *
+     * @var RevisionProvider
+     */
+    protected $revisions;
+
+    /**
+     * Product hasher
+     *
+     * @var ProductHasher
+     */
+    protected $hasher;
 
     /**
      * COnstruct from gateway
@@ -37,10 +53,16 @@ class Syncer
      * @param Gateway $gateway
      * @return void
      */
-    public function __construct(Gateway $gateway, ProductProvider $provider)
-    {
+    public function __construct(
+        Gateway $gateway,
+        ProductProvider $products,
+        RevisionProvider $revisions,
+        ProductHasher $hasher
+    ) {
         $this->gateway = $gateway;
-        $this->provider = $provider;
+        $this->products = $products;
+        $this->revisions = $revisions;
+        $this->hasher = $hasher;
     }
 
     /**
@@ -50,24 +72,36 @@ class Syncer
      */
     public function sync()
     {
-        $shopProducts = $this->provider->getExportedProductIDs();
+        $shopProducts = $this->products->getExportedProductIDs();
         $knownProducts = $this->gateway->getAllProductIDs();
 
-        $deletes = array_diff($knownProducts, $shopProducts);
-        foreach ($deletes as $productId) {
-            $this->gateway->recordInsert($productId);
+        if ($deletes = array_diff($knownProducts, $shopProducts)) {
+            foreach ($deletes as $productId) {
+                $this->gateway->recordDelete($productId, $this->revisions->next());
+            }
         }
 
-        $inserts = array_diff($shopProducts, $knownProducts);
-        foreach ($this->provider->getProducts($inserts) as $product) {
-            $this->gateway->recordInsert($product);
+        if ($inserts = array_diff($shopProducts, $knownProducts)) {
+            foreach ($this->products->getProducts($inserts) as $product) {
+                $this->gateway->recordInsert(
+                    $product->sourceId,
+                    $this->hasher->hash($product),
+                    $this->revisions->next()
+                );
+            }
         }
 
-        $toCheck = array_intersect($shopProducts, $knownProducts);
-        foreach ($this->provider->getProducts($toCheck) as $product) {
-            if ($this->gateway->hasChanged($product))
-            {
-                $this->gateway->recordUpdate($product);
+        if ($toCheck = array_intersect($shopProducts, $knownProducts)) {
+            foreach ($this->products->getProducts($toCheck) as $product) {
+                if ($this->gateway->hasChanged(
+                    $product->sourceId,
+                    $this->hasher->hash($product))) {
+                    $this->gateway->recordUpdate(
+                        $product->sourceId,
+                        $this->hasher->hash($product),
+                        $this->revisions->next()
+                    );
+                }
             }
         }
     }

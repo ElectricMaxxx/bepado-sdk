@@ -111,6 +111,16 @@ class MySQLi extends Gateway
                 null
             );'
         );
+
+        $this->connection->query(
+            'INSERT INTO
+                mosaic_product
+            VALUES (
+                "' . $this->connection->real_escape_string($id) . '",
+                "' . $this->connection->real_escape_string($hash) . '",
+                null
+            );'
+        );
     }
 
     /**
@@ -132,6 +142,16 @@ class MySQLi extends Gateway
                 "' . $this->connection->real_escape_string($revision) . '",
                 null
             );'
+        );
+
+        $this->connection->query(
+            'UPDATE
+                mosaic_product
+            SET
+                p_hash = "' . $this->connection->real_escape_string($hash) . '"
+            WHERE
+                p_source_id = "' . $this->connection->real_escape_string($id) . '"
+            ;'
         );
     }
 
@@ -155,6 +175,14 @@ class MySQLi extends Gateway
                 null
             );'
         );
+
+        $this->connection->query(
+            'DELETE FROM
+                mosaic_product
+            WHERE
+                p_source_id = "' . $this->connection->real_escape_string($id) . '"
+            ;'
+        );
     }
 
     /**
@@ -162,12 +190,23 @@ class MySQLi extends Gateway
      *
      * Return true, if product chenged since last check.
      *
-     * @param Product $product
+     * @param string $id
+     * @param string $hash
      * @return boolean
      */
-    public function hasChanged(Product $product)
+    public function hasChanged($id, $hash)
     {
+        $result = $this->connection->query(
+            'SELECT
+                `p_hash`
+            FROM
+                `mosaic_product`
+            WHERE
+                p_source_id = "' . $this->connection->real_escape_string($id) . '"'
+        );
 
+        $row = $result->fetch_assoc();
+        return $row['p_hash'] !== $hash;
     }
 
     /**
@@ -177,6 +216,19 @@ class MySQLi extends Gateway
      */
     public function getAllProductIDs()
     {
-        return array();
+        $result = $this->connection->query(
+            'SELECT
+                `p_source_id`
+            FROM
+                `mosaic_product`'
+        );
+
+        return array_map(
+            function ($row)
+            {
+                return $row['p_source_id'];
+            },
+            $result->fetch_all(\MYSQLI_ASSOC)
+        );
     }
 }
