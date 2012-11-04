@@ -39,9 +39,9 @@ class Time extends RevisionProvider
     public function next()
     {
         if (!isset($time)) {
-            $this->time = substr(str_replace(' 0', '', microtime()), 0, 16);
+            $this->time = microtime(true);
         }
 
-        return sprintf('%s.%05d', $this->time, $this->iteration++);
+        return sprintf('%.5f%05d', $this->time, $this->iteration++);
     }
 }
