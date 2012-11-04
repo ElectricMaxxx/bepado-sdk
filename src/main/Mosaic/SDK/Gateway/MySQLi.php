@@ -94,17 +94,18 @@ class MySQLi extends Gateway
     /**
      * Record product insert
      *
-     * @param Struct\Product $product
+     * @param string $id
+     * @param string $hash
      * @param string $revision
      * @return void
      */
-    public function recordInsert(Product $product, $revision)
+    public function recordInsert($id, $hash, $revision)
     {
         $this->connection->query(
             'INSERT INTO
                 mosaic_change
             VALUES (
-                "' . $this->connection->real_escape_string($product->sourceId) . '",
+                "' . $this->connection->real_escape_string($id) . '",
                 "insert",
                 "' . $this->connection->real_escape_string($revision) . '",
                 null
@@ -115,17 +116,18 @@ class MySQLi extends Gateway
     /**
      * Record product update
      *
-     * @param Struct\Product $product
+     * @param string $id
+     * @param string $hash
      * @param string $revision
      * @return void
      */
-    public function recordUpdate(Product $product, $revision)
+    public function recordUpdate($id, $hash, $revision)
     {
         $this->connection->query(
             'INSERT INTO
                 mosaic_change
             VALUES (
-                "' . $this->connection->real_escape_string($product->sourceId) . '",
+                "' . $this->connection->real_escape_string($id) . '",
                 "update",
                 "' . $this->connection->real_escape_string($revision) . '",
                 null
@@ -136,21 +138,45 @@ class MySQLi extends Gateway
     /**
      * Record product delete
      *
-     * @param Struct\Product $product
+     * @param string $id
+     * @param string $hash
      * @param string $revision
      * @return void
      */
-    public function recordDelete(Product $product, $revision)
+    public function recordDelete($id, $revision)
     {
         $this->connection->query(
             'INSERT INTO
                 mosaic_change
             VALUES (
-                "' . $this->connection->real_escape_string($product->sourceId) . '",
+                "' . $this->connection->real_escape_string($id) . '",
                 "delete",
                 "' . $this->connection->real_escape_string($revision) . '",
                 null
             );'
         );
+    }
+
+    /**
+     * Check if product has changed
+     *
+     * Return true, if product chenged since last check.
+     *
+     * @param Product $product
+     * @return boolean
+     */
+    public function hasChanged(Product $product)
+    {
+
+    }
+
+    /**
+     * Get IDs of all recorded products
+     *
+     * @return string[]
+     */
+    public function getAllProductIDs()
+    {
+        return array();
     }
 }

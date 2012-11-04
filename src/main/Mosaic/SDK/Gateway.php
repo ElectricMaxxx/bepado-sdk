@@ -37,29 +37,31 @@ abstract class Gateway
     /**
      * Record product insert
      *
-     * @param Struct\Product $product
+     * @param string $id
+     * @param string $hash
      * @param string $revision
      * @return void
      */
-    abstract public function recordInsert(Product $product, $revision);
+    abstract public function recordInsert($id, $hash, $revision);
 
     /**
      * Record product update
      *
-     * @param Struct\Product $product
+     * @param string $id
+     * @param string $hash
      * @param string $revision
      * @return void
      */
-    abstract public function recordUpdate(Product $product, $revision);
+    abstract public function recordUpdate($id, $hash, $revision);
 
     /**
      * Record product delete
      *
-     * @param Struct\Product $product
+     * @param string $id
      * @param string $revision
      * @return void
      */
-    abstract public function recordDelete(Product $product, $revision);
+    abstract public function recordDelete($id, $revision);
 
     /**
      * Check if product has changed
