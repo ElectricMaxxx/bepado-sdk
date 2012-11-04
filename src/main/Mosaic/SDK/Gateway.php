@@ -68,10 +68,11 @@ abstract class Gateway
      *
      * Return true, if product chenged since last check.
      *
-     * @param Product $product
+     * @param string $id
+     * @param string $hash
      * @return boolean
      */
-    abstract public function hasChanged(Product $product);
+    abstract public function hasChanged($id, $hash);
 
     /**
      * Get IDs of all recorded products
