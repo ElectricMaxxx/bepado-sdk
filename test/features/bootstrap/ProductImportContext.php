@@ -63,6 +63,13 @@ class ProductImportContext extends BehatContext
     protected $modifiedProductCount;
 
     /**
+     * Incrementally update product ID
+     *
+     * @var int
+     */
+    protected $productId = 0;
+
+    /**
      * Revision provider
      *
      * @var RevisionProvider
@@ -114,13 +121,12 @@ class ProductImportContext extends BehatContext
      */
     public function iHaveProductsInMyShop($productCount)
     {
+        $end = $this->productId + $productCount;
         $this->modifiedProductCount += $productCount;
-        for ($i = 0; $i < $productCount; ++$i) {
+        for (; $this->productId < $end; ++$this->productId) {
             $this->gateway->recordInsert(
-                new Product(array(
-                    'shopId' => 'shop',
-                    'sourceId' => 'product-' . $i,
-                )),
+                $this->productId,
+                'hash-' . $this->productId,
                 $this->revisionProvider->next()
             );
         }
@@ -134,10 +140,8 @@ class ProductImportContext extends BehatContext
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
             $this->gateway->recordUpdate(
-                new Product(array(
-                    'shopId' => 'shop',
-                    'sourceId' => 'product-' . $i,
-                )),
+                $i,
+                'hash-' . $i,
                 $this->revisionProvider->next()
             );
         }
@@ -151,10 +155,7 @@ class ProductImportContext extends BehatContext
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
             $this->gateway->recordDelete(
-                new Product(array(
-                    'shopId' => 'shop',
-                    'sourceId' => 'product-' . $i,
-                )),
+                $i,
                 $this->revisionProvider->next()
             );
         }
