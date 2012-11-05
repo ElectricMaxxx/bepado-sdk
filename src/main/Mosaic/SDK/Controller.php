@@ -73,7 +73,14 @@ class Controller
      * This method will verify with the remote shops that products are still in
      * the expected state. If the state of products changed this method will
      * return a Struct\Message, which should be ACK'ed by the user. Otherwise
-     * this method will jsut return true.
+     * this method will just return true.
+     *
+     * If data updated are detected, the local product database will be updated 
+     * accordingly.
+     *
+     * This method is a convinience method to check the state of a set of
+     * remote products. The state will be checked again during
+     * reserveProducts().
      *
      * @param Struct\RemoteProduct[] $products
      * @return mixed
@@ -97,6 +104,9 @@ class Controller
      * the shop for all further transactions. The session is probably the best
      * location for this.
      *
+     * If data updated are detected, the local product database will be updated 
+     * accordingly.
+     *
      * @param Struct\RemoteProduct[] $products
      * @return mixed
      */
@@ -111,7 +121,7 @@ class Controller
      * This process is the final "buy" transaction. It should be part of the
      * checkout process and be handled synchronously.
      *
-     * This method will jsut return true, if the transaction worked as
+     * This method will just return true, if the transaction worked as
      * expected. If it failed, or partially failed, a corresponding
      * Struct\Message will be returned.
      *
