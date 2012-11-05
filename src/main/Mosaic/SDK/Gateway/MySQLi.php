@@ -224,8 +224,7 @@ class MySQLi extends Gateway
         );
 
         return array_map(
-            function ($row)
-            {
+            function ($row) {
                 return $row['p_source_id'];
             },
             $result->fetch_all(\MYSQLI_ASSOC)
