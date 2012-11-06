@@ -42,7 +42,11 @@ class Order extends Struct
      */
     public function verify()
     {
-        foreach ($products as $product) {
+        if (!is_array($this->products)) {
+            throw new \RuntimeException('Products MUST be an array.');
+        }
+
+        foreach ($this->products as $product) {
             if (!$product instanceof OrderItem) {
                 throw new \RuntimeException('Products array MUST contain only instances of \\Mosaic\\SDK\\Struct\\OrderItem.');
             }
