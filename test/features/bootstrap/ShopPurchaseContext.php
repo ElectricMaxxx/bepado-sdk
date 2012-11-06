@@ -9,25 +9,59 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
+use Mosaic\SDK\Struct;
+use Mosaic\SDK\Controller;
+use Mosaic\Common\RPC;
+
+use \PHPUnit_Framework_Assert as Assertion;
+
+require_once __DIR__ . '/SDKContext.php';
+
 /**
  * Features context.
  */
-class ShopPurchaseContext extends BehatContext
+class ShopPurchaseContext extends SDKContext
 {
     /**
-     * @Given /^The Product is listed as available$/
+     * Urrently processed order
+     *
+     * @var Struct\Order
+     */
+    protected $order;
+
+    /**
+     * @Given /^The product is listed as available$/
      */
     public function theProductIsListedAsAvailable()
     {
-        throw new PendingException();
+        // Nothing?
     }
 
     /**
-     * @Given /^A customer adds a product from a remote shop to basket$/
+     * @Given /^A customer adds a product from remote shop (\d+) to basket$/
      */
-    public function aCustomerAddsAProductFromARemoteShopToBasket()
+    public function aCustomerAddsAProductFromARemoteShopToBasket($remoteShop)
     {
-        throw new PendingException();
+        $this->order = new Struct\Order(
+            array(
+                'products' => array(
+                    new Struct\OrderItem(
+                        array(
+                            'count' => 1,
+                            'product' => new Struct\Product(
+                                array(
+                                    'shopId' => 'shop-' . $remoteShop,
+                                    'sourceId' => '23',
+                                    'price' => 42.23,
+                                    'currency' => 'EUR',
+                                    'availability' => 5,
+                                )
+                            ),
+                        )
+                    )
+                ),
+            )
+        );
     }
 
     /**
@@ -39,15 +73,15 @@ class ShopPurchaseContext extends BehatContext
     }
 
     /**
-     * @Then /^The customer will receive the product$/
+     * @Then /^The customer will receive the products?$/
      */
-    public function theCustomerWillReceiveTheProduct()
+    public function theCustomerWillReceiveTheProducts()
     {
         throw new PendingException();
     }
 
     /**
-     * @Given /^The Product is not available in remote shop$/
+     * @Given /^The product is not available in remote shop$/
      */
     public function theProductIsNotAvailableInRemoteShop()
     {
@@ -59,7 +93,7 @@ class ShopPurchaseContext extends BehatContext
      */
     public function theCustomerViewsTheOrderOverview()
     {
-        throw new PendingException();
+        $this->controller->checkProducts($this->order);
     }
 
     /**
@@ -71,7 +105,7 @@ class ShopPurchaseContext extends BehatContext
     }
 
     /**
-     * @Given /^The Product price has changed in the remote shop$/
+     * @Given /^The product price has changed in the remote shop$/
      */
     public function theProductPriceHasChangedInTheRemoteShop()
     {
