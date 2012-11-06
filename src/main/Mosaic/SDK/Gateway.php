@@ -25,7 +25,7 @@ abstract class Gateway
      *
      * The offset specified the revision to start from
      *
-     * May remove all pending changes, which are prior to the last requested 
+     * May remove all pending changes, which are prior to the last requested
      * revision.
      *
      * @param string $offset
