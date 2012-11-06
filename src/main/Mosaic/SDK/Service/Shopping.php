@@ -9,6 +9,7 @@ namespace Mosaic\SDK\Service;
 
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\Struct;
+use Mosaic\SDK\ShopFactory;
 
 /**
  * Shopping service
@@ -17,6 +18,18 @@ use Mosaic\SDK\Struct;
  */
 class Shopping
 {
+    /**
+     * Shop registry
+     *
+     * @var ShopFactory
+     */
+    protected $shopFactory;
+
+    public function __construct(ShopFactory $shopFactory)
+    {
+        $this->shopFactory = $shopFactory;
+    }
+
     /**
      * Check products still are in the state they are stored locally
      *
@@ -37,6 +50,51 @@ class Shopping
      */
     public function checkProducts(Struct\Order $order)
     {
-        throw new \RuntimeException('@TODO: Implement');
+        $results = array();
+        foreach ($this->getShopIds($order) as $shopId) {
+            $shopGateway = $this->shopFactory->getShopGateway($shopId);
+            $shopProducts = $this->getShopProducts($order, $shopId);
+
+            $results['shopId'] = $shopGateway->checkProducts($shopProducts);
+        }
+
+        return $this->mergeMessages($results);
+    }
+
+    protected function getShopIds(Struct\Order $order)
+    {
+         return array_unique(array_map(
+            function (Struct\OrderItem $orderItem) {
+                return $orderItem->product->shopId;
+            },
+            $order->products
+        ));
+    }
+
+    protected function getShopProducts(Struct\Order $order, $shopId)
+    {
+        return array_filter(
+            $order->products,
+            function (Struct\Product $orderItem) use ($shopId) {
+                return $orderItem->product->shopId === $shopId;
+            }
+        );
+    }
+
+    protected function mergeMessages(array $messages)
+    {
+        return array_reduce(
+            $results,
+            function($prev, $next) {
+                if ($next === true ) {
+                    return $prev;
+                } elseif (is_array($prev)) {
+                    return array_merge($prev, $next);
+                } else {
+                    return $next;
+                }
+            },
+            true
+        );
     }
 }

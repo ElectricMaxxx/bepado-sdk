@@ -71,7 +71,9 @@ class SDKContext extends BehatContext
             new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
                 new \Mosaic\Common\XmlHelper()
             ),
-            new Service\Shopping()
+            new Service\Shopping(
+                new ShopFactory()
+            )
         );
     }
 }
