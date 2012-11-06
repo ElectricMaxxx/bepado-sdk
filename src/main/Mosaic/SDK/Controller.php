@@ -10,7 +10,7 @@ namespace Mosaic\SDK;
 use Mosaic\Common\Rpc;
 
 /**
- * Centra controller, which is addressed by web requests to the SDK web service 
+ * Central controller, which is addressed by web requests to the SDK web service
  * endpoint.
  *
  * @version $Revision$
@@ -39,14 +39,23 @@ class Controller
      */
     protected $unmarshaller;
 
+    /**
+     * Shopping service
+     *
+     * @var Service\Shopping
+     */
+    protected $shoppingService;
+
     public function __construct(
         Rpc\ServiceRegistry $registry,
         Rpc\Marshaller\CallUnmarshaller $unmarshaller,
-        Rpc\Marshaller\CallMarshaller $marshaller
+        Rpc\Marshaller\CallMarshaller $marshaller,
+        Service\Shopping $shoppingService
     ) {
         $this->registry = $registry;
         $this->unmarshaller = $unmarshaller;
         $this->marshaller = $marshaller;
+        $this->shoppingService = $shoppingService;
     }
 
     /**
@@ -78,16 +87,17 @@ class Controller
      * If data updated are detected, the local product database will be updated 
      * accordingly.
      *
-     * This method is a convinience method to check the state of a set of
+     * This method is a convenience method to check the state of a set of
      * remote products. The state will be checked again during
      * reserveProducts().
      *
-     * @param Struct\RemoteProduct[] $products
+     * @param Struct\Product[] $products
      * @return mixed
      */
-    public function checkProducts(array $products)
+    public function checkProducts(Struct\Order $order)
     {
-        throw new \RuntimeException('@TODO: Implement');
+        $order->verify();
+        $this->shoppingService->checkProducts($order);
     }
 
     /**
@@ -107,7 +117,7 @@ class Controller
      * If data updated are detected, the local product database will be updated 
      * accordingly.
      *
-     * @param Struct\RemoteProduct[] $products
+     * @param Struct\Product[] $products
      * @return mixed
      */
     public function reserveProducts(array $products)
