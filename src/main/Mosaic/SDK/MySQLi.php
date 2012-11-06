@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Mosaic Common Component.
+ * This file is part of the Mosaic SDK Component.
  *
  * @version $Revision$
  */
