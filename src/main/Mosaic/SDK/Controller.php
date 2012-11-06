@@ -8,6 +8,7 @@
 namespace Mosaic\SDK;
 
 use Mosaic\Common\Rpc;
+use Mosaic\Common\Struct\RpcCall;
 
 /**
  * Central controller, which is addressed by web requests to the SDK web service
@@ -70,8 +71,14 @@ class Controller
     public function handle($xml)
     {
         return $this->marshaller->marshal(
-            $this->registry->dispatch(
-                $this->unmarshaller->unmarshal($xml)
+            new RpcCall(
+                array(
+                    'service' => 'null',
+                    'command' => 'return',
+                    'arguments' => array($this->registry->dispatch(
+                        $this->unmarshaller->unmarshal($xml)
+                    ))
+                )
             )
         );
     }
