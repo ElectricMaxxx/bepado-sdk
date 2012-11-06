@@ -14,7 +14,6 @@ use Mosaic\SDK\Struct;
  * Base class for product hasher implementations
  *
  * @version $Revision$
- * @api
  */
 class Simple extends ProductHasher
 {

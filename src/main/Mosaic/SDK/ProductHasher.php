@@ -11,7 +11,6 @@ namespace Mosaic\SDK;
  * Base class for product hasher implementations
  *
  * @version $Revision$
- * @api
  */
 abstract class ProductHasher
 {
