@@ -10,9 +10,10 @@ namespace Mosaic\SDK\Struct;
 use Mosaic\Common\Struct;
 
 /**
- * CHnage struct
+ * Chnage struct
  *
  * @version $Revision$
+ * @api
  */
 class Change extends Struct
 {
@@ -38,4 +39,11 @@ class Change extends Struct
      * @var string
      */
     public $operation;
+
+    /**
+     * Operation type
+     *
+     * @var Product
+     */
+    public $product;
 }
