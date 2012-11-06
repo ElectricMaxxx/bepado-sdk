@@ -1,8 +1,20 @@
 <?php
+/**
+ * This file is part of the Mosaic SDK Component.
+ *
+ * @version $Revision$
+ */
+
 namespace Mosaic\SDK\Struct;
 
 use Mosaic\SDK\Struct;
 
+/**
+ * Struct class, representing products
+ *
+ * @version $Revision$
+ * @api
+ */
 class Product extends Struct
 {
     /**
@@ -69,4 +81,27 @@ class Product extends Struct
      * @var string[]
      */
     public $categories = array();
+
+    /**
+     * Verify integrity of order
+     *
+     * Throws a \RuntimeException if the array does not fulfill all
+     * requirements.
+     *
+     * @return void
+     */
+    public function verify()
+    {
+        foreach (array(
+                'shopId',
+                'sourceId',
+                'price',
+                'currency',
+                'availability',
+            ) as $property) {
+            if (empty($this->$property)) {
+                throw new \RuntimeException("Property $property MUST be set in product.");
+            }
+        }
+    }
 }
