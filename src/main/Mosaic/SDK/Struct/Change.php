@@ -7,15 +7,15 @@
 
 namespace Mosaic\SDK\Struct;
 
-use Mosaic\Common\Struct;
+use Mosaic\SDK\Struct;
 
 /**
- * Chnage struct
+ * Change struct
  *
  * @version $Revision$
  * @api
  */
-class Change extends Struct
+abstract class Change extends Struct
 {
     /**
      * Product ID in source shop
@@ -30,20 +30,4 @@ class Change extends Struct
      * @var float
      */
     public $revision;
-
-    /**
-     * Operation type
-     *
-     * One of "insert", "update", or "delete"
-     *
-     * @var string
-     */
-    public $operation;
-
-    /**
-     * Operation type
-     *
-     * @var Product
-     */
-    public $product;
 }
