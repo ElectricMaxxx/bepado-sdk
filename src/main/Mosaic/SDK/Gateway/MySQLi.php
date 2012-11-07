@@ -269,6 +269,21 @@ class MySQLi extends Gateway
      */
     public function getLastRevision()
     {
+        $result = $this->connection->query(
+            'SELECT
+                `d_value`
+            FROM
+                `mosaic_data`
+            WHERE
+                `d_key` = "revision"'
+        );
+
+        $rows = $result->fetch_all(\MYSQLI_ASSOC);
+        if (!count($rows)) {
+            return null;
+        }
+
+        return $rows[0]['d_value'];
     }
 
     /**
@@ -279,5 +294,19 @@ class MySQLi extends Gateway
      */
     public function storeLastRevision($revision)
     {
+        $this->connection->query(
+            'INSERT INTO
+                mosaic_data (
+                    `d_key`,
+                    `d_value`
+                )
+            VALUES (
+                "revision",
+                "' . $this->connection->real_escape_string($revision) . '"
+            )
+            ON DUPLICATE KEY UPDATE
+                `d_value` = "' . $this->connection->real_escape_string($revision) . '"
+            ;'
+        );
     }
 }

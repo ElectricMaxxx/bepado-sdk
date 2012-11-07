@@ -62,6 +62,7 @@ class SDKContext extends BehatContext
                 ));
                 $connection->query('TRUNCATE TABLE mosaic_change;');
                 $connection->query('TRUNCATE TABLE mosaic_product;');
+                $connection->query('TRUNCATE TABLE mosaic_data;');
                 return;
 
             default:
