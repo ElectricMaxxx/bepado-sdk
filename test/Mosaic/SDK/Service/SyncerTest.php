@@ -47,19 +47,33 @@ abstract class SyncerTest extends Common\Test\TestCase
             ->expects($this->any())
             ->method('getProducts')
             ->will($this->returnValue(array_map(
-                function ($productId) use ($data)
-                {
-                    return new SDK\Struct\Product(
-                        array(
-                            'sourceId' => $productId,
-                            'title' => $data,
-                        )
-                    );
+                function ($productId) use ($data) {
+                    return $this->getProduct($productId, $data);
                 },
                 $products
             )));
 
         return $provider;
+    }
+
+    /**
+     * Get fake product for ID
+     *
+     * @param int $productId
+     * @return SDK\Struct\Product
+     */
+    protected function getProduct($productId, $data = 'foo')
+    {
+        return new SDK\Struct\Product(
+            array(
+                'shopId' => 'shop-1',
+                'sourceId' => (string) $productId,
+                'title' => $data,
+                'price' => $productId * .89,
+                'currency' => 'EUR',
+                'availability' => $productId,
+            )
+        );
     }
 
     /**
@@ -76,9 +90,12 @@ abstract class SyncerTest extends Common\Test\TestCase
             array_map(
                 function ($change)
                 {
-                    // The revision changes in every run
+                    $change->verify();
+
+                    // We do not care to comapre revision and product in change
                     $change = clone $change;
                     $change->revision = null;
+                    if (isset($change->product)) $change->product = null;
                     return $change;
                 },
                 $changes
