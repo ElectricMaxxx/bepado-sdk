@@ -37,23 +37,35 @@ class SDKContext extends BehatContext
 
     public function __construct()
     {
-        $this->initDatabase();
+        $this->initGateway();
         $this->initController();
 
         $this->revisionProvider = new RevisionProvider\Time();
     }
 
-    protected function initDatabase()
+    protected function initGateway()
     {
-        $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
-        $this->gateway = new Gateway\MySQLi($connection = new MySQLi(
-            $config['db.hostname'],
-            $config['db.userid'],
-            $config['db.password'],
-            $config['db.name']
-        ));
-        $connection->query('TRUNCATE TABLE mosaic_change;');
-        $connection->query('TRUNCATE TABLE mosaic_product;');
+        $storage = getenv('STORAGE') ?: 'InMemory';
+        switch ($storage) {
+            case 'InMemory':
+                $this->gateway = new Gateway\InMemory();
+                return;
+
+            case 'MySQLi':
+                $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
+                $this->gateway = new Gateway\MySQLi($connection = new MySQLi(
+                    $config['db.hostname'],
+                    $config['db.userid'],
+                    $config['db.password'],
+                    $config['db.name']
+                ));
+                $connection->query('TRUNCATE TABLE mosaic_change;');
+                $connection->query('TRUNCATE TABLE mosaic_product;');
+                return;
+
+            default:
+                throw new \RuntimeException("Unknown storage backend $storage");
+        }
     }
 
     protected function initController()
