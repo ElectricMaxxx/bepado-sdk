@@ -48,7 +48,9 @@ class Order extends Struct
 
         foreach ($this->products as $product) {
             if (!$product instanceof OrderItem) {
-                throw new \RuntimeException('Products array MUST contain only instances of \\Mosaic\\SDK\\Struct\\OrderItem.');
+                throw new \RuntimeException(
+                    'Products array MUST contain only instances of \\Mosaic\\SDK\\Struct\\OrderItem.'
+                );
             }
 
             $product->verify();

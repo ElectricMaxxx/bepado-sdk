@@ -63,12 +63,14 @@ class Shopping
 
     protected function getShopIds(Struct\Order $order)
     {
-         return array_unique(array_map(
-            function (Struct\OrderItem $orderItem) {
-                return $orderItem->product->shopId;
-            },
-            $order->products
-        ));
+        return array_unique(
+            array_map(
+                function (Struct\OrderItem $orderItem) {
+                    return $orderItem->product->shopId;
+                },
+                $order->products
+            )
+        );
     }
 
     protected function getShopProducts(Struct\Order $order, $shopId)
@@ -85,7 +87,7 @@ class Shopping
     {
         return array_reduce(
             $results,
-            function($prev, $next) {
+            function ($prev, $next) {
                 if ($next === true ) {
                     return $prev;
                 } elseif (is_array($prev)) {
