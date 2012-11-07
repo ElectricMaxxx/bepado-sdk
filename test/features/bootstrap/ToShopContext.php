@@ -44,7 +44,7 @@ class ToShopContext extends SDKContext
     {
         $end = $this->productId + $productCount;
         for (; $this->productId < $end; ++$this->productId) {
-            $this->changes[] = new Change\InsertOrUpdate(
+            $this->changes[] = new Change\ToShop\InsertOrUpdate(
                 array(
                     'sourceId' => $this->productId,
                     'revision' => $this->productId,
@@ -68,7 +68,7 @@ class ToShopContext extends SDKContext
     public function productsHaveBeenUpdated($productCount)
     {
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->changes[] = new Change\InsertOrUpdate(
+            $this->changes[] = new Change\ToShop\InsertOrUpdate(
                 array(
                     'sourceId' => $i,
                     'revision' => $i,
@@ -84,9 +84,10 @@ class ToShopContext extends SDKContext
     public function productsHaveBeenDeleted($productCount)
     {
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->changes[] = new Change\Delete(
+            $this->changes[] = new Change\ToShop\Delete(
                 array(
                     'sourceId' => $i,
+                    'shopId' => 'shop-1',
                     'revision' => $i,
                 )
             );

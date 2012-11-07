@@ -22,5 +22,5 @@ class Delete extends Change
      *
      * @var string
      */
-    protected $shopId;
+    public $shopId;
 }

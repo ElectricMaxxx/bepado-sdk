@@ -66,11 +66,11 @@ class Product
     {
         foreach ($changes as $change) {
             switch (true) {
-                case $change instanceof Change\InsertOrUpdate:
+                case $change instanceof Change\ToShop\InsertOrUpdate:
                     $this->importer->insertOrUpdate($change->product);
                     continue 2;
 
-                case $change instanceof Change\Delete:
+                case $change instanceof Change\ToShop\Delete:
                     $this->importer->delete($change->shopId, $change->sourceId);
                     continue 2;
 

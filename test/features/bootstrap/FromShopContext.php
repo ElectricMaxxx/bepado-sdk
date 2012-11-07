@@ -208,7 +208,7 @@ class FromShopContext extends SDKContext
         Assertion::assertEquals($productCount, count($changes));
         foreach ($changes as $change) {
             $change->verify();
-            Assertion::assertTrue($change instanceof Change\Delete);
+            Assertion::assertTrue($change instanceof Change\FromShop\Delete);
         }
     }
 }
