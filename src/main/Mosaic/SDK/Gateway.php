@@ -82,4 +82,19 @@ abstract class Gateway
      * @return string[]
      */
     abstract public function getAllProductIDs();
+
+    /**
+     * Get last processed import revision
+     *
+     * @return string
+     */
+    abstract public function getLastRevision();
+
+    /**
+     * Store last processed import revision
+     *
+     * @param string $revision
+     * @return void
+     */
+    abstract public function storeLastRevision($revision);
 }

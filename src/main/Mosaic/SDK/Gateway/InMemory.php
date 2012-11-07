@@ -24,6 +24,7 @@ class InMemory extends Gateway
 {
     protected $products = array();
     protected $changes = array();
+    protected $lastRevision;
 
     /**
      * Get next changes
@@ -146,5 +147,26 @@ class InMemory extends Gateway
     public function getAllProductIDs()
     {
         return array_keys($this->products);
+    }
+
+    /**
+     * Get last processed import revision
+     *
+     * @return string
+     */
+    public function getLastRevision()
+    {
+        return $this->lastRevision;
+    }
+
+    /**
+     * Store last processed import revision
+     *
+     * @param string $revision
+     * @return void
+     */
+    public function storeLastRevision($revision)
+    {
+        $this->lastRevision = $revision;
     }
 }
