@@ -26,6 +26,17 @@ class MySQLi extends Gateway
     protected $connection;
 
     /**
+     * Struct classes used for operations
+     *
+     * @var array
+     */
+    protected $operationStruct = array(
+        'insert' => '\\Mosaic\\SDK\\Struct\\Change\\Insert',
+        'update' => '\\Mosaic\\SDK\\Struct\\Change\\Update',
+        'delete' => '\\Mosaic\\SDK\\Struct\\Change\\Delete',
+    );
+
+    /**
      * Construct from MySQL connection
      *
      * @param \Mosaic\SDK\MySQLi $connection
@@ -72,10 +83,10 @@ class MySQLi extends Gateway
 
         $changes = array();
         while ($row = $result->fetch_assoc()) {
-            $changes[] = new Struct\Change(
+            $class = $this->operationStruct[$row['c_operation']];
+            $changes[] = new $class(
                 array(
                     'sourceId' => $row['c_source_id'],
-                    'operation' => $row['c_operation'],
                     'revision' => $row['c_revision'],
                 )
             );
