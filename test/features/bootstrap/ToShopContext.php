@@ -21,7 +21,7 @@ require_once __DIR__ . '/SDKContext.php';
 /**
  * Features context.
  */
-class ProductImportContext extends SDKContext
+class ToShopContext extends SDKContext
 {
     /**
      * Product processing offset
