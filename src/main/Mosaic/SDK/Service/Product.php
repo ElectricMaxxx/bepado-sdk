@@ -69,11 +69,9 @@ class Product
                 case $change instanceof Change\ToShop\InsertOrUpdate:
                     $this->importer->insertOrUpdate($change->product);
                     continue 2;
-
                 case $change instanceof Change\ToShop\Delete:
                     $this->importer->delete($change->shopId, $change->sourceId);
                     continue 2;
-
                 default:
                     throw new \RuntimeException("Invalid change operation: $change");
             }
