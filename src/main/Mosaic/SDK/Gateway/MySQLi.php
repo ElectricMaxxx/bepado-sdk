@@ -31,9 +31,9 @@ class MySQLi extends Gateway
      * @var array
      */
     protected $operationStruct = array(
-        'insert' => '\\Mosaic\\SDK\\Struct\\Change\\Insert',
-        'update' => '\\Mosaic\\SDK\\Struct\\Change\\Update',
-        'delete' => '\\Mosaic\\SDK\\Struct\\Change\\Delete',
+        'insert' => '\\Mosaic\\SDK\\Struct\\Change\\FromShop\\Insert',
+        'update' => '\\Mosaic\\SDK\\Struct\\Change\\FromShop\\Update',
+        'delete' => '\\Mosaic\\SDK\\Struct\\Change\\FromShop\\Delete',
     );
 
     /**
@@ -260,5 +260,24 @@ class MySQLi extends Gateway
             },
             $result->fetch_all(\MYSQLI_ASSOC)
         );
+    }
+
+    /**
+     * Get last processed import revision
+     *
+     * @return string
+     */
+    public function getLastRevision()
+    {
+    }
+
+    /**
+     * Store last processed import revision
+     *
+     * @param string $revision
+     * @return void
+     */
+    public function storeLastRevision($revision)
+    {
     }
 }
