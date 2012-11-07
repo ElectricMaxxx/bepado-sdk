@@ -40,9 +40,10 @@ abstract class Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
+     * @param Product $product
      * @return void
      */
-    abstract public function recordInsert($id, $hash, $revision);
+    abstract public function recordInsert($id, $hash, $revision, Product $product);
 
     /**
      * Record product update
@@ -50,9 +51,10 @@ abstract class Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
+     * @param Product $product
      * @return void
      */
-    abstract public function recordUpdate($id, $hash, $revision);
+    abstract public function recordUpdate($id, $hash, $revision, Product $product);
 
     /**
      * Record product delete

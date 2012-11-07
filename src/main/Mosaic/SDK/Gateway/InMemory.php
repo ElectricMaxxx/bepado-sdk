@@ -70,14 +70,16 @@ class InMemory extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
+     * @param Product $product
      * @return void
      */
-    public function recordInsert($id, $hash, $revision)
+    public function recordInsert($id, $hash, $revision, Product $product)
     {
         $this->changes[$revision] = new Change\Insert(
             array(
                 'sourceId' => $id,
-                'revision' => $revision
+                'revision' => $revision,
+                'product'  => $product,
             )
         );
         $this->products[$id] = $hash;
@@ -89,14 +91,16 @@ class InMemory extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
+     * @param Product $product
      * @return void
      */
-    public function recordUpdate($id, $hash, $revision)
+    public function recordUpdate($id, $hash, $revision, Product $product)
     {
         $this->changes[$revision] = new Change\Update(
             array(
                 'sourceId' => $id,
-                'revision' => $revision
+                'revision' => $revision,
+                'product'  => $product,
             )
         );
         $this->products[$id] = $hash;

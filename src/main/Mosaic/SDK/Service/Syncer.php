@@ -86,7 +86,8 @@ class Syncer
                 $this->gateway->recordInsert(
                     $product->sourceId,
                     $this->hasher->hash($product),
-                    $this->revisions->next()
+                    $this->revisions->next(),
+                    $product
                 );
             }
         }
@@ -100,7 +101,8 @@ class Syncer
                     $this->gateway->recordUpdate(
                         $product->sourceId,
                         $this->hasher->hash($product),
-                        $this->revisions->next()
+                        $this->revisions->next(),
+                        $product
                     );
                 }
             }
