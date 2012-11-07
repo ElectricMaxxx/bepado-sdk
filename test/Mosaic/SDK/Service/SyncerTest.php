@@ -167,6 +167,30 @@ abstract class SyncerTest extends Common\Test\TestCase
     }
 
     /**
+     * @depends testProductUpdate
+     */
+    public function testReFetchChanges()
+    {
+        $revision = $this->testInitialBuild();
+        $syncer = new SDK\Service\Syncer(
+            $gateway = $this->getGateway(),
+            $this->getProductProvider(array(1, 2), 'update'),
+            new SDK\RevisionProvider\Time(),
+            new SDK\ProductHasher\Simple()
+        );
+        $syncer->sync();
+
+        $gateway->getNextChanges($revision, 100);
+        $this->assertChanges(
+            array(
+                new Change\Update(array('sourceId' => '1')),
+                new Change\Update(array('sourceId' => '2')),
+            ),
+            $gateway->getNextChanges($revision, 100)
+        );
+    }
+
+    /**
      * @depends testReIndex
      */
     public function testProductDelete()
