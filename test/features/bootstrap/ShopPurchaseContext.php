@@ -42,6 +42,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function aCustomerAddsAProductFromARemoteShopToBasket($remoteShop)
     {
+        throw new PendingException();
         $this->order = new Struct\Order(
             array(
                 'products' => array(
