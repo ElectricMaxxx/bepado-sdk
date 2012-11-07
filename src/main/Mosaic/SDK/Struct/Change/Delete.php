@@ -17,4 +17,10 @@ use Mosaic\SDK\Struct\Change;
  */
 class Delete extends Change
 {
+    /**
+     * Shop ID
+     *
+     * @var string
+     */
+    public $shopId;
 }

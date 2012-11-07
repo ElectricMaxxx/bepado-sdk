@@ -16,29 +16,6 @@ use Mosaic\SDK\Struct\Product;
  * @version $Revision$
  * @api
  */
-class Update extends Change
+class Update extends InsertOrUpdate
 {
-    /**
-     * Operation type
-     *
-     * @var Product
-     */
-    public $product;
-
-    /**
-     * Verify struct integrity
-     *
-     * Throws a RuntimeException if integrity is not given.
-     *
-     * @return void
-     */
-    public function verify()
-    {
-        parent::verify();
-
-        if (!$this->product instanceof Product) {
-            throw new \RuntimeException('Property $product must be a Struct\Product.');
-        }
-        $this->product->verify();
-    }
 }
