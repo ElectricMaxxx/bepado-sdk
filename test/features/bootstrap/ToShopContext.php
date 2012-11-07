@@ -1,0 +1,147 @@
+<?php
+
+namespace Mosaic\SDK;
+
+use Behat\Behat\Context\ClosuredContextInterface,
+    Behat\Behat\Context\TranslatedContextInterface,
+    Behat\Behat\Context\BehatContext,
+    Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode,
+    Behat\Gherkin\Node\TableNode;
+
+use Mosaic\SDK\Struct\Product;
+use Mosaic\SDK\Struct\Change;
+use Mosaic\Common\Rpc;
+use Mosaic\Common\Struct;
+
+use \PHPUnit_Framework_Assert as Assertion;
+
+require_once __DIR__ . '/SDKContext.php';
+
+/**
+ * Features context.
+ */
+class ToShopContext extends SDKContext
+{
+    protected $changes = array();
+
+    protected $productId = 1;
+
+    protected $shopRevision = null;
+
+    /**
+     * @Given /^The shop did not synchronize any products$/
+     */
+    public function theShopDidNotSynchronizeAnyProducts()
+    {
+        // Nothing?
+    }
+
+    /**
+     * @Given /^Mosaic has been configured to export (\d+) products$/
+     */
+    public function mosaicHasBeenConfiguredToExportProducts($productCount)
+    {
+        $end = $this->productId + $productCount;
+        for (; $this->productId < $end; ++$this->productId) {
+            $this->changes[] = new Change\InsertOrUpdate(
+                array(
+                    'sourceId' => $this->productId,
+                    'revision' => $this->productId,
+                    'product' => $this->getProduct($this->productId),
+                )
+            );
+        }
+    }
+
+    /**
+     * @Given /^The shop already synchronized (\d+) exported products$/
+     */
+    public function theShopAlreadySynchronizedExportedProducts($productCount)
+    {
+        $this->syncChanges($productCount);
+    }
+
+    /**
+     * @Given /^(\d+) products have been updated$/
+     */
+    public function productsHaveBeenUpdated($productCount)
+    {
+        for ($i = 0; $i < $productCount; ++$i) {
+            $this->changes[] = new Change\InsertOrUpdate(
+                array(
+                    'sourceId' => $i,
+                    'revision' => $i,
+                    'product' => $this->getProduct($i),
+                )
+            );
+        }
+    }
+
+    /**
+     * @Given /^(\d+) products have been deleted$/
+     */
+    public function productsHaveBeenDeleted($productCount)
+    {
+        for ($i = 0; $i < $productCount; ++$i) {
+            $this->changes[] = new Change\Delete(
+                array(
+                    'sourceId' => $i,
+                    'revision' => $i,
+                )
+            );
+        }
+    }
+
+    protected function syncChanges($count)
+    {
+        $process = array_slice($this->changes, 0, $count);
+        $this->changes = array_slice($this->changes, $count);
+        $this->shopRevision = $this->service->dispatch(
+            new Struct\RpcCall(array(
+                'service' => 'products',
+                'command' => 'import',
+                'arguments' => array(
+                    $process
+                )
+            ))
+        );
+    }
+
+    /**
+     * @When /^Export is triggered$/
+     */
+    public function exportIsTriggered()
+    {
+        // Nothing?
+    }
+
+    /**
+     * @Then /^(\d+) updates are triggered$/
+     */
+    public function updatesAreTriggered($productCount)
+    {
+        Assertion::assertEquals(
+            $this->shopRevision,
+            $this->service->dispatch(
+               new Struct\RpcCall(array(
+                   'service' => 'products',
+                   'command' => 'getLastRevision',
+                   'arguments' => array(),
+               ))
+            )
+        );
+
+        Assertion::assertEquals(
+            $productCount,
+            count($this->changes)
+        );
+
+        Assertion::assertEquals(
+            $productCount,
+            count($this->changes)
+        );
+
+        $this->syncChanges($productCount);
+    }
+}

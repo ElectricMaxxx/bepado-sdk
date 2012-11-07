@@ -6,8 +6,9 @@ use Behat\Behat\Context\BehatContext;
 
 use Mosaic\Common\Rpc;
 use Mosaic\Common\Struct;
+use Mosaic\SDK\Struct\Product;
 
-use \PHPUnit_Framework_Assert as Assertion;
+use \PHPUnit_Framework_MockObject_Generator as Mocker;
 
 /**
  * Base SDK features context.
@@ -70,11 +71,16 @@ class SDKContext extends BehatContext
 
     protected function initController()
     {
+        $productImporter = \PHPUnit_Framework_MockObject_Generator::getMock('\\Mosaic\\SDK\\ProductImporter');
+
         $this->service = new Rpc\ServiceRegistry();
         $this->service->registerService(
             'products',
-            array('export'),
-            new Service\Product($this->gateway)
+            array('export', 'import', 'getLastRevision'),
+            new Service\Product(
+                $this->gateway,
+                $productImporter
+            )
         );
 
         $this->controller = new Controller(
@@ -85,6 +91,26 @@ class SDKContext extends BehatContext
             ),
             new Service\Shopping(
                 new ShopFactory()
+            )
+        );
+    }
+
+    /**
+     * Get fake product for ID
+     *
+     * @param int $productId
+     * @return Product
+     */
+    protected function getProduct($productId, $data = 'foo')
+    {
+        return new Product(
+            array(
+                'shopId' => 'shop-1',
+                'sourceId' => (string) $productId,
+                'title' => $data,
+                'price' => $productId * .89,
+                'currency' => 'EUR',
+                'availability' => $productId,
             )
         );
     }

@@ -73,26 +73,6 @@ class FromShopContext extends SDKContext
     }
 
     /**
-     * Get fake product for ID
-     *
-     * @param int $productId
-     * @return Product
-     */
-    protected function getProduct($productId, $data = 'foo')
-    {
-        return new Product(
-            array(
-                'shopId' => 'shop-1',
-                'sourceId' => (string) $productId,
-                'title' => $data,
-                'price' => $productId * .89,
-                'currency' => 'EUR',
-                'availability' => $productId,
-            )
-        );
-    }
-
-    /**
      * @Given /^I have (\d+) products in my shop$/
      * @Given /^I add (\d+) products$/
      */

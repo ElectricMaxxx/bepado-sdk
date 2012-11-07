@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\PyStringNode,
 require __DIR__ . '/../../../vendor/autoload.php';
 
 require __DIR__ . '/FromShopContext.php';
+require __DIR__ . '/ToShopContext.php';
 require __DIR__ . '/ShopPurchaseContext.php';
 
 require_once __DIR__ . '/../../../../.pear/pear/php/PHPUnit/Autoload.php';
@@ -27,7 +28,8 @@ class FeatureContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-        $this->useContext('productImport', new \Mosaic\SDK\FromShopContext());
+        $this->useContext('fromShop', new \Mosaic\SDK\FromShopContext());
+        $this->useContext('toShop', new \Mosaic\SDK\ToShopContext());
         $this->useContext('shopPurchase', new \Mosaic\SDK\ShopPurchaseContext());
     }
 }
