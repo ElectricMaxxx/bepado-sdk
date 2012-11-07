@@ -30,22 +30,4 @@ abstract class Change extends Struct
      * @var float
      */
     public $revision;
-
-    /**
-     * Verify struct integrity
-     *
-     * Throws a RuntimeException if integrity is not given.
-     *
-     * @return void
-     */
-    public function verify()
-    {
-        if ($this->sourceId === null) {
-            throw new \RuntimeException('Property $sourceId must be set.');
-        }
-
-        if ($this->revision === null) {
-            throw new \RuntimeException('Property $revision must be set.');
-        }
-    }
 }

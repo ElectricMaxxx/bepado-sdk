@@ -81,27 +81,4 @@ class Product extends Struct
      * @var string[]
      */
     public $categories = array();
-
-    /**
-     * Verify integrity of order
-     *
-     * Throws a \RuntimeException if the array does not fulfill all
-     * requirements.
-     *
-     * @return void
-     */
-    public function verify()
-    {
-        foreach (array(
-                'shopId',
-                'sourceId',
-                'price',
-                'currency',
-                'availability',
-            ) as $property) {
-            if (empty($this->$property)) {
-                throw new \RuntimeException("Property $property MUST be set in product.");
-            }
-        }
-    }
 }
