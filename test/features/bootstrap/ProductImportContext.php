@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
 use Mosaic\SDK\Struct\Product;
+use Mosaic\SDK\Struct\Change;
 use Mosaic\Common\Rpc;
 use Mosaic\Common\Struct;
 
@@ -196,7 +197,7 @@ class ProductImportContext extends SDKContext
 
         Assertion::assertEquals($productCount, count($changes));
         foreach ($changes as $change) {
-            Assertion::assertEquals("delete", $change->operation);
+            Assertion::assertTrue($change instanceof Change\Delete);
         }
     }
 }
