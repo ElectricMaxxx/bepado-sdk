@@ -49,14 +49,14 @@ class ProductImportContext extends SDKContext
      *
      * @var int
      */
-    protected $modifiedProductCount;
+    protected $modifiedProductCount = 0;
 
     /**
      * Incrementally update product ID
      *
      * @var int
      */
-    protected $productId = 0;
+    protected $productId = 1;
 
     /**
      * Revision provider
@@ -73,6 +73,26 @@ class ProductImportContext extends SDKContext
     }
 
     /**
+     * Get fake product for ID
+     *
+     * @param int $productId
+     * @return Product
+     */
+    protected function getProduct($productId, $data = 'foo')
+    {
+        return new Product(
+            array(
+                'shopId' => 'shop-1',
+                'sourceId' => (string) $productId,
+                'title' => $data,
+                'price' => $productId * .89,
+                'currency' => 'EUR',
+                'availability' => $productId,
+            )
+        );
+    }
+
+    /**
      * @Given /^I have (\d+) products in my shop$/
      * @Given /^I add (\d+) products$/
      */
@@ -84,7 +104,8 @@ class ProductImportContext extends SDKContext
             $this->gateway->recordInsert(
                 $this->productId,
                 'hash-' . $this->productId,
-                $this->revisionProvider->next()
+                $this->revisionProvider->next(),
+                $this->getProduct($this->productId)
             );
         }
     }
@@ -99,7 +120,8 @@ class ProductImportContext extends SDKContext
             $this->gateway->recordUpdate(
                 $i,
                 'hash-' . $i,
-                $this->revisionProvider->next()
+                $this->revisionProvider->next(),
+                $this->getProduct($this->productId, 'update')
             );
         }
     }
@@ -166,6 +188,10 @@ class ProductImportContext extends SDKContext
     {
         $changes = $this->syncChanges();
         Assertion::assertEquals($productCount, count($changes));
+
+        foreach ($changes as $change) {
+            $change->verify();
+        }
     }
 
     /**
@@ -178,6 +204,10 @@ class ProductImportContext extends SDKContext
             $this->modifiedProductCount,
             count($changes) + (($this->offset - 1) * $this->productsPerInterval)
         );
+
+        foreach ($changes as $change) {
+            $change->verify();
+        }
     }
 
     /**
@@ -197,6 +227,7 @@ class ProductImportContext extends SDKContext
 
         Assertion::assertEquals($productCount, count($changes));
         foreach ($changes as $change) {
+            $change->verify();
             Assertion::assertTrue($change instanceof Change\Delete);
         }
     }
