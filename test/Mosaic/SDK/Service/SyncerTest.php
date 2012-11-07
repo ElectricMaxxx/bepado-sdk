@@ -115,8 +115,8 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(
-                new Change\Insert(array('sourceId' => '1')),
-                new Change\Insert(array('sourceId' => '2')),
+                new Change\FromShop\Insert(array('sourceId' => '1')),
+                new Change\FromShop\Insert(array('sourceId' => '2')),
             ),
             $changes = $gateway->getNextChanges(null, 100)
         );
@@ -159,8 +159,8 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(
-                new Change\Update(array('sourceId' => '1')),
-                new Change\Update(array('sourceId' => '2')),
+                new Change\FromShop\Update(array('sourceId' => '1')),
+                new Change\FromShop\Update(array('sourceId' => '2')),
             ),
             $gateway->getNextChanges($revision, 100)
         );
@@ -183,8 +183,8 @@ abstract class SyncerTest extends Common\Test\TestCase
         $gateway->getNextChanges($revision, 100);
         $this->assertChanges(
             array(
-                new Change\Update(array('sourceId' => '1')),
-                new Change\Update(array('sourceId' => '2')),
+                new Change\FromShop\Update(array('sourceId' => '1')),
+                new Change\FromShop\Update(array('sourceId' => '2')),
             ),
             $gateway->getNextChanges($revision, 100)
         );
@@ -206,8 +206,8 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(
-                new Change\Delete(array('sourceId' => '1')),
-                new Change\Delete(array('sourceId' => '2')),
+                new Change\FromShop\Delete(array('sourceId' => '1')),
+                new Change\FromShop\Delete(array('sourceId' => '2')),
             ),
             $gateway->getNextChanges($revision, 100)
         );

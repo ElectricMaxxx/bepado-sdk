@@ -76,7 +76,7 @@ class InMemory extends Gateway
      */
     public function recordInsert($id, $hash, $revision, Product $product)
     {
-        $this->changes[$revision] = new Change\Insert(
+        $this->changes[$revision] = new Change\FromShop\Insert(
             array(
                 'sourceId' => $id,
                 'revision' => $revision,
@@ -97,7 +97,7 @@ class InMemory extends Gateway
      */
     public function recordUpdate($id, $hash, $revision, Product $product)
     {
-        $this->changes[$revision] = new Change\Update(
+        $this->changes[$revision] = new Change\FromShop\Update(
             array(
                 'sourceId' => $id,
                 'revision' => $revision,
@@ -116,7 +116,7 @@ class InMemory extends Gateway
      */
     public function recordDelete($id, $revision)
     {
-        $this->changes[$revision] = new Change\Delete(
+        $this->changes[$revision] = new Change\FromShop\Delete(
             array(
                 'sourceId' => $id,
                 'revision' => $revision
