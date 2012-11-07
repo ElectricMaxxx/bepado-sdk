@@ -72,7 +72,8 @@ class MySQLi extends Gateway
             'SELECT
                 `c_source_id`,
                 `c_operation`,
-                `c_revision`
+                `c_revision`,
+                `c_product`
             FROM
                 `mosaic_change`
             WHERE
@@ -84,12 +85,16 @@ class MySQLi extends Gateway
         $changes = array();
         while ($row = $result->fetch_assoc()) {
             $class = $this->operationStruct[$row['c_operation']];
-            $changes[] = new $class(
+            $changes[] = $change = new $class(
                 array(
                     'sourceId' => $row['c_source_id'],
                     'revision' => $row['c_revision'],
                 )
             );
+
+            if ($row['c_product']) {
+                $change->product = unserialize($row['c_product']);
+            }
         }
 
         $this->connection->query(
@@ -108,18 +113,24 @@ class MySQLi extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
+     * @param Product $product
      * @return void
      */
-    public function recordInsert($id, $hash, $revision)
+    public function recordInsert($id, $hash, $revision, Product $product)
     {
         $this->connection->query(
             'INSERT INTO
-                mosaic_change
+                mosaic_change (
+                    `c_source_id`,
+                    `c_operation`,
+                    `c_revision`,
+                    `c_product`
+                )
             VALUES (
                 "' . $this->connection->real_escape_string($id) . '",
                 "insert",
                 "' . $this->connection->real_escape_string($revision) . '",
-                null
+                "' . $this->connection->real_escape_string(serialize($product)) . '"
             );'
         );
 
@@ -140,18 +151,24 @@ class MySQLi extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
+     * @param Product $product
      * @return void
      */
-    public function recordUpdate($id, $hash, $revision)
+    public function recordUpdate($id, $hash, $revision, Product $product)
     {
         $this->connection->query(
             'INSERT INTO
-                mosaic_change
+                mosaic_change (
+                    `c_source_id`,
+                    `c_operation`,
+                    `c_revision`,
+                    `c_product`
+                )
             VALUES (
                 "' . $this->connection->real_escape_string($id) . '",
                 "update",
                 "' . $this->connection->real_escape_string($revision) . '",
-                null
+                "' . $this->connection->real_escape_string(serialize($product)) . '"
             );'
         );
 
@@ -178,12 +195,15 @@ class MySQLi extends Gateway
     {
         $this->connection->query(
             'INSERT INTO
-                mosaic_change
+                mosaic_change (
+                    `c_source_id`,
+                    `c_operation`,
+                    `c_revision`
+                )
             VALUES (
                 "' . $this->connection->real_escape_string($id) . '",
                 "delete",
-                "' . $this->connection->real_escape_string($revision) . '",
-                null
+                "' . $this->connection->real_escape_string($revision) . '"
             );'
         );
 
