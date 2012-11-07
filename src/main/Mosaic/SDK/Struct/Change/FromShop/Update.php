@@ -5,17 +5,23 @@
  * @version $Revision$
  */
 
-namespace Mosaic\SDK\Struct\Change;
+namespace Mosaic\SDK\Struct\Change\FromShop;
 
 use Mosaic\SDK\Struct\Change;
 use Mosaic\SDK\Struct\Product;
 
 /**
- * Insert change struct
+ * Update change struct
  *
  * @version $Revision$
  * @api
  */
-class Insert extends InsertOrUpdate
+class Update extends Change
 {
+    /**
+     * Operation type
+     *
+     * @var Product
+     */
+    public $product;
 }
