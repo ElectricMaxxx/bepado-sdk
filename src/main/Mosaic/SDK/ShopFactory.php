@@ -14,7 +14,7 @@ namespace Mosaic\SDK;
  *
  * @version $Revision$
  */
-class ShopFactory
+abstract class ShopFactory
 {
     /**
      * Get shop gateway for shop
@@ -22,8 +22,5 @@ class ShopFactory
      * @param string $shopId
      * @return ShopGateway
      */
-    public function getShopGateway($shopId)
-    {
-        throw new \RuntimeException('@TODO: Implement');
-    }
+    abstract public function getShopGateway($shopId);
 }
