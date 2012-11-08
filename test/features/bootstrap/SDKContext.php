@@ -16,45 +16,26 @@ use \PHPUnit_Framework_MockObject_Generator as Mocker;
 class SDKContext extends BehatContext
 {
     /**
-     * Gateway
+     * SDK entry point
      *
-     * @var Gateway
+     * @var SDK
      */
-    protected $gateway;
-
-    /**
-     * Rpc service registry
-     *
-     * @var Rpc\ServiceRegistry
-     */
-    protected $service;
-
-    /**
-     * Controller
-     *
-     * @var Controller
-     */
-    protected $controller;
+    protected $sdk;
 
     public function __construct()
     {
-        $this->initGateway();
-        $this->initController();
-
-        $this->revisionProvider = new RevisionProvider\Time();
+        $this->initSDK();
     }
 
-    protected function initGateway()
+    protected function getGateway()
     {
         $storage = getenv('STORAGE') ?: 'InMemory';
         switch ($storage) {
             case 'InMemory':
-                $this->gateway = new Gateway\InMemory();
-                return;
-
+                return new Gateway\InMemory();
             case 'MySQLi':
                 $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
-                $this->gateway = new Gateway\MySQLi($connection = new MySQLi(
+                $gateway = new Gateway\MySQLi($connection = new MySQLi(
                     $config['db.hostname'],
                     $config['db.userid'],
                     $config['db.password'],
@@ -63,36 +44,21 @@ class SDKContext extends BehatContext
                 $connection->query('TRUNCATE TABLE mosaic_change;');
                 $connection->query('TRUNCATE TABLE mosaic_product;');
                 $connection->query('TRUNCATE TABLE mosaic_data;');
-                return;
-
+                return $gateway;
             default:
                 throw new \RuntimeException("Unknown storage backend $storage");
         }
     }
 
-    protected function initController()
+    protected function initSDK()
     {
-        $productImporter = \PHPUnit_Framework_MockObject_Generator::getMock('\\Mosaic\\SDK\\ProductImporter');
+        $productImporter = Mocker::getMock('\\Mosaic\\SDK\\ProductImporter');
+        $productProvider = Mocker::getMock('\\Mosaic\\SDK\\ProductProvider');
 
-        $this->service = new Rpc\ServiceRegistry();
-        $this->service->registerService(
-            'products',
-            array('export', 'import', 'getLastRevision'),
-            new Service\Product(
-                $this->gateway,
-                $productImporter
-            )
-        );
-
-        $this->controller = new Controller(
-            $this->service,
-            new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(),
-            new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
-                new \Mosaic\Common\XmlHelper()
-            ),
-            new Service\Shopping(
-                new ShopFactory()
-            )
+        $this->sdk = new SDK(
+            $this->getGateway(),
+            $productImporter,
+            $productProvider
         );
     }
 
