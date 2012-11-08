@@ -25,7 +25,7 @@ class VerificatorDispatcher
 
     public function __construct(array $verificators = array())
     {
-        foreach ($this->verificators as $class => $verificator) {
+        foreach ($verificators as $class => $verificator) {
             $this->addVerificator($class, $verificator);
         }
     }
@@ -58,6 +58,6 @@ class VerificatorDispatcher
             );
         }
 
-        $this->verificator[get_class($struct)]->verify($this, $struct);
+        $this->verificators[get_class($struct)]->verify($this, $struct);
     }
 }

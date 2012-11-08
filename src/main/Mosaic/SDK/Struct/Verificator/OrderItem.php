@@ -7,7 +7,10 @@
 
 namespace Mosaic\SDK\Struct\Verificator;
 
-use Mosaic\SDK\Struct\Verificator;
+use Mosaic\SDK\Struct\Verificator,
+    Mosaic\SDK\Struct\VerificatorDispatcher,
+    Mosaic\SDK\Struct;
+
 use Mosaic\SDK\Struct\Product;
 
 /**
