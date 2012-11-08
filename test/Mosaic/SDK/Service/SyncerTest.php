@@ -188,7 +188,14 @@ abstract class SyncerTest extends Common\Test\TestCase
         $sdk = $this->getSdk($this->getProductProvider(array(1, 2), 'update'));
         $sdk->sync();
 
-        $sdk->getGateway()->getNextChanges($revision, 100);
+        $this->sdk->getServiceRegistry()->dispatch(
+            new RpcCall(array(
+                'service' => 'products',
+                'command' => 'export',
+                'arguments' => array($revision, 100),
+            ))
+        );
+
         $this->assertChanges(
             array(
                 new Change\FromShop\Update(array('sourceId' => '1')),

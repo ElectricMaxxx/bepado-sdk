@@ -371,7 +371,7 @@ class SDK
     {
         if ($this->syncService === null) {
             $this->syncService = new Service\Syncer(
-                $this->getGateway(),
+                $this->gateway,
                 $this->provider,
                 $this->getRevisionProvider(),
                 $this->getProductHasher()
