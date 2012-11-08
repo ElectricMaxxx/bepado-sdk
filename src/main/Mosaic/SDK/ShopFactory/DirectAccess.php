@@ -19,7 +19,7 @@ use Mosaic\SDK\SDK;
  *
  * @version $Revision$
  */
-class DreictAccess extends ShopFactory
+class DirectAccess extends ShopFactory
 {
     /**
      * Product toShop
