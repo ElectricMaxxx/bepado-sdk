@@ -19,7 +19,7 @@ use Mosaic\SDK\Struct\Product;
 class InsertOrUpdate extends Change
 {
     /**
-     * Operation type
+     * Product, which is inserted or updated
      *
      * @var Product
      */

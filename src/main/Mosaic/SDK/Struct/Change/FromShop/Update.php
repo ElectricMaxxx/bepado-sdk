@@ -19,7 +19,7 @@ use Mosaic\SDK\Struct\Product;
 class Update extends Change
 {
     /**
-     * Operation type
+     * Updated product
      *
      * @var Product
      */
