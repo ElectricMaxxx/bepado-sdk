@@ -52,13 +52,13 @@ class SDKContext extends BehatContext
 
     protected function initSDK()
     {
-        $productImporter = Mocker::getMock('\\Mosaic\\SDK\\ProductImporter');
-        $productProvider = Mocker::getMock('\\Mosaic\\SDK\\ProductProvider');
+        $productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
+        $productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
 
         $this->sdk = new SDK(
             $this->getGateway(),
-            $productImporter,
-            $productProvider
+            $productToShop,
+            $productFromShop
         );
     }
 
