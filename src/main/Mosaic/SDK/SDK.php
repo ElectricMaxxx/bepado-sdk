@@ -205,6 +205,11 @@ class SDK
         return $this->marshaller;
     }
 
+    public function getGateway()
+    {
+        return $this->gateway;
+    }
+
     public function getServiceRegistry()
     {
         if ($this->registry === null) {
@@ -227,9 +232,22 @@ class SDK
         if ($this->verificator === null) {
             $this->verificator = new Struct\VerificatorDispatcher(
                 array(
-                    '\\Mosaic\\SDK\\Struct\\Order'     => new Struct\Verificator\Order(),
-                    '\\Mosaic\\SDK\\Struct\\OrderItem' => new Struct\Verificator\OrderItem(),
-                    '\\Mosaic\\SDK\\Struct\\Product'   => new Struct\Verificator\Product(),
+                    'Mosaic\\SDK\\Struct\\Order' =>
+                         new Struct\Verificator\Order(),
+                    'Mosaic\\SDK\\Struct\\OrderItem' =>
+                         new Struct\Verificator\OrderItem(),
+                    'Mosaic\\SDK\\Struct\\Product' =>
+                         new Struct\Verificator\Product(),
+                    'Mosaic\\SDK\\Struct\\Change\\FromShop\\Insert' =>
+                         new Struct\Verificator\Change(),
+                    'Mosaic\\SDK\\Struct\\Change\\FromShop\\Update' =>
+                         new Struct\Verificator\Change(),
+                    'Mosaic\\SDK\\Struct\\Change\\FromShop\\Delete' =>
+                         new Struct\Verificator\Change(),
+                    'Mosaic\\SDK\\Struct\\Change\\ToShop\\InsertOrUpdate' =>
+                         new Struct\Verificator\Change(),
+                    'Mosaic\\SDK\\Struct\\Change\\ToShop\\Delete' =>
+                         new Struct\Verificator\Change(),
                 )
             );
         }
