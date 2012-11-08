@@ -8,7 +8,8 @@
 namespace Mosaic\SDK\Struct\Verificator\Change;
 
 use Mosaic\SDK\Struct\Verificator\Change;
-use Mosaic\SDK\Struct\Product;
+use Mosaic\SDK\Struct\VerificatorDispatcher;
+use Mosaic\SDK\Struct;
 
 /**
  * Visitor verifying integrity of struct classes

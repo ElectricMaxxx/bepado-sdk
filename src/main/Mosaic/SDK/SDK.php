@@ -316,15 +316,15 @@ class SDK
                     'Mosaic\\SDK\\Struct\\Product' =>
                          new Struct\Verificator\Product(),
                     'Mosaic\\SDK\\Struct\\Change\\FromShop\\Insert' =>
-                         new Struct\Verificator\Change(),
+                         new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\FromShop\\Update' =>
-                         new Struct\Verificator\Change(),
+                         new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\FromShop\\Delete' =>
                          new Struct\Verificator\Change(),
                     'Mosaic\\SDK\\Struct\\Change\\ToShop\\InsertOrUpdate' =>
-                         new Struct\Verificator\Change(),
+                         new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\ToShop\\Delete' =>
-                         new Struct\Verificator\Change(),
+                         new Struct\Verificator\Change\Delete(),
                 )
             );
         }
