@@ -271,32 +271,6 @@ class SDK
 
     /**
      * @private
-     * @return Rpc\Marshaller\CallUnmarshaller
-     */
-    public function getUnmarshaller()
-    {
-        if ($this->unmarshaller === null) {
-            $this->unmarshaller = new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller();
-        }
-
-        return $this->unmarshaller;
-    }
-
-    /**
-     * @private
-     * @return Rpc\Marshaller\CallMarshaller
-     */
-    public function getMarshaller()
-    {
-        if ($this->marshaller === null) {
-            $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller();
-        }
-
-        return $this->marshaller;
-    }
-
-    /**
-     * @private
      * @return Rpc\ServiceRegistry
      */
     public function getServiceRegistry()
@@ -350,9 +324,35 @@ class SDK
 
     /**
      * @private
+     * @return Rpc\Marshaller\CallUnmarshaller
+     */
+    protected function getUnmarshaller()
+    {
+        if ($this->unmarshaller === null) {
+            $this->unmarshaller = new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller();
+        }
+
+        return $this->unmarshaller;
+    }
+
+    /**
+     * @private
+     * @return Rpc\Marshaller\CallMarshaller
+     */
+    protected function getMarshaller()
+    {
+        if ($this->marshaller === null) {
+            $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller();
+        }
+
+        return $this->marshaller;
+    }
+
+    /**
+     * @private
      * @return Service\Shopping
      */
-    public function getShoppingService()
+    protected function getShoppingService()
     {
         if ($this->shoppingService === null) {
             $this->shoppingService = new Service\Shopping(
@@ -367,7 +367,7 @@ class SDK
      * @private
      * @return Service\Syncer
      */
-    public function getSyncService()
+    protected function getSyncService()
     {
         if ($this->syncService === null) {
             $this->syncService = new Service\Syncer(
@@ -385,7 +385,7 @@ class SDK
      * @private
      * @return ProductHasher
      */
-    public function getProductHasher()
+    protected function getProductHasher()
     {
         if ($this->productHasher === null) {
             $this->productHasher = new ProductHasher\Simple();
@@ -398,7 +398,7 @@ class SDK
      * @private
      * @return RevisionProvider
      */
-    public function getRevisionProvider()
+    protected function getRevisionProvider()
     {
         if ($this->revisionProvider === null) {
             $this->revisionProvider = new RevisionProvider\Time();
