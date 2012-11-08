@@ -134,6 +134,23 @@ class SDK
     }
 
     /**
+     * Sync changes feed
+     *
+     * Evaluates which products are new in the shop database and marks those
+     * products for the export. Results in new inserts, updates and deletes in
+     * the changes feed.
+     *
+     * Use this method, if your shop is not able to record all change
+     * operations on your products itself, using the record*() methods.
+     *
+     * @return void
+     */
+    public function sync()
+    {
+        $this->getSyncService()->sync();
+    }
+
+    /**
      * Check products still are in the state they are stored locally
      *
      * This method will verify with the remote shops that products are still in

@@ -115,7 +115,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testInitialBuild()
     {
         $sdk = $this->getSdk($this->getProductProvider(array(1, 2)));
-        $sdk->getSyncService()->sync();
+        $sdk->sync();
 
         $this->assertChanges(
             array(
@@ -134,7 +134,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductProvider(array(1, 2)));
-        $sdk->getSyncService()->sync();
+        $sdk->sync();
 
         $this->assertChanges(
             array(),
@@ -149,7 +149,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductProvider(array(1, 2), 'update'));
-        $sdk->getSyncService()->sync();
+        $sdk->sync();
 
         $this->assertChanges(
             array(
@@ -167,7 +167,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductProvider(array(1, 2), 'update'));
-        $sdk->getSyncService()->sync();
+        $sdk->sync();
 
         $sdk->getGateway()->getNextChanges($revision, 100);
         $this->assertChanges(
@@ -186,7 +186,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductProvider(array()));
-        $sdk->getSyncService()->sync();
+        $sdk->sync();
 
         $this->assertChanges(
             array(
