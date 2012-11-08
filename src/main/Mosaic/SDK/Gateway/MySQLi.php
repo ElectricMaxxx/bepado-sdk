@@ -325,7 +325,7 @@ class MySQLi extends Gateway
                     `s_config`
                 )
             VALUES (
-                "' . $this->connection->real_escape_string($shopId) . '"
+                "' . $this->connection->real_escape_string($shopId) . '",
                 "' . $this->connection->real_escape_string(serialize($configuration)) . '"
             )
             ON DUPLICATE KEY UPDATE

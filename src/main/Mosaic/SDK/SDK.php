@@ -282,6 +282,7 @@ class SDK
     {
         if ($this->registry === null) {
             $this->registry = new Rpc\ServiceRegistry();
+
             $this->registry->registerService(
                 'products',
                 array('fromShop', 'toShop', 'getLastRevision'),
@@ -289,6 +290,15 @@ class SDK
                     $this->gateway,
                     $this->gateway,
                     $this->toShop
+                )
+            );
+
+            $this->registry->registerService(
+                'configuration',
+                array('update'),
+                new Service\Configuration(
+                    $this->gateway,
+                    $this->getVerificator()
                 )
             );
         }
@@ -326,6 +336,8 @@ class SDK
                          new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\ToShop\\Delete' =>
                          new Struct\Verificator\Change\Delete(),
+                    'Mosaic\\SDK\\Struct\\ShopConfiguration' =>
+                         new Struct\Verificator\ShopConfiguration(),
                 )
             );
         }
