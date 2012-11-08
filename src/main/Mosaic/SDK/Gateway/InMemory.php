@@ -8,8 +8,7 @@
 namespace Mosaic\SDK\Gateway;
 
 use Mosaic\SDK\Gateway;
-use Mosaic\SDK\Struct\Change;
-use Mosaic\SDK\Struct\Product;
+use Mosaic\SDK\Struct;
 
 /**
  * Abstract base class to store SDK related data
@@ -25,6 +24,7 @@ class InMemory extends Gateway
     protected $products = array();
     protected $changes = array();
     protected $lastRevision;
+    protected $shopConfiguration = array();
 
     /**
      * Get next changes
@@ -71,12 +71,12 @@ class InMemory extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
-     * @param Product $product
+     * @param Struct\Product $product
      * @return void
      */
-    public function recordInsert($id, $hash, $revision, Product $product)
+    public function recordInsert($id, $hash, $revision, Struct\Product $product)
     {
-        $this->changes[$revision] = new Change\FromShop\Insert(
+        $this->changes[$revision] = new Struct\Change\FromShop\Insert(
             array(
                 'sourceId' => $id,
                 'revision' => $revision,
@@ -92,12 +92,12 @@ class InMemory extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
-     * @param Product $product
+     * @param Struct\Product $product
      * @return void
      */
-    public function recordUpdate($id, $hash, $revision, Product $product)
+    public function recordUpdate($id, $hash, $revision, Struct\Product $product)
     {
-        $this->changes[$revision] = new Change\FromShop\Update(
+        $this->changes[$revision] = new Struct\Change\FromShop\Update(
             array(
                 'sourceId' => $id,
                 'revision' => $revision,
@@ -116,7 +116,7 @@ class InMemory extends Gateway
      */
     public function recordDelete($id, $revision)
     {
-        $this->changes[$revision] = new Change\FromShop\Delete(
+        $this->changes[$revision] = new Struct\Change\FromShop\Delete(
             array(
                 'sourceId' => $id,
                 'revision' => $revision
@@ -168,5 +168,28 @@ class InMemory extends Gateway
     public function storeLastRevision($revision)
     {
         $this->lastRevision = $revision;
+    }
+
+    /**
+     * Update shop configuration
+     *
+     * @param string $shopId
+     * @param Struct\ShopConfiguration $configuration
+     * @return void
+     */
+    public function setShopConfiguration($shopId, Struct\ShopConfiguration $configuration)
+    {
+        $this->shopConfiguration[$shopId] = $configuration;
+    }
+
+    /**
+     * Get configuration for the given shop
+     *
+     * @param string $shopId
+     * @return Struct\ShopConfiguration
+     */
+    public function getShopConfiguration($shopId)
+    {
+        return $this->shopConfiguration[$shopId];
     }
 }

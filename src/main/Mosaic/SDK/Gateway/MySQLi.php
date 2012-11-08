@@ -9,7 +9,6 @@ namespace Mosaic\SDK\Gateway;
 
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\Struct;
-use Mosaic\SDK\Struct\Product;
 
 /**
  * Default MySQLi implementation of the storage gateway
@@ -113,10 +112,10 @@ class MySQLi extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
-     * @param Product $product
+     * @param Struct\Product $product
      * @return void
      */
-    public function recordInsert($id, $hash, $revision, Product $product)
+    public function recordInsert($id, $hash, $revision, Struct\Product $product)
     {
         $this->connection->query(
             'INSERT INTO
@@ -151,10 +150,10 @@ class MySQLi extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
-     * @param Product $product
+     * @param Struct\Product $product
      * @return void
      */
-    public function recordUpdate($id, $hash, $revision, Product $product)
+    public function recordUpdate($id, $hash, $revision, Struct\Product $product)
     {
         $this->connection->query(
             'INSERT INTO
@@ -308,5 +307,55 @@ class MySQLi extends Gateway
                 `d_value` = "' . $this->connection->real_escape_string($revision) . '"
             ;'
         );
+    }
+
+    /**
+     * Update shop configuration
+     *
+     * @param string $shopId
+     * @param Struct\ShopConfiguration $configuration
+     * @return void
+     */
+    public function setShopConfiguration($shopId, Struct\ShopConfiguration $configuration)
+    {
+        $this->connection->query(
+            'INSERT INTO
+                mosaic_shop_config (
+                    `s_shop`,
+                    `s_config`
+                )
+            VALUES (
+                "' . $this->connection->real_escape_string($shopId) . '"
+                "' . $this->connection->real_escape_string(serialize($configuration)) . '"
+            )
+            ON DUPLICATE KEY UPDATE
+                `s_config` = "' . $this->connection->real_escape_string(serialize($configuration)) . '"
+            ;'
+        );
+    }
+
+    /**
+     * Get configuration for the given shop
+     *
+     * @param string $shopId
+     * @return Struct\ShopConfiguration
+     */
+    public function getShopConfiguration($shopId)
+    {
+        $result = $this->connection->query(
+            'SELECT
+                `s_config`
+            FROM
+                `mosaic_shop_config`
+            WHERE
+                `s_shop` = "' . $this->connection->real_escape_string($shopId) . '"'
+        );
+
+        $rows = $result->fetch_all(\MYSQLI_ASSOC);
+        if (!count($rows)) {
+            return null;
+        }
+
+        return unserialize($rows[0]['s_config']);
     }
 }
