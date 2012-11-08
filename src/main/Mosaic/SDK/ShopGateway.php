@@ -28,7 +28,7 @@ abstract class ShopGateway
      * @param Struct\Order
      * @return mixed
      */
-    abstract public function pull(Struct\Order $order);
+    abstract public function checkProducts(Struct\Order $order);
 
     /**
      * Reserve order in remote shop
