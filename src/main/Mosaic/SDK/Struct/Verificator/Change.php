@@ -7,9 +7,9 @@
 
 namespace Mosaic\SDK\Struct\Verificator;
 
-use Mosaic\SDK\Struct\Verificator,
-    Mosaic\SDK\Struct\VerificatorDispatcher,
-    Mosaic\SDK\Struct;
+use Mosaic\SDK\Struct\Verificator;
+use Mosaic\SDK\Struct\VerificatorDispatcher;
+use Mosaic\SDK\Struct;
 
 /**
  * Visitor verifying integrity of struct classes

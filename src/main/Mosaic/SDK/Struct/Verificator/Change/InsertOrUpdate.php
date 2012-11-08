@@ -8,7 +8,6 @@
 namespace Mosaic\SDK\Struct\Verificator\Change;
 
 use Mosaic\SDK\Struct\Verificator\Change;
-
 use Mosaic\SDK\Struct\VerificatorDispatcher;
 use Mosaic\SDK\Struct;
 
