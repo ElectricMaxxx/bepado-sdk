@@ -270,7 +270,12 @@ class SDK
     }
 
     /**
-     * @private
+     * Get service registry
+     *
+     * Direct access to this class is provided for testing and verification.
+     * Use this to issue a call without the need to craft the corresponding
+     * XML.
+     *
      * @return Rpc\ServiceRegistry
      */
     public function getServiceRegistry()
@@ -291,7 +296,12 @@ class SDK
     }
 
     /**
-     * @private
+     * Get verificator
+     *
+     * Direct access to this class is provided for testing and verification.
+     * Use this class to verify the structs you pass to the Mosaic SDK. Mosaic
+     * will do this itself, but it might be useful to also do this yourself.
+     *
      * @return VerificatorDispatcher
      */
     public function getVerificator()
