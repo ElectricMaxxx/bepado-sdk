@@ -352,7 +352,9 @@ class SDK
     protected function getMarshaller()
     {
         if ($this->marshaller === null) {
-            $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller();
+            $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
+                new \Mosaic\Common\XmlHelper()
+            );
         }
 
         return $this->marshaller;
