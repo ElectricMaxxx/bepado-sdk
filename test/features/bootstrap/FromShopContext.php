@@ -81,7 +81,7 @@ class FromShopContext extends SDKContext
         $end = $this->productId + $productCount;
         $this->modifiedProductCount += $productCount;
         for (; $this->productId < $end; ++$this->productId) {
-            $this->gateway->recordInsert(
+            $this->sdk->getGateway()->recordInsert(
                 $this->productId,
                 'hash-' . $this->productId,
                 $this->revisionProvider->next(),
@@ -97,7 +97,7 @@ class FromShopContext extends SDKContext
     {
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->gateway->recordUpdate(
+            $this->sdk->getGateway()->recordUpdate(
                 $i,
                 'hash-' . $i,
                 $this->revisionProvider->next(),
@@ -113,7 +113,7 @@ class FromShopContext extends SDKContext
     {
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->gateway->recordDelete(
+            $this->sdk->getGateway()->recordDelete(
                 $i,
                 $this->revisionProvider->next()
             );
@@ -141,7 +141,7 @@ class FromShopContext extends SDKContext
     {
         $overallProductCount = 0;
         for ($i = 0; $i < $this->offset; ++$i) {
-            $changes = $this->service->dispatch(
+            $changes = $this->sdk->getServiceRegistry()->dispatch(
                 new Struct\RpcCall(array(
                     'service' => 'products',
                     'command' => 'export',
@@ -170,7 +170,7 @@ class FromShopContext extends SDKContext
         Assertion::assertEquals($productCount, count($changes));
 
         foreach ($changes as $change) {
-            $change->verify();
+            $this->sdk->getVerificator()->verify($change);
         }
     }
 
@@ -186,7 +186,7 @@ class FromShopContext extends SDKContext
         );
 
         foreach ($changes as $change) {
-            $change->verify();
+            $this->sdk->getVerificator()->verify($change);
         }
     }
 
@@ -207,7 +207,7 @@ class FromShopContext extends SDKContext
 
         Assertion::assertEquals($productCount, count($changes));
         foreach ($changes as $change) {
-            $change->verify();
+            $this->sdk->getVerificator()->verify($change);
             Assertion::assertTrue($change instanceof Change\FromShop\Delete);
         }
     }
