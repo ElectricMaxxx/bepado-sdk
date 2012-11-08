@@ -65,6 +65,13 @@ class SDK
     protected $unmarshaller;
 
     /**
+     * Verificator dispatcher
+     *
+     * @var Struct\VerificatorDispatcher
+     */
+    protected $verificator;
+
+    /**
      * Shopping service
      *
      * @var Service\Shopping
@@ -72,11 +79,18 @@ class SDK
     protected $shoppingService;
 
     /**
-     * Verificator dispatcher
+     * Sync service
      *
-     * @var Struct\VerificatorDispatcher
+     * @var Service\Syncer
      */
-    protected $verificator;
+    protected $syncService;
+
+    /**
+     * Product hasher
+     *
+     * @var ProductHasher
+     */
+    protected $productHasher;
 
     /**
      * Revision provider
@@ -264,6 +278,29 @@ class SDK
         }
 
         return $this->shoppingService;
+    }
+
+    public function getSyncService()
+    {
+        if ($this->syncService === null) {
+            $this->syncService = new Service\Syncer(
+                $this->getGateway(),
+                $this->provider,
+                $this->getRevisionProvider(),
+                $this->getProductHasher()
+            );
+        }
+
+        return $this->syncService;
+    }
+
+    public function getProductHasher()
+    {
+        if ($this->productHasher === null) {
+            $this->productHasher = new ProductHasher\Simple();
+        }
+
+        return $this->productHasher;
     }
 
     public function getRevisionProvider()
