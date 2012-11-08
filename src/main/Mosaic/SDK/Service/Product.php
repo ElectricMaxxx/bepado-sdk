@@ -8,7 +8,7 @@
 namespace Mosaic\SDK\Service;
 
 use Mosaic\SDK\Gateway;
-use Mosaic\SDK\ProductImporter;
+use Mosaic\SDK\ProductToShop;
 use Mosaic\SDK\Struct\Change;
 
 /**
@@ -28,9 +28,9 @@ class Product
     /**
      * Product importer
      *
-     * @var ProductImporter
+     * @var ProductToShop
      */
-    protected $importer;
+    protected $toShop;
 
     /**
      * COnstruct from gateway
@@ -38,10 +38,10 @@ class Product
      * @param Gateway $gateway
      * @return void
      */
-    public function __construct(Gateway $gateway, ProductImporter $importer)
+    public function __construct(Gateway $gateway, ProductToShop $toShop)
     {
         $this->gateway = $gateway;
-        $this->importer = $importer;
+        $this->toShop = $toShop;
     }
 
     /**
@@ -67,10 +67,10 @@ class Product
         foreach ($changes as $change) {
             switch (true) {
                 case $change instanceof Change\ToShop\InsertOrUpdate:
-                    $this->importer->insertOrUpdate($change->product);
+                    $this->toShop->insertOrUpdate($change->product);
                     continue 2;
                 case $change instanceof Change\ToShop\Delete:
-                    $this->importer->delete($change->shopId, $change->sourceId);
+                    $this->toShop->delete($change->shopId, $change->sourceId);
                     continue 2;
                 default:
                     throw new \RuntimeException("Invalid change operation: $change");

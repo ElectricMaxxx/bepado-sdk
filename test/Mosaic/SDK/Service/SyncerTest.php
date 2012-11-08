@@ -25,12 +25,12 @@ abstract class SyncerTest extends Common\Test\TestCase
      */
     abstract protected function getGateway();
 
-    protected function getSDK(SDK\ProductProvider $productProvider)
+    protected function getSDK(SDK\ProductFromShop $productFromShop)
     {
         return $this->sdk = new SDK\SDK(
             $this->getGateway(),
-            $this->getMock('\\Mosaic\\SDK\\ProductImporter'),
-            $productProvider
+            $this->getMock('\\Mosaic\\SDK\\ProductToShop'),
+            $productFromShop
         );
     }
 
@@ -43,12 +43,12 @@ abstract class SyncerTest extends Common\Test\TestCase
      *
      * @param array $products
      * @param string $data
-     * @return ProductProvider
+     * @return ProductFromShop
      */
-    protected function getProductProvider(array $products, $data = 'foo')
+    protected function getProductFromShop(array $products, $data = 'foo')
     {
         $products = array_map('strval', $products);
-        $provider = $this->getMock( '\\Mosaic\\SDK\\ProductProvider' );
+        $provider = $this->getMock( '\\Mosaic\\SDK\\ProductFromShop' );
         $provider
             ->expects($this->any())
             ->method('getExportedProductIDs')
@@ -115,7 +115,7 @@ abstract class SyncerTest extends Common\Test\TestCase
 
     public function testInitialBuild()
     {
-        $sdk = $this->getSdk($this->getProductProvider(array(1, 2)));
+        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2)));
         $sdk->sync();
 
         $this->assertChanges(
@@ -140,7 +140,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testReIndex()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductProvider(array(1, 2)));
+        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2)));
         $sdk->sync();
 
         $this->assertChanges(
@@ -161,7 +161,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testProductUpdate()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductProvider(array(1, 2), 'update'));
+        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2), 'update'));
         $sdk->sync();
 
         $this->assertChanges(
@@ -185,7 +185,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testReFetchChanges()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductProvider(array(1, 2), 'update'));
+        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2), 'update'));
         $sdk->sync();
 
         $this->sdk->getServiceRegistry()->dispatch(
@@ -217,7 +217,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testProductDelete()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductProvider(array()));
+        $sdk = $this->getSdk($this->getProductFromShop(array()));
         $sdk->sync();
 
         $this->assertChanges(

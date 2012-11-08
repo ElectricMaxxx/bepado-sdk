@@ -11,7 +11,7 @@ use Mosaic\Common\Rpc;
 use Mosaic\Common\Struct\RpcCall;
 
 /**
- * Central SDK class, which serves as an etnry point and service provider.
+ * Central SDK class, which serves as an etnry point and service fromShop.
  *
  * Register your gateway and product handlers here. All calls should be
  * dispatched to this class. It constructs the required helper classes as
@@ -30,18 +30,18 @@ class SDK
     protected $gateway;
 
     /**
-     * Product importer
+     * Product toShop
      *
-     * @var ProductImporter
+     * @var ProductToShop
      */
-    protected $importer;
+    protected $toShop;
 
     /**
-     * Product provider
+     * Product fromShop
      *
-     * @var ProductProvider
+     * @var ProductFromShop
      */
-    protected $provider;
+    protected $fromShop;
 
     /**
      * Service registry
@@ -93,20 +93,20 @@ class SDK
     protected $productHasher;
 
     /**
-     * Revision provider
+     * Revision fromShop
      *
      * @var RevisionProvider
      */
-    protected $revisionProvider;
+    protected $revisionFromShop;
 
     public function __construct(
         Gateway $gateway,
-        ProductImporter $importer,
-        ProductProvider $provider
+        ProductToShop $toShop,
+        ProductFromShop $fromShop
     ) {
         $this->gateway = $gateway;
-        $this->importer = $importer;
-        $this->provider = $provider;
+        $this->toShop = $toShop;
+        $this->fromShop = $fromShop;
     }
 
     /**
@@ -287,7 +287,7 @@ class SDK
                 array('export', 'import', 'getLastRevision'),
                 new Service\Product(
                     $this->gateway,
-                    $this->importer
+                    $this->toShop
                 )
             );
         }
@@ -382,7 +382,7 @@ class SDK
         if ($this->syncService === null) {
             $this->syncService = new Service\Syncer(
                 $this->gateway,
-                $this->provider,
+                $this->fromShop,
                 $this->getRevisionProvider(),
                 $this->getProductHasher()
             );
@@ -410,10 +410,10 @@ class SDK
      */
     protected function getRevisionProvider()
     {
-        if ($this->revisionProvider === null) {
-            $this->revisionProvider = new RevisionProvider\Time();
+        if ($this->revisionFromShop === null) {
+            $this->revisionFromShop = new RevisionProvider\Time();
         }
 
-        return $this->revisionProvider;
+        return $this->revisionFromShop;
     }
 }

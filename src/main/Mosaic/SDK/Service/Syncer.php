@@ -8,7 +8,7 @@
 namespace Mosaic\SDK\Service;
 
 use Mosaic\SDK\Gateway;
-use Mosaic\SDK\ProductProvider;
+use Mosaic\SDK\ProductFromShop;
 use Mosaic\SDK\RevisionProvider;
 use Mosaic\SDK\ProductHasher;
 
@@ -27,11 +27,11 @@ class Syncer
     protected $gateway;
 
     /**
-     * Product provider
+     * Product from shop
      *
-     * @var ProductProvider
+     * @var ProductFromShop
      */
-    protected $products;
+    protected $fromShop;
 
     /**
      * Revision provider
@@ -55,12 +55,12 @@ class Syncer
      */
     public function __construct(
         Gateway $gateway,
-        ProductProvider $products,
+        ProductFromShop $fromShop,
         RevisionProvider $revisions,
         ProductHasher $hasher
     ) {
         $this->gateway = $gateway;
-        $this->products = $products;
+        $this->fromShop = $fromShop;
         $this->revisions = $revisions;
         $this->hasher = $hasher;
     }
@@ -72,7 +72,7 @@ class Syncer
      */
     public function sync()
     {
-        $shopProducts = $this->products->getExportedProductIDs();
+        $shopProducts = $this->fromShop->getExportedProductIDs();
         $knownProducts = $this->gateway->getAllProductIDs();
 
         if ($deletes = array_diff($knownProducts, $shopProducts)) {
@@ -82,7 +82,7 @@ class Syncer
         }
 
         if ($inserts = array_diff($shopProducts, $knownProducts)) {
-            foreach ($this->products->getProducts($inserts) as $product) {
+            foreach ($this->fromShop->getProducts($inserts) as $product) {
                 $this->gateway->recordInsert(
                     $product->sourceId,
                     $this->hasher->hash($product),
@@ -93,7 +93,7 @@ class Syncer
         }
 
         if ($toCheck = array_intersect($shopProducts, $knownProducts)) {
-            foreach ($this->products->getProducts($toCheck) as $product) {
+            foreach ($this->fromShop->getProducts($toCheck) as $product) {
                 if ($this->gateway->hasChanged(
                     $product->sourceId,
                     $this->hasher->hash($product)
