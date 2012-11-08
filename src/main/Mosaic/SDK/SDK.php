@@ -297,15 +297,6 @@ class SDK
 
     /**
      * @private
-     * @return Gateway
-     */
-    public function getGateway()
-    {
-        return $this->gateway;
-    }
-
-    /**
-     * @private
      * @return Rpc\ServiceRegistry
      */
     public function getServiceRegistry()

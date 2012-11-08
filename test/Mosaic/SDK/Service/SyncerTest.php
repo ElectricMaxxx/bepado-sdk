@@ -8,6 +8,7 @@
 namespace Mosaic\SDK\Service;
 
 use Mosaic\Common;
+use Mosaic\Common\Struct\RpcCall;
 use Mosaic\SDK;
 use Mosaic\SDK\Struct\Change;
 
@@ -122,7 +123,13 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Change\FromShop\Insert(array('sourceId' => '1')),
                 new Change\FromShop\Insert(array('sourceId' => '2')),
             ),
-            $changes = $sdk->getGateway()->getNextChanges(null, 100)
+            $changes = $this->sdk->getServiceRegistry()->dispatch(
+                new RpcCall(array(
+                    'service' => 'products',
+                    'command' => 'export',
+                    'arguments' => array(null, 100),
+                ))
+            )
         );
         return end($changes)->revision;
     }
@@ -138,7 +145,13 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(),
-            $sdk->getGateway()->getNextChanges($revision, 100)
+            $this->sdk->getServiceRegistry()->dispatch(
+                new RpcCall(array(
+                    'service' => 'products',
+                    'command' => 'export',
+                    'arguments' => array($revision, 100),
+                ))
+            )
         );
     }
 
@@ -156,7 +169,13 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Change\FromShop\Update(array('sourceId' => '1')),
                 new Change\FromShop\Update(array('sourceId' => '2')),
             ),
-            $sdk->getGateway()->getNextChanges($revision, 100)
+            $this->sdk->getServiceRegistry()->dispatch(
+                new RpcCall(array(
+                    'service' => 'products',
+                    'command' => 'export',
+                    'arguments' => array($revision, 100),
+                ))
+            )
         );
     }
 
@@ -175,7 +194,13 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Change\FromShop\Update(array('sourceId' => '1')),
                 new Change\FromShop\Update(array('sourceId' => '2')),
             ),
-            $sdk->getGateway()->getNextChanges($revision, 100)
+            $this->sdk->getServiceRegistry()->dispatch(
+                new RpcCall(array(
+                    'service' => 'products',
+                    'command' => 'export',
+                    'arguments' => array($revision, 100),
+                ))
+            )
         );
     }
 
@@ -193,7 +218,13 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Change\FromShop\Delete(array('sourceId' => '1')),
                 new Change\FromShop\Delete(array('sourceId' => '2')),
             ),
-            $sdk->getGateway()->getNextChanges($revision, 100)
+            $this->sdk->getServiceRegistry()->dispatch(
+                new RpcCall(array(
+                    'service' => 'products',
+                    'command' => 'export',
+                    'arguments' => array($revision, 100),
+                ))
+            )
         );
     }
 }
