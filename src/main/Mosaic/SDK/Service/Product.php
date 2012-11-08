@@ -51,7 +51,7 @@ class Product
      * @param int $productCount
      * @return Struct\Change[]
      */
-    public function export($revision, $productCount)
+    public function fromShop($revision, $productCount)
     {
         return $this->gateway->getNextChanges($revision, $productCount);
     }
@@ -62,7 +62,7 @@ class Product
      * @param Change[] $changes
      * @return string
      */
-    public function import(array $changes)
+    public function toShop(array $changes)
     {
         foreach ($changes as $change) {
             switch (true) {

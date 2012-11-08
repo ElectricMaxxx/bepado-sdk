@@ -284,7 +284,7 @@ class SDK
             $this->registry = new Rpc\ServiceRegistry();
             $this->registry->registerService(
                 'products',
-                array('export', 'import', 'getLastRevision'),
+                array('fromShop', 'toShop', 'getLastRevision'),
                 new Service\Product(
                     $this->gateway,
                     $this->toShop

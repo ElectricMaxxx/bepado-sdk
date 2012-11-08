@@ -126,7 +126,7 @@ abstract class SyncerTest extends Common\Test\TestCase
             $changes = $this->sdk->getServiceRegistry()->dispatch(
                 new RpcCall(array(
                     'service' => 'products',
-                    'command' => 'export',
+                    'command' => 'fromShop',
                     'arguments' => array(null, 100),
                 ))
             )
@@ -148,7 +148,7 @@ abstract class SyncerTest extends Common\Test\TestCase
             $this->sdk->getServiceRegistry()->dispatch(
                 new RpcCall(array(
                     'service' => 'products',
-                    'command' => 'export',
+                    'command' => 'fromShop',
                     'arguments' => array($revision, 100),
                 ))
             )
@@ -172,7 +172,7 @@ abstract class SyncerTest extends Common\Test\TestCase
             $this->sdk->getServiceRegistry()->dispatch(
                 new RpcCall(array(
                     'service' => 'products',
-                    'command' => 'export',
+                    'command' => 'fromShop',
                     'arguments' => array($revision, 100),
                 ))
             )
@@ -191,7 +191,7 @@ abstract class SyncerTest extends Common\Test\TestCase
         $this->sdk->getServiceRegistry()->dispatch(
             new RpcCall(array(
                 'service' => 'products',
-                'command' => 'export',
+                'command' => 'fromShop',
                 'arguments' => array($revision, 100),
             ))
         );
@@ -204,7 +204,7 @@ abstract class SyncerTest extends Common\Test\TestCase
             $this->sdk->getServiceRegistry()->dispatch(
                 new RpcCall(array(
                     'service' => 'products',
-                    'command' => 'export',
+                    'command' => 'fromShop',
                     'arguments' => array($revision, 100),
                 ))
             )
@@ -228,7 +228,7 @@ abstract class SyncerTest extends Common\Test\TestCase
             $this->sdk->getServiceRegistry()->dispatch(
                 new RpcCall(array(
                     'service' => 'products',
-                    'command' => 'export',
+                    'command' => 'fromShop',
                     'arguments' => array($revision, 100),
                 ))
             )

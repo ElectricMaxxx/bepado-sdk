@@ -144,7 +144,7 @@ class FromShopContext extends SDKContext
             $changes = $this->sdk->getServiceRegistry()->dispatch(
                 new Struct\RpcCall(array(
                     'service' => 'products',
-                    'command' => 'export',
+                    'command' => 'fromShop',
                     'arguments' => array(
                         $this->lastRevision,
                         $this->productsPerInterval

@@ -101,7 +101,7 @@ class ToShopContext extends SDKContext
         $this->shopRevision = $this->sdk->getServiceRegistry()->dispatch(
             new Struct\RpcCall(array(
                 'service' => 'products',
-                'command' => 'import',
+                'command' => 'toShop',
                 'arguments' => array(
                     $process
                 )
