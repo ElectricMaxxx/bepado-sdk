@@ -14,6 +14,8 @@ require_once __DIR__ . '/SyncerTest.php';
 
 class InMemorySyncerTest extends SyncerTest
 {
+    protected $gateway;
+
     /**
      * Get used gateway for test
      *

@@ -15,7 +15,7 @@ require_once __DIR__ . '/../bootstrap.php';
 
 abstract class SyncerTest extends Common\Test\TestCase
 {
-    protected $gateway;
+    protected $sdk;
 
     /**
      * Get used gateway for test
@@ -23,6 +23,15 @@ abstract class SyncerTest extends Common\Test\TestCase
      * @return SDK\Gateway
      */
     abstract protected function getGateway();
+
+    protected function getSDK(SDK\ProductProvider $productProvider)
+    {
+        return $this->sdk = new SDK\SDK(
+            $this->getGateway(),
+            $this->getMock('\\Mosaic\\SDK\\ProductImporter'),
+            $productProvider
+        );
+    }
 
     /**
      * Get product provider
@@ -90,7 +99,7 @@ abstract class SyncerTest extends Common\Test\TestCase
             array_map(
                 function ($change)
                 {
-                    $change->verify();
+                    $this->sdk->getVerificator()->verify($change);
 
                     // We do not care to comapre revision and product in change
                     $change = clone $change;
@@ -105,20 +114,15 @@ abstract class SyncerTest extends Common\Test\TestCase
 
     public function testInitialBuild()
     {
-        $syncer = new SDK\Service\Syncer(
-            $gateway = $this->getGateway(),
-            $this->getProductProvider(array(1, 2)),
-            new SDK\RevisionProvider\Time(),
-            new SDK\ProductHasher\Simple()
-        );
-        $syncer->sync();
+        $sdk = $this->getSdk($this->getProductProvider(array(1, 2)));
+        $sdk->getSyncService()->sync();
 
         $this->assertChanges(
             array(
                 new Change\FromShop\Insert(array('sourceId' => '1')),
                 new Change\FromShop\Insert(array('sourceId' => '2')),
             ),
-            $changes = $gateway->getNextChanges(null, 100)
+            $changes = $sdk->getGateway()->getNextChanges(null, 100)
         );
         return end($changes)->revision;
     }
@@ -129,17 +133,12 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testReIndex()
     {
         $revision = $this->testInitialBuild();
-        $syncer = new SDK\Service\Syncer(
-            $gateway = $this->getGateway(),
-            $this->getProductProvider(array(1, 2)),
-            new SDK\RevisionProvider\Time(),
-            new SDK\ProductHasher\Simple()
-        );
-        $syncer->sync();
+        $sdk = $this->getSdk($this->getProductProvider(array(1, 2)));
+        $sdk->getSyncService()->sync();
 
         $this->assertChanges(
             array(),
-            $gateway->getNextChanges($revision, 100)
+            $sdk->getGateway()->getNextChanges($revision, 100)
         );
     }
 
@@ -149,20 +148,15 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testProductUpdate()
     {
         $revision = $this->testInitialBuild();
-        $syncer = new SDK\Service\Syncer(
-            $gateway = $this->getGateway(),
-            $this->getProductProvider(array(1, 2), 'update'),
-            new SDK\RevisionProvider\Time(),
-            new SDK\ProductHasher\Simple()
-        );
-        $syncer->sync();
+        $sdk = $this->getSdk($this->getProductProvider(array(1, 2), 'update'));
+        $sdk->getSyncService()->sync();
 
         $this->assertChanges(
             array(
                 new Change\FromShop\Update(array('sourceId' => '1')),
                 new Change\FromShop\Update(array('sourceId' => '2')),
             ),
-            $gateway->getNextChanges($revision, 100)
+            $sdk->getGateway()->getNextChanges($revision, 100)
         );
     }
 
@@ -172,21 +166,16 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testReFetchChanges()
     {
         $revision = $this->testInitialBuild();
-        $syncer = new SDK\Service\Syncer(
-            $gateway = $this->getGateway(),
-            $this->getProductProvider(array(1, 2), 'update'),
-            new SDK\RevisionProvider\Time(),
-            new SDK\ProductHasher\Simple()
-        );
-        $syncer->sync();
+        $sdk = $this->getSdk($this->getProductProvider(array(1, 2), 'update'));
+        $sdk->getSyncService()->sync();
 
-        $gateway->getNextChanges($revision, 100);
+        $sdk->getGateway()->getNextChanges($revision, 100);
         $this->assertChanges(
             array(
                 new Change\FromShop\Update(array('sourceId' => '1')),
                 new Change\FromShop\Update(array('sourceId' => '2')),
             ),
-            $gateway->getNextChanges($revision, 100)
+            $sdk->getGateway()->getNextChanges($revision, 100)
         );
     }
 
@@ -196,20 +185,15 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testProductDelete()
     {
         $revision = $this->testInitialBuild();
-        $syncer = new SDK\Service\Syncer(
-            $gateway = $this->getGateway(),
-            $this->getProductProvider(array()),
-            new SDK\RevisionProvider\Time(),
-            new SDK\ProductHasher\Simple()
-        );
-        $syncer->sync();
+        $sdk = $this->getSdk($this->getProductProvider(array()));
+        $sdk->getSyncService()->sync();
 
         $this->assertChanges(
             array(
                 new Change\FromShop\Delete(array('sourceId' => '1')),
                 new Change\FromShop\Delete(array('sourceId' => '2')),
             ),
-            $gateway->getNextChanges($revision, 100)
+            $sdk->getGateway()->getNextChanges($revision, 100)
         );
     }
 }
