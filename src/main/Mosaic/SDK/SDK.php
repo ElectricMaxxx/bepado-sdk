@@ -151,6 +151,57 @@ class SDK
     }
 
     /**
+     * Record product insert
+     *
+     * Establish a hook in your shop and call this method for every new
+     * product, which should be exported to Mosaic.
+     *
+     * @param string $id
+     * @param string $hash
+     * @param string $revision
+     * @param Struct\Product $product
+     * @return void
+     */
+    public function recordInsert($id, $hash, $revision, Struct\Product $product)
+    {
+        $this->getVerificator()->verify($product);
+        $this->gateway->recordInsert($id, $hash, $revision, $product);
+    }
+
+    /**
+     * Record product update
+     *
+     * Establish a hook in your shop and call this method for every update of a
+     * product, which is exported to Mosaic.
+     *
+     * @param string $id
+     * @param string $hash
+     * @param string $revision
+     * @param Struct\Product $product
+     * @return void
+     */
+    public function recordUpdate($id, $hash, $revision, Struct\Product $product)
+    {
+        $this->getVerificator()->verify($product);
+        $this->gateway->recordUpdate($id, $hash, $revision, $product);
+    }
+
+    /**
+     * Record product delete
+     *
+     * Establish a hook in your shop and call this method for every delete of a
+     * product, which is exported to Mosaic.
+     *
+     * @param string $id
+     * @param string $revision
+     * @return void
+     */
+    public function recordDelete($id, $revision)
+    {
+        $this->gateway->recordDelete($id, $revision);
+    }
+
+    /**
      * Check products still are in the state they are stored locally
      *
      * This method will verify with the remote shops that products are still in

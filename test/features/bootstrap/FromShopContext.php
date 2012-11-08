@@ -81,7 +81,7 @@ class FromShopContext extends SDKContext
         $end = $this->productId + $productCount;
         $this->modifiedProductCount += $productCount;
         for (; $this->productId < $end; ++$this->productId) {
-            $this->sdk->getGateway()->recordInsert(
+            $this->sdk->recordInsert(
                 $this->productId,
                 'hash-' . $this->productId,
                 $this->revisionProvider->next(),
@@ -97,7 +97,7 @@ class FromShopContext extends SDKContext
     {
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->sdk->getGateway()->recordUpdate(
+            $this->sdk->recordUpdate(
                 $i,
                 'hash-' . $i,
                 $this->revisionProvider->next(),
@@ -113,7 +113,7 @@ class FromShopContext extends SDKContext
     {
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->sdk->getGateway()->recordDelete(
+            $this->sdk->recordDelete(
                 $i,
                 $this->revisionProvider->next()
             );
