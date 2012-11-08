@@ -16,7 +16,7 @@ namespace Mosaic\SDK;
  * @version $Revision$
  * @api
  */
-interface ProductImporter
+interface ProductToShop
 {
     /**
      * Import or update given product

@@ -13,7 +13,7 @@ namespace Mosaic\SDK;
  * @version $Revision$
  * @api
  */
-interface ProductProvider
+interface ProductFromShop
 {
     /**
      * Get product data
