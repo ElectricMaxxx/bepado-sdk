@@ -8,7 +8,10 @@
 namespace Mosaic\SDK;
 
 /**
- * Interface for product providers
+ * Interface for product importers
+ *
+ * Implement this interface with shop specific details to update products in
+ * your shop database, which originate from mosaic.
  *
  * @version $Revision$
  * @api
