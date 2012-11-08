@@ -42,7 +42,7 @@ abstract class ShopGateway
      * @param Struct\Order
      * @return mixed
      */
-    abstract public function reserve(Struct\Order $order);
+    abstract public function reserveProducts(Struct\Order $order);
 
     /**
      * Buy order associated with reservation in the remote shop.
