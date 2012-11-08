@@ -36,7 +36,7 @@ Feature: Interactions between shops on a purchase
     Scenario: The Buy process fails
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
-         When The customer completes the checkout
+         When The Customer checks out
           And The buy process fails
          Then The customer is informed about this.
             # This are actually two tests:
@@ -46,7 +46,7 @@ Feature: Interactions between shops on a purchase
     Scenario: The Buy succeeds and everything is logged
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
-         When The customer completes the checkout
+         When The Customer checks out
          Then The local shop logs the transaction with Mosaic
           And The remote shop logs the transaction with Mosaic
 

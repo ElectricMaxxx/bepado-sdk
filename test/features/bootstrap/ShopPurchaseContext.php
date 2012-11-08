@@ -23,11 +23,18 @@ require_once __DIR__ . '/SDKContext.php';
 class ShopPurchaseContext extends SDKContext
 {
     /**
-     * Urrently processed order
+     * Currently processed order
      *
      * @var Struct\Order
      */
     protected $order;
+
+    /**
+     * Result of last processing
+     *
+     * @var mixed
+     */
+    protected $result;
 
     /**
      * @Given /^The product is listed as available$/
@@ -42,7 +49,6 @@ class ShopPurchaseContext extends SDKContext
      */
     public function aCustomerAddsAProductFromARemoteShopToBasket($remoteShop)
     {
-        throw new PendingException();
         $this->order = new Struct\Order(
             array(
                 'products' => array(
@@ -70,7 +76,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerChecksOut()
     {
-        throw new PendingException();
+        $this->result = $this->sdk->checkout(
+            $this->sdk->reserveProducts($this->order)
+        );
     }
 
     /**
@@ -78,7 +86,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerWillReceiveTheProducts()
     {
-        throw new PendingException();
+        Assertion::assertTrue($this->result);
     }
 
     /**
@@ -86,7 +94,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsNotAvailableInRemoteShop()
     {
-        throw new PendingException();
+        throw new PendingException(
+           'Reconfigure target shops ProductFromShop'
+        );
     }
 
     /**
@@ -94,7 +104,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerViewsTheOrderOverview()
     {
-        $this->controller->checkProducts($this->order);
+        $this->result = $this->sdk->checkProducts($this->order);
     }
 
     /**
@@ -102,7 +112,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerIsInformedAboutTheUnavailability()
     {
-        throw new PendingException();
+        throw new PendingException(
+           'Assert $this->result is a sane message'
+        );
     }
 
     /**
@@ -110,7 +122,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductPriceHasChangedInTheRemoteShop()
     {
-        throw new PendingException();
+        throw new PendingException(
+           'Reconfigure target shops ProductFromShop'
+        );
     }
 
     /**
@@ -118,7 +132,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerIsInformedAboutTheChangedPrice()
     {
-        throw new PendingException();
+        throw new PendingException(
+           'Assert $this->result is a sane message'
+        );
     }
 
     /**
@@ -126,15 +142,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsReservedInTheRemoteShop()
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @When /^The customer completes the checkout$/
-     */
-    public function theCustomerCompletesTheCheckout()
-    {
-        throw new PendingException();
+        throw new PendingException(
+           'Assert $this->result is a reservationId'
+        );
     }
 
     /**
@@ -142,7 +152,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theBuyProcessFails()
     {
-        throw new PendingException();
+        throw new PendingException(
+           'Make buy process fail somehow'
+        );
     }
 
     /**
@@ -150,7 +162,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerIsInformedAboutThis()
     {
-        throw new PendingException();
+        throw new PendingException(
+           'Assert $this->result is a sane message'
+        );
     }
 
     /**
@@ -158,7 +172,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theShopLogsTheTransactionWithMosaic($location)
     {
-        throw new PendingException();
+        throw new PendingException(
+           'How?'
+        );
     }
 }
 
