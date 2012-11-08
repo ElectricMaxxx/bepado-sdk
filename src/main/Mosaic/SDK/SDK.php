@@ -381,7 +381,7 @@ class SDK
     {
         if ($this->shoppingService === null) {
             $this->shoppingService = new Service\Shopping(
-                new ShopFactory()
+                new ShopFactory\Http($this->gateway)
             );
         }
 
