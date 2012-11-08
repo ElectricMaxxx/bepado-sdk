@@ -218,6 +218,10 @@ class SDK
         throw new \RuntimeException('@TODO: Implement');
     }
 
+    /**
+     * @private
+     * @return Rpc\Marshaller\CallUnmarshaller
+     */
     public function getUnmarshaller()
     {
         if ($this->unmarshaller === null) {
@@ -227,6 +231,10 @@ class SDK
         return $this->unmarshaller;
     }
 
+    /**
+     * @private
+     * @return Rpc\Marshaller\CallMarshaller
+     */
     public function getMarshaller()
     {
         if ($this->marshaller === null) {
@@ -236,11 +244,19 @@ class SDK
         return $this->marshaller;
     }
 
+    /**
+     * @private
+     * @return Gateway
+     */
     public function getGateway()
     {
         return $this->gateway;
     }
 
+    /**
+     * @private
+     * @return Rpc\ServiceRegistry
+     */
     public function getServiceRegistry()
     {
         if ($this->registry === null) {
@@ -258,6 +274,10 @@ class SDK
         return $this->registry;
     }
 
+    /**
+     * @private
+     * @return VerificatorDispatcher
+     */
     public function getVerificator()
     {
         if ($this->verificator === null) {
@@ -286,6 +306,10 @@ class SDK
         return $this->verificator;
     }
 
+    /**
+     * @private
+     * @return Service\Shopping
+     */
     public function getShoppingService()
     {
         if ($this->shoppingService === null) {
@@ -297,6 +321,10 @@ class SDK
         return $this->shoppingService;
     }
 
+    /**
+     * @private
+     * @return Service\Syncer
+     */
     public function getSyncService()
     {
         if ($this->syncService === null) {
@@ -311,6 +339,10 @@ class SDK
         return $this->syncService;
     }
 
+    /**
+     * @private
+     * @return ProductHasher
+     */
     public function getProductHasher()
     {
         if ($this->productHasher === null) {
@@ -320,6 +352,10 @@ class SDK
         return $this->productHasher;
     }
 
+    /**
+     * @private
+     * @return RevisionProvider
+     */
     public function getRevisionProvider()
     {
         if ($this->revisionProvider === null) {
