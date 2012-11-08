@@ -1,5 +1,5 @@
-ALTER TABLE `mosaic_change` MODIFY `c_product` LONGBLOB NOT NULL;
+ALTER TABLE `mosaic_change` MODIFY `c_product` LONGBLOB NULL;
 
 --//@UNDO
 
-ALTER TABLE `mosaic_change` MODIFY `c_product` BLOB NOT NULL;
+ALTER TABLE `mosaic_change` MODIFY `c_product` BLOB NULL;
