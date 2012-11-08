@@ -21,9 +21,16 @@ class Product
     /**
      * Gateway to changes feed
      *
-     * @var Gateway
+     * @var Gateway\Changes
      */
-    protected $gateway;
+    protected $changes;
+
+    /**
+     * Gateway to revision storage
+     *
+     * @var Gateway\Revision
+     */
+    protected $revision;
 
     /**
      * Product importer
@@ -33,14 +40,17 @@ class Product
     protected $toShop;
 
     /**
-     * COnstruct from gateway
+     * Construct from gateway
      *
-     * @param Gateway $gateway
+     * @param Gateway\Changes $changes
+     * @param Gateway\Revision $revision
+     * @param ProductToShop $toShop
      * @return void
      */
-    public function __construct(Gateway $gateway, ProductToShop $toShop)
+    public function __construct(Gateway\Changes $changes, Gateway\Revision $revision, ProductToShop $toShop)
     {
-        $this->gateway = $gateway;
+        $this->changes = $changes;
+        $this->revision = $revision;
         $this->toShop = $toShop;
     }
 
@@ -53,7 +63,7 @@ class Product
      */
     public function fromShop($revision, $productCount)
     {
-        return $this->gateway->getNextChanges($revision, $productCount);
+        return $this->changes->getNextChanges($revision, $productCount);
     }
 
     /**
@@ -77,7 +87,7 @@ class Product
             }
         }
 
-        $this->gateway->storeLastRevision($change->revision);
+        $this->revision->storeLastRevision($change->revision);
         return $change->revision;
     }
 
@@ -88,6 +98,6 @@ class Product
      */
     public function getLastRevision()
     {
-        return $this->gateway->getLastRevision();
+        return $this->revision->getLastRevision();
     }
 }

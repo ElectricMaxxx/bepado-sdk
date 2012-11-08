@@ -20,11 +20,18 @@ use Mosaic\SDK\ProductHasher;
 class Syncer
 {
     /**
+     * Gateway to products
+     *
+     * @var Gateway\Products
+     */
+    protected $products;
+
+    /**
      * Gateway to changes feed
      *
-     * @var Gateway
+     * @var Gateway\Changes
      */
-    protected $gateway;
+    protected $changes;
 
     /**
      * Product from shop
@@ -50,16 +57,21 @@ class Syncer
     /**
      * COnstruct from gateway
      *
-     * @param Gateway $gateway
+     * @param Gateway\Products $gateway
+     * @param ProductFromShop $fromShop
+     * @param RevisionProvider $revisions
+     * @param ProductHasher $hasher
      * @return void
      */
     public function __construct(
-        Gateway $gateway,
+        Gateway\Products $products,
+        Gateway\Changes $changes,
         ProductFromShop $fromShop,
         RevisionProvider $revisions,
         ProductHasher $hasher
     ) {
-        $this->gateway = $gateway;
+        $this->products = $products;
+        $this->changes = $changes;
         $this->fromShop = $fromShop;
         $this->revisions = $revisions;
         $this->hasher = $hasher;
@@ -73,17 +85,17 @@ class Syncer
     public function sync()
     {
         $shopProducts = $this->fromShop->getExportedProductIDs();
-        $knownProducts = $this->gateway->getAllProductIDs();
+        $knownProducts = $this->products->getAllProductIDs();
 
         if ($deletes = array_diff($knownProducts, $shopProducts)) {
             foreach ($deletes as $productId) {
-                $this->gateway->recordDelete($productId, $this->revisions->next());
+                $this->changes->recordDelete($productId, $this->revisions->next());
             }
         }
 
         if ($inserts = array_diff($shopProducts, $knownProducts)) {
             foreach ($this->fromShop->getProducts($inserts) as $product) {
-                $this->gateway->recordInsert(
+                $this->changes->recordInsert(
                     $product->sourceId,
                     $this->hasher->hash($product),
                     $this->revisions->next(),
@@ -94,11 +106,11 @@ class Syncer
 
         if ($toCheck = array_intersect($shopProducts, $knownProducts)) {
             foreach ($this->fromShop->getProducts($toCheck) as $product) {
-                if ($this->gateway->hasChanged(
+                if ($this->products->hasChanged(
                     $product->sourceId,
                     $this->hasher->hash($product)
                 )) {
-                    $this->gateway->recordUpdate(
+                    $this->changes->recordUpdate(
                         $product->sourceId,
                         $this->hasher->hash($product),
                         $this->revisions->next(),

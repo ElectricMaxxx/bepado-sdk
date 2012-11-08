@@ -287,6 +287,7 @@ class SDK
                 array('fromShop', 'toShop', 'getLastRevision'),
                 new Service\Product(
                     $this->gateway,
+                    $this->gateway,
                     $this->toShop
                 )
             );
@@ -383,6 +384,7 @@ class SDK
     {
         if ($this->syncService === null) {
             $this->syncService = new Service\Syncer(
+                $this->gateway,
                 $this->gateway,
                 $this->fromShop,
                 $this->getRevisionProvider(),
