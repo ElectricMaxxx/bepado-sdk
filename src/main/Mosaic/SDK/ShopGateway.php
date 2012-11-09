@@ -17,21 +17,21 @@ namespace Mosaic\SDK;
 abstract class ShopGateway
 {
     /**
-     * Reserve order in remote shop
+     * Check order in shop
      *
-     * Products SHOULD be reserved and not be sold out while bing reserved.
-     * Reservation may be cancelled after sufficient time has passed.
+     * Verifies, if all products in the given order still have the same price 
+     * and availability.
      *
      * Returns true on success, or an array of Struct\Change with updates for
      * the requested products.
      *
-     * @param Struct\Order
+     * @param Struct\Product[] $products
      * @return mixed
      */
-    abstract public function checkProducts(Struct\Order $order);
+    abstract public function checkProducts(array $products);
 
     /**
-     * Reserve order in remote shop
+     * Reserve order in shop
      *
      * Products SHOULD be reserved and not be sold out while bing reserved.
      * Reservation may be cancelled after sufficient time has passed.
@@ -39,10 +39,10 @@ abstract class ShopGateway
      * Returns a reservationId on success, or an array of Struct\Change with
      * updates for the requested products.
      *
-     * @param Struct\Order
+     * @param Struct\Product[] $products
      * @return mixed
      */
-    abstract public function reserveProducts(Struct\Order $order);
+    abstract public function reserveProducts(array $products);
 
     /**
      * Buy order associated with reservation in the remote shop.
