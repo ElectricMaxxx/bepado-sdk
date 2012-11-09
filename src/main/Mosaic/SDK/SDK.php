@@ -266,7 +266,7 @@ class SDK
      */
     public function checkout(array $reservationIDs)
     {
-        return $this->getShoppingService()->checkout($order);
+        return $this->getShoppingService()->checkout($reservationIDs);
     }
 
     /**
@@ -304,7 +304,7 @@ class SDK
 
             $this->registry->registerService(
                 'transaction',
-                array('reserveProducts', 'buy', 'confirm'),
+                array('checkProducts', 'reserveProducts', 'buy', 'confirm'),
                 new Service\Transaction(
                     $this->gateway
                 )
