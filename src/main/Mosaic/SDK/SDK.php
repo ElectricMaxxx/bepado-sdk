@@ -301,6 +301,14 @@ class SDK
                     $this->getVerificator()
                 )
             );
+
+            $this->registry->registerService(
+                'transaction',
+                array('reserveProducts', 'buy', 'confirm'),
+                new Service\Transaction(
+                    $this->gateway
+                )
+            );
         }
 
         return $this->registry;
