@@ -70,12 +70,36 @@ class Shopping
      * If data updated are detected, the local product database will be updated
      * accordingly.
      *
+     * @TODO: How do we want to handle the case that some shop reserve the
+     * order as requested, and others complain. Just ignore because it is bound
+     * to happen really seldom?
+     *
      * @param Struct\Order $order
      * @return mixed
      */
     public function reserveProducts(Struct\Order $order)
     {
         return $this->callShopsForOrder('reserveProducts', $order);
+    }
+
+    /**
+     * Checkout product sets related to the given reservation IDs
+     *
+     * This process is the final "buy" transaction. It should be part of the
+     * checkout process and be handled synchronously.
+     *
+     * This method will just return true, if the transaction worked as
+     * expected. If it failed, or partially failed, a corresponding
+     * Struct\Message will be returned.
+     *
+     * @param string[] $products
+     * @return mixed
+     */
+    public function checkout(array $reservationIDs)
+    {
+        // @TODO: 1) Buy
+        // @TODO: 2) Confirm
+        return true;
     }
 
     protected function callShopsForOrder($method, Struct\Order $order)
@@ -88,7 +112,7 @@ class Shopping
             $results['shopId'] = $shopGateway->$method($shopProducts);
         }
 
-        return $this->mergeMessages($results);
+        return $results;
     }
 
     protected function getShopIds(Struct\Order $order)
@@ -107,26 +131,9 @@ class Shopping
     {
         return array_filter(
             $order->products,
-            function (Struct\Product $orderItem) use ($shopId) {
+            function (Struct\OrderItem $orderItem) use ($shopId) {
                 return $orderItem->product->shopId === $shopId;
             }
-        );
-    }
-
-    protected function mergeMessages(array $messages)
-    {
-        return array_reduce(
-            $results,
-            function ($prev, $next) {
-                if ($next === true ) {
-                    return $prev;
-                } elseif (is_array($prev)) {
-                    return array_merge($prev, $next);
-                } else {
-                    return $next;
-                }
-            },
-            true
         );
     }
 }
