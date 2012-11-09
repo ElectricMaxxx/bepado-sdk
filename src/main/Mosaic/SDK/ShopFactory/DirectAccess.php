@@ -8,6 +8,8 @@
 namespace Mosaic\SDK\ShopFactory;
 
 use Mosaic\SDK\ShopFactory;
+use Mosaic\SDK\ProductToShop;
+use Mosaic\SDK\ProductFromShop;
 use Mosaic\SDK\ShopGateway;
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\SDK;
@@ -51,7 +53,7 @@ class DirectAccess extends ShopFactory
      */
     public function getShopGateway($shopId)
     {
-        return ShopGateway\DirectAccess(
+        return new ShopGateway\DirectAccess(
             new SDK(
                 new Gateway\InMemory(),
                 $this->toShop,
