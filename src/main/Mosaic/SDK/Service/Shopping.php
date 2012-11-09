@@ -50,12 +50,42 @@ class Shopping
      */
     public function checkProducts(Struct\Order $order)
     {
+        return $this->callShopsForOrder('checkProducts', $order);
+    }
+
+    /**
+     * Reserve products
+     *
+     * This method will reserve the given products in the remote shops.
+     *
+     * If the product data change in a relevant way, this method will not
+     * reserve the products, but instead return a Struct\Message, which should
+     * be ACK'ed by the user. Afterwards another reservation may be issued.
+     *
+     * If The reservation of the product set succeeded a hash of reservation
+     * IDs for all involved shops will be returned. This hash must be stored in
+     * the shop for all further transactions. The session is probably the best
+     * location for this.
+     *
+     * If data updated are detected, the local product database will be updated
+     * accordingly.
+     *
+     * @param Struct\Order $order
+     * @return mixed
+     */
+    public function reserveProducts(Struct\Order $order)
+    {
+        return $this->callShopsForOrder('reserveProducts', $order);
+    }
+
+    protected function callShopsForOrder($method, Struct\Order $order)
+    {
         $results = array();
         foreach ($this->getShopIds($order) as $shopId) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
             $shopProducts = $this->getShopProducts($order, $shopId);
 
-            $results['shopId'] = $shopGateway->checkProducts($shopProducts);
+            $results['shopId'] = $shopGateway->$method($shopProducts);
         }
 
         return $this->mergeMessages($results);
