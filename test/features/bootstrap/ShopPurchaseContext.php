@@ -13,6 +13,7 @@ use Mosaic\SDK\Struct;
 use Mosaic\SDK\Controller;
 use Mosaic\Common\RPC;
 
+use \PHPUnit_Framework_MockObject_Generator as Mocker;
 use \PHPUnit_Framework_Assert as Assertion;
 
 require_once __DIR__ . '/SDKContext.php';
@@ -35,6 +36,31 @@ class ShopPurchaseContext extends SDKContext
      * @var mixed
      */
     protected $result;
+
+    protected function initSDK()
+    {
+        $productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
+        $productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
+
+        $this->sdk = new SDK(
+            $this->getGateway(),
+            $productToShop,
+            $productFromShop
+        );
+
+        // Inject custom direct access shop gateway factory
+        $shoppingServiceProperty = new \ReflectionProperty(get_class($this->sdk), 'shoppingService');
+        $shoppingServiceProperty->setAccessible(true);
+        $shoppingServiceProperty->setValue(
+            $this->sdk,
+            new Service\Shopping(
+                new ShopFactory\DirectAccess(
+                    $productToShop,
+                    $productFromShop
+                )
+            )
+        );
+    }
 
     /**
      * @Given /^The product is listed as available$/
