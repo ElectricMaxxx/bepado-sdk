@@ -222,7 +222,7 @@ class SDK
     public function checkProducts(Struct\Order $order)
     {
         $this->getVerificator()->verify($order);
-        $this->getShoppingService()->checkProducts($order);
+        return $this->getShoppingService()->checkProducts($order);
     }
 
     /**
@@ -248,7 +248,7 @@ class SDK
     public function reserveProducts(Struct\Order $order)
     {
         $this->getVerificator()->verify($order);
-        throw new \RuntimeException('@TODO: Implement');
+        return $this->getShoppingService()->reserveProducts($order);
     }
 
     /**
@@ -266,7 +266,7 @@ class SDK
      */
     public function checkout(array $reservationIDs)
     {
-        throw new \RuntimeException('@TODO: Implement');
+        return $this->getShoppingService()->checkout($order);
     }
 
     /**
