@@ -18,7 +18,7 @@ use Mosaic\SDK\Gateway\RevisionGateway;
  *
  * @version $Revision$
  */
-class Product
+class ProductService
 {
     /**
      * Gateway to changes feed

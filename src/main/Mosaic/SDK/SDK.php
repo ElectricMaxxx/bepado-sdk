@@ -286,7 +286,7 @@ class SDK
             $this->registry->registerService(
                 'products',
                 array('fromShop', 'toShop', 'getLastRevision'),
-                new Service\Product(
+                new Service\ProductService(
                     $this->gateway,
                     $this->gateway,
                     $this->toShop
