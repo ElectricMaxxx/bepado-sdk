@@ -11,6 +11,8 @@ use Mosaic\SDK\Gateway;
 use Mosaic\SDK\ProductFromShop;
 use Mosaic\SDK\RevisionProvider;
 use Mosaic\SDK\ProductHasher;
+use Mosaic\SDK\Gateway\ChangeGateway;
+use Mosaic\SDK\Gateway\ProductGateway;
 
 /**
  * Service to sync product database with changes feed
@@ -22,50 +24,50 @@ class Syncer
     /**
      * Gateway to products
      *
-     * @var Gateway\ProductGateway
+     * @var \Mosaic\SDK\Gateway\ProductGateway
      */
     protected $products;
 
     /**
      * Gateway to changes feed
      *
-     * @var Gateway\ChangeGateway
+     * @var \Mosaic\SDK\Gateway\ChangeGateway
      */
     protected $changes;
 
     /**
      * Product from shop
      *
-     * @var ProductFromShop
+     * @var \Mosaic\SDK\ProductFromShop
      */
     protected $fromShop;
 
     /**
      * Revision provider
      *
-     * @var RevisionProvider
+     * @var \Mosaic\SDK\RevisionProvider
      */
     protected $revisions;
 
     /**
      * Product hasher
      *
-     * @var ProductHasher
+     * @var \Mosaic\SDK\ProductHasher
      */
     protected $hasher;
 
     /**
-     * COnstruct from gateway
+     * Construct from gateway
      *
-     * @param Gateway\ProductGateway $gateway
-     * @param ProductFromShop $fromShop
-     * @param RevisionProvider $revisions
-     * @param ProductHasher $hasher
-     * @return void
+     * @param \Mosaic\SDK\Gateway\ProductGateway $products
+     * @param \Mosaic\SDK\Gateway\ChangeGateway $changes
+     * @param \Mosaic\SDK\ProductFromShop $fromShop
+     * @param \Mosaic\SDK\RevisionProvider $revisions
+     * @param \Mosaic\SDK\ProductHasher $hasher
      */
     public function __construct(
-        Gateway\ProductGateway $products,
-        Gateway\ChangeGateway $changes,
+        ProductGateway $products,
+        ChangeGateway $changes,
         ProductFromShop $fromShop,
         RevisionProvider $revisions,
         ProductHasher $hasher
