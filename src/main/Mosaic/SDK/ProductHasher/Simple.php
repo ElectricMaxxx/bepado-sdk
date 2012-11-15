@@ -20,6 +20,7 @@ class Simple extends ProductHasher
     /**
      * Get hash for product
      *
+     * @param \Mosaic\SDK\Struct\Product $product
      * @return string
      */
     public function hash(Struct\Product $product)
