@@ -13,7 +13,7 @@ namespace Mosaic\SDK\Gateway;
  * @version $Revision$
  * @api
  */
-interface Revision
+interface RevisionGateway
 {
     /**
      * Get last processed import revision

@@ -18,6 +18,6 @@ use Mosaic\SDK\Struct\Product;
  * @version $Revision$
  * @api
  */
-abstract class Gateway implements Gateway\ChangeGateway, Gateway\ProductGateway, Gateway\Revision, Gateway\ShopConfiguration
+abstract class Gateway implements Gateway\ChangeGateway, Gateway\ProductGateway, Gateway\RevisionGateway, Gateway\ShopConfiguration
 {
 }

@@ -10,6 +10,8 @@ namespace Mosaic\SDK\Service;
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\ProductToShop;
 use Mosaic\SDK\Struct\Change;
+use Mosaic\SDK\Gateway\ChangeGateway;
+use Mosaic\SDK\Gateway\RevisionGateway;
 
 /**
  * Product service
@@ -21,33 +23,32 @@ class Product
     /**
      * Gateway to changes feed
      *
-     * @var Gateway\ChangeGateway
+     * @var \Mosaic\SDK\Gateway\ChangeGateway
      */
     protected $changes;
 
     /**
      * Gateway to revision storage
      *
-     * @var Gateway\Revision
+     * @var \Mosaic\SDK\Gateway\RevisionGateway
      */
     protected $revision;
 
     /**
      * Product importer
      *
-     * @var ProductToShop
+     * @var \Mosaic\SDK\ProductToShop
      */
     protected $toShop;
 
     /**
      * Construct from gateway
      *
-     * @param Gateway\ChangeGateway $changes
-     * @param Gateway\Revision $revision
-     * @param ProductToShop $toShop
-     * @return void
+     * @param \Mosaic\SDK\Gateway\ChangeGateway $changes
+     * @param \Mosaic\SDK\Gateway\RevisionGateway $revision
+     * @param \Mosaic\SDK\ProductToShop $toShop
      */
-    public function __construct(Gateway\ChangeGateway $changes, Gateway\Revision $revision, ProductToShop $toShop)
+    public function __construct(ChangeGateway $changes, RevisionGateway $revision, ProductToShop $toShop)
     {
         $this->changes = $changes;
         $this->revision = $revision;
@@ -59,7 +60,7 @@ class Product
      *
      * @param string $revision
      * @param int $productCount
-     * @return Struct\Change[]
+     * @return \Mosaic\SDK\Struct\Change[]
      */
     public function fromShop($revision, $productCount)
     {
@@ -69,7 +70,7 @@ class Product
     /**
      * Import changes into shop
      *
-     * @param Change[] $changes
+     * @param \Mosaic\SDK\Struct\Change[] $changes
      * @return string
      */
     public function toShop(array $changes)
