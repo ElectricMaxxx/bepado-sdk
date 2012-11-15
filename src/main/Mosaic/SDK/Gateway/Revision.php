@@ -7,8 +7,6 @@
 
 namespace Mosaic\SDK\Gateway;
 
-use Mosaic\SDK\Struct\Product;
-
 /**
  * Gateaway interface to maintain revision data
  *
