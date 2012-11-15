@@ -15,7 +15,7 @@ use Mosaic\SDK\Struct\Product;
  * @version $Revision$
  * @api
  */
-interface Products
+interface ProductGateway
 {
     /**
      * Check if product has changed

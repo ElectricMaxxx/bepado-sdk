@@ -22,14 +22,14 @@ class Syncer
     /**
      * Gateway to products
      *
-     * @var Gateway\Products
+     * @var Gateway\ProductGateway
      */
     protected $products;
 
     /**
      * Gateway to changes feed
      *
-     * @var Gateway\Changes
+     * @var Gateway\ChangeGateway
      */
     protected $changes;
 
@@ -57,15 +57,15 @@ class Syncer
     /**
      * COnstruct from gateway
      *
-     * @param Gateway\Products $gateway
+     * @param Gateway\ProductGateway $gateway
      * @param ProductFromShop $fromShop
      * @param RevisionProvider $revisions
      * @param ProductHasher $hasher
      * @return void
      */
     public function __construct(
-        Gateway\Products $products,
-        Gateway\Changes $changes,
+        Gateway\ProductGateway $products,
+        Gateway\ChangeGateway $changes,
         ProductFromShop $fromShop,
         RevisionProvider $revisions,
         ProductHasher $hasher

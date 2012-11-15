@@ -21,7 +21,7 @@ class Product
     /**
      * Gateway to changes feed
      *
-     * @var Gateway\Changes
+     * @var Gateway\ChangeGateway
      */
     protected $changes;
 
@@ -42,12 +42,12 @@ class Product
     /**
      * Construct from gateway
      *
-     * @param Gateway\Changes $changes
+     * @param Gateway\ChangeGateway $changes
      * @param Gateway\Revision $revision
      * @param ProductToShop $toShop
      * @return void
      */
-    public function __construct(Gateway\Changes $changes, Gateway\Revision $revision, ProductToShop $toShop)
+    public function __construct(Gateway\ChangeGateway $changes, Gateway\Revision $revision, ProductToShop $toShop)
     {
         $this->changes = $changes;
         $this->revision = $revision;

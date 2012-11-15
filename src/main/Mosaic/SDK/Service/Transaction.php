@@ -20,21 +20,21 @@ class Transaction
     /**
      * Product gateway
      *
-     * @var Gateway\Products
+     * @var Gateway\ProductGateway
      */
     protected $products;
 
     /**
      * COnstruct from gateway
      *
-     * @param Gateway\Products $gateway
+     * @param Gateway\ProductGateway $gateway
      * @param ProductFromShop $fromShop
      * @param RevisionProvider $revisions
      * @param ProductHasher $hasher
      * @return void
      */
     public function __construct(
-        Gateway\Products $products
+        Gateway\ProductGateway $products
     ) {
         $this->products = $products;
     }
@@ -60,7 +60,7 @@ class Transaction
     /**
      * Reserve order in shop
      *
-     * Products SHOULD be reserved and not be sold out while bing reserved.
+     * ProductGateway SHOULD be reserved and not be sold out while bing reserved.
      * Reservation may be cancelled after sufficient time has passed.
      *
      * Returns a reservationId on success, or an array of Struct\Change with

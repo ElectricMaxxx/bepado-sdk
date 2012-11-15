@@ -15,7 +15,7 @@ use Mosaic\SDK\Struct\Product;
  * @version $Revision$
  * @api
  */
-interface Changes
+interface ChangeGateway
 {
     /**
      * Get next changes
