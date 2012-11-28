@@ -14,6 +14,7 @@ use Mosaic\SDK\Controller;
 use Mosaic\Common\RPC;
 
 use \PHPUnit_Framework_MockObject_Generator as Mocker;
+use \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCount;
 use \PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex as InvokedAt;
 use \PHPUnit_Framework_MockObject_Stub_Return as ReturnValue;
 
@@ -87,7 +88,33 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsListedAsAvailable()
     {
-        // Nothing?
+        // Just do nothing…
+    }
+
+    /**
+     * @Given /^The products? (?:is|are) available in (\d+) shops?$/
+     */
+    public function theProductIsAvailableInNShops($shops)
+    {
+        for ($i = 1; $i <= $shops; ++$i) {
+            $this->productFromShop
+                ->expects(new InvokedAt($i - 1))
+                ->method('getProducts')
+                ->will(new ReturnValue(
+                    array(
+                        new Struct\Product(
+                            array(
+                                'shopId' => 'shop-' . $i,
+                                'sourceId' => '23-' . $i,
+                                'price' => 42.23,
+                                'currency' => 'EUR',
+                                'availability' => 5,
+                                'title' => 'Sindelfingen',
+                            )
+                        ),
+                    )
+                ));
+        }
     }
 
     /**
@@ -95,23 +122,21 @@ class ShopPurchaseContext extends SDKContext
      */
     public function aCustomerAddsAProductFromARemoteShopToBasket($remoteShop)
     {
-        $this->order = new Struct\Order(
+        if (!$this->order) {
+            $this->order = new Struct\Order();
+        }
+
+        $this->order->products[] = new Struct\OrderItem(
             array(
-                'products' => array(
-                    new Struct\OrderItem(
-                        array(
-                            'count' => 1,
-                            'product' => new Struct\Product(
-                                array(
-                                    'shopId' => 'shop-' . $remoteShop,
-                                    'sourceId' => '23',
-                                    'price' => 42.23,
-                                    'currency' => 'EUR',
-                                    'availability' => 5,
-                                    'title' => 'Sindelfingen',
-                                )
-                            ),
-                        )
+                'count' => 1,
+                'product' => new Struct\Product(
+                    array(
+                        'shopId' => 'shop-' . $remoteShop,
+                        'sourceId' => '23-' . $remoteShop,
+                        'price' => 42.23,
+                        'currency' => 'EUR',
+                        'availability' => 5,
+                        'title' => 'Sindelfingen',
                     )
                 ),
             )
@@ -126,6 +151,7 @@ class ShopPurchaseContext extends SDKContext
         $this->result = $this->sdk->reserveProducts($this->order);
         $this->sdk->getVerificator()->verify($this->result);
 
+        var_dump($this->result);
         if (!count($this->result->messages)) {
             $this->result = $this->sdk->checkout($this->result->reservationIDs);
         }
@@ -147,13 +173,13 @@ class ShopPurchaseContext extends SDKContext
         $this->productFromShop
             ->expects(new InvokedAt(0))
             ->method('getProducts')
-            ->with(array('23'))
+            ->with(array('23-1'))
             ->will(new ReturnValue(
                 array(
                     new Struct\Product(
                         array(
                             'shopId' => 'shop-1',
-                            'sourceId' => '23',
+                            'sourceId' => '23-1',
                             'price' => 42.23,
                             'currency' => 'EUR',
                             'availability' => 0,
@@ -170,15 +196,15 @@ class ShopPurchaseContext extends SDKContext
     public function theProductDataIsStillValid()
     {
         $this->productFromShop
-            ->expects(new InvokedAt(0))
+            ->expects(new AnyInvokedCount())
             ->method('getProducts')
-            ->with(array('23'))
+            ->with(array('23-1'))
             ->will(new ReturnValue(
                 array(
                     new Struct\Product(
                         array(
                             'shopId' => 'shop-1',
-                            'sourceId' => '23',
+                            'sourceId' => '23-1',
                             'price' => 42.23,
                             'currency' => 'EUR',
                             'availability' => 5,
@@ -228,13 +254,13 @@ class ShopPurchaseContext extends SDKContext
         $this->productFromShop
             ->expects(new InvokedAt(0))
             ->method('getProducts')
-            ->with(array('23'))
+            ->with(array('23-1'))
             ->will(new ReturnValue(
                 array(
                     new Struct\Product(
                         array(
                             'shopId' => 'shop-1',
-                            'sourceId' => '23',
+                            'sourceId' => '23-1',
                             'price' => 45.23,
                             'currency' => 'EUR',
                             'availability' => 5,
@@ -282,13 +308,13 @@ class ShopPurchaseContext extends SDKContext
         $this->productFromShop
             ->expects(new InvokedAt(0))
             ->method('getProducts')
-            ->with(array('23'))
+            ->with(array('23-1'))
             ->will(new ReturnValue(
                 array(
                     new Struct\Product(
                         array(
                             'shopId' => 'shop-1',
-                            'sourceId' => '23',
+                            'sourceId' => '23-1',
                             'price' => 42.23,
                             'currency' => 'EUR',
                             'availability' => 5,
@@ -301,13 +327,13 @@ class ShopPurchaseContext extends SDKContext
         $this->productFromShop
             ->expects(new InvokedAt(1))
             ->method('getProducts')
-            ->with(array('23'))
+            ->with(array('23-1'))
             ->will(new ReturnValue(
                 array(
                     new Struct\Product(
                         array(
                             'shopId' => 'shop-1',
-                            'sourceId' => '23',
+                            'sourceId' => '23-1',
                             'price' => 45.23,
                             'currency' => 'EUR',
                             'availability' => 0,

@@ -3,6 +3,7 @@ Feature: Interactions between shops on a purchase
     Scenario: Succussful purchase
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
          When The Customer checks out
          Then The customer will receive the product
 
@@ -10,6 +11,7 @@ Feature: Interactions between shops on a purchase
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And A customer adds a product from remote shop 2 to basket
+          And The products are available in 2 shops
          When The Customer checks out
          Then The customer will receive the products
 
@@ -38,7 +40,8 @@ Feature: Interactions between shops on a purchase
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And The product changes availability between check and purchase
-         When The Customer checks out
+         When The Customer views the order overview
+          And The Customer checks out
          Then The buy process fails and customer is informed about this
 
     Scenario: The Buy process fails
