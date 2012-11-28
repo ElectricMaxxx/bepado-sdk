@@ -22,6 +22,7 @@ abstract class Gateway implements
      Gateway\ChangeGateway,
      Gateway\ProductGateway,
      Gateway\RevisionGateway,
-     Gateway\ShopConfiguration
+     Gateway\ShopConfiguration,
+     Gateway\ReservationGateway
 {
 }

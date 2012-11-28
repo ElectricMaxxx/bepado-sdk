@@ -25,6 +25,7 @@ class InMemory extends Gateway
     protected $changes = array();
     protected $lastRevision;
     protected $shopConfiguration = array();
+    protected $reservations = array();
 
     /**
      * Get next changes
@@ -191,5 +192,21 @@ class InMemory extends Gateway
     public function getShopConfiguration($shopId)
     {
         return $this->shopConfiguration[$shopId];
+    }
+
+    /**
+     * Create and store reservation
+     *
+     * Returns the reservation ID
+     *
+     * @param Struct\OrderItem[] $orders
+     * @return string
+     */
+    public function createReservation(array $orders)
+    {
+        $id = md5(microtime());
+        $this->reservations[$id] = $orders;
+
+        return $id;
     }
 }
