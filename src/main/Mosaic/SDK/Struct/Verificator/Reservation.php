@@ -34,11 +34,17 @@ class Reservation extends Verificator
         if (!is_array($struct->messages)) {
             throw new \RuntimeException('$messages MUST be an array.');
         }
-        foreach ($struct->messages as $message) {
-            if (!$message instanceof Message) {
-                throw new \RuntimeException('$message MUST be an instance of \\Mosaic\\SDK\\Struct\\Message.');
+        foreach ($struct->messages as $shopId => $messages) {
+            if (!is_array($messages)) {
+                throw new \RuntimeException('$messages MUST be an array.');
             }
-            $dispatcher->verify($message);
+
+            foreach ($messages as $message) {
+                if (!$message instanceof Message) {
+                    throw new \RuntimeException('$message MUST be an instance of \\Mosaic\\SDK\\Struct\\Message.');
+                }
+                $dispatcher->verify($message);
+            }
         }
 
         if (!is_array($struct->reservationIDs)) {
