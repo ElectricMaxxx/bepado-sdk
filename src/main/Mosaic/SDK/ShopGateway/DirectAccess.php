@@ -52,12 +52,14 @@ class DirectAccess extends ShopGateway
      */
     public function checkProducts(array $products)
     {
-       return $this->sdk->getServiceRegistry()->dispatch(
-            new RpcCall(array(
-                'service' => 'transaction',
-                'command' => 'checkProducts',
-                'arguments' => array($products),
-            ))
+        return $this->sdk->getServiceRegistry()->dispatch(
+            new RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'checkProducts',
+                    'arguments' => array($products),
+                )
+            )
         );
     }
 
@@ -75,12 +77,14 @@ class DirectAccess extends ShopGateway
      */
     public function reserveProducts(array $products)
     {
-       return $this->sdk->getServiceRegistry()->dispatch(
-            new RpcCall(array(
-                'service' => 'transaction',
-                'command' => 'reserveProducts',
-                'arguments' => array($products),
-            ))
+        return $this->sdk->getServiceRegistry()->dispatch(
+            new RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'reserveProducts',
+                    'arguments' => array($products),
+                )
+            )
         );
     }
 
@@ -95,12 +99,14 @@ class DirectAccess extends ShopGateway
      */
     public function buy($reservationId)
     {
-       return $this->sdk->getServiceRegistry()->dispatch(
-            new RpcCall(array(
-                'service' => 'transaction',
-                'command' => 'buy',
-                'arguments' => array($reservationId),
-            ))
+        return $this->sdk->getServiceRegistry()->dispatch(
+            new RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'buy',
+                    'arguments' => array($reservationId),
+                )
+            )
         );
     }
 
@@ -115,12 +121,14 @@ class DirectAccess extends ShopGateway
      */
     public function confirm($reservationId)
     {
-       return $this->sdk->getServiceRegistry()->dispatch(
-            new Struct\RpcCall(array(
-                'service' => 'transaction',
-                'command' => 'confirm',
-                'arguments' => array($reservationId),
-            ))
+        return $this->sdk->getServiceRegistry()->dispatch(
+            new Struct\RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'confirm',
+                    'arguments' => array($reservationId),
+                )
+            )
         );
     }
 }
