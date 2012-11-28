@@ -13,21 +13,21 @@ Feature: Interactions between shops on a purchase
          When The Customer checks out
          Then The customer will receive the products
 
-    Scenario: product is not available any more in remote shop
+    Scenario: Product is not available any more in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And The product is not available in remote shop
          When The Customer views the order overview
          Then The customer is informed about the unavailability
 
-    Scenario: product price changed in remote shop
+    Scenario: Product price changed in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And The product price has changed in the remote shop
          When The Customer views the order overview
          Then The customer is informed about the changed price
 
-    Scenario: product is reserved in remote shop
+    Scenario: Product is reserved in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
          When The Customer views the order overview

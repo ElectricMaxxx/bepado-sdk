@@ -14,6 +14,9 @@ use Mosaic\SDK\Controller;
 use Mosaic\Common\RPC;
 
 use \PHPUnit_Framework_MockObject_Generator as Mocker;
+use \PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex as InvokedAt;
+use \PHPUnit_Framework_MockObject_Stub_Return as ReturnValue;
+
 use \PHPUnit_Framework_Assert as Assertion;
 
 require_once __DIR__ . '/SDKContext.php';
@@ -37,15 +40,29 @@ class ShopPurchaseContext extends SDKContext
      */
     protected $result;
 
+    /**
+     * Currently used mock for to shop gateway
+     *
+     * @var ProductToShop
+     */
+    protected $productToShop;
+
+    /**
+     * Currently used mock for from shop gateway
+     *
+     * @var ProductFromShop
+     */
+    protected $productFromShop;
+
     protected function initSDK()
     {
-        $productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
-        $productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
+        $this->productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
+        $this->productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
 
         $this->sdk = new SDK(
             $this->getGateway(),
-            $productToShop,
-            $productFromShop
+            $this->productToShop,
+            $this->productFromShop
         );
 
         // Inject custom direct access shop gateway factory
@@ -55,9 +72,10 @@ class ShopPurchaseContext extends SDKContext
             $this->sdk,
             new Service\Shopping(
                 new ShopFactory\DirectAccess(
-                    $productToShop,
-                    $productFromShop
-                )
+                    $this->productToShop,
+                    $this->productFromShop
+                ),
+                new ChangeVisitor\Message()
             )
         );
     }
@@ -88,6 +106,7 @@ class ShopPurchaseContext extends SDKContext
                                     'price' => 42.23,
                                     'currency' => 'EUR',
                                     'availability' => 5,
+                                    'title' => 'Sindelfingen',
                                 )
                             ),
                         )
@@ -120,9 +139,24 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsNotAvailableInRemoteShop()
     {
-        throw new PendingException(
-           'Reconfigure target shops ProductFromShop'
-        );
+        $this->productFromShop
+            ->expects(new InvokedAt(0))
+            ->method('getProducts')
+            ->with(array('23'))
+            ->will(new ReturnValue(
+                array(
+                    new Struct\Product(
+                        array(
+                            'shopId' => 'shop-1',
+                            'sourceId' => '23',
+                            'price' => 42.23,
+                            'currency' => 'EUR',
+                            'availability' => 0,
+                            'title' => 'Sindelfingen',
+                        )
+                    ),
+                )
+            ));
     }
 
     /**
@@ -138,8 +172,17 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerIsInformedAboutTheUnavailability()
     {
-        throw new PendingException(
-           'Assert $this->result is a sane message'
+        Assertion::assertEquals(
+            array(
+                new Struct\Message(array(
+                    'message' => 'Availability of product %product changed to %availability.',
+                    'values' => array(
+                        'product' => 'Sindelfingen',
+                        'availability' => 0,
+                    ),
+                ))
+            ),
+            $this->result
         );
     }
 
@@ -148,9 +191,24 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductPriceHasChangedInTheRemoteShop()
     {
-        throw new PendingException(
-           'Reconfigure target shops ProductFromShop'
-        );
+        $this->productFromShop
+            ->expects(new InvokedAt(0))
+            ->method('getProducts')
+            ->with(array('23'))
+            ->will(new ReturnValue(
+                array(
+                    new Struct\Product(
+                        array(
+                            'shopId' => 'shop-1',
+                            'sourceId' => '23',
+                            'price' => 45.23,
+                            'currency' => 'EUR',
+                            'availability' => 5,
+                            'title' => 'Sindelfingen',
+                        )
+                    ),
+                )
+            ));
     }
 
     /**
@@ -158,8 +216,17 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerIsInformedAboutTheChangedPrice()
     {
-        throw new PendingException(
-           'Assert $this->result is a sane message'
+        Assertion::assertEquals(
+            array(
+                new Struct\Message(array(
+                    'message' => 'Price of product %product changed to %price.',
+                    'values' => array(
+                        'product' => 'Sindelfingen',
+                        'price' => 45.23,
+                    ),
+                ))
+            ),
+            $this->result
         );
     }
 

@@ -306,7 +306,7 @@ class SDK
                 'transaction',
                 array('checkProducts', 'reserveProducts', 'buy', 'confirm'),
                 new Service\Transaction(
-                    $this->gateway
+                    $this->fromShop
                 )
             );
         }
@@ -389,7 +389,8 @@ class SDK
     {
         if ($this->shoppingService === null) {
             $this->shoppingService = new Service\Shopping(
-                new ShopFactory\Http($this->gateway)
+                new ShopFactory\Http($this->gateway),
+                $this->getChangeVisitor()
             );
         }
 
@@ -439,5 +440,20 @@ class SDK
         }
 
         return $this->revisionFromShop;
+    }
+
+    /**
+     * @private
+     * @return ChangeVisitor
+     */
+    protected function getChangeVisitor()
+    {
+        if ($this->changeVisitor === null) {
+            $this->changeVisitor = new ChangeVisitor\Message(
+                $this->getVerificator()
+            );
+        }
+
+        return $this->changeVisitor;
     }
 }

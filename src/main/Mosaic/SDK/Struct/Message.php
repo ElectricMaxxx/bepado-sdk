@@ -21,4 +21,11 @@ class Message extends Struct
      * @var string
      */
     public $message;
+
+    /**
+     * Message variables
+     *
+     * @var array
+     */
+    public $values = array();
 }

@@ -10,6 +10,7 @@ namespace Mosaic\SDK\Service;
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\Struct;
 use Mosaic\SDK\ShopFactory;
+use Mosaic\SDK\ChangeVisitor;
 
 /**
  * Shopping service
@@ -25,9 +26,19 @@ class Shopping
      */
     protected $shopFactory;
 
-    public function __construct(ShopFactory $shopFactory)
+    /**
+     * CHange visitor
+     *
+     * Visits arrays of changes into corresponding messages
+     *
+     * @var ChangeVisitor
+     */
+    protected $changeVisitor;
+
+    public function __construct(ShopFactory $shopFactory, ChangeVisitor $changeVisitor)
     {
         $this->shopFactory = $shopFactory;
+        $this->changeVisitor = $changeVisitor;
     }
 
     /**
@@ -50,7 +61,13 @@ class Shopping
      */
     public function checkProducts(Struct\Order $order)
     {
-        return $this->callShopsForOrder('checkProducts', $order);
+        $changes = $this->callShopsForOrder('checkProducts', $order);
+
+        if ($changes === true) {
+            return true;
+        }
+
+        return $this->changeVisitor->visit($changes);
     }
 
     /**

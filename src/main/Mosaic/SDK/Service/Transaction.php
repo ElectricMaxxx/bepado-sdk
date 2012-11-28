@@ -7,7 +7,7 @@
 
 namespace Mosaic\SDK\Service;
 
-use Mosaic\SDK\Gateway;
+use Mosaic\SDK\ProductFromShop;
 use Mosaic\SDK\Struct;
 
 /**
@@ -18,43 +18,78 @@ use Mosaic\SDK\Struct;
 class Transaction
 {
     /**
-     * Product gateway
+     * Implementation of the interface to receive orders from the shop
      *
-     * @var Gateway\ProductGateway
+     * @var ProductFromShop
      */
-    protected $products;
+    protected $fromShop;
 
     /**
      * COnstruct from gateway
      *
-     * @param Gateway\ProductGateway $gateway
      * @param ProductFromShop $fromShop
-     * @param RevisionProvider $revisions
-     * @param ProductHasher $hasher
      * @return void
      */
     public function __construct(
-        Gateway\ProductGateway $products
+        ProductFromShop $fromShop
     ) {
-        $this->products = $products;
+        $this->fromShop = $fromShop;
     }
 
     /**
      * Check order in shop
      *
-     * Verifies, if all products in the given order still have the same price
+     * Verifies, if all orders in the given order still have the same price
      * and availability.
      *
      * Returns true on success, or an array of Struct\Change with updates for
-     * the requested products.
+     * the requested orders.
      *
-     * @param Struct\Product[] $products
+     * @param Struct\OrderItem[] $orders
      * @return mixed
      */
-    public function checkProducts(array $products)
+    public function checkProducts(array $orders)
     {
-        // @TODO: Actually verify with shop
-        return true;
+        $currentProducts = $this->fromShop->getProducts(
+            array_map(
+                function ($orderItem) {
+                    return $orderItem->product->sourceId;
+                },
+                $orders
+            )
+        );
+
+        $changes = array();
+        foreach ($orders as $orderItem) {
+            $product = $orderItem->product;
+            foreach ($currentProducts as $current) {
+                if ($current->sourceId === $product->sourceId) {
+                    if (($current->price !== $product->price) ||
+                        ($current->availability < $product->availability)) {
+
+                        // Price or availability changed
+                        $changes[] = new Struct\Change\InterShop\Update(
+                            array(
+                                'sourceId' => $product->sourceId,
+                                'product' => $current,
+                                'oldProduct' => $product,
+                            )
+                        );
+                    }
+                }
+
+                continue 2;
+            }
+
+            // Product does not exist any more
+            $changes[] = new Struct\Change\InterShop\Delete(
+                array(
+                    'sourceId' => $product->sourceId,
+                )
+            );
+        }
+
+        return $changes ?: true;
     }
 
     /**
@@ -64,14 +99,14 @@ class Transaction
      * Reservation may be cancelled after sufficient time has passed.
      *
      * Returns a reservationId on success, or an array of Struct\Change with
-     * updates for the requested products.
+     * updates for the requested orders.
      *
-     * @param Struct\Product[] $products
+     * @param Struct\OrderItem[] $orders
      * @return mixed
      */
-    public function reserveProducts(array $products)
+    public function reserveProducts(array $orders)
     {
-        // @TODO: Actually reserve products
+        // @TODO: Actually reserve orders
         return 'foo';
     }
 
@@ -86,7 +121,7 @@ class Transaction
      */
     public function buy($reservationId)
     {
-        // @TODO: Buy products
+        // @TODO: Buy orders
         return true;
     }
 
