@@ -61,13 +61,19 @@ class Shopping
      */
     public function checkProducts(Struct\Order $order)
     {
-        $changes = $this->callShopsForOrder('checkProducts', $order);
+        $responses = $this->callShopsForOrder('checkProducts', $order);
 
-        if ($changes === true) {
-            return true;
+        $result = array();
+        foreach ($responses as $shop => $changes) {
+            if ($changes !== true) {
+                $result = array_merge(
+                    $result,
+                    $this->changeVisitor->visit($changes)
+                );
+            }
         }
 
-        return $this->changeVisitor->visit($changes);
+        return $result ?: true;
     }
 
     /**
@@ -92,11 +98,22 @@ class Shopping
      * to happen really seldom?
      *
      * @param Struct\Order $order
-     * @return mixed
+     * @return Struct\Reservation
      */
     public function reserveProducts(Struct\Order $order)
     {
-        return $this->callShopsForOrder('reserveProducts', $order);
+        $responses = $this->callShopsForOrder('reserveProducts', $order);
+
+        $reservation = new Struct\Reservation();
+        foreach ($responses as $shop => $response) {
+            if (!is_string($response)) {
+                $reservation->messages[$shop] = $this->changeVisitor->visit($response);
+            } else {
+                $reservation->reservationIDs[$shop] = $response;
+            }
+        }
+
+        return $reservation;
     }
 
     /**
@@ -126,7 +143,7 @@ class Shopping
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
             $shopProducts = $this->getShopProducts($order, $shopId);
 
-            $results['shopId'] = $shopGateway->$method($shopProducts);
+            $results[$shopId] = $shopGateway->$method($shopProducts);
         }
 
         return $results;

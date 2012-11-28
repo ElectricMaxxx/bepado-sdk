@@ -30,18 +30,30 @@ Feature: Interactions between shops on a purchase
     Scenario: Product is reserved in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product data is still valid
          When The Customer views the order overview
          Then The product is reserved in the remote shop
 
     Scenario: The Buy process fails
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product changes availability between check and purchase
          When The Customer checks out
+         Then The buy process fails and customer is informed about this
+
+    Scenario: The Buy process fails
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The reservation was lost
+         When The Customer checks out
+         Then The buy process fails and customer is informed about this
+
+    Scenario: The Buy process fails
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
           And The buy process fails
-         Then The customer is informed about this.
-            # This are actually two tests:
-            #  * The preCommit fails
-            #  * The doCommit fails
+         When The Customer checks out
+         Then The buy process fails and customer is informed about this
 
     Scenario: The Buy succeeds and everything is logged
         Given The product is listed as available

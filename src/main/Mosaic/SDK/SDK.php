@@ -344,8 +344,14 @@ class SDK
                          new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\ToShop\\Delete' =>
                          new Struct\Verificator\Change\Delete(),
+                    'Mosaic\\SDK\\Struct\\Change\\InterShop\\Update' =>
+                         new Struct\Verificator\Change\InterShopUpdate(),
+                    'Mosaic\\SDK\\Struct\\Change\\InterShop\\Delete' =>
+                         new Struct\Verificator\Change\InterShopDelete(),
                     'Mosaic\\SDK\\Struct\\ShopConfiguration' =>
                          new Struct\Verificator\ShopConfiguration(),
+                    'Mosaic\\SDK\\Struct\\Reservation' =>
+                         new Struct\Verificator\Reservation(),
                 )
             );
         }

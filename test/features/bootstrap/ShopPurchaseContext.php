@@ -75,7 +75,9 @@ class ShopPurchaseContext extends SDKContext
                     $this->productToShop,
                     $this->productFromShop
                 ),
-                new ChangeVisitor\Message()
+                new ChangeVisitor\Message(
+                    $this->sdk->getVerificator()
+                )
             )
         );
     }
@@ -121,9 +123,12 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerChecksOut()
     {
-        $this->result = $this->sdk->checkout(
-            $this->sdk->reserveProducts($this->order)
-        );
+        $this->result = $this->sdk->reserveProducts($this->order);
+        $this->sdk->getVerificator()->verify($this->result);
+
+        if (!count($this->result->messages)) {
+            $this->result = $this->sdk->checkout($this->result->reservationIDs);
+        }
     }
 
     /**
@@ -160,11 +165,40 @@ class ShopPurchaseContext extends SDKContext
     }
 
     /**
+     * @Given /^The product data is still valid$/
+     */
+    public function theProductDataIsStillValid()
+    {
+        $this->productFromShop
+            ->expects(new InvokedAt(0))
+            ->method('getProducts')
+            ->with(array('23'))
+            ->will(new ReturnValue(
+                array(
+                    new Struct\Product(
+                        array(
+                            'shopId' => 'shop-1',
+                            'sourceId' => '23',
+                            'price' => 42.23,
+                            'currency' => 'EUR',
+                            'availability' => 5,
+                            'title' => 'Sindelfingen',
+                        )
+                    ),
+                )
+            ));
+    }
+
+    /**
      * @When /^The Customer views the order overview$/
      */
     public function theCustomerViewsTheOrderOverview()
     {
         $this->result = $this->sdk->checkProducts($this->order);
+
+        if ($this->result === true) {
+            $this->result = $this->sdk->reserveProducts($this->order);
+        }
     }
 
     /**
@@ -235,28 +269,79 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsReservedInTheRemoteShop()
     {
-        throw new PendingException(
-           'Assert $this->result is a reservationId'
-        );
+        Assertion::assertTrue($this->result instanceof Struct\Reservation);
+        Assertion::assertEquals(0, count($this->result->messages));
+        Assertion::assertEquals(1, count($this->result->reservationIDs));
     }
 
     /**
-     * @Given /^The buy process fails$/
+     * @Given /^The product changes availability between check and purchase$/
      */
-    public function theBuyProcessFails()
+    public function theProductChangesAvailabilityBetweenCheckAndPurchase()
     {
-        throw new PendingException(
-           'Make buy process fail somehow'
-        );
+        $this->productFromShop
+            ->expects(new InvokedAt(0))
+            ->method('getProducts')
+            ->with(array('23'))
+            ->will(new ReturnValue(
+                array(
+                    new Struct\Product(
+                        array(
+                            'shopId' => 'shop-1',
+                            'sourceId' => '23',
+                            'price' => 42.23,
+                            'currency' => 'EUR',
+                            'availability' => 5,
+                            'title' => 'Sindelfingen',
+                        )
+                    ),
+                )
+            ));
+
+        $this->productFromShop
+            ->expects(new InvokedAt(1))
+            ->method('getProducts')
+            ->with(array('23'))
+            ->will(new ReturnValue(
+                array(
+                    new Struct\Product(
+                        array(
+                            'shopId' => 'shop-1',
+                            'sourceId' => '23',
+                            'price' => 45.23,
+                            'currency' => 'EUR',
+                            'availability' => 0,
+                            'title' => 'Sindelfingen',
+                        )
+                    ),
+                )
+            ));
     }
 
     /**
-     * @Then /^The customer is informed about this\.$/
+     * @Given /^The buy process fails and customer is informed about this$/
      */
-    public function theCustomerIsInformedAboutThis()
+    public function theBuyProcessFailsAndTheCustomerIsInformedAboutThis()
     {
-        throw new PendingException(
-           'Assert $this->result is a sane message'
+        var_dump($this->result);
+        Assertion::assertEquals(
+            array(
+                new Struct\Message(array(
+                    'message' => 'Availability of product %product changed to %availability.',
+                    'values' => array(
+                        'product' => 'Sindelfingen',
+                        'availability' => 0,
+                    ),
+                )),
+                new Struct\Message(array(
+                    'message' => 'Price of product %product changed to %price.',
+                    'values' => array(
+                        'product' => 'Sindelfingen',
+                        'price' => 45.23,
+                    ),
+                )),
+            ),
+            $this->result
         );
     }
 

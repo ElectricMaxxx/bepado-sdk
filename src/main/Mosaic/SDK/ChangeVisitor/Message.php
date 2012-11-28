@@ -18,6 +18,18 @@ use Mosaic\SDK\Struct;
 class Message extends ChangeVisitor
 {
     /**
+     * Verificator
+     *
+     * @var VerificatorDispatcher
+     */
+    protected $verificator;
+
+    public function __construct(Struct\VerificatorDispatcher $verificator)
+    {
+        $this->verificator = $verificator;
+    }
+
+    /**
      * Visit changes
      *
      * @param array $changes
@@ -26,26 +38,26 @@ class Message extends ChangeVisitor
     public function visit(array $changes)
     {
         $messages = array();
-        foreach ($changes as $shop => $shopChanges) {
-            foreach ($shopChanges as $change) {
-                switch (true) {
-                    case $change instanceof Struct\Change\InterShop\Update:
-                        $messages = array_merge(
-                            $messages,
-                            $this->visitUpdate($change)
-                        );
-                    break;
-                    case $change instanceof Struct\Change\InterShop\Delete:
-                        $messages = array_merge(
-                            $messages,
-                            $this->visitDelete($change)
-                        );
-                    break;
-                    default:
-                        throw new \RuntimeException(
-                            'No visitor found for ' . get_class($change)
-                        );
-                }
+        foreach ($changes as $shop => $change) {
+            $this->verificator->verify($change);
+
+            switch (true) {
+                case $change instanceof Struct\Change\InterShop\Update:
+                    $messages = array_merge(
+                        $messages,
+                        $this->visitUpdate($change)
+                    );
+                break;
+                case $change instanceof Struct\Change\InterShop\Delete:
+                    $messages = array_merge(
+                        $messages,
+                        $this->visitDelete($change)
+                    );
+                break;
+                default:
+                    throw new \RuntimeException(
+                        'No visitor found for ' . get_class($change)
+                    );
             }
         }
 
