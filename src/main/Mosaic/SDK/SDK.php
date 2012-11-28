@@ -352,6 +352,8 @@ class SDK
                          new Struct\Verificator\ShopConfiguration(),
                     'Mosaic\\SDK\\Struct\\Reservation' =>
                          new Struct\Verificator\Reservation(),
+                    'Mosaic\\SDK\\Struct\\Message' =>
+                         new Struct\Verificator\Message(),
                 )
             );
         }
