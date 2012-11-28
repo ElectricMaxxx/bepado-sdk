@@ -106,7 +106,12 @@ class Transaction
      */
     public function reserveProducts(array $orders)
     {
-        // @TODO: Actually reserve orders
+        $verify = $this->checkProducts($orders);
+        if ($verify !== true) {
+            return $verify;
+        }
+
+        // @TODO: Actually reserve
         return 'foo';
     }
 

@@ -151,7 +151,6 @@ class ShopPurchaseContext extends SDKContext
         $this->result = $this->sdk->reserveProducts($this->order);
         $this->sdk->getVerificator()->verify($this->result);
 
-        var_dump($this->result);
         if (!count($this->result->messages)) {
             $this->result = $this->sdk->checkout($this->result->reservationIDs);
         }
@@ -317,25 +316,6 @@ class ShopPurchaseContext extends SDKContext
                             'sourceId' => '23-1',
                             'price' => 42.23,
                             'currency' => 'EUR',
-                            'availability' => 5,
-                            'title' => 'Sindelfingen',
-                        )
-                    ),
-                )
-            ));
-
-        $this->productFromShop
-            ->expects(new InvokedAt(1))
-            ->method('getProducts')
-            ->with(array('23-1'))
-            ->will(new ReturnValue(
-                array(
-                    new Struct\Product(
-                        array(
-                            'shopId' => 'shop-1',
-                            'sourceId' => '23-1',
-                            'price' => 45.23,
-                            'currency' => 'EUR',
                             'availability' => 0,
                             'title' => 'Sindelfingen',
                         )
@@ -349,7 +329,6 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theBuyProcessFailsAndTheCustomerIsInformedAboutThis()
     {
-        var_dump($this->result);
         Assertion::assertEquals(
             array(
                 new Struct\Message(array(
@@ -359,15 +338,8 @@ class ShopPurchaseContext extends SDKContext
                         'availability' => 0,
                     ),
                 )),
-                new Struct\Message(array(
-                    'message' => 'Price of product %product changed to %price.',
-                    'values' => array(
-                        'product' => 'Sindelfingen',
-                        'price' => 45.23,
-                    ),
-                )),
             ),
-            $this->result
+            $this->result->messages['shop-1']
         );
     }
 
