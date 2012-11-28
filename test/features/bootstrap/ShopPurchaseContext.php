@@ -344,6 +344,22 @@ class ShopPurchaseContext extends SDKContext
     }
 
     /**
+     * @Given /^The reservation was lost$/
+     */
+    public function theReservationWasLost()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Given /^The buy process fails$/
+     */
+    public function theBuyProcessFails()
+    {
+        throw new PendingException();
+    }
+
+    /**
      * @Then /^The (local|remote) shop logs the transaction with Mosaic$/
      */
     public function theShopLogsTheTransactionWithMosaic($location)
