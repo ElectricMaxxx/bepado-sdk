@@ -10,6 +10,9 @@ use Mosaic\SDK\Struct\Product;
 
 use \PHPUnit_Framework_MockObject_Generator as Mocker;
 
+require_once __DIR__ . '/ShopGateway/DirectAccess.php';
+require_once __DIR__ . '/ShopFactory/DirectAccess.php';
+
 /**
  * Base SDK features context.
  */
