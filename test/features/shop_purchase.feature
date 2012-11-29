@@ -46,6 +46,7 @@ Feature: Interactions between shops on a purchase
     Scenario: The Buy process fails
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
           And The reservation was lost
          When The Customer checks out
          Then The buy process fails and customer is informed about this
