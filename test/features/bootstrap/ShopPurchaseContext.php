@@ -96,7 +96,8 @@ class ShopPurchaseContext extends SDKContext
                 ),
                 new ChangeVisitor\Message(
                     $this->sdk->getVerificator()
-                )
+                ),
+                $this->logger
             )
         );
 
@@ -188,7 +189,7 @@ class ShopPurchaseContext extends SDKContext
         $this->sdk->getVerificator()->verify($this->result);
 
         if (!count($this->result->messages)) {
-            $this->result = $this->sdk->checkout($this->result->reservationIDs);
+            $this->result = $this->sdk->checkout($this->result);
         }
     }
 
@@ -334,7 +335,7 @@ class ShopPurchaseContext extends SDKContext
     {
         Assertion::assertTrue($this->result instanceof Struct\Reservation);
         Assertion::assertEquals(0, count($this->result->messages));
-        Assertion::assertEquals(1, count($this->result->reservationIDs));
+        Assertion::assertEquals(1, count($this->result->orders));
     }
 
     /**
@@ -400,9 +401,25 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theShopLogsTheTransactionWithMosaic($location)
     {
-        throw new PendingException(
-           'How?'
-        );
+        $this->logger
+            ->expects(new InvokedAt($location === 'remote' ? 0 : 1))
+            ->method('log')
+            ->with($this->order);
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function tearDown()
+    {
+        $this->logger->__phpunit_verify();
+        $this->logger->__phpunit_cleanup();
+
+        $this->productFromShop->__phpunit_verify();
+        $this->productFromShop->__phpunit_cleanup();
+
+        $this->productToShop->__phpunit_verify();
+        $this->productToShop->__phpunit_cleanup();
     }
 }
 
