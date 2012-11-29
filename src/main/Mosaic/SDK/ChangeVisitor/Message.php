@@ -47,13 +47,13 @@ class Message extends ChangeVisitor
                         $messages,
                         $this->visitUpdate($change)
                     );
-                break;
+                    break;
                 case $change instanceof Struct\Change\InterShop\Delete:
                     $messages = array_merge(
                         $messages,
                         $this->visitDelete($change)
                     );
-                break;
+                    break;
                 default:
                     throw new \RuntimeException(
                         'No visitor found for ' . get_class($change)
