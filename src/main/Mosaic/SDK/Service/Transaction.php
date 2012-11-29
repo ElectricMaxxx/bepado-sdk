@@ -137,7 +137,6 @@ class Transaction
             $reservationId = $this->reservations->createReservation($order);
             $this->fromShop->reserve($order);
         } catch (\Exception $e) {
-            echo $e;
             return false;
         }
         return $reservationId;
@@ -160,7 +159,6 @@ class Transaction
             $order->reservationId = $reservationId;
             $this->reservations->setBought($reservationId, $order);
         } catch (\Exception $e) {
-            echo $e;
             return false;
         }
         return true;
@@ -182,7 +180,6 @@ class Transaction
             $this->reservations->setConfirmed($reservationId);
             $this->logger->log($order);
         } catch (\Exception $e) {
-            echo $e;
             return false;
         }
         return true;
