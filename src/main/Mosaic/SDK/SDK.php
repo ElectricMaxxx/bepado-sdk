@@ -306,7 +306,8 @@ class SDK
                 'transaction',
                 array('checkProducts', 'reserveProducts', 'buy', 'confirm'),
                 new Service\Transaction(
-                    $this->fromShop
+                    $this->fromShop,
+                    $this->gateway
                 )
             );
         }
@@ -354,6 +355,8 @@ class SDK
                          new Struct\Verificator\Reservation(),
                     'Mosaic\\SDK\\Struct\\Message' =>
                          new Struct\Verificator\Message(),
+                    'Mosaic\\SDK\\Struct\\Address' =>
+                         new Struct\Verificator\Address(),
                 )
             );
         }

@@ -12,6 +12,7 @@ use Mosaic\SDK\Struct\VerificatorDispatcher;
 use Mosaic\SDK\Struct;
 
 use Mosaic\SDK\Struct\OrderItem;
+use Mosaic\SDK\Struct\Address;
 
 /**
  * Visitor verifying integrity of struct classes
@@ -44,5 +45,10 @@ class Order extends Verificator
 
             $dispatcher->verify($product);
         }
+
+        if (!$struct->deliveryAddress instanceof Address) {
+            throw new \RuntimeException('Delivery address MUST be an instance of \\Mosaic\\SDK\\Struct\\Address.');
+        }
+        $dispatcher->verify($struct->deliveryAddress);
     }
 }
