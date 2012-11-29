@@ -74,7 +74,7 @@ class ShopPurchaseContext extends SDKContext
     {
         $this->productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
         $this->productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
-        $this->logger = Mocker::getMock('\\Mosaic\\SDK\\Logger');
+        $this->logger = new Logger\Test();
 
         $this->sdk = new SDK(
             $this->getGateway(),
@@ -401,10 +401,11 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theShopLogsTheTransactionWithMosaic($location)
     {
-        $this->logger
-            ->expects(new InvokedAt($location === 'remote' ? 0 : 1))
-            ->method('log')
-            ->with($this->order);
+        $expectedLogMessage = $location === 'remote' ? 0 : 1;
+        $logMessages = $this->logger->getLogMessages();
+
+        Assertion::assertTrue(isset($logMessages[$expectedLogMessage]));
+        Assertion::assertTrue($logMessages[$expectedLogMessage] instanceof Struct\Order);
     }
 
     /**
@@ -412,9 +413,6 @@ class ShopPurchaseContext extends SDKContext
      */
     public function tearDown()
     {
-        $this->logger->__phpunit_verify();
-        $this->logger->__phpunit_cleanup();
-
         $this->productFromShop->__phpunit_verify();
         $this->productFromShop->__phpunit_cleanup();
 

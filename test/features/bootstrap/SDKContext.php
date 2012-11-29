@@ -12,6 +12,7 @@ use \PHPUnit_Framework_MockObject_Generator as Mocker;
 
 require_once __DIR__ . '/ShopGateway/DirectAccess.php';
 require_once __DIR__ . '/ShopFactory/DirectAccess.php';
+require_once __DIR__ . '/Logger/Test.php';
 
 /**
  * Base SDK features context.
