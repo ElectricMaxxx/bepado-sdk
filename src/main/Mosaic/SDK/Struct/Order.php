@@ -20,7 +20,12 @@ class Order extends Struct
     /**
      * @var string
      */
-    public $reservationID;
+    public $reservationId;
+
+    /**
+     * @var string
+     */
+    public $localOrderId;
 
     /**
      * @var float
