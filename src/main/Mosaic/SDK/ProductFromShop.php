@@ -40,4 +40,14 @@ interface ProductFromShop
      * @return void
      */
     public function reserve(Struct\Order $order);
+
+    /**
+     * Buy products mentioned in order
+     *
+     * Should return the internal order ID.
+     *
+     * @param Struct\Order $order
+     * @return string
+     */
+    public function buy(Struct\Order $order);
 }
