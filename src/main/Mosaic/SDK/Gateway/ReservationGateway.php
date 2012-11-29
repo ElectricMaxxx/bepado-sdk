@@ -26,4 +26,29 @@ interface ReservationGateway
      * @return string
      */
     public function createReservation(Struct\Order $order);
+
+    /**
+     * Get order for reservation ID
+     *
+     * @param string $reservationID
+     * @return Struct\Order
+     */
+    public function getOrder($reservationID);
+
+    /**
+     * Set reservation as bought
+     *
+     * @param string $reservationID
+     * @param Struct\Order $order
+     * @return void
+     */
+    public function setBought($reservationID, Struct\Order $order);
+
+    /**
+     * Set reservation as confirmed
+     *
+     * @param string $reservationID
+     * @return void
+     */
+    public function setConfirmed($reservationID);
 }
