@@ -122,7 +122,7 @@ class DirectAccess extends ShopGateway
     public function confirm($reservationId)
     {
         return $this->sdk->getServiceRegistry()->dispatch(
-            new Struct\RpcCall(
+            new RpcCall(
                 array(
                     'service' => 'transaction',
                     'command' => 'confirm',
