@@ -131,9 +131,16 @@ class Shopping
      */
     public function checkout(array $reservationIDs)
     {
-        // @TODO: 1) Buy
-        // @TODO: 2) Confirm
-        return true;
+        $results = array();
+        foreach ($reservationIDs as $shopId => $reservationID) {
+            $shopGateway = $this->shopFactory->getShopGateway($shopId);
+
+            $results[$shopId] =
+                $shopGateway->buy($reservationID) &&
+                $shopGateway->confirm($reservationID);
+        }
+
+        return $results;
     }
 
     protected function callShopsForOrder($method, Struct\Order $order)
