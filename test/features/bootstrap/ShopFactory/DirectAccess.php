@@ -40,9 +40,16 @@ class DirectAccess extends ShopFactory
     protected $fromShop;
 
     /**
+     * Gateway
+     *
+     * @var Gateway
+     */
+    protected $gateway;
+
+    /**
      * Logger
      *
-     * @var Logegr
+     * @var Logger
      */
     protected $logger;
 
@@ -56,10 +63,12 @@ class DirectAccess extends ShopFactory
     public function __construct(
         ProductToShop $toShop,
         ProductFromShop $fromShop,
+        Gateway $gateway,
         Logger $logger
     ) {
         $this->toShop = $toShop;
         $this->fromShop = $fromShop;
+        $this->gateway = $gateway;
         $this->logger = $logger;
     }
 
@@ -73,7 +82,7 @@ class DirectAccess extends ShopFactory
     {
         if (!isset($this->shopGateways[$shopId])) {
             $sdk = new SDK(
-                new Gateway\InMemory(),
+                $this->gateway,
                 $this->toShop,
                 $this->fromShop
             );

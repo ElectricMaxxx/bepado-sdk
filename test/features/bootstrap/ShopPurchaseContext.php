@@ -17,6 +17,7 @@ use \PHPUnit_Framework_MockObject_Generator as Mocker;
 use \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCount;
 use \PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex as InvokedAt;
 use \PHPUnit_Framework_MockObject_Stub_Return as ReturnValue;
+use \PHPUnit_Framework_MockObject_Stub_Exception as StubException;
 
 use \PHPUnit_Framework_Assert as Assertion;
 
@@ -62,6 +63,13 @@ class ShopPurchaseContext extends SDKContext
      */
     protected $logger;
 
+    /**
+     * Gateway of the remote SDK
+     *
+     * @var remoteGateway
+     */
+    protected $remoteGateway;
+
     protected function initSDK()
     {
         $this->productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
@@ -83,6 +91,7 @@ class ShopPurchaseContext extends SDKContext
                 new ShopFactory\DirectAccess(
                     $this->productToShop,
                     $this->productFromShop,
+                    $this->remoteGateway = $this->getGateway(),
                     $this->logger
                 ),
                 new ChangeVisitor\Message(
@@ -364,11 +373,16 @@ class ShopPurchaseContext extends SDKContext
     }
 
     /**
-     * @Given /^The reservation was lost$/
+     * @Given /^The remote shop denies the buy$/
      */
-    public function theReservationWasLost()
+    public function theRemoteShopDeniesTheBuy()
     {
-        throw new PendingException('Make reservation fail.');
+        $this->productFromShop
+            ->expects(new InvokedAt(2))
+            ->method('buy')
+            ->will(new StubException(
+                new \RuntimeException("Buy denied.")
+            ));
     }
 
     /**
@@ -376,7 +390,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theBuyProcessFails()
     {
-        throw new PendingException();
+        foreach ($this->result as $shopId => $value) {
+            Assertion::assertFalse($value);
+        }
     }
 
     /**
