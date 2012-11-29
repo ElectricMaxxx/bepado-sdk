@@ -7,7 +7,7 @@
 
 namespace Mosaic\SDK\Gateway;
 
-use Mosaic\SDK\Struct\Product;
+use Mosaic\SDK\Struct;
 
 /**
  * Gateway interface to maintain product hashes and exported products
@@ -22,8 +22,8 @@ interface ReservationGateway
      *
      * Returns the reservation ID
      *
-     * @param Struct\OrderItem[] $orders
+     * @param Struct\Order $order
      * @return string
      */
-    public function createReservation(array $orders);
+    public function createReservation(Struct\Order $order);
 }

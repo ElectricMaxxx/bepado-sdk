@@ -141,9 +141,10 @@ class Shopping
         $results = array();
         foreach ($this->getShopIds($order) as $shopId) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
-            $shopProducts = $this->getShopProducts($order, $shopId);
 
-            $results[$shopId] = $shopGateway->$method($shopProducts);
+            $shopOrder = clone $order;
+            $order->products = $this->getShopProducts($order, $shopId);
+            $results[$shopId] = $shopGateway->$method($order);
         }
 
         return $results;

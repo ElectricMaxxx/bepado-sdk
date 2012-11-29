@@ -8,6 +8,7 @@
 namespace Mosaic\SDK\Service;
 
 use Mosaic\SDK\ProductFromShop;
+use Mosaic\SDK\Gateway;
 use Mosaic\SDK\Struct;
 
 /**
@@ -45,22 +46,22 @@ class Transaction
      * Returns true on success, or an array of Struct\Change with updates for
      * the requested orders.
      *
-     * @param Struct\OrderItem[] $orders
+     * @param Struct\Order $order
      * @return mixed
      */
-    public function checkProducts(array $orders)
+    public function checkProducts(Struct\Order $order)
     {
         $currentProducts = $this->fromShop->getProducts(
             array_map(
                 function ($orderItem) {
                     return $orderItem->product->sourceId;
                 },
-                $orders
+                $order->products
             )
         );
 
         $changes = array();
-        foreach ($orders as $orderItem) {
+        foreach ($order->products as $orderItem) {
             $product = $orderItem->product;
             foreach ($currentProducts as $current) {
                 if ($current->sourceId === $product->sourceId) {
@@ -101,18 +102,20 @@ class Transaction
      * Returns a reservationId on success, or an array of Struct\Change with
      * updates for the requested orders.
      *
-     * @param Struct\OrderItem[] $orders
+     * @param Struct\Order $order
      * @return mixed
      */
-    public function reserveProducts(array $orders)
+    public function reserveProducts(Struct\Order $order)
     {
-        $verify = $this->checkProducts($orders);
+        $verify = $this->checkProducts($order);
         if ($verify !== true) {
             return $verify;
         }
 
-        // @TODO: Actually reserve
-        return 'foo';
+        $reservationId = $this->reservations->createReservation($order);
+        $this->fromShop->reserve($order);
+
+        return $reservationId;
     }
 
     /**

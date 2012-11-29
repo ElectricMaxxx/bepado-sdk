@@ -32,4 +32,12 @@ interface ProductFromShop
      * @return string[]
      */
     public function getExportedProductIDs();
+
+    /**
+     * Reserve a product in shop for purchase
+     *
+     * @param Struct\Order $order
+     * @return void
+     */
+    public function reserve(Struct\Order $order);
 }

@@ -199,13 +199,13 @@ class InMemory extends Gateway
      *
      * Returns the reservation ID
      *
-     * @param Struct\OrderItem[] $orders
+     * @param Struct\Order $order
      * @return string
      */
-    public function createReservation(array $orders)
+    public function createReservation(Struct\Order $order)
     {
         $id = md5(microtime());
-        $this->reservations[$id] = $orders;
+        $this->reservations[$id] = $order;
 
         return $id;
     }
