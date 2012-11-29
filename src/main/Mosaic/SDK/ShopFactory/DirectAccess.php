@@ -12,6 +12,7 @@ use Mosaic\SDK\ProductToShop;
 use Mosaic\SDK\ProductFromShop;
 use Mosaic\SDK\ShopGateway;
 use Mosaic\SDK\Gateway;
+use Mosaic\SDK\Logger;
 use Mosaic\SDK\SDK;
 
 /**
@@ -19,6 +20,7 @@ use Mosaic\SDK\SDK;
  *
  * Constructs gateways to interact with other shops
  *
+ * @private
  * @version $Revision$
  */
 class DirectAccess extends ShopFactory
@@ -38,6 +40,13 @@ class DirectAccess extends ShopFactory
     protected $fromShop;
 
     /**
+     * Logger
+     *
+     * @var Logegr
+     */
+    protected $logger;
+
+    /**
      * Shop gateways
      *
      * @var ShopGateway[]
@@ -46,10 +55,12 @@ class DirectAccess extends ShopFactory
 
     public function __construct(
         ProductToShop $toShop,
-        ProductFromShop $fromShop
+        ProductFromShop $fromShop,
+        Logger $logger
     ) {
         $this->toShop = $toShop;
         $this->fromShop = $fromShop;
+        $this->logger = $logger;
     }
 
     /**
@@ -61,13 +72,18 @@ class DirectAccess extends ShopFactory
     public function getShopGateway($shopId)
     {
         if (!isset($this->shopGateways[$shopId])) {
-            $this->shopGateways[$shopId] = new ShopGateway\DirectAccess(
-                new SDK(
-                    new Gateway\InMemory(),
-                    $this->toShop,
-                    $this->fromShop
-                )
+            $sdk = new SDK(
+                new Gateway\InMemory(),
+                $this->toShop,
+                $this->fromShop
             );
+
+            // Inject custom logger
+            $loggerProperty = new \ReflectionProperty(get_class($sdk), 'logger');
+            $loggerProperty->setAccessible(true);
+            $loggerProperty->setValue($sdk, $this->logger);
+
+            $this->shopGateways[$shopId] = new ShopGateway\DirectAccess($sdk);
         }
 
         return $this->shopGateways[$shopId];

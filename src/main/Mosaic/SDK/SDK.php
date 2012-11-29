@@ -99,6 +99,13 @@ class SDK
      */
     protected $revisionFromShop;
 
+    /**
+     * Logger
+     *
+     * @var Logger
+     */
+    protected $logger;
+
     public function __construct(
         Gateway $gateway,
         ProductToShop $toShop,
@@ -307,7 +314,8 @@ class SDK
                 array('checkProducts', 'reserveProducts', 'buy', 'confirm'),
                 new Service\Transaction(
                     $this->fromShop,
-                    $this->gateway
+                    $this->gateway,
+                    $this->getLogger()
                 )
             );
         }
@@ -466,5 +474,20 @@ class SDK
         }
 
         return $this->changeVisitor;
+    }
+
+    /**
+     * @private
+     * @return Logger
+     */
+    protected function getLogger()
+    {
+        if ($this->logger === null) {
+            $this->logger = new Logger\Http(
+                'http://logger.mosaic/'
+            );
+        }
+
+        return $this->logger;
     }
 }

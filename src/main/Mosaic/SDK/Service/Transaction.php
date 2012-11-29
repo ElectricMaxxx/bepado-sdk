@@ -9,6 +9,7 @@ namespace Mosaic\SDK\Service;
 
 use Mosaic\SDK\ProductFromShop;
 use Mosaic\SDK\Gateway;
+use Mosaic\SDK\Logger;
 use Mosaic\SDK\Struct;
 
 /**
@@ -26,15 +27,35 @@ class Transaction
     protected $fromShop;
 
     /**
+     * Reservation gateway
+     *
+     * @var Gateway\ReservationGateway
+     */
+    protected $reservations;
+
+    /**
+     * Logger
+     *
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * COnstruct from gateway
      *
      * @param ProductFromShop $fromShop
+     * @param Gateway\ReservationGateway $reservations
+     * @param Logger $logger
      * @return void
      */
     public function __construct(
-        ProductFromShop $fromShop
+        ProductFromShop $fromShop,
+        Gateway\ReservationGateway $reservations,
+        Logger $logger
     ) {
         $this->fromShop = $fromShop;
+        $this->reservations = $reservations;
+        $this->logger = $logger;
     }
 
     /**
@@ -112,9 +133,13 @@ class Transaction
             return $verify;
         }
 
-        $reservationId = $this->reservations->createReservation($order);
-        $this->fromShop->reserve($order);
-
+        try {
+            $reservationId = $this->reservations->createReservation($order);
+            $this->fromShop->reserve($order);
+        } catch (\Exception $e) {
+            echo $e;
+            return false;
+        }
         return $reservationId;
     }
 
@@ -129,7 +154,15 @@ class Transaction
      */
     public function buy($reservationId)
     {
-        // @TODO: Buy orders
+        try {
+            $order = $this->reservations->getOrder($reservationId);
+            $order->localOrderId = $this->fromShop->buy($order);
+            $order->reservationId = $reservationId;
+            $this->reservations->setBought($reservationId, $order);
+        } catch (\Exception $e) {
+            echo $e;
+            return false;
+        }
         return true;
     }
 
@@ -144,7 +177,14 @@ class Transaction
      */
     public function confirm($reservationId)
     {
-        // @TODO: Confirm buy and log transaction
+        try {
+            $order = $this->reservations->getOrder($reservationId);
+            $this->reservations->setConfirmed($reservationId);
+            $this->logger->log($order);
+        } catch (\Exception $e) {
+            echo $e;
+            return false;
+        }
         return true;
     }
 }

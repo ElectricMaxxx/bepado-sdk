@@ -55,10 +55,18 @@ class ShopPurchaseContext extends SDKContext
      */
     protected $productFromShop;
 
+    /**
+     * Currently used mock for logger
+     *
+     * @var Logger
+     */
+    protected $logger;
+
     protected function initSDK()
     {
         $this->productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
         $this->productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
+        $this->logger = Mocker::getMock('\\Mosaic\\SDK\\Logger');
 
         $this->sdk = new SDK(
             $this->getGateway(),
@@ -74,12 +82,21 @@ class ShopPurchaseContext extends SDKContext
             new Service\Shopping(
                 new ShopFactory\DirectAccess(
                     $this->productToShop,
-                    $this->productFromShop
+                    $this->productFromShop,
+                    $this->logger
                 ),
                 new ChangeVisitor\Message(
                     $this->sdk->getVerificator()
                 )
             )
+        );
+
+        // Inject custom logger
+        $loggerProperty = new \ReflectionProperty(get_class($this->sdk), 'logger');
+        $loggerProperty->setAccessible(true);
+        $loggerProperty->setValue(
+            $this->sdk,
+            $this->logger
         );
     }
 
@@ -171,7 +188,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerWillReceiveTheProducts()
     {
-        Assertion::assertTrue($this->result);
+        foreach ($this->result as $shopId => $value) {
+            Assertion::assertTrue($value);
+        }
     }
 
     /**
@@ -339,7 +358,6 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theBuyProcessFailsAndTheCustomerIsInformedAboutThis()
     {
-        var_dump($this->result);
         Assertion::assertTrue($this->result instanceof Struct\Reservation);
         $this->sdk->getVerificator()->verify($this->result);
         Assertion::assertNotEquals(0, count($this->result->messages));
@@ -350,7 +368,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theReservationWasLost()
     {
-        throw new PendingException();
+        throw new PendingException('Make reservation fail.');
     }
 
     /**
