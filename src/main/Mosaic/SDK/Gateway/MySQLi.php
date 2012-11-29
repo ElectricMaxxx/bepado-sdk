@@ -358,4 +358,106 @@ class MySQLi extends Gateway
 
         return unserialize($rows[0]['s_config']);
     }
+
+    /**
+     * Create and store reservation
+     *
+     * Returns the reservation Id
+     *
+     * @param Struct\Order $order
+     * @return string
+     */
+    public function createReservation(Struct\Order $order)
+    {
+        $reservationId = md5(microtime());
+        $this->connection->query(
+            'INSERT INTO
+                `mosaic_reservations` (
+                    `r_id`,
+                    `r_state`,
+                    `r_order`
+                )
+            VALUES (
+                "' . $this->connection->real_escape_string($reservationId) . '",
+                "new",
+                "' . $this->connection->real_escape_string(serialize($order)) . '"
+            );'
+        );
+
+        return $reservationId;
+    }
+
+    /**
+     * Get order for reservation Id
+     *
+     * @param string $reservationId
+     * @return Struct\Order
+     */
+    public function getOrder($reservationId)
+    {
+        $result = $this->connection->query(
+            'SELECT
+                `r_order`
+            FROM
+                `mosaic_reservations`
+            WHERE
+                `r_id` = "' . $this->connection->real_escape_string($reservationId) . '";'
+        );
+
+        $changes = array();
+        $rows = $result->fetch_all();
+        if (!count($rows)) {
+            throw new \OutOfBoundsException("Reservation $reservationId not found.");
+        }
+
+        return unserialize($rows[0][0]);
+    }
+
+    /**
+     * Set reservation as bought
+     *
+     * @param string $reservationId
+     * @param Struct\Order $order
+     * @return void
+     */
+    public function setBought($reservationId, Struct\Order $order)
+    {
+        $this->connection->query(
+            'UPDATE
+                `mosaic_reservations`
+            SET
+                `r_state` = "bought",
+                `r_order` = "' . $this->connection->real_escape_string(serialize($order)) . '"
+            WHERE
+                `r_id` = "' . $this->connection->real_escape_string($reservationId) . '"
+            ;'
+        );
+
+        if ($this->connection->affected_rows !== 1) {
+            throw new \OutOfBoundsException("Reservation $reservationId not found.");
+        }
+    }
+
+    /**
+     * Set reservation as confirmed
+     *
+     * @param string $reservationId
+     * @return void
+     */
+    public function setConfirmed($reservationId)
+    {
+        $this->connection->query(
+            'UPDATE
+                `mosaic_reservations`
+            SET
+                `r_state` = "confirmed"
+            WHERE
+                `r_id` = "' . $this->connection->real_escape_string($reservationId) . '"
+            ;'
+        );
+
+        if ($this->connection->affected_rows !== 1) {
+            throw new \OutOfBoundsException("Reservation $reservationId not found.");
+        }
+    }
 }

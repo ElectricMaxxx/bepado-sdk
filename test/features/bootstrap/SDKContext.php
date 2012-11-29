@@ -48,6 +48,7 @@ class SDKContext extends BehatContext
                 $connection->query('TRUNCATE TABLE mosaic_change;');
                 $connection->query('TRUNCATE TABLE mosaic_product;');
                 $connection->query('TRUNCATE TABLE mosaic_data;');
+                $connection->query('TRUNCATE TABLE mosaic_reservations;');
                 return $gateway;
             default:
                 throw new \RuntimeException("Unknown storage backend $storage");
