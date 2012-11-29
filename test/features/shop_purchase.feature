@@ -56,12 +56,14 @@ Feature: Interactions between shops on a purchase
           And A customer adds a product from remote shop 1 to basket
           And The product is available in 1 shop
          When The Customer checks out
-         Then The local shop logs the transaction with Mosaic
+         Then The customer will receive the product
+          And The remote shop logs the transaction with Mosaic
 
     Scenario: The Buy succeeds and everything is logged
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And The product is available in 1 shop
          When The Customer checks out
-         Then The remote shop logs the transaction with Mosaic
+         Then The customer will receive the product
+          And The local shop logs the transaction with Mosaic
 
