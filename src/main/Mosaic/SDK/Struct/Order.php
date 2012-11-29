@@ -31,4 +31,11 @@ class Order extends Struct
      * @var OrderItem[]
      */
     public $products;
+
+    /**
+     * Delivery address
+     *
+     * @var Address
+     */
+    public $deliveryAddress;
 }
