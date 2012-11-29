@@ -20,7 +20,7 @@ interface ReservationGateway
     /**
      * Create and store reservation
      *
-     * Returns the reservation ID
+     * Returns the reservation Id
      *
      * @param Struct\Order $order
      * @return string
@@ -28,27 +28,27 @@ interface ReservationGateway
     public function createReservation(Struct\Order $order);
 
     /**
-     * Get order for reservation ID
+     * Get order for reservation Id
      *
-     * @param string $reservationID
+     * @param string $reservationId
      * @return Struct\Order
      */
-    public function getOrder($reservationID);
+    public function getOrder($reservationId);
 
     /**
      * Set reservation as bought
      *
-     * @param string $reservationID
+     * @param string $reservationId
      * @param Struct\Order $order
      * @return void
      */
-    public function setBought($reservationID, Struct\Order $order);
+    public function setBought($reservationId, Struct\Order $order);
 
     /**
      * Set reservation as confirmed
      *
-     * @param string $reservationID
+     * @param string $reservationId
      * @return void
      */
-    public function setConfirmed($reservationID);
+    public function setConfirmed($reservationId);
 }

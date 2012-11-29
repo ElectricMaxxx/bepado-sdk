@@ -25,9 +25,9 @@ class Reservation extends Struct
     public $messages = array();
 
     /**
-     * IDs of successfull reservations
+     * Orders per shop
      *
-     * @var array
+     * @var Struct\Order[]
      */
-    public $reservationIDs = array();
+    public $orders = array();
 }

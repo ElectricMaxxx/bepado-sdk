@@ -268,12 +268,12 @@ class SDK
      * expected. If it failed, or partially failed, a corresponding
      * Struct\Message will be returned.
      *
-     * @param string[] $products
+     * @param Struct\Reservation $reservation
      * @return mixed
      */
-    public function checkout(array $reservationIDs)
+    public function checkout(Struct\Reservation $reservation)
     {
-        return $this->getShoppingService()->checkout($reservationIDs);
+        return $this->getShoppingService()->checkout($reservation);
     }
 
     /**
@@ -409,7 +409,8 @@ class SDK
         if ($this->shoppingService === null) {
             $this->shoppingService = new Service\Shopping(
                 new ShopFactory\Http($this->gateway),
-                $this->getChangeVisitor()
+                $this->getChangeVisitor(),
+                $this->getLogger()
             );
         }
 

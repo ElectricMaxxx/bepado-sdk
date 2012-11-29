@@ -11,6 +11,7 @@ use Mosaic\SDK\Gateway;
 use Mosaic\SDK\Struct;
 use Mosaic\SDK\ShopFactory;
 use Mosaic\SDK\ChangeVisitor;
+use Mosaic\SDK\Logger;
 
 /**
  * Shopping service
@@ -35,10 +36,14 @@ class Shopping
      */
     protected $changeVisitor;
 
-    public function __construct(ShopFactory $shopFactory, ChangeVisitor $changeVisitor)
-    {
+    public function __construct(
+        ShopFactory $shopFactory,
+        ChangeVisitor $changeVisitor,
+        Logger $logger
+    ) {
         $this->shopFactory = $shopFactory;
         $this->changeVisitor = $changeVisitor;
+        $this->logger = $logger;
     }
 
     /**
@@ -61,10 +66,15 @@ class Shopping
      */
     public function checkProducts(Struct\Order $order)
     {
-        $responses = $this->callShopsForOrder('checkProducts', $order);
+        $responses = array();
+        $orders = $this->splitShopOrders($order);
+        foreach ($orders as $shopId => $order) {
+            $shopGateway = $this->shopFactory->getShopGateway($shopId);
+            $responses[$shopId] = $shopGateway->checkProducts($order);
+        }
 
         $result = array();
-        foreach ($responses as $shop => $changes) {
+        foreach ($responses as $shopId => $changes) {
             if ($changes !== true) {
                 $result = array_merge(
                     $result,
@@ -86,7 +96,7 @@ class Shopping
      * be ACK'ed by the user. Afterwards another reservation may be issued.
      *
      * If The reservation of the product set succeeded a hash of reservation
-     * IDs for all involved shops will be returned. This hash must be stored in
+     * Ids for all involved shops will be returned. This hash must be stored in
      * the shop for all further transactions. The session is probably the best
      * location for this.
      *
@@ -102,14 +112,20 @@ class Shopping
      */
     public function reserveProducts(Struct\Order $order)
     {
-        $responses = $this->callShopsForOrder('reserveProducts', $order);
+        $responses = array();
+        $orders = $this->splitShopOrders($order);
+        foreach ($orders as $shopId => $order) {
+            $shopGateway = $this->shopFactory->getShopGateway($shopId);
+            $responses[$shopId] = $shopGateway->reserveProducts($order);
+        }
 
         $reservation = new Struct\Reservation();
-        foreach ($responses as $shop => $response) {
+        $reservation->orders = $orders;
+        foreach ($responses as $shopId => $response) {
             if (!is_string($response)) {
-                $reservation->messages[$shop] = $this->changeVisitor->visit($response);
+                $reservation->messages[$shopId] = $this->changeVisitor->visit($response);
             } else {
-                $reservation->reservationIDs[$shop] = $response;
+                $reservation->orders[$shopId]->reservationId = $response;
             }
         }
 
@@ -117,7 +133,7 @@ class Shopping
     }
 
     /**
-     * Checkout product sets related to the given reservation IDs
+     * Checkout product sets related to the given reservation Ids
      *
      * This process is the final "buy" transaction. It should be part of the
      * checkout process and be handled synchronously.
@@ -129,32 +145,42 @@ class Shopping
      * @param string[] $products
      * @return mixed
      */
-    public function checkout(array $reservationIDs)
+    public function checkout(Struct\Reservation $reservation)
     {
         $results = array();
-        foreach ($reservationIDs as $shopId => $reservationID) {
+        foreach ($reservation->orders as $shopId => $order) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
 
             $results[$shopId] =
-                $shopGateway->buy($reservationID) &&
-                $shopGateway->confirm($reservationID);
+                $shopGateway->buy($order->reservationId) &&
+                $shopGateway->confirm($order->reservationId);
+
+            if ($results[$shopId] === true) {
+                $this->logger->log($order);
+            }
         }
 
         return $results;
     }
 
-    protected function callShopsForOrder($method, Struct\Order $order)
+    /**
+     * Split shop orders
+     *
+     * Returns an array of orders per shop
+     *
+     * @param Struct\Order $order
+     * @return Struct\Order[]
+     */
+    protected function splitShopOrders(Struct\Order $order)
     {
-        $results = array();
+        $orders = array();
         foreach ($this->getShopIds($order) as $shopId) {
-            $shopGateway = $this->shopFactory->getShopGateway($shopId);
-
             $shopOrder = clone $order;
             $order->products = $this->getShopProducts($order, $shopId);
-            $results[$shopId] = $shopGateway->$method($order);
+            $orders[$shopId] = $order;
         }
 
-        return $results;
+        return $orders;
     }
 
     protected function getShopIds(Struct\Order $order)

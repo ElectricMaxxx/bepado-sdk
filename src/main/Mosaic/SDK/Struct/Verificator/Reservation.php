@@ -11,8 +11,6 @@ use Mosaic\SDK\Struct\Verificator;
 use Mosaic\SDK\Struct\VerificatorDispatcher;
 use Mosaic\SDK\Struct;
 
-use Mosaic\SDK\Struct\Message;
-
 /**
  * Visitor verifying integrity of struct classes
  *
@@ -40,20 +38,21 @@ class Reservation extends Verificator
             }
 
             foreach ($messages as $message) {
-                if (!$message instanceof Message) {
+                if (!$message instanceof Struct\Message) {
                     throw new \RuntimeException('$message MUST be an instance of \\Mosaic\\SDK\\Struct\\Message.');
                 }
                 $dispatcher->verify($message);
             }
         }
 
-        if (!is_array($struct->reservationIDs)) {
-            throw new \RuntimeException('$reservationIDs MUST be an array.');
+        if (!is_array($struct->orders)) {
+            throw new \RuntimeException('$orders MUST be an array.');
         }
-        foreach ($struct->reservationIDs as $reservationID) {
-            if (!is_string($reservationID)) {
-                throw new \RuntimeException('$reservationID MUST be a string.');
+        foreach ($struct->orders as $order) {
+            if (!$order instanceof Struct\Order) {
+                throw new \RuntimeException('$orders MUST be an instance of \\Mosaic\\SDK\\Struct\\Order.');
             }
+            $dispatcher->verify($order);
         }
     }
 }

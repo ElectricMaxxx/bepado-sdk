@@ -141,11 +141,11 @@ class InMemory extends Gateway
     }
 
     /**
-     * Get IDs of all recorded products
+     * Get Ids of all recorded products
      *
      * @return string[]
      */
-    public function getAllProductIDs()
+    public function getAllProductIds()
     {
         return array_keys($this->products);
     }
@@ -197,66 +197,66 @@ class InMemory extends Gateway
     /**
      * Create and store reservation
      *
-     * Returns the reservation ID
+     * Returns the reservation Id
      *
      * @param Struct\Order $order
      * @return string
      */
     public function createReservation(Struct\Order $order)
     {
-        $reservationID = md5(microtime());
-        $this->reservations[$reservationID] = array(
+        $reservationId = md5(microtime());
+        $this->reservations[$reservationId] = array(
             'order' => $order,
             'state' => 'new',
         );
 
-        return $reservationID;
+        return $reservationId;
     }
 
     /**
-     * Get order for reservation ID
+     * Get order for reservation Id
      *
-     * @param string $reservationID
+     * @param string $reservationId
      * @return Struct\Order
      */
-    public function getOrder($reservationID)
+    public function getOrder($reservationId)
     {
-        if (!isset($this->reservations[$reservationID])) {
-            throw new \RuntimeException("Unknown reservation $reservationID");
+        if (!isset($this->reservations[$reservationId])) {
+            throw new \RuntimeException("Unknown reservation $reservationId");
         }
 
-        return $this->reservations[$reservationID]['order'];
+        return $this->reservations[$reservationId]['order'];
     }
 
     /**
      * Set reservation as bought
      *
-     * @param string $reservationID
+     * @param string $reservationId
      * @param Struct\Order $order
      * @return void
      */
-    public function setBought($reservationID, Struct\Order $order)
+    public function setBought($reservationId, Struct\Order $order)
     {
-        if (!isset($this->reservations[$reservationID])) {
-            throw new \RuntimeException("Unknown reservation $reservationID");
+        if (!isset($this->reservations[$reservationId])) {
+            throw new \RuntimeException("Unknown reservation $reservationId");
         }
 
-        $this->reservations[$reservationID]['order'] = $order;
-        $this->reservations[$reservationID]['state'] = 'bought';
+        $this->reservations[$reservationId]['order'] = $order;
+        $this->reservations[$reservationId]['state'] = 'bought';
     }
 
     /**
      * Set reservation as confirmed
      *
-     * @param string $reservationID
+     * @param string $reservationId
      * @return void
      */
-    public function setConfirmed($reservationID)
+    public function setConfirmed($reservationId)
     {
-        if (!isset($this->reservations[$reservationID])) {
-            throw new \RuntimeException("Unknown reservation $reservationID");
+        if (!isset($this->reservations[$reservationId])) {
+            throw new \RuntimeException("Unknown reservation $reservationId");
         }
 
-        $this->reservations[$reservationID]['state'] = 'confirmed';
+        $this->reservations[$reservationId]['state'] = 'confirmed';
     }
 }
