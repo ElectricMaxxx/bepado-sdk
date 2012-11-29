@@ -37,6 +37,13 @@ class DirectAccess extends ShopFactory
      */
     protected $fromShop;
 
+    /**
+     * Shop gateways
+     *
+     * @var ShopGateway[]
+     */
+    protected $shopGateways = array();
+
     public function __construct(
         ProductToShop $toShop,
         ProductFromShop $fromShop
@@ -53,12 +60,16 @@ class DirectAccess extends ShopFactory
      */
     public function getShopGateway($shopId)
     {
-        return new ShopGateway\DirectAccess(
-            new SDK(
-                new Gateway\InMemory(),
-                $this->toShop,
-                $this->fromShop
-            )
-        );
+        if (!isset($this->shopGateways[$shopId])) {
+            $this->shopGateways[$shopId] = new ShopGateway\DirectAccess(
+                new SDK(
+                    new Gateway\InMemory(),
+                    $this->toShop,
+                    $this->fromShop
+                )
+            );
+        }
+
+        return $this->shopGateways[$shopId];
     }
 }
