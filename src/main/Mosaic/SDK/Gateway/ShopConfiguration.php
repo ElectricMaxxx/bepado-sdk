@@ -33,4 +33,19 @@ interface ShopConfiguration
      * @return Struct\ShopConfiguration
      */
     public function getShopConfiguration($shopId);
+
+    /**
+     * Set own shop ID
+     *
+     * @param string $shopId
+     * @return void
+     */
+    public function setShopId($shopId);
+
+    /**
+     * Get own shop ID
+     *
+     * @return string
+     */
+    public function getShopId();
 }
