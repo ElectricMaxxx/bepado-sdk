@@ -360,6 +360,54 @@ class MySQLi extends Gateway
     }
 
     /**
+     * Set own shop ID
+     *
+     * @param string $shopId
+     * @return void
+     */
+    public function setShopId($shopId)
+    {
+        $this->connection->query(
+            'INSERT INTO
+                mosaic_shop_config (
+                    `s_shop`,
+                    `s_config`
+                )
+            VALUES (
+                "_self_",
+                "' . $this->connection->real_escape_string($shopId) . '"
+            )
+            ON DUPLICATE KEY UPDATE
+                `s_config` = "' . $this->connection->real_escape_string($shopId) . '"
+            ;'
+        );
+    }
+
+    /**
+     * Get own shop ID
+     *
+     * @return string
+     */
+    public function getShopId()
+    {
+        $result = $this->connection->query(
+            'SELECT
+                `s_config`
+            FROM
+                `mosaic_shop_config`
+            WHERE
+                `s_shop` = "_self_"'
+        );
+
+        $rows = $result->fetch_all(\MYSQLI_ASSOC);
+        if (!count($rows)) {
+            return false;
+        }
+
+        return $rows[0]['s_config'];
+    }
+
+    /**
      * Create and store reservation
      *
      * Returns the reservation Id
