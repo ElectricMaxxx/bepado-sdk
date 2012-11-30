@@ -23,6 +23,27 @@ use Mosaic\Common\Struct\RpcCall;
 class SDK
 {
     /**
+     * API key for this SDK
+     *
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
+     * API endpoint URL for this SDK
+     *
+     * @var string
+     */
+    protected $apiEndpointUrl;
+
+    /**
+     * Indicator if the SDK is verified agianst Mosaic
+     *
+     * @var bool
+     */
+    private $verified = false;
+
+    /**
      * Gateway to custom storage
      *
      * @var Gateway
@@ -106,14 +127,46 @@ class SDK
      */
     protected $logger;
 
+    /**
+     * @param string $apiKey,
+     * @param Gateway $gateway
+     * @param ProductToShop $toShop
+     * @param ProductFromShop $fromShop
+     */
     public function __construct(
+        $apiKey,
+        $apiEndpointUrl,
         Gateway $gateway,
         ProductToShop $toShop,
         ProductFromShop $fromShop
     ) {
+        $this->apiKey = $apiKey;
+        $this->apiEndpointUrl = $apiEndpointUrl;
         $this->gateway = $gateway;
         $this->toShop = $toShop;
         $this->fromShop = $fromShop;
+    }
+
+    /**
+     * Tries to verify this SDK, if this did not happen yet.
+     *
+     * Throws an exception if the verification failed and the required data
+     * could not be retrieved or verified.
+     *
+     * @throws \DomainException
+     * @return void
+     */
+    public function verifySdk()
+    {
+        if ($this->verified ||
+            $this->gateway->getShopId() !== false) {
+            return;
+        }
+
+        $this->getVerificationService()->verify(
+            $this->apiKey,
+            $this->apiEndpointUrl
+        );
     }
 
     /**
@@ -127,6 +180,7 @@ class SDK
      */
     public function handle($xml)
     {
+        $this->verifySdk();
         return $this->getMarshaller()->marshal(
             new RpcCall(
                 array(
@@ -154,6 +208,7 @@ class SDK
      */
     public function sync()
     {
+        $this->verifySdk();
         $this->getSyncService()->sync();
     }
 
@@ -171,6 +226,7 @@ class SDK
      */
     public function recordInsert($id, $hash, $revision, Struct\Product $product)
     {
+        $this->verifySdk();
         $this->getVerificator()->verify($product);
         $this->gateway->recordInsert($id, $hash, $revision, $product);
     }
@@ -189,6 +245,7 @@ class SDK
      */
     public function recordUpdate($id, $hash, $revision, Struct\Product $product)
     {
+        $this->verifySdk();
         $this->getVerificator()->verify($product);
         $this->gateway->recordUpdate($id, $hash, $revision, $product);
     }
@@ -205,6 +262,7 @@ class SDK
      */
     public function recordDelete($id, $revision)
     {
+        $this->verifySdk();
         $this->gateway->recordDelete($id, $revision);
     }
 
@@ -228,6 +286,7 @@ class SDK
      */
     public function checkProducts(Struct\Order $order)
     {
+        $this->verifySdk();
         $this->getVerificator()->verify($order);
         return $this->getShoppingService()->checkProducts($order);
     }
@@ -254,6 +313,7 @@ class SDK
      */
     public function reserveProducts(Struct\Order $order)
     {
+        $this->verifySdk();
         $this->getVerificator()->verify($order);
         return $this->getShoppingService()->reserveProducts($order);
     }
@@ -273,6 +333,7 @@ class SDK
      */
     public function checkout(Struct\Reservation $reservation)
     {
+        $this->verifySdk();
         return $this->getShoppingService()->checkout($reservation);
     }
 
