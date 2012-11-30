@@ -77,6 +77,8 @@ class ShopPurchaseContext extends SDKContext
         $this->logger = new Logger\Test();
 
         $this->sdk = new SDK(
+            'apikey',
+            'http://example.com/endpoint',
             $this->getGateway(),
             $this->productToShop,
             $this->productFromShop
