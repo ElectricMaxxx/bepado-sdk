@@ -27,8 +27,13 @@ abstract class SyncerTest extends Common\Test\TestCase
 
     protected function getSDK(SDK\ProductFromShop $productFromShop)
     {
+        $gateway = $this->getGateway();
+        $gateway->setShopId('shop');
+
         return $this->sdk = new SDK\SDK(
-            $this->getGateway(),
+            'apikey',
+            'http://example.com/endpoint',
+            $gateway,
             $this->getMock('\\Mosaic\\SDK\\ProductToShop'),
             $productFromShop
         );
