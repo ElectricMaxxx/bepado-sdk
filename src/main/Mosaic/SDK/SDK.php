@@ -20,7 +20,7 @@ use Mosaic\Common\Struct\RpcCall;
  * @version $Revision$
  * @api
  */
-class SDK
+final class SDK
 {
     /**
      * API key for this SDK
