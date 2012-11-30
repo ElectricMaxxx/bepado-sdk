@@ -100,6 +100,13 @@ final class SDK
     protected $shoppingService;
 
     /**
+     * Verification service
+     *
+     * @var Service\Verification
+     */
+    protected $verificationService;
+
+    /**
      * Sync service
      *
      * @var Service\Syncer
@@ -480,6 +487,21 @@ final class SDK
 
     /**
      * @private
+     * @return Service\Verification
+     */
+    protected function getVerificationService()
+    {
+        if ($this->verificationService === null) {
+            $this->verificationService = new Service\Verification(
+                $this->getHttpClient('http://sn.mosaic/')
+            );
+        }
+
+        return $this->shoppingService;
+    }
+
+    /**
+     * @private
      * @return Service\Syncer
      */
     protected function getSyncService()
@@ -546,10 +568,20 @@ final class SDK
     {
         if ($this->logger === null) {
             $this->logger = new Logger\Http(
-                'http://logger.mosaic/'
+                $this->getHttpClient('http://logger.mosaic/')
             );
         }
 
         return $this->logger;
+    }
+
+    /**
+     * @private
+     * @param string $server
+     * @return Logger
+     */
+    protected function getHttpClient($server)
+    {
+        return new HttpClient\Stream($server);
     }
 }
