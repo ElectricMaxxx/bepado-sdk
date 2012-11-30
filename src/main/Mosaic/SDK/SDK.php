@@ -169,7 +169,9 @@ final class SDK
             $this->gateway->getShopId() !== false) {
             return;
         }
-
+        // Temporary fix:
+        // @todo kore - please implement verification :)
+        return;
         $this->getVerificationService()->verify(
             $this->apiKey,
             $this->apiEndpointUrl
