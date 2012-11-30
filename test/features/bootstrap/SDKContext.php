@@ -36,7 +36,8 @@ class SDKContext extends BehatContext
         $storage = getenv('STORAGE') ?: 'InMemory';
         switch ($storage) {
             case 'InMemory':
-                return new Gateway\InMemory();
+                $gateway = new Gateway\InMemory();
+                break;
             case 'MySQLi':
                 $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
                 $gateway = new Gateway\MySQLi($connection = new MySQLi(
@@ -49,10 +50,13 @@ class SDKContext extends BehatContext
                 $connection->query('TRUNCATE TABLE mosaic_product;');
                 $connection->query('TRUNCATE TABLE mosaic_data;');
                 $connection->query('TRUNCATE TABLE mosaic_reservations;');
-                return $gateway;
+                break;
             default:
                 throw new \RuntimeException("Unknown storage backend $storage");
         }
+
+        $gateway->setShopId('shop');
+        return $gateway;
     }
 
     protected function initSDK()
@@ -61,6 +65,8 @@ class SDKContext extends BehatContext
         $productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
 
         $this->sdk = new SDK(
+            'apikey',
+            'http://example.com/endpoint',
             $this->getGateway(),
             $productToShop,
             $productFromShop

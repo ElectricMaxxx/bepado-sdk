@@ -81,7 +81,10 @@ class DirectAccess extends ShopFactory
     public function getShopGateway($shopId)
     {
         if (!isset($this->shopGateways[$shopId])) {
+            $this->gateway->setShopId($shopId);
             $sdk = new SDK(
+                'apikey-' . $shopId,
+                'http://example.com/endpoint-' . $shopId,
                 $this->gateway,
                 $this->toShop,
                 $this->fromShop
