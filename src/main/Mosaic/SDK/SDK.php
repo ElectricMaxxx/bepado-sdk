@@ -169,9 +169,7 @@ final class SDK
             $this->gateway->getShopId() !== false) {
             return;
         }
-        // Temporary fix:
-        // @todo kore - please implement verification :)
-        return;
+
         $this->getVerificationService()->verify(
             $this->apiKey,
             $this->apiEndpointUrl
@@ -495,7 +493,8 @@ final class SDK
     {
         if ($this->verificationService === null) {
             $this->verificationService = new Service\Verification(
-                $this->getHttpClient('http://sn.mosaic/')
+                $this->getHttpClient('http://sn.mosaic/'),
+                $this->gateway
             );
         }
 
