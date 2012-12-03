@@ -123,4 +123,14 @@ class HttpTest extends Common\Test\TestCase
 
         $logger->log($order);
     }
+
+    public function testAgainstLoggingService()
+    {
+        $order = $this->getValidOrder();
+        $logger = new Http(
+            new HttpClient\Stream('http://transaction.mosaic.local/')
+        );
+
+        $logger->log($order);
+    }
 }

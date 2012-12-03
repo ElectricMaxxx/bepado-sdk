@@ -49,7 +49,11 @@ class Http extends Logger
         );
 
         if ($response->status >= 400) {
-            throw new \RuntimeException("Logging failed.");
+            $message = null;
+            if ($error = json_decode($response->body)) {
+                $message = $error->message;
+            }
+            throw new \RuntimeException("Logging failed: " . $message);
         }
 
         return;
