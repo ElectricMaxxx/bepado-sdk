@@ -74,7 +74,9 @@ class Stream extends HttpClient
     public function request($method, $path, $body = null, array $headers = array())
     {
         $httpFilePointer = @fopen(
-            $this->server . $path, 'r', false,
+            $this->server . $path,
+            'r',
+            false,
             stream_context_create(
                 array(
                     'http' => array(
@@ -99,7 +101,9 @@ class Stream extends HttpClient
         }
 
         $metaData   = stream_get_meta_data($httpFilePointer);
-        $rawHeaders = isset($metaData['wrapper_data']['headers']) ? $metaData['wrapper_data']['headers'] : $metaData['wrapper_data'];
+        $rawHeaders = isset($metaData['wrapper_data']['headers']) ?
+            $metaData['wrapper_data']['headers'] :
+            $metaData['wrapper_data'];
 
         foreach ($rawHeaders as $lineContent) {
             if (preg_match('(^HTTP/(?P<version>\d+\.\d+)\s+(?P<status>\d+))S', $lineContent, $match)) {
