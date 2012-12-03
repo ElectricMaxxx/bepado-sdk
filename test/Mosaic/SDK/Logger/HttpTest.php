@@ -65,7 +65,7 @@ class HttpTest extends Common\Test\TestCase
             ->method('request')
             ->with(
                 'POST',
-                '/log',
+                '/transaction',
                 json_encode($order),
                 array(
                     'Content-Type: application/json',
