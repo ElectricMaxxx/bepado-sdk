@@ -7,11 +7,8 @@
 
 namespace Mosaic\SDK\Service;
 
+use Mosaic\SDK\HttpClient;
 use Mosaic\SDK\Gateway;
-use Mosaic\SDK\Struct;
-use Mosaic\SDK\ShopFactory;
-use Mosaic\SDK\ChangeVisitor;
-use Mosaic\SDK\Logger;
 
 /**
  * Verification service
@@ -30,13 +27,13 @@ class Verification
     /**
      * Shop cinfiguration gateway
      *
-     * @var ShopConfiguration
+     * @var Gateway\ShopConfiguration
      */
     protected $config;
 
     public function __construct(
         HttpClient $httpClient,
-        ShopConfiguration $config
+        Gateway\ShopConfiguration $config
     ) {
         $this->httpClient = $httpClient;
         $this->config = $config;
@@ -52,7 +49,7 @@ class Verification
      */
     public function verify($apiKey, $apiEndpointUrl)
     {
-        $response = $httpClient->request(
+        $response = $this->httpClient->request(
             'POST',
             '/api/verify',
             json_encode(
