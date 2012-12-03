@@ -170,6 +170,9 @@ final class SDK
             return;
         }
 
+        echo "@TODO: Shop verification is currently disabled. API endpoint in Social network does not exist yet.";
+        return;
+
         $this->getVerificationService()->verify(
             $this->apiKey,
             $this->apiEndpointUrl
