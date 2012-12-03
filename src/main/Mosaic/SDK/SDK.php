@@ -298,6 +298,7 @@ final class SDK
     {
         $this->verifySdk();
         $this->getVerificator()->verify($order);
+        $order->orderShop = $this->gateway->getShopId();
         return $this->getShoppingService()->checkProducts($order);
     }
 
@@ -325,6 +326,7 @@ final class SDK
     {
         $this->verifySdk();
         $this->getVerificator()->verify($order);
+        $order->orderShop = $this->gateway->getShopId();
         return $this->getShoppingService()->reserveProducts($order);
     }
 
