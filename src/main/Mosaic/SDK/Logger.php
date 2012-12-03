@@ -20,5 +20,22 @@ abstract class Logger
      * @param Struct\Order $order
      * @return void
      */
-    abstract public function log(Struct\Order $order);
+    public function log(Struct\Order $order)
+    {
+        foreach (array('orderShop', 'providerShop', 'reservationId') as $property ) {
+            if (!isset($order->$property)) {
+                throw new \InvalidArgumentException("Required order property \$$property not set.");
+            }
+        }
+
+        return $this->doLog($order);
+    }
+
+    /**
+     * Log order
+     *
+     * @param Struct\Order $order
+     * @return void
+     */
+    abstract protected function doLog(Struct\Order $order);
 }

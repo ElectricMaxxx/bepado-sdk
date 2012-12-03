@@ -30,7 +30,7 @@ class Test extends Logger
      * @param Struct\Order $order
      * @return void
      */
-    public function log(Struct\Order $order)
+    protected function doLog(Struct\Order $order)
     {
         $this->logMessages[] = $order;
     }
