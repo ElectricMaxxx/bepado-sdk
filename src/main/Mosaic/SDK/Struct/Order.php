@@ -20,6 +20,16 @@ class Order extends Struct
     /**
      * @var string
      */
+    public $orderShop;
+
+    /**
+     * @var string
+     */
+    public $providerShop;
+
+    /**
+     * @var string
+     */
     public $reservationId;
 
     /**
