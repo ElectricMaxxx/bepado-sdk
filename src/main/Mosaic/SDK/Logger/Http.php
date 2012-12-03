@@ -41,7 +41,7 @@ class Http extends Logger
     {
         $response = $this->httpClient->request(
             'POST',
-            '/log',
+            '/transaction',
             json_encode($order),
             array(
                 'Content-Type: application/json',
