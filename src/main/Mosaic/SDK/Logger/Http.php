@@ -8,6 +8,7 @@
 namespace Mosaic\SDK\Logger;
 
 use Mosaic\SDK\Logger;
+use Mosaic\SDK\HttpClient;
 use Mosaic\SDK\Struct;
 
 /**
@@ -18,6 +19,19 @@ use Mosaic\SDK\Struct;
 class Http extends Logger
 {
     /**
+     * HTTP Client
+     *
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    public function __construct(
+        HttpClient $httpClient
+    ) {
+        $this->httpClient = $httpClient;
+    }
+
+    /**
      * Log order
      *
      * @param Struct\Order $order
@@ -25,6 +39,19 @@ class Http extends Logger
      */
     public function log(Struct\Order $order)
     {
-        throw new \RuntimeException('@TODO: Implement');
+        $response = $this->httpClient->request(
+            'POST',
+            '/log',
+            json_encode($order),
+            array(
+                'Content-Type: application/json',
+            )
+        );
+
+        if ($response->status >= 400) {
+            throw new \RuntimeException("Logging failed.");
+        }
+
+        return;
     }
 }

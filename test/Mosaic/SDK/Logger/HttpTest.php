@@ -9,6 +9,7 @@ namespace Mosaic\SDK\Logger;
 
 use Mosaic\Common;
 use Mosaic\SDK\Struct;
+use Mosaic\SDK\HttpClient;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -44,7 +45,58 @@ class HttpTest extends Common\Test\TestCase
             )),
         ));
 
-        $logger = new Http();
+        $logger = new Http(
+            $httpClient = $this->getMock('\\Mosaic\\SDK\\HttpClient')
+        );
+
+        $httpClient
+            ->expects($this->once())
+            ->method('request')
+            ->with(
+                'POST',
+                '/log',
+                json_encode($order),
+                array(
+                    'Content-Type: application/json',
+                )
+            )
+            ->will(
+                $this->returnValue(
+                    new HttpClient\Response(
+                        array(
+                            'status' => 200,
+                            'body' => '{"shopId":"shop1"}',
+                        )
+                    )
+                )
+            );
+
+        $logger->log($order);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testLoggingFailed()
+    {
+        $order = new Struct\Order();
+        $logger = new Http(
+            $httpClient = $this->getMock('\\Mosaic\\SDK\\HttpClient')
+        );
+
+        $httpClient
+            ->expects($this->once())
+            ->method('request')
+            ->will(
+                $this->returnValue(
+                    new HttpClient\Response(
+                        array(
+                            'status' => 500,
+                        )
+                    )
+                )
+            );
+
         $logger->log($order);
     }
 }
