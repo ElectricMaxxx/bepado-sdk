@@ -176,8 +176,9 @@ class Shopping
         $orders = array();
         foreach ($this->getShopIds($order) as $shopId) {
             $shopOrder = clone $order;
-            $order->products = $this->getShopProducts($order, $shopId);
-            $orders[$shopId] = $order;
+            $shopOrder->providerShop = $shopId;
+            $shopOrder->products = $this->getShopProducts($order, $shopId);
+            $orders[$shopId] = $shopOrder;
         }
 
         return $orders;
