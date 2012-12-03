@@ -15,9 +15,16 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class HttpTest extends Common\Test\TestCase
 {
-    public function testLog()
+    /**
+     * Get a valid order struct
+     *
+     * @return Struct\Order
+     */
+    protected function getValidOrder()
     {
-        $order = new Struct\Order(array(
+        return new Struct\Order(array(
+            'orderShop' => 'shop1',
+            'providerShop' => 'shop2',
             'reservationId' => '42',
             'localOrderId' => 'local',
             'shippingCosts' => 34.43,
@@ -44,7 +51,11 @@ class HttpTest extends Common\Test\TestCase
                 'country' => 'Germany',
             )),
         ));
+    }
 
+    public function testLog()
+    {
+        $order = $this->getValidOrder();
         $logger = new Http(
             $httpClient = $this->getMock('\\Mosaic\\SDK\\HttpClient')
         );
@@ -75,11 +86,24 @@ class HttpTest extends Common\Test\TestCase
     }
 
     /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidOrder()
+    {
+        $order = new Struct\Order();
+        $logger = new Http(
+            $httpClient = $this->getMock('\\Mosaic\\SDK\\HttpClient')
+        );
+
+        $logger->log($order);
+    }
+
+    /**
      * @expectedException \RuntimeException
      */
     public function testLoggingFailed()
     {
-        $order = new Struct\Order();
+        $order = $this->getValidOrder();
         $logger = new Http(
             $httpClient = $this->getMock('\\Mosaic\\SDK\\HttpClient')
         );

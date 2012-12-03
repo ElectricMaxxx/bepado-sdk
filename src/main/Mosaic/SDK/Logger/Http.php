@@ -39,6 +39,12 @@ class Http extends Logger
      */
     public function log(Struct\Order $order)
     {
+        foreach (array('orderShop', 'providerShop', 'reservationId') as $property ) {
+            if (!isset($order->$property)) {
+                throw new \InvalidArgumentException("Required order property \$$property not set.");
+            }
+        }
+
         $response = $this->httpClient->request(
             'POST',
             '/log',
