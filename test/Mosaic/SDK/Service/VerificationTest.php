@@ -117,11 +117,11 @@ class VerificationTest extends Common\Test\TestCase
 
         $verificationService->verify(
             '05af025e-641b-4dea-a28b-96b40f43e6fa',
-            'http://shop.mosaic.local/kore/rpc.php'
+            'http://shop.mosaic.local/kore/rpc.php?' . time()
         );
 
-        $this->assertSame(
-            '2',
+        $this->assertEquals(
+            2,
             $this->getGateway()->getShopId()
         );
     }
