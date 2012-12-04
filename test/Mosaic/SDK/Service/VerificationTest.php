@@ -43,7 +43,7 @@ class VerificationTest extends Common\Test\TestCase
             ->method('request')
             ->with(
                 'POST',
-                '/api/verify',
+                '/sdk/verify',
                 '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}',
                 array(
                     'Content-Type: application/json',
@@ -83,7 +83,7 @@ class VerificationTest extends Common\Test\TestCase
             ->method('request')
             ->with(
                 'POST',
-                '/api/verify',
+                '/sdk/verify',
                 '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}',
                 array(
                     'Content-Type: application/json',
