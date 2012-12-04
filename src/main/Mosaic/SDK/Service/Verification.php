@@ -51,7 +51,7 @@ class Verification
     {
         $response = $this->httpClient->request(
             'POST',
-            '/api/verify',
+            '/sdk/verify',
             json_encode(
                 array(
                     'apiKey' => $apiKey,
@@ -63,14 +63,20 @@ class Verification
             )
         );
 
-        $return = json_decode($response->body);
         if ($response->status >= 400) {
-            throw new \RuntimeException(
-                "Verification failed: " . $return->error
-            );
+            $message = null;
+            if ($error = json_decode($response->body)) {
+                $message = $error->message;
+            }
+            throw new \RuntimeException("Logging failed: " . $message);
         }
 
-        $this->config->setShopId($return->shopId);
+        if ($response->body &&
+            $return = json_decode($response->body)) {
+            $this->config->setShopId($return->shopId);
+        } else {
+            throw new \RuntimeException("Response could not be processed: " . $response->body);
+        }
         return;
     }
 }
