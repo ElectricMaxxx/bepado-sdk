@@ -107,4 +107,22 @@ class VerificationTest extends Common\Test\TestCase
             $this->getGateway()->getShopId()
         );
     }
+
+    public function testVerifyAgainstRealService()
+    {
+        $verificationService = new Verification(
+            new HttpClient\Stream('http://socialnetwork.mosaic.local/'),
+            $this->getGateway()
+        );
+
+        $verificationService->verify(
+            '05af025e-641b-4dea-a28b-96b40f43e6fa',
+            'http://shop.mosaic.local/kore/rpc.php'
+        );
+
+        $this->assertSame(
+            '2',
+            $this->getGateway()->getShopId()
+        );
+    }
 }
