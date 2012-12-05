@@ -69,7 +69,7 @@ class Verification
                 isset($error->message)) {
                 $message = $error->message;
             }
-            throw new \RuntimeException("Logging failed: " . $message);
+            throw new \RuntimeException("Verification failed: " . $message);
         }
 
         if ($response->body &&
