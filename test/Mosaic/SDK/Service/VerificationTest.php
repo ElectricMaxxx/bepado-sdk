@@ -116,7 +116,7 @@ class VerificationTest extends Common\Test\TestCase
         );
 
         $verificationService->verify(
-            '05af025e-641b-4dea-a28b-96b40f43e6fa',
+            'fd4a49b0-623c-4142-bd09-871d4ccd86f0',
             'http://shop.mosaic.local/kore/rpc.php?' . time()
         );
 
