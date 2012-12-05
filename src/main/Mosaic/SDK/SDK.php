@@ -495,12 +495,12 @@ final class SDK
     {
         if ($this->verificationService === null) {
             $this->verificationService = new Service\Verification(
-                $this->getHttpClient('http://sn.mosaic/'),
+                $this->getHttpClient('http://socialnetwork.mosaic.local/'),
                 $this->gateway
             );
         }
 
-        return $this->shoppingService;
+        return $this->verificationService;
     }
 
     /**
@@ -571,7 +571,7 @@ final class SDK
     {
         if ($this->logger === null) {
             $this->logger = new Logger\Http(
-                $this->getHttpClient('http://logger.mosaic/')
+                $this->getHttpClient('http://transaction.mosaic.local/')
             );
         }
 
