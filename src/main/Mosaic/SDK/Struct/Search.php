@@ -10,7 +10,7 @@ namespace Mosaic\SDK\Struct;
 use Mosaic\SDK\Struct;
 
 /**
- * Struct class representing an address
+ * Struct class representing a search
  *
  * @version $Revision$
  * @api
