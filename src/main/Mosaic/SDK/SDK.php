@@ -107,6 +107,13 @@ final class SDK
     protected $verificationService;
 
     /**
+     * Search service
+     *
+     * @var Service\Search
+     */
+    protected $searchService;
+
+    /**
      * Sync service
      *
      * @var Service\Syncer
@@ -347,6 +354,22 @@ final class SDK
     }
 
     /**
+     * Perform search on Mosaic
+     *
+     * Search will return a SearchResult struct, which can be used to display
+     * the search results in your shop. For details on the Search and
+     * SearchResult structs see the respective API documentation.
+     *
+     * @param Struct\Search $search
+     * @return Struct\SearchResult
+     */
+    public function search(Struct\Search $search)
+    {
+        $this->verifySdk();
+        return $this->getSearchService()->search($search);
+    }
+
+    /**
      * Get service registry
      *
      * Direct access to this class is provided for testing and verification.
@@ -501,6 +524,21 @@ final class SDK
         }
 
         return $this->verificationService;
+    }
+
+    /**
+     * @private
+     * @return Service\Search
+     */
+    protected function getSearchService()
+    {
+        if ($this->searchService === null) {
+            $this->searchService = new Service\Search(
+                $this->getHttpClient('http://search.mosaic.local/')
+            );
+        }
+
+        return $this->searchService;
     }
 
     /**
