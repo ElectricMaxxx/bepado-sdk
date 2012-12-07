@@ -366,6 +366,7 @@ final class SDK
     public function search(Struct\Search $search)
     {
         $this->verifySdk();
+        $search->apiKey = $this->apiKey;
         return $this->getSearchService()->search($search);
     }
 

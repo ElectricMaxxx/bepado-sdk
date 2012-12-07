@@ -28,6 +28,13 @@ class Search extends Struct
     public $query;
 
     /**
+     * API key of the shop executing the query;
+     *
+     * @var string
+     */
+    public $apiKey;
+
+    /**
      * Result offset (used for paging)
      *
      * @var int
