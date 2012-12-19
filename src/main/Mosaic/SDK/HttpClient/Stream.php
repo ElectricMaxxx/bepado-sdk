@@ -83,7 +83,7 @@ class Stream extends HttpClient
                         'method'        => $method,
                         'content'       => $body,
                         'ignore_errors' => true,
-                        'header'        => implode("\r\n", $headers),
+                        'header'        => $this->header . implode("\r\n", $headers),
                     ),
                 )
             )
