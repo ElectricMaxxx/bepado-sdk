@@ -19,6 +19,7 @@ class Product extends Struct
 {
     /**
      * @var string
+     * @access private
      */
     public $shopId;
 
@@ -29,6 +30,7 @@ class Product extends Struct
 
     /**
      * @var string
+     * @access private
      */
     public $revisionId;
 
