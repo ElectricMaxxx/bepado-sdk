@@ -238,11 +238,16 @@ final class SDK
      * @param Struct\Product $product
      * @return void
      */
-    public function recordInsert($id, $hash, $revision, Struct\Product $product)
+    public function recordInsert(Struct\Product $product)
     {
         $this->verifySdk();
         $this->getVerificator()->verify($product);
-        $this->gateway->recordInsert($id, $hash, $revision, $product);
+        $this->gateway->recordInsert(
+            $product->sourceId,
+            $this->getProductHasher()->hash($product),
+            $this->getRevisionProvider()->next(),
+            $product
+        );
     }
 
     /**
@@ -257,11 +262,16 @@ final class SDK
      * @param Struct\Product $product
      * @return void
      */
-    public function recordUpdate($id, $hash, $revision, Struct\Product $product)
+    public function recordUpdate(Struct\Product $product)
     {
         $this->verifySdk();
         $this->getVerificator()->verify($product);
-        $this->gateway->recordUpdate($id, $hash, $revision, $product);
+        $this->gateway->recordUpdate(
+            $product->sourceId,
+            $this->getProductHasher()->hash($product),
+            $this->getRevisionProvider()->next(),
+            $product
+        );
     }
 
     /**
