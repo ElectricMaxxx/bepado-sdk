@@ -142,6 +142,21 @@ final class SDK
     protected $logger;
 
     /**
+     * @var string
+     */
+    protected $socialNetworkHost = 'http://socialnetwork.mosaic.local';
+
+    /**
+     * @var string
+     */
+    protected $transactionHost = 'http://transaction.mosaic.local';
+
+    /**
+     * @var string
+     */
+    protected $searchHost = 'http://search.mosaic.local';
+
+    /**
      * @param string $apiKey,
      * @param Gateway $gateway
      * @param ProductToShop $toShop
@@ -159,6 +174,16 @@ final class SDK
         $this->gateway = $gateway;
         $this->toShop = $toShop;
         $this->fromShop = $fromShop;
+
+        if ($host = getenv('_SOCIALNETWORK_HOST')) {
+            $this->socialNetworkHost = "http://{$host}";
+        }
+        if ($host = getenv('_TRANSACTION_HOST')) {
+            $this->transactionHost = "http://{$host}";
+        }
+        if ($host = getenv('_SEARCH_HOST')) {
+            $this->searchHost = "http://{$host}";
+        }
     }
 
     /**
@@ -529,7 +554,7 @@ final class SDK
     {
         if ($this->verificationService === null) {
             $this->verificationService = new Service\Verification(
-                $this->getHttpClient('http://socialnetwork.mosaic.local/'),
+                $this->getHttpClient($this->socialNetworkHost),
                 $this->gateway
             );
         }
@@ -545,7 +570,7 @@ final class SDK
     {
         if ($this->searchService === null) {
             $this->searchService = new Service\Search(
-                $this->getHttpClient('http://search.mosaic.local/')
+                $this->getHttpClient($this->searchHost)
             );
         }
 
@@ -620,7 +645,7 @@ final class SDK
     {
         if ($this->logger === null) {
             $this->logger = new Logger\Http(
-                $this->getHttpClient('http://transaction.mosaic.local/')
+                $this->getHttpClient($this->transactionHost)
             );
         }
 
