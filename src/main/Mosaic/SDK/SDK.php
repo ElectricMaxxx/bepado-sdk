@@ -655,7 +655,7 @@ final class SDK
     /**
      * @private
      * @param string $server
-     * @return Logger
+     * @return \Mosaic\SDK\HttpClient
      */
     protected function getHttpClient($server)
     {
