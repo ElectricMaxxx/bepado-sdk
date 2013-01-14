@@ -158,9 +158,10 @@ final class SDK
 
     /**
      * @param string $apiKey,
-     * @param Gateway $gateway
-     * @param ProductToShop $toShop
-     * @param ProductFromShop $fromShop
+     * @param string $apiEndpointUrl
+     * @param \Mosaic\SDK\Gateway $gateway
+     * @param \Mosaic\SDK\ProductToShop $toShop
+     * @param \Mosaic\SDK\ProductFromShop $fromShop
      */
     public function __construct(
         $apiKey,
@@ -459,7 +460,7 @@ final class SDK
      * Use this class to verify the structs you pass to the Mosaic SDK. Mosaic
      * will do this itself, but it might be useful to also do this yourself.
      *
-     * @return VerificatorDispatcher
+     * @return \Mosaic\SDK\Struct\VerificatorDispatcher
      */
     public function getVerificator()
     {

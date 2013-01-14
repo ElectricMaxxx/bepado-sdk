@@ -7,8 +7,6 @@
 
 namespace Mosaic\SDK;
 
-use Mosaic\SDK\Struct\Product;
-
 /**
  * Abstract base class to store SDK related data
  *
