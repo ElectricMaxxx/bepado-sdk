@@ -53,4 +53,15 @@ class Order extends Struct
      * @var Address
      */
     public $deliveryAddress;
+
+    /**
+     * Restores an order from a previously stored state array.
+     *
+     * @param array $state
+     * @return \Mosaic\SDK\Struct\Order
+     */
+    public static function __set_state(array $state)
+    {
+        return new Order($state);
+    }
 }

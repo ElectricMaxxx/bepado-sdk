@@ -51,4 +51,15 @@ class Address extends Struct
      * @var string
      */
     public $country;
+
+    /**
+     * Restores an address from a previously stored state array.
+     *
+     * @param array $state
+     * @return \Mosaic\SDK\Struct\Address
+     */
+    public static function __set_state(array $state)
+    {
+        return new Address($state);
+    }
 }

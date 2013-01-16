@@ -75,7 +75,7 @@ class Product extends Struct
     public $availability;
 
     /**
-     * @var byte[][]
+     * @var string[][]
      */
     public $images = array();
 
@@ -83,4 +83,15 @@ class Product extends Struct
      * @var string[]
      */
     public $categories = array();
+
+    /**
+     * Restores a product from a previously stored state array.
+     *
+     * @param array $state
+     * @return \Mosaic\SDK\Struct\Product
+     */
+    public static function __set_state(array $state)
+    {
+        return new Product($state);
+    }
 }

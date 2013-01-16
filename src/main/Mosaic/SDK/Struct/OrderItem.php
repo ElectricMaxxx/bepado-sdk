@@ -26,4 +26,15 @@ class OrderItem extends Struct
      * @var Product
      */
     public $product;
+
+    /**
+     * Restores an order item from a previously stored state array.
+     *
+     * @param array $state
+     * @return \Mosaic\SDK\Struct\OrderItem
+     */
+    public static function __set_state(array $state)
+    {
+        return new OrderItem($state);
+    }
 }

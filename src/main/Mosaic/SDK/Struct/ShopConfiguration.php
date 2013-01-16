@@ -26,4 +26,15 @@ class ShopConfiguration extends Struct
      * @var string
      */
     public $serviceEndpoint;
+
+    /**
+     * Restores a shop configuration from a previously stored state array.
+     *
+     * @param array $state
+     * @return \Mosaic\SDK\Struct\ShopConfiguration
+     */
+    public static function __set_state(array $state)
+    {
+        return new ShopConfiguration($state);
+    }
 }
