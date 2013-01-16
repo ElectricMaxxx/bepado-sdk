@@ -10,12 +10,17 @@ namespace Mosaic\SDK\Service;
 use Mosaic\Common;
 use Mosaic\Common\Struct\RpcCall;
 use Mosaic\SDK;
-use Mosaic\SDK\Struct\Change;
+use Mosaic\SDK\Struct\Change\FromShop\Delete;
+use Mosaic\SDK\Struct\Change\FromShop\Insert;
+use Mosaic\SDK\Struct\Change\FromShop\Update;
 
 require_once __DIR__ . '/../bootstrap.php';
 
 abstract class SyncerTest extends Common\Test\TestCase
 {
+    /**
+     * @var \Mosaic\SDK\SDK
+     */
     protected $sdk;
 
     /**
@@ -48,12 +53,12 @@ abstract class SyncerTest extends Common\Test\TestCase
      *
      * @param array $products
      * @param string $data
-     * @return ProductFromShop
+     * @return \Mosaic\SDK\ProductFromShop
      */
     protected function getProductFromShop(array $products, $data = 'foo')
     {
         $products = array_map('strval', $products);
-        $provider = $this->getMock( '\\Mosaic\\SDK\\ProductFromShop' );
+        $provider = $this->getMock('\\Mosaic\\SDK\\ProductFromShop');
         $provider
             ->expects($this->any())
             ->method('getExportedProductIDs')
@@ -61,12 +66,16 @@ abstract class SyncerTest extends Common\Test\TestCase
         $provider
             ->expects($this->any())
             ->method('getProducts')
-            ->will($this->returnValue(array_map(
-                function ($productId) use ($data) {
-                    return $this->getProduct($productId, $data);
-                },
-                $products
-            )));
+            ->will(
+                $this->returnValue(
+                    array_map(
+                        function ($productId) use ($data) {
+                            return $this->getProduct($productId, $data);
+                        },
+                        $products
+                    )
+                )
+            );
 
         return $provider;
     }
@@ -75,7 +84,8 @@ abstract class SyncerTest extends Common\Test\TestCase
      * Get fake product for ID
      *
      * @param int $productId
-     * @return SDK\Struct\Product
+     * @param string $data
+     * @return \Mosaic\SDK\Struct\Product
      */
     protected function getProduct($productId, $data = 'foo')
     {
@@ -103,14 +113,15 @@ abstract class SyncerTest extends Common\Test\TestCase
         $this->assertEquals(
             $expectation,
             array_map(
-                function ($change)
-                {
+                function ($change) {
                     $this->sdk->getVerificator()->verify($change);
 
                     // We do not care to comapre revision and product in change
                     $change = clone $change;
                     $change->revision = null;
-                    if (isset($change->product)) $change->product = null;
+                    if (isset($change->product)) {
+                        $change->product = null;
+                    }
                     return $change;
                 },
                 $changes
@@ -125,15 +136,17 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(
-                new Change\FromShop\Insert(array('sourceId' => '1')),
-                new Change\FromShop\Insert(array('sourceId' => '2')),
+                new Insert(array('sourceId' => '1')),
+                new Insert(array('sourceId' => '2')),
             ),
             $changes = $this->sdk->getServiceRegistry()->dispatch(
-                new RpcCall(array(
-                    'service' => 'products',
-                    'command' => 'fromShop',
-                    'arguments' => array(null, 100),
-                ))
+                new RpcCall(
+                    array(
+                        'service' => 'products',
+                        'command' => 'fromShop',
+                        'arguments' => array(null, 100),
+                    )
+                )
             )
         );
         return end($changes)->revision;
@@ -151,11 +164,13 @@ abstract class SyncerTest extends Common\Test\TestCase
         $this->assertChanges(
             array(),
             $this->sdk->getServiceRegistry()->dispatch(
-                new RpcCall(array(
-                    'service' => 'products',
-                    'command' => 'fromShop',
-                    'arguments' => array($revision, 100),
-                ))
+                new RpcCall(
+                    array(
+                        'service' => 'products',
+                        'command' => 'fromShop',
+                        'arguments' => array($revision, 100),
+                    )
+                )
             )
         );
     }
@@ -171,15 +186,17 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(
-                new Change\FromShop\Update(array('sourceId' => '1')),
-                new Change\FromShop\Update(array('sourceId' => '2')),
+                new Update(array('sourceId' => '1')),
+                new Update(array('sourceId' => '2')),
             ),
             $this->sdk->getServiceRegistry()->dispatch(
-                new RpcCall(array(
-                    'service' => 'products',
-                    'command' => 'fromShop',
-                    'arguments' => array($revision, 100),
-                ))
+                new RpcCall(
+                    array(
+                        'service' => 'products',
+                        'command' => 'fromShop',
+                        'arguments' => array($revision, 100),
+                    )
+                )
             )
         );
     }
@@ -194,24 +211,28 @@ abstract class SyncerTest extends Common\Test\TestCase
         $sdk->sync();
 
         $this->sdk->getServiceRegistry()->dispatch(
-            new RpcCall(array(
-                'service' => 'products',
-                'command' => 'fromShop',
-                'arguments' => array($revision, 100),
-            ))
+            new RpcCall(
+                array(
+                    'service' => 'products',
+                    'command' => 'fromShop',
+                    'arguments' => array($revision, 100),
+                )
+            )
         );
 
         $this->assertChanges(
             array(
-                new Change\FromShop\Update(array('sourceId' => '1')),
-                new Change\FromShop\Update(array('sourceId' => '2')),
+                new Update(array('sourceId' => '1')),
+                new Update(array('sourceId' => '2')),
             ),
             $this->sdk->getServiceRegistry()->dispatch(
-                new RpcCall(array(
-                    'service' => 'products',
-                    'command' => 'fromShop',
-                    'arguments' => array($revision, 100),
-                ))
+                new RpcCall(
+                    array(
+                        'service' => 'products',
+                        'command' => 'fromShop',
+                        'arguments' => array($revision, 100),
+                    )
+                )
             )
         );
     }
@@ -227,15 +248,17 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(
-                new Change\FromShop\Delete(array('sourceId' => '1')),
-                new Change\FromShop\Delete(array('sourceId' => '2')),
+                new Delete(array('sourceId' => '1')),
+                new Delete(array('sourceId' => '2')),
             ),
             $this->sdk->getServiceRegistry()->dispatch(
-                new RpcCall(array(
-                    'service' => 'products',
-                    'command' => 'fromShop',
-                    'arguments' => array($revision, 100),
-                ))
+                new RpcCall(
+                    array(
+                        'service' => 'products',
+                        'command' => 'fromShop',
+                        'arguments' => array($revision, 100),
+                    )
+                )
             )
         );
     }
