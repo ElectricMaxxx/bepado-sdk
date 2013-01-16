@@ -9,6 +9,8 @@ namespace Mosaic\SDK\Gateway;
 
 use Mosaic\SDK\Gateway;
 use Mosaic\SDK\Struct;
+use Mosaic\SDK\Struct\Order;
+use Mosaic\SDK\Struct\Product;
 
 /**
  * Abstract base class to store SDK related data
@@ -38,7 +40,7 @@ class InMemory extends Gateway
      *
      * @param string $offset
      * @param int $limit
-     * @return Struct\Changes[]
+     * @return \Mosaic\SDK\Struct\Change[]
      */
     public function getNextChanges($offset, $limit)
     {
@@ -46,12 +48,11 @@ class InMemory extends Gateway
         $changes = array();
         $i = 0;
         foreach ($this->changes as $revision => $data) {
-            if ($revision > $offset) {
+            if (strcmp($revision, $offset) > 0) {
                 $record = true;
             }
 
-            if (!$record ||
-                $revision === $offset) {
+            if (!$record || $revision === $offset) {
                 unset($this->changes[$revision]);
                 continue;
             }
@@ -60,11 +61,30 @@ class InMemory extends Gateway
                 break;
             }
 
-            $changes[] = $data;
+            $changes[] = $this->createChange($data);
             $i++;
         }
 
         return $changes;
+    }
+
+    private function createChange(array $data)
+    {
+        switch ($data['type']) {
+            case 'delete':
+                $class = '\\Mosaic\\SDK\\Struct\\Change\\FromShop\\Delete';
+                break;
+            case 'insert':
+                $class = '\\Mosaic\\SDK\\Struct\\Change\\FromShop\\Insert';
+                break;
+            case 'update':
+                $class = '\\Mosaic\\SDK\\Struct\\Change\\FromShop\\Update';
+                break;
+        }
+
+        unset($data['type']);
+
+        return new $class($data);
     }
 
     /**
@@ -73,17 +93,18 @@ class InMemory extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
-     * @param Struct\Product $product
+     * @param \Mosaic\SDK\Struct\Product $product
      * @return void
      */
-    public function recordInsert($id, $hash, $revision, Struct\Product $product)
+    public function recordInsert($id, $hash, $revision, Product $product)
     {
-        $this->changes[$revision] = new Struct\Change\FromShop\Insert(
-            array(
-                'sourceId' => $id,
-                'revision' => $revision,
-                'product'  => $product,
-            )
+        $this->checkRevisionExists($revision);
+
+        $this->changes[$revision] = array(
+            'type'     => 'insert',
+            'sourceId' => $id,
+            'revision' => $revision,
+            'product'  => $product
         );
         $this->products[$id] = $hash;
     }
@@ -94,17 +115,18 @@ class InMemory extends Gateway
      * @param string $id
      * @param string $hash
      * @param string $revision
-     * @param Struct\Product $product
+     * @param \Mosaic\SDK\Struct\Product $product
      * @return void
      */
-    public function recordUpdate($id, $hash, $revision, Struct\Product $product)
+    public function recordUpdate($id, $hash, $revision, Product $product)
     {
-        $this->changes[$revision] = new Struct\Change\FromShop\Update(
-            array(
-                'sourceId' => $id,
-                'revision' => $revision,
-                'product'  => $product,
-            )
+        $this->checkRevisionExists($revision);
+
+        $this->changes[$revision] = array(
+            'type'     => 'update',
+            'sourceId' => $id,
+            'revision' => $revision,
+            'product'  => $product
         );
         $this->products[$id] = $hash;
     }
@@ -118,13 +140,31 @@ class InMemory extends Gateway
      */
     public function recordDelete($id, $revision)
     {
-        $this->changes[$revision] = new Struct\Change\FromShop\Delete(
-            array(
-                'sourceId' => $id,
-                'revision' => $revision
-            )
+        $this->checkRevisionExists($revision);
+
+        $this->changes[$revision] = array(
+            'type'     => 'delete',
+            'sourceId' => $id,
+            'revision' => $revision
         );
         unset($this->products[$id]);
+    }
+
+    /**
+     * @param string $revision
+     * @throws \InvalidArgumentException
+     */
+    private function checkRevisionExists($revision)
+    {
+        if (isset($this->changes[$revision])) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Revision %s already exists for shop %s.',
+                    $revision,
+                    $this->shopId
+                )
+            );
+        }
     }
 
     /**
@@ -176,7 +216,7 @@ class InMemory extends Gateway
      * Update shop configuration
      *
      * @param string $shopId
-     * @param Struct\ShopConfiguration $configuration
+     * @param \Mosaic\SDK\Struct\ShopConfiguration $configuration
      * @return void
      */
     public function setShopConfiguration($shopId, Struct\ShopConfiguration $configuration)
@@ -188,7 +228,7 @@ class InMemory extends Gateway
      * Get configuration for the given shop
      *
      * @param string $shopId
-     * @return Struct\ShopConfiguration
+     * @return \Mosaic\SDK\Struct\ShopConfiguration
      */
     public function getShopConfiguration($shopId)
     {
@@ -221,10 +261,10 @@ class InMemory extends Gateway
      *
      * Returns the reservation Id
      *
-     * @param Struct\Order $order
+     * @param \Mosaic\SDK\Struct\Order $order
      * @return string
      */
-    public function createReservation(Struct\Order $order)
+    public function createReservation(Order $order)
     {
         $reservationId = md5(microtime());
         $this->reservations[$reservationId] = array(
@@ -239,7 +279,7 @@ class InMemory extends Gateway
      * Get order for reservation Id
      *
      * @param string $reservationId
-     * @return Struct\Order
+     * @return \Mosaic\SDK\Struct\Order
      */
     public function getOrder($reservationId)
     {
@@ -254,10 +294,10 @@ class InMemory extends Gateway
      * Set reservation as bought
      *
      * @param string $reservationId
-     * @param Struct\Order $order
+     * @param \Mosaic\SDK\Struct\Order $order
      * @return void
      */
-    public function setBought($reservationId, Struct\Order $order)
+    public function setBought($reservationId, Order $order)
     {
         if (!isset($this->reservations[$reservationId])) {
             throw new \RuntimeException("Unknown reservation $reservationId");
@@ -280,5 +320,20 @@ class InMemory extends Gateway
         }
 
         $this->reservations[$reservationId]['state'] = 'confirmed';
+    }
+
+    /**
+     * Restores an in-memory gateway from a previously stored state array.
+     *
+     * @param array $state
+     * @return \Mosaic\SDK\Gateway\InMemory
+     */
+    public static function __set_state(array $state)
+    {
+        $gateway = new InMemory();
+        foreach ($state as $name => $value) {
+            $gateway->$name = $value;
+        }
+        return $gateway;
     }
 }
