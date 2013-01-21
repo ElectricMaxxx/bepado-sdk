@@ -157,8 +157,8 @@ final class SDK
     protected $searchHost = 'http://search.mosaic.local';
 
     /**
-     * @param string $apiKey,
-     * @param string $apiEndpointUrl
+     * @param string $apiKey API key assigned to you by Mosaic
+     * @param string $apiEndpointUrl Your local API endpoint
      * @param \Mosaic\SDK\Gateway $gateway
      * @param \Mosaic\SDK\ProductToShop $toShop
      * @param \Mosaic\SDK\ProductFromShop $fromShop
