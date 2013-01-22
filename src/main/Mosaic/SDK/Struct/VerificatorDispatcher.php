@@ -52,12 +52,32 @@ class VerificatorDispatcher
      */
     public function verify(Struct $struct)
     {
-        if (!isset($this->verificators[get_class($struct)])) {
+        $verificator = $this->getVerificator(get_class($struct));
+
+        if ($verificator === null) {
             throw new \OutOfBoundsException(
                 "No verificator available for class " . get_class($struct)
             );
         }
 
-        $this->verificators[get_class($struct)]->verify($this, $struct);
+        $verificator->verify($this, $struct);
+    }
+
+    /**
+     * @param string $structClass
+     *
+     * @return Verificator|null
+     */
+    private function getVerificator($structClass)
+    {
+        if (isset($this->verificators[$structClass])) {
+            return $this->verificators[$structClass];
+        }
+
+        if (($parentClass = get_parent_class($structClass)) !== false) {
+            return $this->getVerificator($parentClass);
+        }
+
+        return null;
     }
 }
