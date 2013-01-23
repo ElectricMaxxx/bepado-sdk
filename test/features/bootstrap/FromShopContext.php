@@ -107,10 +107,7 @@ class FromShopContext extends SDKContext
     {
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->sdk->recordDelete(
-                $i,
-                $this->revisionProvider->next()
-            );
+            $this->sdk->recordDelete($i);
         }
     }
 

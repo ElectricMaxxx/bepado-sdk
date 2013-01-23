@@ -307,13 +307,12 @@ final class SDK
      * product, which is exported to Mosaic.
      *
      * @param string $id
-     * @param string $revision
      * @return void
      */
-    public function recordDelete($id, $revision)
+    public function recordDelete($id)
     {
         $this->verifySdk();
-        $this->gateway->recordDelete($id, $revision);
+        $this->gateway->recordDelete($id, $this->getRevisionProvider()->next());
     }
 
     /**
