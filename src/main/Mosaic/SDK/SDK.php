@@ -267,6 +267,7 @@ final class SDK
     public function recordInsert(Struct\Product $product)
     {
         $this->verifySdk();
+        $product->shopId = $this->gateway->getShopId();
         $this->getVerificator()->verify($product);
         $this->gateway->recordInsert(
             $product->sourceId,
@@ -291,6 +292,7 @@ final class SDK
     public function recordUpdate(Struct\Product $product)
     {
         $this->verifySdk();
+        $product->shopId = $this->gateway->getShopId();
         $this->getVerificator()->verify($product);
         $this->gateway->recordUpdate(
             $product->sourceId,

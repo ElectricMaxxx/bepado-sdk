@@ -83,7 +83,8 @@ class SDKContext extends BehatContext
     {
         return new Product(
             array(
-                'shopId' => 'shop-1',
+                // shopId is maintained by the SDK
+                // 'shopId' => 'shop-1',
                 'sourceId' => (string) $productId,
                 'title' => $data,
                 'price' => $productId * .89,
