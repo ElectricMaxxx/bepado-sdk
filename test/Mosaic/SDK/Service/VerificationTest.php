@@ -121,7 +121,7 @@ class VerificationTest extends Common\Test\TestCase
         );
 
         $this->assertEquals(
-            2,
+            3,
             $this->getGateway()->getShopId()
         );
     }
