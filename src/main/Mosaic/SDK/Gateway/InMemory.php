@@ -28,6 +28,7 @@ class InMemory extends Gateway
     protected $lastRevision;
     protected $shopConfiguration = array();
     protected $shopId = null;
+    protected $categories = array();
     protected $reservations = array();
 
     /**
@@ -233,6 +234,27 @@ class InMemory extends Gateway
     public function getShopConfiguration($shopId)
     {
         return $this->shopConfiguration[$shopId];
+    }
+
+    /**
+     * Set category mapping
+     *
+     * @param array $categories
+     * @return void
+     */
+    public function setCategories(array $categories)
+    {
+        $this->categories = $categories;
+    }
+
+    /**
+     * Get category mapping
+     *
+     * @return array
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 
     /**

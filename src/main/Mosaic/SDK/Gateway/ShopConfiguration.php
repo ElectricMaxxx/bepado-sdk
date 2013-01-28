@@ -35,6 +35,21 @@ interface ShopConfiguration
     public function getShopConfiguration($shopId);
 
     /**
+     * Set category mapping
+     *
+     * @param array $categories
+     * @return void
+     */
+    public function setCategories(array $categories);
+
+    /**
+     * Get category mapping
+     *
+     * @return array
+     */
+    public function getCategories();
+
+    /**
      * Set own shop ID
      *
      * @param string $shopId

@@ -360,6 +360,54 @@ class MySQLi extends Gateway
     }
 
     /**
+     * Set category mapping
+     *
+     * @param array $categories
+     * @return void
+     */
+    public function setCategories(array $categories)
+    {
+        $this->connection->query(
+            'INSERT INTO
+                mosaic_shop_config (
+                    `s_shop`,
+                    `s_config`
+                )
+            VALUES (
+                "_categories_",
+                "' . $this->connection->real_escape_string(serialize($categories)) . '"
+            )
+            ON DUPLICATE KEY UPDATE
+                `s_config` = "' . $this->connection->real_escape_string(serialize($categories)) . '"
+            ;'
+        );
+    }
+
+    /**
+     * Get category mapping
+     *
+     * @return array
+     */
+    public function getCategories()
+    {
+        $result = $this->connection->query(
+            'SELECT
+                `s_config`
+            FROM
+                `mosaic_shop_config`
+            WHERE
+                `s_shop` = "_categories_"'
+        );
+
+        $rows = $result->fetch_all(\MYSQLI_ASSOC);
+        if (!count($rows)) {
+            return false;
+        }
+
+        return unserialize($rows[0]['s_config']);
+    }
+
+    /**
      * Set own shop ID
      *
      * @param string $shopId
