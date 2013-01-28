@@ -272,7 +272,9 @@ class DependencyResolver
     public function getUnmarshaller()
     {
         if ($this->unmarshaller === null) {
-            $this->unmarshaller = new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller();
+            $this->unmarshaller = new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(
+                new Rpc\Marshaller\Converter\ErrorToExceptionConverter()
+            );
         }
 
         return $this->unmarshaller;
@@ -285,7 +287,8 @@ class DependencyResolver
     {
         if ($this->marshaller === null) {
             $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
-                new \Mosaic\Common\XmlHelper()
+                new \Mosaic\Common\XmlHelper(),
+                new Rpc\Marshaller\Converter\ExceptionToErrorConverter()
             );
         }
 
