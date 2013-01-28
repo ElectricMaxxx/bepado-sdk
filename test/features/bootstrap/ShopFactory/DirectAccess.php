@@ -91,9 +91,13 @@ class DirectAccess extends ShopFactory
             );
 
             // Inject custom logger
-            $loggerProperty = new \ReflectionProperty(get_class($sdk), 'logger');
+            $dependenciesProperty = new \ReflectionProperty($sdk, 'dependencies');
+            $dependenciesProperty->setAccessible(true);
+            $dependencies = $dependenciesProperty->getValue($sdk);
+
+            $loggerProperty = new \ReflectionProperty($dependencies, 'logger');
             $loggerProperty->setAccessible(true);
-            $loggerProperty->setValue($sdk, $this->logger);
+            $loggerProperty->setValue($dependencies, $this->logger);
 
             $this->shopGateways[$shopId] = new ShopGateway\DirectAccess($sdk);
         }

@@ -85,10 +85,14 @@ class ShopPurchaseContext extends SDKContext
         );
 
         // Inject custom direct access shop gateway factory
-        $shoppingServiceProperty = new \ReflectionProperty(get_class($this->sdk), 'shoppingService');
+        $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
+        $dependenciesProperty->setAccessible(true);
+        $dependencies = $dependenciesProperty->getValue($this->sdk);
+
+        $shoppingServiceProperty = new \ReflectionProperty($dependencies, 'shoppingService');
         $shoppingServiceProperty->setAccessible(true);
         $shoppingServiceProperty->setValue(
-            $this->sdk,
+            $dependencies,
             new Service\Shopping(
                 new ShopFactory\DirectAccess(
                     $this->productToShop,
@@ -104,10 +108,10 @@ class ShopPurchaseContext extends SDKContext
         );
 
         // Inject custom logger
-        $loggerProperty = new \ReflectionProperty(get_class($this->sdk), 'logger');
+        $loggerProperty = new \ReflectionProperty($dependencies, 'logger');
         $loggerProperty->setAccessible(true);
         $loggerProperty->setValue(
-            $this->sdk,
+            $dependencies,
             $this->logger
         );
     }

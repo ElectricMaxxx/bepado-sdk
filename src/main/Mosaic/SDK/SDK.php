@@ -7,9 +7,6 @@
 
 namespace Mosaic\SDK;
 
-use Mosaic\Common\Rpc;
-use Mosaic\Common\Struct\RpcCall;
-
 /**
  * Central SDK class, which serves as an etnry point and service fromShop.
  *
@@ -27,14 +24,14 @@ final class SDK
      *
      * @var string
      */
-    protected $apiKey;
+    private $apiKey;
 
     /**
      * API endpoint URL for this SDK
      *
      * @var string
      */
-    protected $apiEndpointUrl;
+    private $apiEndpointUrl;
 
     /**
      * Indicator if the SDK is verified agianst Mosaic
@@ -44,117 +41,11 @@ final class SDK
     private $verified = false;
 
     /**
-     * Gateway to custom storage
+     * Dependency resolver for SDK dependencies
      *
-     * @var Gateway
+     * @var DependencyResolver
      */
-    protected $gateway;
-
-    /**
-     * Product toShop
-     *
-     * @var ProductToShop
-     */
-    protected $toShop;
-
-    /**
-     * Product fromShop
-     *
-     * @var ProductFromShop
-     */
-    protected $fromShop;
-
-    /**
-     * Service registry
-     *
-     * @var Rpc\ServiceRegistry
-     */
-    protected $registry;
-
-    /**
-     * Call marshaller
-     *
-     * @var Rpc\Marshaller\CallMarshaller
-     */
-    protected $marshaller;
-
-    /**
-     * Call unmarshaller
-     *
-     * @var Rpc\Marshaller\CallUnmarshaller
-     */
-    protected $unmarshaller;
-
-    /**
-     * Verificator dispatcher
-     *
-     * @var Struct\VerificatorDispatcher
-     */
-    protected $verificator;
-
-    /**
-     * Shopping service
-     *
-     * @var Service\Shopping
-     */
-    protected $shoppingService;
-
-    /**
-     * Verification service
-     *
-     * @var Service\Verification
-     */
-    protected $verificationService;
-
-    /**
-     * Search service
-     *
-     * @var Service\Search
-     */
-    protected $searchService;
-
-    /**
-     * Sync service
-     *
-     * @var Service\Syncer
-     */
-    protected $syncService;
-
-    /**
-     * Product hasher
-     *
-     * @var ProductHasher
-     */
-    protected $productHasher;
-
-    /**
-     * Revision fromShop
-     *
-     * @var RevisionProvider
-     */
-    protected $revisionFromShop;
-
-    /**
-     * Logger
-     *
-     * @var Logger
-     */
-    protected $logger;
-
-    /**
-     * @var string
-     */
-    protected $socialNetworkHost = 'http://socialnetwork.mosaic.local';
-
-    /**
-     * @var string
-     */
-    protected $transactionHost = 'http://transaction.mosaic.local';
-
-    /**
-     * @var string
-     */
-    protected $searchHost = 'http://search.mosaic.local';
+    private $dependencies;
 
     /**
      * @param string $apiKey API key assigned to you by Mosaic
@@ -172,19 +63,12 @@ final class SDK
     ) {
         $this->apiKey = $apiKey;
         $this->apiEndpointUrl = $apiEndpointUrl;
-        $this->gateway = $gateway;
-        $this->toShop = $toShop;
-        $this->fromShop = $fromShop;
 
-        if ($host = getenv('_SOCIALNETWORK_HOST')) {
-            $this->socialNetworkHost = "http://{$host}";
-        }
-        if ($host = getenv('_TRANSACTION_HOST')) {
-            $this->transactionHost = "http://{$host}";
-        }
-        if ($host = getenv('_SEARCH_HOST')) {
-            $this->searchHost = "http://{$host}";
-        }
+        // The dependencies are not supposed to be injected. This is an
+        // entirely pre-configured object, except for the properties available
+        // through constructor injection. Dependency Injection is only used
+        // internally in the SDK.
+        $this->dependencies = new DependencyResolver($gateway, $toShop, $fromShop);
     }
 
     /**
@@ -199,11 +83,11 @@ final class SDK
     public function verifySdk()
     {
         if ($this->verified ||
-            $this->gateway->getShopId() !== false) {
+            $this->dependencies->getGateway()->getShopId() !== false) {
             return;
         }
 
-        $this->getVerificationService()->verify(
+        $this->dependencies->getVerificationService()->verify(
             $this->apiKey,
             $this->apiEndpointUrl
         );
@@ -221,13 +105,13 @@ final class SDK
     public function handle($xml)
     {
         $this->verifySdk();
-        return $this->getMarshaller()->marshal(
+        return $this->dependencies->getMarshaller()->marshal(
             new RpcCall(
                 array(
                     'service' => 'null',
                     'command' => 'return',
-                    'arguments' => array($this->getServiceRegistry()->dispatch(
-                        $this->getUnmarshaller()->unmarshal($xml)
+                    'arguments' => array($this->dependencies->getServiceRegistry()->dispatch(
+                        $this->dependencies->getUnmarshaller()->unmarshal($xml)
                     ))
                 )
             )
@@ -249,7 +133,7 @@ final class SDK
     public function sync()
     {
         $this->verifySdk();
-        $this->getSyncService()->sync();
+        $this->dependencies->getSyncService()->sync();
     }
 
     /**
@@ -267,12 +151,12 @@ final class SDK
     public function recordInsert(Struct\Product $product)
     {
         $this->verifySdk();
-        $product->shopId = $this->gateway->getShopId();
-        $this->getVerificator()->verify($product);
-        $this->gateway->recordInsert(
+        $product->shopId = $this->dependencies->getGateway()->getShopId();
+        $this->dependencies->getVerificator()->verify($product);
+        $this->dependencies->getGateway()->recordInsert(
             $product->sourceId,
-            $this->getProductHasher()->hash($product),
-            $this->getRevisionProvider()->next(),
+            $this->dependencies->getProductHasher()->hash($product),
+            $this->dependencies->getRevisionProvider()->next(),
             $product
         );
     }
@@ -292,12 +176,12 @@ final class SDK
     public function recordUpdate(Struct\Product $product)
     {
         $this->verifySdk();
-        $product->shopId = $this->gateway->getShopId();
-        $this->getVerificator()->verify($product);
-        $this->gateway->recordUpdate(
+        $product->shopId = $this->dependencies->getGateway()->getShopId();
+        $this->dependencies->getVerificator()->verify($product);
+        $this->dependencies->getGateway()->recordUpdate(
             $product->sourceId,
-            $this->getProductHasher()->hash($product),
-            $this->getRevisionProvider()->next(),
+            $this->dependencies->getProductHasher()->hash($product),
+            $this->dependencies->getRevisionProvider()->next(),
             $product
         );
     }
@@ -314,7 +198,7 @@ final class SDK
     public function recordDelete($id)
     {
         $this->verifySdk();
-        $this->gateway->recordDelete($id, $this->getRevisionProvider()->next());
+        $this->dependencies->getGateway()->recordDelete($id, $this->dependencies->getRevisionProvider()->next());
     }
 
     /**
@@ -338,9 +222,9 @@ final class SDK
     public function checkProducts(Struct\Order $order)
     {
         $this->verifySdk();
-        $this->getVerificator()->verify($order);
-        $order->orderShop = $this->gateway->getShopId();
-        return $this->getShoppingService()->checkProducts($order);
+        $this->dependencies->getVerificator()->verify($order);
+        $order->orderShop = $this->dependencies->getGateway()->getShopId();
+        return $this->dependencies->getShoppingService()->checkProducts($order);
     }
 
     /**
@@ -366,9 +250,9 @@ final class SDK
     public function reserveProducts(Struct\Order $order)
     {
         $this->verifySdk();
-        $this->getVerificator()->verify($order);
-        $order->orderShop = $this->gateway->getShopId();
-        return $this->getShoppingService()->reserveProducts($order);
+        $this->dependencies->getVerificator()->verify($order);
+        $order->orderShop = $this->dependencies->getGateway()->getShopId();
+        return $this->dependencies->getShoppingService()->reserveProducts($order);
     }
 
     /**
@@ -387,7 +271,7 @@ final class SDK
     public function checkout(Struct\Reservation $reservation)
     {
         $this->verifySdk();
-        return $this->getShoppingService()->checkout($reservation);
+        return $this->dependencies->getShoppingService()->checkout($reservation);
     }
 
     /**
@@ -404,7 +288,7 @@ final class SDK
     {
         $this->verifySdk();
         $search->apiKey = $this->apiKey;
-        return $this->getSearchService()->search($search);
+        return $this->dependencies->getSearchService()->search($search);
     }
 
     /**
@@ -418,40 +302,7 @@ final class SDK
      */
     public function getServiceRegistry()
     {
-        if ($this->registry === null) {
-            $this->registry = new Rpc\ServiceRegistry();
-
-            $this->registry->registerService(
-                'products',
-                array('fromShop', 'toShop', 'getLastRevision'),
-                new Service\ProductService(
-                    $this->gateway,
-                    $this->gateway,
-                    $this->toShop
-                )
-            );
-
-            $this->registry->registerService(
-                'configuration',
-                array('update'),
-                new Service\Configuration(
-                    $this->gateway,
-                    $this->getVerificator()
-                )
-            );
-
-            $this->registry->registerService(
-                'transaction',
-                array('checkProducts', 'reserveProducts', 'buy', 'confirm'),
-                new Service\Transaction(
-                    $this->fromShop,
-                    $this->gateway,
-                    $this->getLogger()
-                )
-            );
-        }
-
-        return $this->registry;
+        return $this->dependencies->getServiceRegistry();
     }
 
     /**
@@ -465,204 +316,6 @@ final class SDK
      */
     public function getVerificator()
     {
-        if ($this->verificator === null) {
-            $this->verificator = new Struct\VerificatorDispatcher(
-                array(
-                    'Mosaic\\SDK\\Struct\\Order' =>
-                        new Struct\Verificator\Order(),
-                    'Mosaic\\SDK\\Struct\\OrderItem' =>
-                        new Struct\Verificator\OrderItem(),
-                    'Mosaic\\SDK\\Struct\\Product' =>
-                        new Struct\Verificator\Product(
-                            $this->gateway->getCategories()
-                        ),
-                    'Mosaic\\SDK\\Struct\\Change\\FromShop\\Insert' =>
-                        new Struct\Verificator\Change\InsertOrUpdate(),
-                    'Mosaic\\SDK\\Struct\\Change\\FromShop\\Update' =>
-                        new Struct\Verificator\Change\InsertOrUpdate(),
-                    'Mosaic\\SDK\\Struct\\Change\\FromShop\\Delete' =>
-                        new Struct\Verificator\Change(),
-                    'Mosaic\\SDK\\Struct\\Change\\ToShop\\InsertOrUpdate' =>
-                        new Struct\Verificator\Change\InsertOrUpdate(),
-                    'Mosaic\\SDK\\Struct\\Change\\ToShop\\Delete' =>
-                        new Struct\Verificator\Change\Delete(),
-                    'Mosaic\\SDK\\Struct\\Change\\InterShop\\Update' =>
-                        new Struct\Verificator\Change\InterShopUpdate(),
-                    'Mosaic\\SDK\\Struct\\Change\\InterShop\\Delete' =>
-                        new Struct\Verificator\Change\InterShopDelete(),
-                    'Mosaic\\SDK\\Struct\\ShopConfiguration' =>
-                        new Struct\Verificator\ShopConfiguration(),
-                    'Mosaic\\SDK\\Struct\\Reservation' =>
-                        new Struct\Verificator\Reservation(),
-                    'Mosaic\\SDK\\Struct\\Message' =>
-                        new Struct\Verificator\Message(),
-                    'Mosaic\\SDK\\Struct\\Address' =>
-                        new Struct\Verificator\Address(),
-                )
-            );
-        }
-
-        return $this->verificator;
-    }
-
-    /**
-     * @private
-     * @return Rpc\Marshaller\CallUnmarshaller
-     */
-    protected function getUnmarshaller()
-    {
-        if ($this->unmarshaller === null) {
-            $this->unmarshaller = new Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller();
-        }
-
-        return $this->unmarshaller;
-    }
-
-    /**
-     * @private
-     * @return Rpc\Marshaller\CallMarshaller
-     */
-    protected function getMarshaller()
-    {
-        if ($this->marshaller === null) {
-            $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
-                new \Mosaic\Common\XmlHelper()
-            );
-        }
-
-        return $this->marshaller;
-    }
-
-    /**
-     * @private
-     * @return Service\Shopping
-     */
-    protected function getShoppingService()
-    {
-        if ($this->shoppingService === null) {
-            $this->shoppingService = new Service\Shopping(
-                new ShopFactory\Http($this->gateway),
-                $this->getChangeVisitor(),
-                $this->getLogger()
-            );
-        }
-
-        return $this->shoppingService;
-    }
-
-    /**
-     * @private
-     * @return Service\Verification
-     */
-    protected function getVerificationService()
-    {
-        if ($this->verificationService === null) {
-            $this->verificationService = new Service\Verification(
-                $this->getHttpClient($this->socialNetworkHost),
-                $this->gateway
-            );
-        }
-
-        return $this->verificationService;
-    }
-
-    /**
-     * @private
-     * @return Service\Search
-     */
-    protected function getSearchService()
-    {
-        if ($this->searchService === null) {
-            $this->searchService = new Service\Search(
-                $this->getHttpClient($this->searchHost)
-            );
-        }
-
-        return $this->searchService;
-    }
-
-    /**
-     * @private
-     * @return Service\Syncer
-     */
-    protected function getSyncService()
-    {
-        if ($this->syncService === null) {
-            $this->syncService = new Service\Syncer(
-                $this->gateway,
-                $this->gateway,
-                $this->fromShop,
-                $this->getRevisionProvider(),
-                $this->getProductHasher()
-            );
-        }
-
-        return $this->syncService;
-    }
-
-    /**
-     * @private
-     * @return ProductHasher
-     */
-    protected function getProductHasher()
-    {
-        if ($this->productHasher === null) {
-            $this->productHasher = new ProductHasher\Simple();
-        }
-
-        return $this->productHasher;
-    }
-
-    /**
-     * @private
-     * @return RevisionProvider
-     */
-    protected function getRevisionProvider()
-    {
-        if ($this->revisionFromShop === null) {
-            $this->revisionFromShop = new RevisionProvider\Time();
-        }
-
-        return $this->revisionFromShop;
-    }
-
-    /**
-     * @private
-     * @return ChangeVisitor
-     */
-    protected function getChangeVisitor()
-    {
-        if ($this->changeVisitor === null) {
-            $this->changeVisitor = new ChangeVisitor\Message(
-                $this->getVerificator()
-            );
-        }
-
-        return $this->changeVisitor;
-    }
-
-    /**
-     * @private
-     * @return Logger
-     */
-    protected function getLogger()
-    {
-        if ($this->logger === null) {
-            $this->logger = new Logger\Http(
-                $this->getHttpClient($this->transactionHost)
-            );
-        }
-
-        return $this->logger;
-    }
-
-    /**
-     * @private
-     * @param string $server
-     * @return \Mosaic\SDK\HttpClient
-     */
-    protected function getHttpClient($server)
-    {
-        return new HttpClient\Stream($server);
+        return $this->dependencies->getVerificator();
     }
 }
