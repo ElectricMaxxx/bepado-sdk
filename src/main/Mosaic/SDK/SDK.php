@@ -48,6 +48,11 @@ final class SDK
     private $dependencies;
 
     /**
+     * Version constant
+     */
+    const VERSION = '0.1-alpha';
+
+    /**
      * @param string $apiKey API key assigned to you by Mosaic
      * @param string $apiEndpointUrl Your local API endpoint
      * @param \Mosaic\SDK\Gateway $gateway
