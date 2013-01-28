@@ -58,6 +58,13 @@ interface ShopConfiguration
     public function setShopId($shopId);
 
     /**
+     * Get last shop verification date as Unix UTC timestamp
+     *
+     * @return int
+     */
+    public function getLastVerificationDate();
+
+    /**
      * Get own shop ID
      *
      * @return string

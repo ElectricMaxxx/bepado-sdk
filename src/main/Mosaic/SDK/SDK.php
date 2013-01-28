@@ -88,7 +88,7 @@ final class SDK
     public function verifySdk()
     {
         if ($this->verified ||
-            $this->dependencies->getGateway()->getShopId() !== false) {
+            $this->dependencies->getVerificationService()->isValid()) {
             return;
         }
 

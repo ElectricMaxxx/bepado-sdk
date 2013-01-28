@@ -28,6 +28,7 @@ class InMemory extends Gateway
     protected $lastRevision;
     protected $shopConfiguration = array();
     protected $shopId = null;
+    protected $lastVerificationDate = null;
     protected $categories = array();
     protected $reservations = array();
 
@@ -266,6 +267,7 @@ class InMemory extends Gateway
     public function setShopId($shopId)
     {
         $this->shopId = $shopId;
+        $this->lastVerificationDate = time();
     }
 
     /**
@@ -276,6 +278,16 @@ class InMemory extends Gateway
     public function getShopId()
     {
         return $this->shopId ?: false;
+    }
+
+    /**
+     * Get last shop verification date as Unix UTC timestamp
+     *
+     * @return int
+     */
+    public function getLastVerificationDate()
+    {
+        return $this->lastVerificationDate;
     }
 
     /**

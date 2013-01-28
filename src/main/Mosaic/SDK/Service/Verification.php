@@ -40,6 +40,17 @@ class Verification
     }
 
     /**
+     * Checks if verification is still valid
+     *
+     * @return void
+     */
+    public function isValid()
+    {
+        return $this->config->getShopId() &&
+            ($this->config->getLastVerificationDate() > (time() - (7 * 86400)));
+    }
+
+    /**
      * Verify the shops API key and stores the shopId in the response for
      * future use
      *

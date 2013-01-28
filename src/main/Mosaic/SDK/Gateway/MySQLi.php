@@ -456,6 +456,30 @@ class MySQLi extends Gateway
     }
 
     /**
+     * Get last shop verification date as Unix UTC timestamp
+     *
+     * @return int
+     */
+    public function getLastVerificationDate()
+    {
+        $result = $this->connection->query(
+            'SELECT
+                UNIX_TIMESTAMP(`changed`) as changed
+            FROM
+                `mosaic_shop_config`
+            WHERE
+                `s_shop` = "_self_"'
+        );
+
+        $rows = $result->fetch_all(\MYSQLI_ASSOC);
+        if (!count($rows)) {
+            return false;
+        }
+
+        return $rows[0]['changed'];
+    }
+
+    /**
      * Create and store reservation
      *
      * Returns the reservation Id
