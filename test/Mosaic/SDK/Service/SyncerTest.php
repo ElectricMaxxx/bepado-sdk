@@ -34,6 +34,11 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $gateway = $this->getGateway();
         $gateway->setShopId('shop');
+        $gateway->setCategories(
+            array(
+                '/others' => 'Others',
+            )
+        );
 
         return $this->sdk = new SDK\SDK(
             'apikey',
@@ -97,6 +102,7 @@ abstract class SyncerTest extends Common\Test\TestCase
                 'price' => $productId * .89,
                 'currency' => 'EUR',
                 'availability' => $productId,
+                'categories' => array('/others'),
             )
         );
     }

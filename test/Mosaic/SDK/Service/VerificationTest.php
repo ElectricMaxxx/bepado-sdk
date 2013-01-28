@@ -54,7 +54,7 @@ class VerificationTest extends Common\Test\TestCase
                     new HttpClient\Response(
                         array(
                             'status' => 200,
-                            'body' => '{"shopId":"shop1"}',
+                            'body' => '{"shopId":"shop1","categories":{"/others":"Others"}}',
                         )
                     )
                 )
