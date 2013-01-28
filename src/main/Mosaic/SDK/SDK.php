@@ -469,33 +469,35 @@ final class SDK
             $this->verificator = new Struct\VerificatorDispatcher(
                 array(
                     'Mosaic\\SDK\\Struct\\Order' =>
-                         new Struct\Verificator\Order(),
+                        new Struct\Verificator\Order(),
                     'Mosaic\\SDK\\Struct\\OrderItem' =>
-                         new Struct\Verificator\OrderItem(),
+                        new Struct\Verificator\OrderItem(),
                     'Mosaic\\SDK\\Struct\\Product' =>
-                         new Struct\Verificator\Product(),
+                        new Struct\Verificator\Product(
+                            $this->gateway->getCategories()
+                        ),
                     'Mosaic\\SDK\\Struct\\Change\\FromShop\\Insert' =>
-                         new Struct\Verificator\Change\InsertOrUpdate(),
+                        new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\FromShop\\Update' =>
-                         new Struct\Verificator\Change\InsertOrUpdate(),
+                        new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\FromShop\\Delete' =>
-                         new Struct\Verificator\Change(),
+                        new Struct\Verificator\Change(),
                     'Mosaic\\SDK\\Struct\\Change\\ToShop\\InsertOrUpdate' =>
-                         new Struct\Verificator\Change\InsertOrUpdate(),
+                        new Struct\Verificator\Change\InsertOrUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\ToShop\\Delete' =>
-                         new Struct\Verificator\Change\Delete(),
+                        new Struct\Verificator\Change\Delete(),
                     'Mosaic\\SDK\\Struct\\Change\\InterShop\\Update' =>
-                         new Struct\Verificator\Change\InterShopUpdate(),
+                        new Struct\Verificator\Change\InterShopUpdate(),
                     'Mosaic\\SDK\\Struct\\Change\\InterShop\\Delete' =>
-                         new Struct\Verificator\Change\InterShopDelete(),
+                        new Struct\Verificator\Change\InterShopDelete(),
                     'Mosaic\\SDK\\Struct\\ShopConfiguration' =>
-                         new Struct\Verificator\ShopConfiguration(),
+                        new Struct\Verificator\ShopConfiguration(),
                     'Mosaic\\SDK\\Struct\\Reservation' =>
-                         new Struct\Verificator\Reservation(),
+                        new Struct\Verificator\Reservation(),
                     'Mosaic\\SDK\\Struct\\Message' =>
-                         new Struct\Verificator\Message(),
+                        new Struct\Verificator\Message(),
                     'Mosaic\\SDK\\Struct\\Address' =>
-                         new Struct\Verificator\Address(),
+                        new Struct\Verificator\Address(),
                 )
             );
         }
