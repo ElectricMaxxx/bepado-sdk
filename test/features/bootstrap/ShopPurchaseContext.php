@@ -139,6 +139,7 @@ class ShopPurchaseContext extends SDKContext
                                 'currency' => 'EUR',
                                 'availability' => 5,
                                 'title' => 'Sindelfingen',
+                                'categories' => array('/others'),
                             )
                         ),
                     )
@@ -176,6 +177,7 @@ class ShopPurchaseContext extends SDKContext
                         'currency' => 'EUR',
                         'availability' => 5,
                         'title' => 'Sindelfingen',
+                        'categories' => array('/others'),
                     )
                 ),
             )
@@ -224,6 +226,7 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 0,
                             'title' => 'Sindelfingen',
+                            'categories' => array('/others'),
                         )
                     ),
                 )
@@ -249,6 +252,7 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 5,
                             'title' => 'Sindelfingen',
+                            'categories' => array('/others'),
                         )
                     ),
                 )
@@ -305,6 +309,7 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 5,
                             'title' => 'Sindelfingen',
+                            'categories' => array('/others'),
                         )
                     ),
                 )
@@ -359,6 +364,7 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 0,
                             'title' => 'Sindelfingen',
+                            'categories' => array('/others'),
                         )
                     ),
                 )

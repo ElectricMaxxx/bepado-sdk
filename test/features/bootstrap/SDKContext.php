@@ -40,12 +40,14 @@ class SDKContext extends BehatContext
                 break;
             case 'MySQLi':
                 $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
-                $gateway = new Gateway\MySQLi($connection = new MySQLi(
-                    $config['db.hostname'],
-                    $config['db.userid'],
-                    $config['db.password'],
-                    $config['db.name']
-                ));
+                $gateway = new Gateway\MySQLi(
+                    $connection = new MySQLi(
+                        $config['db.hostname'],
+                        $config['db.userid'],
+                        $config['db.password'],
+                        $config['db.name']
+                    )
+                );
                 $connection->query('TRUNCATE TABLE mosaic_change;');
                 $connection->query('TRUNCATE TABLE mosaic_product;');
                 $connection->query('TRUNCATE TABLE mosaic_data;');
@@ -56,6 +58,11 @@ class SDKContext extends BehatContext
         }
 
         $gateway->setShopId('shop');
+        $gateway->setCategories(
+            array(
+                '/others' => 'Others',
+            )
+        );
         return $gateway;
     }
 
@@ -90,6 +97,7 @@ class SDKContext extends BehatContext
                 'price' => $productId * .89,
                 'currency' => 'EUR',
                 'availability' => $productId,
+                'categories' => array('/others'),
             )
         );
     }
