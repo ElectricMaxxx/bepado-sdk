@@ -7,6 +7,8 @@
 
 namespace Mosaic\SDK;
 
+use Mosaic\Common\Struct\RpcCall;
+
 /**
  * Central SDK class, which serves as an etnry point and service fromShop.
  *
