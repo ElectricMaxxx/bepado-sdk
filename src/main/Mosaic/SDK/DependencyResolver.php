@@ -416,6 +416,14 @@ class DependencyResolver
      */
     public function getHttpClient($server)
     {
-        return new HttpClient\Stream($server);
+        $client = new HttpClient\Stream($server);
+        $client->addDefaultHeaders(
+            array(
+                'X-Mosaic-SDK-Version: ' . SDK::VERSION,
+                'Accept: applications/x-mosaic-json-' . SDK::VERSION,
+            )
+        );
+
+        return $client;
     }
 }

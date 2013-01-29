@@ -44,10 +44,7 @@ class VerificationTest extends Common\Test\TestCase
             ->with(
                 'POST',
                 '/sdk/verify',
-                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}',
-                array(
-                    'Content-Type: application/json',
-                )
+                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}'
             )
             ->will(
                 $this->returnValue(
@@ -84,10 +81,7 @@ class VerificationTest extends Common\Test\TestCase
             ->with(
                 'POST',
                 '/sdk/verify',
-                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}',
-                array(
-                    'Content-Type: application/json',
-                )
+                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}'
             )
             ->will(
                 $this->returnValue(

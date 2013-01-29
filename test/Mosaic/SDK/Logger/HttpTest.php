@@ -66,10 +66,7 @@ class HttpTest extends Common\Test\TestCase
             ->with(
                 'POST',
                 '/transaction',
-                json_encode($order),
-                array(
-                    'Content-Type: application/json',
-                )
+                json_encode($order)
             )
             ->will(
                 $this->returnValue(

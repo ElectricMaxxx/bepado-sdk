@@ -22,9 +22,9 @@ class Stream extends HttpClient
     /**
      * Optional default headers for each request.
      *
-     * @var string
+     * @var array
      */
-    private $header = '';
+    private $headers = array();
 
     /**
      * The remote REST server location.
@@ -51,8 +51,8 @@ class Stream extends HttpClient
         );
 
         if ($url['user'] || $url['pass']) {
-            $this->header = 'Authorization: Basic ' .
-                base64_encode("{$url['user']}:{$url['pass']}") . "\r\n";
+            $this->headers[] = 'Authorization: Basic ' .
+                base64_encode("{$url['user']}:{$url['pass']}");
         }
 
         $this->server = $url['scheme'] . '://' . $url['host'];
@@ -60,6 +60,20 @@ class Stream extends HttpClient
             $this->server .= ':' . $url['port'];
         }
         $this->server .= $url['path'];
+    }
+
+    /**
+     * Add default headers
+     *
+     * @param array $headers
+     * @return void
+     */
+    public function addDefaultHeaders(array $headers)
+    {
+        $this->headers = array_merge(
+            $this->headers,
+            $headers
+        );
     }
 
     /**
@@ -83,7 +97,13 @@ class Stream extends HttpClient
                         'method'        => $method,
                         'content'       => $body,
                         'ignore_errors' => true,
-                        'header'        => $this->header . implode("\r\n", $headers),
+                        'header'        => implode(
+                            "\r\n",
+                            array_merge(
+                                $this->headers,
+                                $headers
+                            )
+                        ),
                     ),
                 )
             )
