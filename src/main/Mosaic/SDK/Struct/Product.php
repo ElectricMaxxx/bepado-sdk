@@ -15,7 +15,7 @@ use Mosaic\SDK\Struct;
  * @version $Revision$
  * @api
  */
-class Product extends Struct
+class Product extends ShopItem
 {
     /**
      * Local ID of the product in your shop.
@@ -111,26 +111,6 @@ class Product extends Struct
      * @var string[]
      */
     public $categories = array();
-
-    /**
-     * ID of the shop.
-     *
-     * Will be set by the SDK.
-     *
-     * @var string
-     * @access private
-     */
-    public $shopId;
-
-    /**
-     * Product revision
-     *
-     * Will be set by the SDK.
-     *
-     * @var string
-     * @access private
-     */
-    public $revisionId;
 
     /**
      * Restores a product from a previously stored state array.
