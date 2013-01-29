@@ -297,6 +297,23 @@ final class SDK
     }
 
     /**
+     * Return array with categories
+     *
+     * The array is indexed by the category identifiers, which should be used
+     * to reference categories in products.
+     *
+     * The values of the arary are the category names, which can be used to
+     * provided users an overview of the Mosaic categories.
+     *
+     * @return array
+     */
+    public function getCategories()
+    {
+        $this->verifySdk();
+        return $this->dependencies->getGateway()->getCategories();
+    }
+
+    /**
      * Get service registry
      *
      * Direct access to this class is provided for testing and verification.
