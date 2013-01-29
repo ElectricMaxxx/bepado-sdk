@@ -84,7 +84,7 @@ class Syncer
      *
      * @return void
      */
-    public function sync()
+    public function recreateChangesFeed()
     {
         $shopProducts = $this->fromShop->getExportedProductIDs();
         $knownProducts = $this->products->getAllProductIDs();

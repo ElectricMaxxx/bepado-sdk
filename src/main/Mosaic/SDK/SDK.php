@@ -135,12 +135,15 @@ final class SDK
      * Use this method, if your shop is not able to record all change
      * operations on your products itself, using the record*() methods.
      *
+     * This operation can be really expensive to execute, depending on the
+     * number of products you export.
+     *
      * @return void
      */
-    public function sync()
+    public function recreateChangesFeed()
     {
         $this->verifySdk();
-        $this->dependencies->getSyncService()->sync();
+        $this->dependencies->getSyncService()->recreateChangesFeed();
     }
 
     /**

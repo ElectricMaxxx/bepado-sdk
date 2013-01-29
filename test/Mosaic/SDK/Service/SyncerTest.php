@@ -138,7 +138,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     public function testInitialBuild()
     {
         $sdk = $this->getSdk($this->getProductFromShop(array(1, 2)));
-        $sdk->sync();
+        $sdk->recreateChangesFeed();
 
         $this->assertChanges(
             array(
@@ -165,7 +165,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductFromShop(array(1, 2)));
-        $sdk->sync();
+        $sdk->recreateChangesFeed();
 
         $this->assertChanges(
             array(),
@@ -188,7 +188,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductFromShop(array(1, 2), 'update'));
-        $sdk->sync();
+        $sdk->recreateChangesFeed();
 
         $this->assertChanges(
             array(
@@ -214,7 +214,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductFromShop(array(1, 2), 'update'));
-        $sdk->sync();
+        $sdk->recreateChangesFeed();
 
         $this->sdk->getServiceRegistry()->dispatch(
             new RpcCall(
@@ -250,7 +250,7 @@ abstract class SyncerTest extends Common\Test\TestCase
     {
         $revision = $this->testInitialBuild();
         $sdk = $this->getSdk($this->getProductFromShop(array()));
-        $sdk->sync();
+        $sdk->recreateChangesFeed();
 
         $this->assertChanges(
             array(
