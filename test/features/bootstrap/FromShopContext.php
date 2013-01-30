@@ -132,7 +132,7 @@ class FromShopContext extends SDKContext
     {
         $overallProductCount = 0;
         for ($i = 0; $i < $this->offset; ++$i) {
-            $changes = $this->sdk->getServiceRegistry()->dispatch(
+            $changes = $this->makeRpcCall(
                 new Struct\RpcCall(array(
                     'service' => 'products',
                     'command' => 'fromShop',
