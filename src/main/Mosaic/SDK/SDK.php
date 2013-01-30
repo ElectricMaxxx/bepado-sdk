@@ -117,9 +117,16 @@ final class SDK
                 array(
                     'service' => 'null',
                     'command' => 'return',
-                    'arguments' => array($this->dependencies->getServiceRegistry()->dispatch(
-                        $this->dependencies->getUnmarshaller()->unmarshal($xml)
-                    ))
+                    'arguments' => array(
+                        new Struct\Response(
+                            array(
+                                'result' => $this->dependencies->getServiceRegistry()->dispatch(
+                                    $this->dependencies->getUnmarshaller()->unmarshal($xml)
+                                ),
+                                'metrics' => $this->dependencies->getMetricService()->getMetrics(),
+                            )
+                        )
+                    )
                 )
             )
         );

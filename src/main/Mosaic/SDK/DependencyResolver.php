@@ -96,6 +96,13 @@ class DependencyResolver
     protected $syncService;
 
     /**
+     * Metric service
+     *
+     * @var Service\Metric
+     */
+    protected $metricService;
+
+    /**
      * Product hasher
      *
      * @var ProductHasher
@@ -356,6 +363,20 @@ class DependencyResolver
         }
 
         return $this->syncService;
+    }
+
+    /**
+     * @return Service\Metric
+     */
+    public function getMetricService()
+    {
+        if ($this->metricService === null) {
+            $this->metricService = new Service\Metric(
+                $this->gateway
+            );
+        }
+
+        return $this->metricService;
     }
 
     /**
