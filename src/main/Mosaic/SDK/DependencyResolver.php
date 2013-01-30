@@ -187,7 +187,15 @@ class DependencyResolver
     public function getServiceRegistry()
     {
         if ($this->registry === null) {
-            $this->registry = new Rpc\ServiceRegistry();
+            $this->registry = new ServiceRegistry\Metric(
+                new Rpc\ServiceRegistry()
+            );
+
+            $this->registry->registerMetric(
+                'products',
+                'fromShop',
+                $this->getMetricService()
+            );
 
             $this->registry->registerService(
                 'products',

@@ -32,6 +32,17 @@ interface ChangeGateway
     public function getNextChanges($offset, $limit);
 
     /**
+     * Get unprocessed changes count
+     *
+     * The offset specified the revision to start from
+     *
+     * @param string $offset
+     * @param int $limit
+     * @return Struct\Changes[]
+     */
+    public function getUnprocessedChangesCount($offset, $limit);
+
+    /**
      * Record product insert
      *
      * @param string $id

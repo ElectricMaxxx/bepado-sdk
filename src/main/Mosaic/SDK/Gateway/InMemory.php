@@ -70,6 +70,40 @@ class InMemory extends Gateway
         return $changes;
     }
 
+    /**
+     * Get unprocessed changes count
+     *
+     * The offset specified the revision to start from
+     *
+     * @param string $offset
+     * @param int $limit
+     * @return Struct\Changes[]
+     */
+    public function getUnprocessedChangesCount($offset, $limit)
+    {
+        $record = $offset === null;
+        $changes = array();
+        $i = 0;
+        $count = 0;
+        foreach ($this->changes as $revision => $data) {
+            if (strcmp($revision, $offset) > 0) {
+                $record = true;
+            }
+
+            if (!$record || $revision === $offset) {
+                continue;
+            }
+
+            if ($i >= $limit) {
+                $count++;
+            }
+
+            $i++;
+        }
+
+        return $count;
+    }
+
     private function createChange(array $data)
     {
         switch ($data['type']) {

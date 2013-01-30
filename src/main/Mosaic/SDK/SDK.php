@@ -8,7 +8,6 @@
 namespace Mosaic\SDK;
 
 use Mosaic\Common\Struct\RpcCall;
-use Mosaic\Common\Struct\Response;
 
 /**
  * Central SDK class, which serves as an etnry point and service fromShop.
@@ -113,21 +112,16 @@ final class SDK
     public function handle($xml)
     {
         $this->verifySdk();
+
         return $this->dependencies->getMarshaller()->marshal(
             new RpcCall(
                 array(
                     'service' => 'null',
                     'command' => 'return',
                     'arguments' => array(
-                        new Response(
-                            array(
-                                'result' => $this->dependencies->getServiceRegistry()->dispatch(
-                                    $this->dependencies->getUnmarshaller()->unmarshal($xml)
-                                ),
-                                'metrics' => $this->dependencies->getMetricService()->getMetrics(),
-                                'version' => self::VERSION,
-                            )
-                        )
+                        $this->dependencies->getServiceRegistry()->dispatch(
+                            $this->dependencies->getUnmarshaller()->unmarshal($xml)
+                        ),
                     )
                 )
             )

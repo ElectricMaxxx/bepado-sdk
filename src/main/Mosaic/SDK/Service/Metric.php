@@ -7,12 +7,8 @@
 
 namespace Mosaic\SDK\Service;
 
-use Mosaic\SDK\Gateway;
-use Mosaic\SDK\ProductFromShop;
-use Mosaic\SDK\RevisionProvider;
-use Mosaic\SDK\ProductHasher;
 use Mosaic\SDK\Gateway\ChangeGateway;
-use Mosaic\SDK\Gateway\ProductGateway;
+use Mosaic\Common\Struct;
 
 /**
  * Service to receive current shop metrics
@@ -40,12 +36,21 @@ class Metric
     }
 
     /**
-     * Get current shop metrics
+     * Export current change state to Mosaic
      *
-     * @return array
+     * @param string $revision
+     * @param int $productCount
+     * @return \Mosaic\Common\Struct\Metric[]
      */
-    public function getMetrics()
+    public function fromShop($revision, $productCount)
     {
-        return array();
+        return array(
+            new Struct\Metric\Count(
+                array(
+                    'name' => 'sdk.changes_backlog',
+                    'count' => $this->changes->getUnprocessedChangesCount($revision, $productCount),
+                )
+            ),
+        );
     }
 }

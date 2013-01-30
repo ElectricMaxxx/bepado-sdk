@@ -107,6 +107,31 @@ class MySQLi extends Gateway
     }
 
     /**
+     * Get unprocessed changes count
+     *
+     * The offset specified the revision to start from
+     *
+     * @param string $offset
+     * @param int $limit
+     * @return Struct\Changes[]
+     */
+    public function getUnprocessedChangesCount($offset, $limit)
+    {
+        $offset = $offset ?: 0;
+        $result = $this->connection->query(
+            'SELECT
+                COUNT(*) `changes`
+            FROM
+                `mosaic_change`
+            WHERE
+                `c_revision` > ' . $offset
+        );
+
+        $row = $result->fetch_assoc();
+        return max(0, $row['changes'] - $limit);
+    }
+
+    /**
      * Record product insert
      *
      * @param string $id
