@@ -26,6 +26,13 @@ class SDKContext extends BehatContext
      */
     protected $sdk;
 
+    /**
+     * SDK dependencies for optional direct access
+     *
+     * @var DependencyResolver
+     */
+    protected $dependencies;
+
     public function __construct()
     {
         $this->initSDK();
@@ -78,6 +85,10 @@ class SDKContext extends BehatContext
             $productToShop,
             $productFromShop
         );
+
+        $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
+        $dependenciesProperty->setAccessible(true);
+        $this->dependencies = $dependenciesProperty->getValue($this->sdk);
     }
 
     /**
@@ -100,5 +111,16 @@ class SDKContext extends BehatContext
                 'categories' => array('/others'),
             )
         );
+    }
+
+    protected function makeRpcCall(Struct\RpcCall $rpcCall)
+    {
+        $result = $this->dependencies->getUnmarshaller()->unmarshal(
+            $this->sdk->handle(
+                $this->dependencies->getMarshaller()->marshal($rpcCall)
+            )
+        );
+
+        return $result->arguments[0]->result;
     }
 }

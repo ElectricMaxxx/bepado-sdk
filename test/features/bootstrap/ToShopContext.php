@@ -98,7 +98,7 @@ class ToShopContext extends SDKContext
     {
         $process = array_slice($this->changes, 0, $count);
         $this->changes = array_slice($this->changes, $count);
-        $this->shopRevision = $this->sdk->getServiceRegistry()->dispatch(
+        $this->shopRevision = $this->makeRpcCall(
             new Struct\RpcCall(array(
                 'service' => 'products',
                 'command' => 'toShop',
@@ -124,12 +124,12 @@ class ToShopContext extends SDKContext
     {
         Assertion::assertEquals(
             $this->shopRevision,
-            $this->sdk->getServiceRegistry()->dispatch(
-               new Struct\RpcCall(array(
-                   'service' => 'products',
-                   'command' => 'getLastRevision',
-                   'arguments' => array(),
-               ))
+            $this->makeRpcCall(
+                new Struct\RpcCall(array(
+                    'service' => 'products',
+                    'command' => 'getLastRevision',
+                    'arguments' => array(),
+                ))
             )
         );
 
