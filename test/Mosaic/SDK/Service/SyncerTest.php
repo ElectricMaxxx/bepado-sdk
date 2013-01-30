@@ -24,12 +24,25 @@ abstract class SyncerTest extends Common\Test\TestCase
     protected $sdk;
 
     /**
+     * Dependency Resolver
+     *
+     * @var DependencyResolver
+     */
+    protected $dependencies;
+
+    /**
      * Get used gateway for test
      *
      * @return SDK\Gateway
      */
     abstract protected function getGateway();
 
+    /**
+     * Get SDK
+     *
+     * @param SDK\ProductFromShop $productFromShop
+     * @return SDK
+     */
     protected function getSDK(SDK\ProductFromShop $productFromShop)
     {
         $gateway = $this->getGateway();
@@ -40,13 +53,36 @@ abstract class SyncerTest extends Common\Test\TestCase
             )
         );
 
-        return $this->sdk = new SDK\SDK(
+        $this->sdk = new SDK\SDK(
             'apikey',
             'http://example.com/endpoint',
             $gateway,
             $this->getMock('\\Mosaic\\SDK\\ProductToShop'),
             $productFromShop
         );
+
+        $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
+        $dependenciesProperty->setAccessible(true);
+        $this->dependencies = $dependenciesProperty->getValue($this->sdk);
+
+        return $this->sdk;
+    }
+
+    /**
+     * Make a RPC call using the marshalling and unmarshalling
+     *
+     * @param RpcCall $rpcCall
+     * @return mixed
+     */
+    protected function makeRpcCall(RpcCall $rpcCall)
+    {
+        $result = $this->dependencies->getUnmarshaller()->unmarshal(
+            $this->sdk->handle(
+                $this->dependencies->getMarshaller()->marshal($rpcCall)
+            )
+        );
+
+        return $result->arguments[0]->result;
     }
 
     /**
@@ -120,7 +156,7 @@ abstract class SyncerTest extends Common\Test\TestCase
             $expectation,
             array_map(
                 function ($change) {
-                    $this->sdk->getVerificator()->verify($change);
+                    $this->dependencies->getVerificator()->verify($change);
 
                     // We do not care to comapre revision and product in change
                     $change = clone $change;
@@ -145,7 +181,7 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Insert(array('sourceId' => '1')),
                 new Insert(array('sourceId' => '2')),
             ),
-            $changes = $this->sdk->getServiceRegistry()->dispatch(
+            $changes = $this->makeRpcCall(
                 new RpcCall(
                     array(
                         'service' => 'products',
@@ -169,7 +205,7 @@ abstract class SyncerTest extends Common\Test\TestCase
 
         $this->assertChanges(
             array(),
-            $this->sdk->getServiceRegistry()->dispatch(
+            $this->makeRpcCall(
                 new RpcCall(
                     array(
                         'service' => 'products',
@@ -195,7 +231,7 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Update(array('sourceId' => '1')),
                 new Update(array('sourceId' => '2')),
             ),
-            $this->sdk->getServiceRegistry()->dispatch(
+            $this->makeRpcCall(
                 new RpcCall(
                     array(
                         'service' => 'products',
@@ -216,7 +252,7 @@ abstract class SyncerTest extends Common\Test\TestCase
         $sdk = $this->getSdk($this->getProductFromShop(array(1, 2), 'update'));
         $sdk->recreateChangesFeed();
 
-        $this->sdk->getServiceRegistry()->dispatch(
+        $this->makeRpcCall(
             new RpcCall(
                 array(
                     'service' => 'products',
@@ -231,7 +267,7 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Update(array('sourceId' => '1')),
                 new Update(array('sourceId' => '2')),
             ),
-            $this->sdk->getServiceRegistry()->dispatch(
+            $this->makeRpcCall(
                 new RpcCall(
                     array(
                         'service' => 'products',
@@ -257,7 +293,7 @@ abstract class SyncerTest extends Common\Test\TestCase
                 new Delete(array('sourceId' => '1')),
                 new Delete(array('sourceId' => '2')),
             ),
-            $this->sdk->getServiceRegistry()->dispatch(
+            $this->makeRpcCall(
                 new RpcCall(
                     array(
                         'service' => 'products',
