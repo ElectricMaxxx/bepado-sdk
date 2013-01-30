@@ -43,7 +43,7 @@ class PushShopConfigContext extends SDKContext
      */
     public function mosaicSynchronizesDataWithTheShop()
     {
-        $this->sdk->getServiceRegistry()->dispatch(
+        $this->makeRpcCall(
             new Struct\RpcCall(array(
                 'service' => 'configuration',
                 'command' => 'update',
