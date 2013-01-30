@@ -113,6 +113,12 @@ class SDKContext extends BehatContext
         );
     }
 
+    /**
+     * Make a RPC call using the marshalling and unmarshalling
+     *
+     * @param Struct\RpcCall $rpcCall
+     * @return mixed
+     */
     protected function makeRpcCall(Struct\RpcCall $rpcCall)
     {
         $result = $this->dependencies->getUnmarshaller()->unmarshal(

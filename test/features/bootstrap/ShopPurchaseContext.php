@@ -87,12 +87,12 @@ class ShopPurchaseContext extends SDKContext
         // Inject custom direct access shop gateway factory
         $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
         $dependenciesProperty->setAccessible(true);
-        $dependencies = $dependenciesProperty->getValue($this->sdk);
+        $this->dependencies = $dependenciesProperty->getValue($this->sdk);
 
-        $shoppingServiceProperty = new \ReflectionProperty($dependencies, 'shoppingService');
+        $shoppingServiceProperty = new \ReflectionProperty($this->dependencies, 'shoppingService');
         $shoppingServiceProperty->setAccessible(true);
         $shoppingServiceProperty->setValue(
-            $dependencies,
+            $this->dependencies,
             new Service\Shopping(
                 new ShopFactory\DirectAccess(
                     $this->productToShop,
@@ -101,17 +101,17 @@ class ShopPurchaseContext extends SDKContext
                     $this->logger
                 ),
                 new ChangeVisitor\Message(
-                    $this->sdk->getVerificator()
+                    $this->dependencies->getVerificator()
                 ),
                 $this->logger
             )
         );
 
         // Inject custom logger
-        $loggerProperty = new \ReflectionProperty($dependencies, 'logger');
+        $loggerProperty = new \ReflectionProperty($this->dependencies, 'logger');
         $loggerProperty->setAccessible(true);
         $loggerProperty->setValue(
-            $dependencies,
+            $this->dependencies,
             $this->logger
         );
     }
@@ -194,7 +194,7 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerChecksOut()
     {
         $this->result = $this->sdk->reserveProducts($this->order);
-        $this->sdk->getVerificator()->verify($this->result);
+        $this->dependencies->getVerificator()->verify($this->result);
 
         if (!count($this->result->messages)) {
             $this->result = $this->sdk->checkout($this->result);
@@ -381,7 +381,7 @@ class ShopPurchaseContext extends SDKContext
     public function theBuyProcessFailsAndTheCustomerIsInformedAboutThis()
     {
         Assertion::assertTrue($this->result instanceof Struct\Reservation);
-        $this->sdk->getVerificator()->verify($this->result);
+        $this->dependencies->getVerificator()->verify($this->result);
         Assertion::assertNotEquals(0, count($this->result->messages));
     }
 

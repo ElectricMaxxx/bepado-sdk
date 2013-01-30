@@ -324,32 +324,4 @@ final class SDK
         $this->verifySdk();
         return $this->dependencies->getGateway()->getCategories();
     }
-
-    /**
-     * Get service registry
-     *
-     * Direct access to this class is provided for testing and verification.
-     * Use this to issue a call without the need to craft the corresponding
-     * XML.
-     *
-     * @return Rpc\ServiceRegistry
-     */
-    public function getServiceRegistry()
-    {
-        return $this->dependencies->getServiceRegistry();
-    }
-
-    /**
-     * Get verificator
-     *
-     * Direct access to this class is provided for testing and verification.
-     * Use this class to verify the structs you pass to the Mosaic SDK. Mosaic
-     * will do this itself, but it might be useful to also do this yourself.
-     *
-     * @return \Mosaic\SDK\Struct\VerificatorDispatcher
-     */
-    public function getVerificator()
-    {
-        return $this->dependencies->getVerificator();
-    }
 }

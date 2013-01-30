@@ -161,7 +161,7 @@ class FromShopContext extends SDKContext
         Assertion::assertEquals($productCount, count($changes));
 
         foreach ($changes as $change) {
-            $this->sdk->getVerificator()->verify($change);
+            $this->dependencies->getVerificator()->verify($change);
         }
     }
 
@@ -177,7 +177,7 @@ class FromShopContext extends SDKContext
         );
 
         foreach ($changes as $change) {
-            $this->sdk->getVerificator()->verify($change);
+            $this->dependencies->getVerificator()->verify($change);
         }
     }
 
@@ -198,7 +198,7 @@ class FromShopContext extends SDKContext
 
         Assertion::assertEquals($productCount, count($changes));
         foreach ($changes as $change) {
-            $this->sdk->getVerificator()->verify($change);
+            $this->dependencies->getVerificator()->verify($change);
             Assertion::assertTrue($change instanceof Change\FromShop\Delete);
         }
     }
