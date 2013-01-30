@@ -17,11 +17,6 @@ use Mosaic\Common\Struct\RpcCall;
  *
  * Gateway to interact with other shops
  *
- * @TODO: We might want to integrate marshalling and unmarshalling here. In
- * this case we'd call the handle() method from the SDK with the marshalled
- * request and unmarshal the response before returning it. Would be a better
- * simulation of the real execution.
- *
  * @version $Revision$
  */
 class DirectAccess extends ShopGateway
@@ -33,9 +28,20 @@ class DirectAccess extends ShopGateway
      */
     protected $sdk;
 
+    /**
+     * Dependencies
+     *
+     * @var DependencyResolver
+     */
+    protected $dependencies;
+
     public function __construct(SDK $sdk)
     {
         $this->sdk = $sdk;
+
+        $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
+        $dependenciesProperty->setAccessible(true);
+        $this->dependencies = $dependenciesProperty->getValue($this->sdk);
     }
 
     /**
@@ -52,7 +58,7 @@ class DirectAccess extends ShopGateway
      */
     public function checkProducts(Struct\Order $order)
     {
-        return $this->sdk->getServiceRegistry()->dispatch(
+        return $this->makeRpcCall(
             new RpcCall(
                 array(
                     'service' => 'transaction',
@@ -77,7 +83,7 @@ class DirectAccess extends ShopGateway
      */
     public function reserveProducts(Struct\Order $order)
     {
-        return $this->sdk->getServiceRegistry()->dispatch(
+        return $this->makeRpcCall(
             new RpcCall(
                 array(
                     'service' => 'transaction',
@@ -99,7 +105,7 @@ class DirectAccess extends ShopGateway
      */
     public function buy($reservationId)
     {
-        return $this->sdk->getServiceRegistry()->dispatch(
+        return $this->makeRpcCall(
             new RpcCall(
                 array(
                     'service' => 'transaction',
@@ -121,7 +127,7 @@ class DirectAccess extends ShopGateway
      */
     public function confirm($reservationId)
     {
-        return $this->sdk->getServiceRegistry()->dispatch(
+        return $this->makeRpcCall(
             new RpcCall(
                 array(
                     'service' => 'transaction',
@@ -130,5 +136,22 @@ class DirectAccess extends ShopGateway
                 )
             )
         );
+    }
+
+    /**
+     * Make a RPC call using the marshalling and unmarshalling
+     *
+     * @param Struct\RpcCall $rpcCall
+     * @return mixed
+     */
+    protected function makeRpcCall(RpcCall $rpcCall)
+    {
+        $result = $this->dependencies->getUnmarshaller()->unmarshal(
+            $this->sdk->handle(
+                $this->dependencies->getMarshaller()->marshal($rpcCall)
+            )
+        );
+
+        return $result->arguments[0]->result;
     }
 }
