@@ -113,7 +113,7 @@ class MySQLi extends Gateway
      *
      * @param string $offset
      * @param int $limit
-     * @return Struct\Changes[]
+     * @return int
      */
     public function getUnprocessedChangesCount($offset, $limit)
     {
