@@ -165,7 +165,7 @@ class ShopPurchaseContext extends SDKContext
                     'line1' => 'Foo-Street 42',
                     'zip' => '12345',
                     'city' => 'Sindelfingen',
-                    'country' => 'Germany',
+                    'country' => 'DEU',
                 )
             );
         }
