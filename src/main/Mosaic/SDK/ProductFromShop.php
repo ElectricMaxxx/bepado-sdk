@@ -38,6 +38,7 @@ interface ProductFromShop
      *
      * @param Struct\Order $order
      * @return void
+     * @throws \Exception Abort reservation by throwing an exception here.
      */
     public function reserve(Struct\Order $order);
 
@@ -48,6 +49,10 @@ interface ProductFromShop
      *
      * @param Struct\Order $order
      * @return string
+     *
+     * @throws \Exception Abort buy by throwing an exception,
+     *                    but only in very important cases.
+     *                    Do validation in {@see reserve} instead.
      */
     public function buy(Struct\Order $order);
 }
