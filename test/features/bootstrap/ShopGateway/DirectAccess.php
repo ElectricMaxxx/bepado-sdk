@@ -1,16 +1,16 @@
 <?php
 /**
- * This file is part of the Mosaic SDK Component.
+ * This file is part of the Bepado SDK Component.
  *
  * @version $Revision$
  */
 
-namespace Mosaic\SDK\ShopGateway;
+namespace Bepado\SDK\ShopGateway;
 
-use Mosaic\SDK\ShopGateway;
-use Mosaic\SDK\Struct;
-use Mosaic\SDK\SDK;
-use Mosaic\Common\Struct\RpcCall;
+use Bepado\SDK\ShopGateway;
+use Bepado\SDK\Struct;
+use Bepado\SDK\SDK;
+use Bepado\Common\Struct\RpcCall;
 
 /**
  * Shop gateway base class

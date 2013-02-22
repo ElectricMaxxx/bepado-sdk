@@ -1,5 +1,5 @@
 -- Table: Shop Config (s)
-CREATE TABLE IF NOT EXISTS `mosaic_shop_config` (
+CREATE TABLE IF NOT EXISTS `bepado_shop_config` (
   `s_shop` VARCHAR(32) NOT NULL,
   `s_config` BLOB NOT NULL,
   `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

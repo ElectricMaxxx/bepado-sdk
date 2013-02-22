@@ -32,7 +32,7 @@
 SET foreign_key_checks = 0;
 
 -- Table: Change (c)
-CREATE TABLE IF NOT EXISTS `mosaic_change` (
+CREATE TABLE IF NOT EXISTS `bepado_change` (
   `c_source_id` VARCHAR(64) NOT NULL,
   `c_operation` CHAR(8) NOT NULL,
   `c_revision` DECIMAL(20, 10) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `mosaic_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Table: Product (p)
-CREATE TABLE IF NOT EXISTS `mosaic_product` (
+CREATE TABLE IF NOT EXISTS `bepado_product` (
   `p_source_id` VARCHAR(64) NOT NULL,
   `p_hash` VARCHAR(64) NOT NULL,
   `changed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

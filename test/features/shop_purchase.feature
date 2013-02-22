@@ -57,7 +57,7 @@ Feature: Interactions between shops on a purchase
           And The product is available in 1 shop
          When The Customer checks out
          Then The customer will receive the product
-          And The remote shop logs the transaction with Mosaic
+          And The remote shop logs the transaction with Bepado
 
     Scenario: The Buy succeeds and everything is logged
         Given The product is listed as available
@@ -65,5 +65,5 @@ Feature: Interactions between shops on a purchase
           And The product is available in 1 shop
          When The Customer checks out
          Then The customer will receive the product
-          And The local shop logs the transaction with Mosaic
+          And The local shop logs the transaction with Bepado
 

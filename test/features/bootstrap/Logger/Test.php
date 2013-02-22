@@ -1,14 +1,14 @@
 <?php
 /**
- * This file is part of the Mosaic SDK Component.
+ * This file is part of the Bepado SDK Component.
  *
  * @version $Revision$
  */
 
-namespace Mosaic\SDK\Logger;
+namespace Bepado\SDK\Logger;
 
-use Mosaic\SDK\Logger;
-use Mosaic\SDK\Struct;
+use Bepado\SDK\Logger;
+use Bepado\SDK\Struct;
 
 /**
  * Base class for logger implementations

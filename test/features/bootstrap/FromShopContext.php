@@ -1,6 +1,6 @@
 <?php
 
-namespace Mosaic\SDK;
+namespace Bepado\SDK;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -9,10 +9,10 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-use Mosaic\SDK\Struct\Product;
-use Mosaic\SDK\Struct\Change;
-use Mosaic\Common\Rpc;
-use Mosaic\Common\Struct;
+use Bepado\SDK\Struct\Product;
+use Bepado\SDK\Struct\Change;
+use Bepado\Common\Rpc;
+use Bepado\Common\Struct;
 
 use \PHPUnit_Framework_Assert as Assertion;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Mosaic\SDK;
+namespace Bepado\SDK;
 
 use Behat\Behat\Context\BehatContext;
 
-use Mosaic\Common\Rpc;
-use Mosaic\Common\Struct;
-use Mosaic\SDK\Struct\Product;
+use Bepado\Common\Rpc;
+use Bepado\Common\Struct;
+use Bepado\SDK\Struct\Product;
 
 use \PHPUnit_Framework_MockObject_Generator as Mocker;
 
@@ -55,10 +55,10 @@ class SDKContext extends BehatContext
                         $config['db.name']
                     )
                 );
-                $connection->query('TRUNCATE TABLE mosaic_change;');
-                $connection->query('TRUNCATE TABLE mosaic_product;');
-                $connection->query('TRUNCATE TABLE mosaic_data;');
-                $connection->query('TRUNCATE TABLE mosaic_reservations;');
+                $connection->query('TRUNCATE TABLE bepado_change;');
+                $connection->query('TRUNCATE TABLE bepado_product;');
+                $connection->query('TRUNCATE TABLE bepado_data;');
+                $connection->query('TRUNCATE TABLE bepado_reservations;');
                 break;
             default:
                 throw new \RuntimeException("Unknown storage backend $storage");
@@ -75,8 +75,8 @@ class SDKContext extends BehatContext
 
     protected function initSDK()
     {
-        $productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
-        $productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
+        $productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
+        $productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
 
         $this->sdk = new SDK(
             'apikey',

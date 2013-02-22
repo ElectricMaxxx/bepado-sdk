@@ -1,6 +1,6 @@
 <?php
 
-namespace Mosaic\SDK;
+namespace Bepado\SDK;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -9,8 +9,8 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-use Mosaic\SDK\Struct\ShopConfiguration;
-use Mosaic\Common\Struct;
+use Bepado\SDK\Struct\ShopConfiguration;
+use Bepado\Common\Struct;
 
 use \PHPUnit_Framework_Assert as Assertion;
 
@@ -39,9 +39,9 @@ class PushShopConfigContext extends SDKContext
     }
 
     /**
-     * @When /^Mosaic synchronizes data with the shop$/
+     * @When /^Bepado synchronizes data with the shop$/
      */
-    public function mosaicSynchronizesDataWithTheShop()
+    public function bepadoSynchronizesDataWithTheShop()
     {
         $this->makeRpcCall(
             new Struct\RpcCall(array(

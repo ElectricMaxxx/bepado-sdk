@@ -1,6 +1,6 @@
 <?php
 
-namespace Mosaic\SDK;
+namespace Bepado\SDK;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -9,9 +9,9 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-use Mosaic\SDK\Struct;
-use Mosaic\SDK\Controller;
-use Mosaic\Common\RPC;
+use Bepado\SDK\Struct;
+use Bepado\SDK\Controller;
+use Bepado\Common\RPC;
 
 use \PHPUnit_Framework_MockObject_Generator as Mocker;
 use \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCount;
@@ -72,8 +72,8 @@ class ShopPurchaseContext extends SDKContext
 
     protected function initSDK()
     {
-        $this->productToShop = Mocker::getMock('\\Mosaic\\SDK\\ProductToShop');
-        $this->productFromShop = Mocker::getMock('\\Mosaic\\SDK\\ProductFromShop');
+        $this->productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
+        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
         $this->logger = new Logger\Test();
 
         $this->sdk = new SDK(
@@ -409,9 +409,9 @@ class ShopPurchaseContext extends SDKContext
     }
 
     /**
-     * @Then /^The (local|remote) shop logs the transaction with Mosaic$/
+     * @Then /^The (local|remote) shop logs the transaction with Bepado$/
      */
-    public function theShopLogsTheTransactionWithMosaic($location)
+    public function theShopLogsTheTransactionWithBepado($location)
     {
         $expectedLogMessage = $location === 'remote' ? 0 : 1;
         $logMessages = $this->logger->getLogMessages();

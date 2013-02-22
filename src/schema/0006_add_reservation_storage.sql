@@ -1,5 +1,5 @@
 -- Table: Reservations (r)
-CREATE TABLE IF NOT EXISTS `mosaic_reservations` (
+CREATE TABLE IF NOT EXISTS `bepado_reservations` (
   `r_id` VARCHAR(32) NOT NULL,
   `r_state` VARCHAR(12) NOT NULL,
   `r_order` LONGBLOB NOT NULL,

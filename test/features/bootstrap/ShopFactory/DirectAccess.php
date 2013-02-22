@@ -1,19 +1,19 @@
 <?php
 /**
- * This file is part of the Mosaic SDK Component.
+ * This file is part of the Bepado SDK Component.
  *
  * @version $Revision$
  */
 
-namespace Mosaic\SDK\ShopFactory;
+namespace Bepado\SDK\ShopFactory;
 
-use Mosaic\SDK\ShopFactory;
-use Mosaic\SDK\ProductToShop;
-use Mosaic\SDK\ProductFromShop;
-use Mosaic\SDK\ShopGateway;
-use Mosaic\SDK\Gateway;
-use Mosaic\SDK\Logger;
-use Mosaic\SDK\SDK;
+use Bepado\SDK\ShopFactory;
+use Bepado\SDK\ProductToShop;
+use Bepado\SDK\ProductFromShop;
+use Bepado\SDK\ShopGateway;
+use Bepado\SDK\Gateway;
+use Bepado\SDK\Logger;
+use Bepado\SDK\SDK;
 
 /**
  * Shop factory

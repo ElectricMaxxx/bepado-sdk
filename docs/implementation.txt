@@ -1,8 +1,8 @@
 =========================
-How To Use The Mosaic SDK
+How To Use The Bepado SDK
 =========================
 
-This document describes the extension points of the Mosaic SDK and how to
+This document describes the extension points of the Bepado SDK and how to
 integrate it with your PHP shop.
 
 The extension points, we need to cover are:

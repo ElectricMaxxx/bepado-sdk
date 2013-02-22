@@ -29,10 +29,10 @@ class FeatureContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-        $this->useContext('fromShop', new \Mosaic\SDK\FromShopContext());
-        $this->useContext('toShop', new \Mosaic\SDK\ToShopContext());
-        $this->useContext('shopPurchase', new \Mosaic\SDK\ShopPurchaseContext());
-        $this->useContext('pushShopConfig', new \Mosaic\SDK\PushShopConfigContext());
+        $this->useContext('fromShop', new \Bepado\SDK\FromShopContext());
+        $this->useContext('toShop', new \Bepado\SDK\ToShopContext());
+        $this->useContext('shopPurchase', new \Bepado\SDK\ShopPurchaseContext());
+        $this->useContext('pushShopConfig', new \Bepado\SDK\PushShopConfigContext());
     }
 }
 
