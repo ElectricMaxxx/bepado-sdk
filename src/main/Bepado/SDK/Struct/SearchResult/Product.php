@@ -46,11 +46,18 @@ class Product extends Struct
     public $categories;
 
     /**
-     * Product price
+     * Lowest product price
      *
      * @var float
      */
-    public $price;
+    public $priceFrom;
+
+    /**
+     * Highest product price
+     *
+     * @var float
+     */
+    public $priceTo;
 
     /**
      * Product price currency
@@ -86,4 +93,11 @@ class Product extends Struct
      * @var string
      */
     public $url;
+
+    /**
+     * Number of shops who sell this product.
+     *
+     * @var integer
+     */
+    public $shopCount;
 }
