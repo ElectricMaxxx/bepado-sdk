@@ -46,15 +46,13 @@ class Search
 
         if ($response->status >= 400) {
             $message = null;
-            if ($error = json_decode($response->body) &&
-                isset($error->message)) {
+            if ($error = json_decode($response->body) && isset($error->message)) {
                 $message = $error->message;
             }
             throw new \RuntimeException("Search failed: " . $message);
         }
 
-        if (!$response->body ||
-            !($return = json_decode($response->body, true))) {
+        if (!$response->body || !($return = json_decode($response->body, true))) {
             throw new \RuntimeException("Response could not be processed: " . $response->body);
         }
 
