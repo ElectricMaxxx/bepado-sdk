@@ -51,6 +51,16 @@ class SearchResult extends Struct
     public $vendors;
 
     /**
+     * Product categories of the found products as an associative array.
+     *
+     * The category name is the index and the occurence count is the value of
+     * the array. Maybe used for facetting
+     *
+     * @var array
+     */
+    public $categories;
+
+    /**
      * Minimum price found in the search results
      *
      * @var float
