@@ -46,7 +46,8 @@ class Search
 
         if ($response->status >= 400) {
             $message = null;
-            if ($error = json_decode($response->body) && isset($error->message)) {
+
+            if (($error = json_decode($response->body)) && isset($error->message)) {
                 $message = $error->message;
             }
             throw new \RuntimeException("Search failed: " . $message);
