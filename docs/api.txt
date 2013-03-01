@@ -14,7 +14,7 @@ synchronized with Bepado. Other shops may import those products and then
 customers in those shops may buy these products. This results in three basic
 operations:
 
-.. image::  graphics/structure.svg
+.. image::  graphics/structure.png
     :align: right
 
 * Product Export
