@@ -23,7 +23,7 @@ operations:
 
 * Product Import
 
-  A set of products, which the shop owner configured in bepado are made
+  A set of products, which the shop owner configured in Bepado are made
   available in the local shop.
 
 * Product Checkout
@@ -32,7 +32,7 @@ operations:
   local shop.
 
 Each shop can act in both roles of course, or just in one of those roles.
-Product Expoert and Product Import are both optinal. Most common case is, that
+Product Export and Product Import are both optional. Most common case is, that
 a shop acts in both roles, though.
 
 -------------
@@ -104,7 +104,7 @@ Creating a Service Endpoint
 The service endpoint URL is used by Bepado and other shops to interact with
 your shop. All other instances execute ``POST`` requests against this URL. The
 URL itself does not matter, but the absolute URL must be provided to the SDK
-using the ``$apiEndpointUrl`` contructor parameter.
+using the ``$apiEndpointUrl`` constructor parameter.
 
 When receiving a request to this URL the XML body of the request must be
 dispatched to the ``handle()`` method on the SDK object. The ``handle()``
@@ -176,7 +176,7 @@ Using this method the SDK must also be informed about all changes, which
 might be applied by third party tools, like ERP systems etc.
 
 Use the ``recordInsert()``, ``recordUpdate()`` and ``recordDelete`` methods
-on the SDK object for this. Just call the respective method everytime a change
+on the SDK object for this. Just call the respective method every time a change
 to a product or the product list occurs.
 
 Change evaluation
@@ -190,8 +190,8 @@ though.
 Simply call the ``recreateChangesFeed()`` method for this, and the SDK will
 do everything else. But remember: This way costs far more processing power.
 
-You should either call this method everytime the currently exported products
-are requested by bepado using the service endpoint, or everytime any change
+You should either call this method every time the currently exported products
+are requested by Bepado using the service endpoint, or every time any change
 happens to the product database.
 
 Checkout of Remote Products
@@ -236,13 +236,13 @@ considered completed.
 If some problem occured while finalizing the checkout, the method will return a
 message struct. Those messages should again be presented to the user, so the
 user can take appropriate action. Alternatively you can still present the user
-a success mesagge and let your support team handle the issue.
+a success message and let your support team handle the issue.
 
 Cloud Search
 ------------
 
 The Bepado Cloud Search enables you to search for products in foreign shops.
-Just call the ``search()`` method with an approproiate search struct,
+Just call the ``search()`` method with an appropriate search struct,
 containing the search terms and optionally additional search configuration. The
 method will return a search result struct, which you can present as a search
 result on your website. The structs should be self-documenting.
