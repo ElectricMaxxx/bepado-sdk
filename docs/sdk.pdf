@@ -1,0 +1,1436 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R
+ /F3 6 0 R
+ /F4 11 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Helvetica
+<< /BaseFont /Helvetica
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Helvetica-Bold
+<< /BaseFont /Helvetica-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'FormXob.38d5c5d267c3f839f3418b18a24a942d': class PDFImageXObject 
+4 0 obj
+<< /BitsPerComponent 8
+ /ColorSpace /DeviceRGB
+ /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Height 218
+ /Length 10872
+ /SMask 5 0 R
+ /Subtype /Image
+ /Type /XObject
+ /Width 315 >>
+stream
+Gb"/lCJY^Hg;hlB>Pi!H>.*\^bb4jqK-,8Ph:d8/bnd^pKa\'d]2]%mWSJg=j2S0eG_qfG_'h!NibQcWB\&R!W:>=p(D$]`&T8eJJ=q^k+Gtcl<K6VL]?a/HcZDt39_\1$1XE89VYY>Yl-nfXs7;c0QSTZn5nF/b&-P91"@3S%5nF/b&-P91"@3S%5nJ^W=h$G>g\3d'\1Dt#rTF1LLS`0XdZV\goQR'9^r3HCX[V(DjNVCY3jQ4CI>O7Xjt9o7V/Z.pgTOO1lceLngOAa`h\;VDV(iRqnj=7KBkqS;SpgCiZ$WsG7%d[7d07>r$k0MP[qePB['[44p@^C$1h]S''3_V9Sih;rpp%&KmbG?cc^o9'GB\.NeCE+Bo^pqMFUNKYm-OA3\EXA(KNe9C`uf6W^9',t4*U+7F`kMUqtp7J-D_heET60-T8--)jFJ(cp7"!Z_BuOErH\eDdn`1K5CP_X/M8[$bKIM:iBh<ql])uIY$\r(orl++$AZ@qrqi`tYF[^n!\;<P+"o&l\TdN!eu`-u4EuAjeu`/cE8e\3r;:9XVX<0L'CnZ3]mKM5-oR,,4#X1!$%d#0CYQFCgHM2R7uhugbr:5^#6tKr0bamgIIcI@c'pZPm%pPTX&c@V^4!VK"D^_b>!mFn)DqjrEGfYHX:>[pXE":>rKf-BWirTre\eb%?k>kSGr]UZ2L5)e@2LKFThqP84ob;t5PFHsoAPHHY$J[5g9k]M?s%>S?QX`@n(nKWWR$qS=Eoi*rqF1O-4_+XZt7Dr#XJa)ET9MJNpQ-!e#,t`3,ej8L/L52j:_[9I_>m]_@&"jR5+plPEqO.gY_ug,p``X`VM*g]^ilD+"UNu!'.uh8WtM"o:Q%fZY%IP3HJ(s;eOFJ4_)KjS=CRpJB$[Cf3eRAUQ6PMn%SZO1G^gI3I0l;V'nJPo&>Q\_@NZmR+T:l()E4$SLlEV"7G']5HI8-;](0:&8H(Ie>Y.1cThGWqXj$%s81[e',/daitmH*Sb)!gK*5Ri0XDKE<kp&e+6sIb7/GJ=D]shHGOHa.baC71=P2]8YJ(>GreBT3J,7Wg7>mgeobeEi=>V/i8$L+Xaso4Ll4_Q6Yimu1Pu'!b!=3PoY$JQoVP^6bhKod"M7*],XK&:h5CYk-Ml,P$fsBGAD8T5\j(6E"'bh?)Ob3lL^A[c[.+75#QUAD6'*oIQci?h23"Z36<lW(0D/=#V;d!(!`(hSS\[`SjYGnLP[,GlLNZk#9'!*s![0A8gj$A0/n`%OFIet]XHdM,S7urre=TV13<cPL@U&r(`1\`r^jN<`<@?\+,[4l4F0G5fb.tb&$m'G"rD;#,^KK"Hj+:9)F][ElaZ]LjVN/7^rNZU<AYfT^I8+btQMWb6hD_OqRkkau<d5f_"_aY..NK5,D3o!hH_4oh=7+e\Z@.\Eb<2*(5CP!ABT$*HRHUtBl`.2$D/R\W:gfQjP=D!P0D0J=#LFJtHIdYuO(ahukNn=tr%1g$C*4)$@f$&*"Gg:mEb;(kJ\BJ1PcM6qikGP4n8S%5j:!^JH79iq_44h&p>)TufKeTEYa;um29-R3&QGT'gpAFY@QA*#rREo.?I^LF6\Rj'6'+$QZ)<su(Md^;]/pp/^V9`AUBYoE/Zem[?:&\e^HnC&IYtN<P#A3C*)h6;7BPJe!H0b1m[7!5V</eZCf,H[5PT?<OmMIk%"`$OqQp8nB=9V7"Z@ju71Y]H0b]@&8=9Wd_m&aL$WiE'cL%"6h&CuX0bZ`5uCY/7`&h9k7"<1mD-F)O.&?Ta"?*O(lh`l>Q>c@/'fOSc5CQM8^3[OfV_ear'lX0\gmC1sg'GN*(\hkc^kKK>MRl>9B^OJIsf<8Q]_@&$pnA>c>=]m$s,tU["T7-FdKaS\tY$;9mY?8'hi5(&UdS62h.A-8,^]/_Djo#&>5F2g>/A\?+0dBnr6Xia2kUtM;rTdgk=0Jd.XFs<bfO0[D%NL"a*]\9%dn`2^:$1U#AnGZCh7GTt/Ia5^Y?uLch6jYu++Eu.Jt4l@!f$R3O$>+aoYhVR$n@7/r8]5E?IFpI'C>/C]28WFeuW#dFtG=&4[&c*QX>J*?[r#s>Vam(7hj\4\T>%=NAo]r]Qc.4J+:Jo?[hes2CD:l4CcBiVb`p7S92W$#rp,RS\)=Khp,8oHgWoIO=CDQ3BN0qcE]NQY`*R5O)noI8W$qt]'[dZmHNh$KF1Ft_&bgir6Kll1TUa<#n>1M3HOo\fkC)G043SgfEaLT^FWKki3h0CK2"\^++O2C6K34G]Qp_Qm$oqK<c`>g_F`^a2K%<[A&f)QMDA5(J,]6_2f;/RRSC$Lc_%DDY"%/dRg4r'fs>=p>e.`.\#cX2K<)tfF`hh4jlu1"7=agoDKIA4g"+^YkGru.'Qm8M0m(!OnIi3g=MZ'3OP0l=[NIm:ES6Pp9@j-?I]P!7A2hra&3\d1P+s<*U!U(.F;Jaf9b"\PkSV2[S!odRB(35F04)Tni8EP<Rl@$SFRX5`LThFM=]SSShqnt1`?*ZH@:>k8'7jOa92!m=qeGfhs!oWO`X5t3,m7u`OQVlZ25R-^[VYc"IFb2kY`XPO/FO/1VX,:dPf[XjV9(r:(T]bGiXX[YJi*N6[^*1g2`L3PTc_pR4![o/aKq_>V696$EUcWoWL`hgleV3Tc0i`[-"f6.facm1@aFh&%#9ad@<?h%+E11/:?L3tE4HQX&8Y2;f^;CiJbHqBi_IP5Ek;(1qU,l_Bf7Ll=SUlKQS+gnIt<$5Aei.j[G=.#!a.rfUUdq3YHRu[[HgrZm-JP&\V21o?XI/-6Nap6NK#m$kMa=6[r8`b"mlpH,$%Xk9l);L<%:]0#WCG<*FC2I#0j`bj"`C:>NRh(<G'ohIR,uWF)652g?s"9]Sc:e(1It(Nh[(-QIF*tEb='(\24eg$]r;t_SJ/:OL$Yf&-f]R(,h"()N5"2HF](X4[Qn"D14uF#6nX>*uGinXfXsX7c#J=H@#>d[idg:K@)SuZm_FYK"Z4Qi%"f.#SpJKd4l)Ro:RL./D,eBO<b#9=90fOPiTWq+C[HXn,POia\9%&Zbhg?@Y3]gTj@nBrf5Hf=03.LWj2)CF0*QsakZ+4M:oV)DL[6f"IkL7_)*d.+%*WX)UVip0JJmUh7Il>QM?/.f%8NkfH;R^Jh,e+I$:NHQ3l;uY$mM"%%Y6^Yoc>@#W^C+XXi%NpH"[sKc!Ymn=/pFke8e_M_RDElg#MJG1hj(<^]X/#_R`/X/f15KarC"3)R26qtCI6/38+L(fnj5=PpucWCPBbL!(-J6HC]3$].'L5GSY&6Kt1)]s0"g(a3](H5(2$M1\_T$kMb@6G@K:LA;a@JOnPMn(uuR8C?%C`JQ#iOoiIcPaqaNo.O.I>Qs0+MKK&[d^[D:&``GeakA.&9h5rc[B]6+8rpMgW"ikId!V+FQf#RX!:)VE4?(64#nsabh6qIlf$0[CZ^"nrl;t879d*WLV_EMUfY?>&$Iiu\#4!k]`<D$-/HAuc&hMqrjYgt'R!=a#%QJB#$5R*(V$T$dD[:u+j0*+AT#'B[h[<ku:*<rRPhCR$#)p?6QEX1NYj9lBgVU:6gG]!/mWZFPKO?M]ja7!9d+:]r"bi\cJN[\eE60LY[YYaM3Pc&\dacm%^hQX@lX0[\h1qLXCDL.MktcdY)q$3fAV3q?6#Aa!3QC=P4:<;QU.o`UD1U!aiOaTY`iAUmFiiu/'tOcRYY"J0+[)q$p%;fBRi%.<,_3E\RtTgP2*UZ+k+iP>1W<F&IJ%5;q\`VIKOE3$Xfeh@FQjG7`mrU@d&aJ^0Y/7V6pk%r_tq9;03;Y5AS!/+2u$Y>?AH>%A]p\.q;WRsaAuVom5<RY<Y=[Os-CWAhYtis*/nG(]2.;/Zbn`m*BtjfmL6VAlemQ0Ng-'s-KXa+SOGK.I(+\>.tP>4S0a]W!LZa-7$Pc!\H[-l/-]Z#'pl/?A\c`%NUX(FXf/26+]oj\'K-89$dBk4p0a(+b1/epC/2?K_hK;'9MJ6HF[0OP/8MHAL_[[<d/*V83]]<(K8.Q^XVSN5N-5V\Yoa,Q[A#mEkSWYrs0-*O$\_R`bD4<IM-mMYoh(1l.Bbp[@I?^KkckUc-epXM(jK7NYiD5k!AA9acK4!TP8.koF^S'#1O'Jg;i07]K7e-<0K/P*d6/9",]h#i&Afcd4F)Oof[J^6%\$Gc's#8hK!"3L^h'7:_A^((<E0e3/BS2,)@?Ms%f_H^<E5C5b/*7!2Vp]7L/A%XE*XJ&^hXc`+Foc:0qp;QiA*<2`Rr+/df&]cJS&!+7N(C5)*MuIllh=A*D&70hlSXTh$(uVW%BSQ0IiG0C^^^O>2:3B#[4renKO"EeC;9L^gb[nA9UXSb](&liNZbcG,Q>'-<OFIqtjB:GLc<OfsBDd>*L;TQLEI2@JeGs$8\)S:9]DlW#$g*@?U\7#]BmE_tV&!`;A5Ff`YMaHkNTgUuZW3knsn,Mi*D>ZCO!sVS'P]^M'ChPUXA5WLeP8p)Q>E(dm5fB@!;kco.W":bon(W$GIqU:Xf/T0?Ob>DM*7VbZ3[YcnBc'pa^E+)DSg3p]Ao=DPWrp?p`E;o`$KKWn&?\hRM\T7"hJ/M)G*"Nu<@V75(QqSN06K[/GTXdu@3p,>PR4l]u:_VZXFHUtAA,]XrlrC)F-^:q>NcI1P+%%DXk;_(!Vr\jkW9q#"bqJrk*j&PDPWkS0!M%_6jk/Fh4?F@>S\Yl>1?"30:=Q@8P$gd70oTOusfL`;J`"MMOfA,6Tak&2<]:OHAj@Sted/etrZBp&KORV)>]tLX;2Is]ZR8'%8M%.:%gg%0okDUq#2s'/_jlY]kQBn7=NZL?@K$)Eck?hD1`Z]FmTP+V>\@@np,f*Xr9*hu7Fn=2%s#G3J'.*s24+@)eC_A6p.+AS;KlW)rb0%jZ?bVKX)iGO@JfT*ag"kOBpdEXWCbb&a/GF652;fDn/]=Qg*1r=d92[+T&qYQ0Zl:n`n2Rq=4X@9TfW[):YbMh4E?EH1n(QFg1Ai*jA,)so\kG0D@@ufKQ'BH40DCl"'X<=!_hJ;pJAHiF-[DVTJ7dhIftQoZ3B<I.Y^p-`R/mr%![Lkg@BV-a^%E0efWg:6Ce7dHQZN:=>hM#:-=eOllT12L*)<t+-2SLX)87s+JrP]K"&/96R[8\Lh!mtk98WY,V(T5Qp2>sdn\1S,TB[1uXQ"Qmk*TS;"KMM/<\HG%kMH<+4j!mX]G;@VEk^`H6iT*O>agj4Jj.QQme7$2S9$8Dl.Eoh*]=7WpE`<.o)Y0hT%iMUC9lU67i,Jl(1',S^KcL($!%(T"l%_`.=K\l0K?#WZYB(L.9Kd]s&!"#I.u&>=S.o)=3+uh@=jA4cJ\rG3B5t,Iji_)qj;8[c^?hW=0NDdf[1@61SMefKfc9OX&^i,s%0<H5*TG<1!h67lg&>%CC:m0GagOT@.X!]Y@#&imUgCp^:gn\o[pEY"U,))c-+;bZY*'B@A3$uXV&EH_=HGTkd:W2"=puWee_nLjhJjpe/C8WkCa0-a8!$ccPmP_gB"KjKI92&hp0#uC.8*m=;EH(ZFd_qp[6kA`hQ%b_@C"6,paj!G3m!tp6V&0e^hmUrt$>I-.pD-042D=[Cj-lD&Nb4:%j1(CY,^tjjKtuOE4'QdbHhY@]3[[#KPtLOl@+WDktLn.%W%<BS!c8kKIAJBPD3F_7H$ZAoPV2q#dtLfGuEt.AUERYRM$NYe$#G:U]dm<`\4hWMuksWX:762)R'_"OJ=Ll7e9,oC<9Lk2r(?=h!@*p*GrcJfUDf6K,8YTY&.YJsCDPUSk3UIAlLVk\c/0lqJ&Z6j8OBg%Z8lnqb"spP$hK&]%LI<pn\J2sLU("kc.Q4D#3WEhs>QjaP&(e*`M,-O-2*CjAj5hcgTu#G-&*fWhcr?.CmNl8a@Qi][8O;[gB5m,2M?F<p\N&p#/)aZ\2]'Pt!hAtQ6tLU^I'VE`bL1$g=fQ7kmdNFtE2>LqYR]@/E8ef2*oa2M.&Z%<]A6'g*)d_<P@r:UW/h<?D!^HD\$kVLiB2e^<c'P%<6nX*=\\[d!L-i\&:Z=UnEgRTXOTD#X8SppV0&c^VAeo_2&4a?JCrVQ>sj?ZDF"Nu;&lCDb9_1,<7\2FN,HH3&BSoD,*1_s\TAb3Lc7C/A=mLj.lHt-/E@8<+_GDm9+Du(f(e!T6P:G#f3@GU9#Hb7at@#h^o+s^9Lf@&*qhL+oh+_:Jf$iQ,JmWOrk%GpdV<qHm1(D[d[c`AE';G8^qo^qd9NfJDVjun"\6qdC8&M:gS0`9uYG2Ts&=E1[&S)\b0$Fch`ltXBhASg(JPDV^e:mUTAFDTqDiF.g8:moKk,mE))NK<)hcK=3MkDJ4>`JS`uSYk'(N^n;^)oMNcl<%+7HSnI"2^^Hq+i2$D4FHqnSTbhSbsuLW-5UK<EUhS[=+C#(0\bsYl!]c6Ze<;P`b.)M?l^cmD/O7RB8^V7\#7s6m_J4qWU4T\DIkU@Zg!MIqYJjGQ,64RNK#m$da6?kY'#)<]-l<a,r?5X_4El@^8@bC2CX$6c)dtNnHM3RG]S@!S+OG*X/h.QHJdK3$bJ_B2J"W:o2C(oJu)lZ+k`[c8.^L\'1E`R!60k+lg*kFhJ?Xj1CFtE4E06:rr!'0$;Rh/M?X7hDVVaQb@0"V&qGYg>ZbeiRlSMJm6C>(!UT9[fW85"n(qV""Xl_P(]04!7>cmP3XQr8ZB&rrYa-UKJq^W!g9hm[YPe;"oQXM0fH`l*:QE]EXS_5/,:FJM.A$/QhLtoFZ\>%DIXk.=cR(8VPGTQ%j2[5>>S%<*OW[le-i7alGg,P`oCMQ:r80-e\$Yc9)D8BN-k5m"*%3kh$4[b#BX7'`IkWiAaNr"X)_Deo"I75XasP*E:3brQJ\b)&"CUh4M<CVO\p-\:'!.pdKOEb#@"c8/:qR,aH2-W"@7UqPRj=(iZNaXN_E6#SCq;NHlIa<s0Nof?()NjhU+e[ITe7BuhFN=Q.a+*F"cF.t\G0T3;)+BSLQCBId54j(<`W:/\TkBLS"m*ZTshCi9tc#PoP+;-D4T%'5V!)kM'e-Te9::ea5tLpLf@YcNMAITj[osl62QIl[LV9BSir!nW!2m#57,oh6pe-A%gt:@r-1F&f6(1?$jj_2@$>Et5cgS=<PkU9KM=dokebm"eF5t4g!kW+=]\Z0_h1\#V.'VjLI9EPdQpY>HR^Kp&<d(R*q!Sh1CH,+OC0Z"@?5Pi`.W`eb:hLtk`?[J[9n;qr/25A?K`e>FO?1Re.!#uZ@U5EbTp:(6@uThoX0\\,Zqp"OC/gupOD>LIj[DGjkmE-,*=hIbgV_GjHb;ASu5LA'?9R.2KO1cmbEJK"B9g!btiMNq:9@6KsUQf%lS8%Au%%P5$4hO'bQ1_rr,Hs8LR>,iL%&4Ws]h-=%$")f`N+OMHdIKh/s[N*i[?BpYON&S-d)XkM>m,DE3h`TX\YO0L66Q5nF/b&-P996(F!,T0iA?6.q'9Q3]8h>P2UJ%-AHs_+HAQ"<18f(k;YM%51c3c.*5SPm/JL`WAIY>>)3K6qefW:edQu3tnXanI-^Gj]ne,J=7m>#uS,EosLm?:)%k$k>ln"9/[Is%s9MtH'$iHA9d4Ze8f_d%*5$,0F>&8)RQKLQG^-EKoiUNPs)-1)[ba;FY8r5W?u304=ca`W65U7R3=A`^''7*&]t*LFf2O2's(0l+mJ-N\Q,72?-H;,V"t^&IlTl.5Y[@N.q:&%J;=u`"s\IO<(QPVFMC>"?peKp3R8$=.VD+/LM@/jH"YK\L:e(Ob>FH:,>3QC(/c@`W_06N.@ZVq@urhfb'K=/DnNX'AoCd!$<84Bb/]k^:g*-Q'ToLi0qk=p1+hmKL7<J%bZ0'LUnskP:jCY%"9hWCacL.t]bWICPNIEM+gSMWCei-MV8c7m+`',O1K86,E]'q7.&<`;d+"^"78<TV4EVJU0k>$P3K_li8E5o$R;<3[m6Qa%KZ^D`Jh")]A85:EPCMiB0[_%\DPaT^EVW"Ed9`=-UT6KnRB'Z4m"H*RKZo]RJ?TSqXoq$%`(5JB>1cZ$J1qfq3A"(l&Oo)s7ZC4F&r%"A:JZ(c$BQqA;QF,#0bTTq`a;Kf*@aW)EmWQ/Oap&eL`@[Bh4_\2,)"UUaM;nN1eU4<Yu-X+kmIf`ckl6S&VZ+/ck/#\"/%t-oR^o$(oWN&m>tK\K8Q,E%[iE@OCeeNOSp",'fZdHUt2J0`D2'eR8"Bh_C('Gfh?L]ngDpSem\i^$4&MN>"o&u">M04,c60nK2@:R`,&80&>:6$0HjCEKIgXNVM2%)#_GaejA6!l@`TV7&(M9.+A8pG<)WqQJ;'Z=MK-];/-f0X/46g`7B"dH'<69B6?O)[:lS["Wkm>=l?WRE-R.8i+X.3Bnq_jsEl:=F*!Z,tm%?eN"L[EP.Wbe,<4ViDTobr@FNfJ=YSo/n@j43Y8[BWSl&[8ZNl1Y%O[`S>\eLLFK(Y4;7j?ABe^k'iYp!4F#_sp7R,TVo%NcBY3L9"\8@'NIg"MZJ6B@YYKkH(4lqkA-RKW;8<N0GmJlSF,K/>YF#ZZp8"fl#VYpNS<V'4Y7nkd]DA.t1:'*N%#l6t.i(i@!3;n[T/`!UW&;k^L&)Y0o)$&1Jd?'j\$<,P:6ej[.;PW_H30U8n4[U>BpRmaJ%d]>;DZIW"/K1`t+'NH$n5)7@@)$j$B.XeQgCT4/38@-l69mp^fX@FZ8*&9<^5c%jOEiiKk<NA5-:!Fnao#cYUR^EJPCMHt'*R^Z]*n"_T;*g+J'b2[WQ#_KAbDJ,lIalu39#5g?>EiGtQL5:\o$)]2JHm2n:+a+f+jHIDaOO$&`hmQa,=@rdJ2D%:W*Y9VODU?oWY%Q8Z4QUmF[;sWm)0<//J.1jCPaZCrkrb!Ru%n[o$PGEb-i\0!u>O0&a,^Tn_>Ba-R-_gQoG[d-NXAhlcR^3="6M%mE$jl&i,D1[D#0R.,,/U9'*jF>Zsq!M[9u1d&X**)foTTPq2OC4)hX!)MPUd?aMpc[O5V,f%rCLg'JGDLPdsDf;UBSooNbp6,u<X's'RFn_$;,_9l1^bO-Go3XSQ#<8sni03GhB$a+[F`7<jT9SWIk(A#NCMHbnu8BS2!fm\BA&mbR]nce1L41N#6hkq]bQ:i@F7ML9/="IJ1KLD-aElY)hd>Zf]had5UM).d1.IL0i>f(s!_jN)uH=;SX!u&u>$qT'/8EI`W$>g-:`WD*ekk7GbqkU]a'sB3GWrb7]VIHoBLgoC5)OJ8TTZtTN_Nc.6j;sf#!pq82CR5tb=Y)+_7S'kJ5ke.c'!,/bM(@r:#b;MRB-BsTEDq%,Gi->bK[#o*ceW*i2IUFW+d^f&D%e_m]Q,#V1"t:))86]%9Ze@<bi.$sK"WVCA+Lp_G'pERfAFD/o(SeZR:M/K\A_cS-mb1>c/jl/([RM7XtaI=77@Keo]d'I+jK:F,g%pq_tn2bOd*t)3k]^u8E'3[7Sh6i*55PF^>>E"aIfukmlcf=_r\AU&`4mH3..:L^aO)?;)k(p7kDA_"Wtu(RZlLD"<3`6rdsg)Ap#;<UC<!7ol]"%10Ca4]/_l=n/Y2fnUCl7&U*V%?g,K)>m]h)1C)'J=HS0RLgX@U"kPr`R1Z[Pkq=?<b?'";pK4BQ?_h9>2.Dq\4Z&tb9LK7bg*L@sCcl9)nSU[b6%U,H\B:.$#h/*YH-bfc,4Bd--WilZC^HC:<7(ef"Fo=oQ>CT<a8.8q>QOR+=IDec)q!h=UtMu/FO>do=MOH%c4kQV+B.q,OFm\*^jC$ie&&S`(]gC5h^p_P7p@86a0?;a"*uWerdZNBQBK3V%2a(mIp>Ht6[5!Ag,`U:aEUgR2bbhAhk6'b1`HW'PaDZkZ5^c#n,4XuO(4Ol@=Lm-J!Z#(B>maS'!-lW!BSjR)eTj+"RAMG*@K/&AYCq'>DN!!%:<e`r#=sW\8=P`VuK3e(d2jrGE`hJEjhW/KQe[HPS-%$Hm3rD,a#-e156NCTWduGocF-3$#c/Q<8oC1\&KqV$'oq8i-Ut;FH;-N?=+qk[Gp2?LemD/b4.V+Z*7WR+D;1!E_*N(@e(]M\eRmI(Ma?.@sWcd0'4f,'!+RLYDA6A-T6"4h_L23&d8o?S7@W(!sQR&OCeZp-jWI2L?bI!+KS&V>&;Dh3+6r=cu`deP)5;h>ThG>:'?E9b9UPJ&T>l<rW7pYA#-]iOa::9iK<_"Q8WcH.M3',8^KW:839"UX@,aUQ_oM%C*]$4;C,cc/SZ3,<-=<?8X5*+1o`!@[;+)-WKi9Z_H)l:JgIB/KUC^*.U%E5lf&0oehL:2"@6^P"A9:AJcn^X(4lZ^&/Kj#9+Vkj"A9:AJcn^Xeq+#t&6<6)eEPGZ9aa=g;`U^F48T-m><m:4daG"<<4c=e9M:l#8":@^lk;d'0m2bS9XFZfdZc1ZKL=1:091nk:F?ZG&-g$u[XlUY-=5(Q]$8\M_768fc9=P4(/h'0IM'2%JfkI%4l07HH,\rHeM#CK:S1C+M$_%,7!F&d$IS;O=SUWF0@=8MJqsb"[t!@Re'amo[Wk<Gr.<1-P:!siNC"20@44@S;'1N8#QmorjHTj@&>k!]9+][+Ue22aK@EL)<eNk5&-P91"@3S%5nF/b&-P9-(V6#.&AofO:Lm##">O/Upo4E&Q6:oTOD:SCPuY)@^m2=211EX(Pp!/h=<QnZ-g-[\*`>O'9e:l="Or5u\uC'JRX!Ja&Hj7H<j4kN;E,AT8>nA1UQAji67"qG(m\R[a&3R>p(0M$@amq%<%P"E%(0FcMXhpB+N/r]STIdM3)hScki!O+#XV35\LAV#Lo&]H@uGm\XMKuj#t&&,7o^Uff]<`6/4-Wd#R`qM,m])F#_F0)Jfk>N+:*QA#_F0)Jfk>N+:*QAbfp(hTg>Wf~>endstream
+endobj
+% 'FormXob.91500ab068abebadbc5df3b4c1f6c116': class PDFImageXObject 
+5 0 obj
+<< /BitsPerComponent 8
+ /ColorSpace /DeviceGray
+ /Decode [ 0
+ 1 ]
+ /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Height 218
+ /Length 7726
+ /Subtype /Image
+ /Type /XObject
+ /Width 315 >>
+stream
+Gb"/lB0[,%)h?h!.RaIkoM\T)Y+Og[TW$KQ$]5r4lCFTHB.qoVJmuRVeC3GQZ(dtC>u:V;'a7#<76$DV"Af+bC<1e/8a$O*+isrDk=;hGS_]]^ZEq0L4#7706UO4.6UO4.6UO4>5@P7Zk)jrk=`=YsRo54WiOA2+]I"$cO)4LZ88'&'qaqbXD)26=/Gurq_HX>(7'b@ll7,*#j$B^Z)-WTPd-=#R<[TX8<k&)>Tin;W5o/flT<2(0V5()lVl+H@?ta4aoTOheUHWJRj"1,:m=Cg=_>D>Tn%+j=c*3B_\9:m[[p<0Sqi%'-[.1qg/!$E&$bs#G;c5f-8kquN9MA!5:\n,ij[8fK+4%V>SF!>h2\SpA)R=1j.BF/2gNJd_T!Z;I'r`2)D0qX>K7@t8H20&X_t2X>LUSqG+(rtm=/f@[3GjtO<YKsg\`;&))j0$`,5g5_g'FbK3E\8hRY;*`D08(o8OT+9]2=LAYJ/1UH#S00e6\S18^Qm>]>ETCA561DAXCMNE^,)crmQ/M)FN(\r(n4HE+Ge>(DWX6<C+7[p^J%rkCt!a2RI%*<bLKcV?*\4bKe%:hV13@7%lfi.\Y;R=-)95et'KQNG=I):t;Nc8LuiFim"rf#H!uJj)eE5UG;)<A0bMag8DsjUg^95m_[S),md4+P9-&ac-:UD+Q(sOY'$(dBfGA!X5!r_@nG;'0\&n2qXS&[i:GT@U`4]lJ<c,^1aedcHNZpu]0<Xe;n(J*j"&gE6c2l)4.#n3DJ9#6A@"hW+\P+:A>k[p2H"Yt^@,M(o&2e,5](G\rRF<P*dR_`ih]bJo+_,?IMr,%HL\u1"n3&6mnJ*k07ZNmmTDLh9Sck,M&DcGZm3U!?s)spW=M4&FTL7eC_%V<=iLC#Vsf4Ecj#u5ZoXei&BceXUQod0klOODSH3>Dg-W"sSs<PHSUAFa]_I'dm#RpEJ<^s.T*YaZ"5DB@r1T#q6.TL-EP-n7[V-qgY,XO4hY4k0pgYu9:UsjcUPLnJ\X'6WiWD>?(Kt*]l5"F07@=nU&(*o:Y;!'Gr'`^[m/q)L)gLoD7aUGAe7iQAl#dJnAAY@RZ&/pHYe$*,qku/"`hs-h`+b,"('(iDe0Va%pu0c>TVOp"$Sqe%IlTO8G@5RY%oK%h0s%PBnWN6d*-_1[n'SL';@NB15r<]Y!<ua*$0ClVFcO'',H-e;ZoX>CeVO^::1S$\,1B*5.G"95VOa0[MJAlJWDhW%pVS4W?0I)Z\4mC"2Dr\q@9TQCb%Y,G>0$QMaD1_!:f5_2r*G^(.aY]T?&djpW.$)C[JZjW2b\;^+C5q&5K6TTViK0=("R3W>7lY!+WanS[fiIM43c!&H9fuYe<qIar_uCp3r^EKWqQnm'%0mlU>!g5]o>YBW`/JK1^#`O>Q!1l+DN'[FQj>*bYO7T;#FbPNCTg@:-513X^Fks-M6:k?mm(P=+[1Rr;h?ke7h(UVZC;S"DI]'HF^U/]YHS%dYIiCd9$Ane.W=G1?9..3B`f+r5XV]bMJdh!&tpOVjAQL=riZ$W,7q`Ho,=W$b4G6+;eU=#4^5lO!@is4?AEcHD#/_3Ze-6a"hchGj;pDGl^W!:4.3U?enZc\.X=i-R4%q=G8+hIs?,*B52ekWB@LlSHFZ"&Xh9H&<j$;7dJ_j<ENIu!H9e(_#G<*fc7*=a6eX_Vf=$OoS-itYEc.uhTY[sZnG_hIa3u2[,r;$%,:F%"*Km<);?5JNsDn#?ek\\%9DZ]q8<=0+'0JuR-ePA`\=()(4<u,Cr%K(L>=$A"4m7!c#E"%,81+/R,L)]ZSe\`4ghIPZ%VKN[k<k7iJGj<\(%g"?)(@H7;-ff6`Uk<>+Na]l9pA--Si%iOeL<^N.f``haYHi=@X-33t%j$7NbH:g"[jf5ko3N5dpN)2oNZaBq#^UENsB826tbj:blhE\[9Te7"e=+2%WQlH9Zn!nZS1r#j-'1D4;WtRmKJ06UMS\joS`NDOn_<?jrD[V&'eQp2Z"&Wh+;k2t&)&T6Ec>R8\IU!SFLi*7l$1e/fcD)t-umSF\f.HN8T.Y@tJ0*c\`l4O/ZGS`6^@VJjurc"EP*cZ=^>p08E(9V']ScIN(o*Rl4]D$?c(BT9fP`E#u+giEo*<%N`&B7'$VQSJJ?=EEZEq4=8>p)r/&(R1s.\6QUkhk@b[2\Q].-<tueAHJOdD<CB\e5(5?.-Z94!Q5P?05N:_2p0Y)nF%`B9#c@7*b^-mL\caNG69hE$1rBGB_tTh[IO/@YEr9/p0>)>'Y99KLc"NlfI9aLVVW=(5!<C\0ptp^p;P'b6tGTch"g:pCq2.ife^Y1<5DAll5&R,i>k/<'>b`ujo3P0j<\,#+2rKMN*nN.[#mC:W7/i.q-NZ<pB9AI*U&QU\1IL;q0;47Q7KbLiep_W'm,"(m*.Fhcme_E`80<_nWn:<S&ZJo@8CA-_CaYG!DG.1Bc!B4'=:$0a6d2D<#k;!<*dXR!:j:i@1;F.2NRBG?+IOYT)%`.[eM]<c>Er-mQPP$\]b.XSHhED_H#$g;CCJlY2($;f`j:J'2QSWG@>Xc!4F"3!8"[[08NpR1$A<8edikU@-7dOP"h#!YsTku'"*LIpEHe2\>"j28^*,\=PZgS`OtjYP2WHWM'h0,90oeA`I!]jE4?Q!Sb73;3e6@6rRnZa3[1[P;0ZY?X!OBGXH(rjK25.s8KEYGp3Xb]$t+Y[D;2c<S*H((^MUm9!1<TlQpl\T5@aKR;K$Dnfl<=Qb[4CtN\;@?(42Y2Bua?&5h#5@fdD#[M&pI6(Fg]J=4`2=ZQ0C."#"rYCU9RdR,'c*;&s6YV[`)OiV3mdUB*au?=7ooZ57)MSjsLIWG!t<6!MrMVI=WBW+F5nZYX\K),8$_)cHIrnh(Sqei"sag^^aTSL3KJ!'N.A:[ER`eIBM3B5U[>L9F@dBJ]X8Ih!G1ms+kG5JH:'WiGK"A5f@#^1[nGLd$UEiSBl`^/&2fKS=cA\.HbuO(Rqa.]MGLBHS]/+PRf1]Xh9hnK)@aR6!go:-A(C&lqN(oTMe!GfFEO)+OGk`t>>POX4\:qtGc0*FWlBLA$(>"a+^kR`oY.F7m]*!O9]qr+G5gpQd:u90,_kKog9(R?^GHs2a0ibeF%VW8!\WX6`Z9$f^h(HKnnYr_3b/Vt$'pSYX6kH8X$I9HCVjrh?\,NPOiY)qr5ue"]5b`k36g]pi?djF:Ni"+!D1cZs\A*1WXBk#;M,gXAt2H8>WFeZ&-Vd7<daF2#tcVOZB!We7WrR@5KrZ4#,/<)KQ8Zm<D"1BYGXB't-K$aY_r$BObDgmj6\nsqY&X&D+'aj4;u=Im?rS@n[Y$*'Ka)g&H#a$"%C;QW'RdAhg7kp#u&/[LH3`m,/H8u;g:lCf\E.qY,VA5[lPCKYL!e_1Y&G:cW]7N8%ij44D4ZM'$4(p$I6CXm"(QG?[8$uM<7]f'P;WhV+)MKgffW_m.+TZ]70EQ#a0RD6Qe*5`-MV3R9b7N6%f,n7kBb7Rq`8:dkT/[_B"cb'\Y5^KEOL!Pog@M39q()seW0teX0R^uoc1e(a>MuMR;RORYg,L+^`8Z/rPT-Z7ABMC=?*@8tk,_oXg4:l'P_0Rd\?@$618[9N?TP>c[den/_apCZCPP!GS:K6r7cdGTggb8er:m(*tk^&3j/e^3tOPI[9!rj=8,Zuj2OCgsV_Wi44;j4H<\@.EtPl%<,@E<j7`pSOW?#%?9$YaDEL4XkhGNog-IjTL_,jL?DK0$B/P8pIamAWdn?L50SebW?)*5Z7Yae:sh,\U,HK<%'_c@C`7V=YQD8[>]s&^V.i2N\AR96D!MXQ-*^HPQiJDGkhSj0AP@23jU+0KcT]6QD!pk,hogB0fYlAE>57'fU^//-q#90P)!'Wq8jJ5]miq@f%`[37.2_*A'?Iecdil8X>r>*V,Dbs%s>R.0HQp6:DS1PP0g!721Ac/?=(G%HRnaf-OQM+9U)P"\4^V2MF%$*(e<N*[TTW?E%@&S1NNfolqUhlQk!hABEnD'[u6>XOkNe=[T.5!]eC6s.DC\[F77h?5gq!S"'H5R_7U[Q?OkMAMg/mVahp;8g,eek2tfs<6=<A(/oY0%^FGZ4R)i^J4usJ*[InSN0<PGPI`#IGb;g=,q+[O=Kn>Q_Lmiu_hL;h4s<!5&#PE9aSM]oWq51m2X?eTb$-^!_bTW6%*]!9XiQq^!h$Xi?\M:3:^8dQ(Gfu^UZ#Kem]FiG\iA@#`)D^L=Ig2SpTW[<r1S>qnIpt\o93Xr]aXrGB64eN/ZCE_LANM'WrnX"?#XK8lMJlRq-9<EE#^@j*-0F.X)$_N)ZMkR+,;D^p$uSL:6,aq]r).(&m*m-eCju;3&F3FD8+&\R$=J@Rf$pOZ1h?@dA7=(&V0kI813a%#2LA.\$7*2qO!^&6QQ1W0J\pF",fug`*!UB0m@4<BV-)#e[NI$f>08P/r=.V"Ej?$*9Ydm!8gKEiP/0,m[@Wq,OG)^*?$tL'C.Bj!]^:[k%k(F@'>=("o):!?q#40BtPr/T@2Si/)JD-%<nj0I_./<bL6Ae5mKq)7OL;=K0T8Y5c8i2dD*/B\fk`H2nEZ+QB`)k^BI^N#I^e6*tAYJL4=gEpZRM"?N&-,?`">,KkcFXM%X9:>!N!#5#&])e/'6A'E/Sh#_+h='o*u]>XZ>-:q%d0pQ/A8@iZ,/k4)d.Q[<2OF</#NrpIH+Fi5dPXg#CH/\Ll?l<s(%=f[\p9Im`K:)$f^,eTa8*-#Gl72fZoM2H.DWOfJ$i"F4k<c<,_O9>$V*.T&Dq#%i9X.,?/:KKW^\srWf!D`W"^8u+[CmEZSBnOR*/#g-RN;@K=%6C1k`4J>o!jchai*XrA-K6')7ck&M>U=N33O4,jf9/m:b203\0H-uJ.9Wf14:VrVgt8D)4Z$RGS+[b3oroGiWID-ZOhPNE/l+!sRonaECn$G<Pb6`LYBuRppVA5dF\OKoVh8a4/T];,Je.?\221FE='8hP4"*<,T6F[4:/9pkUA/Wg'ZE.CFYH%\-o4R>FAI?PS][8TqFW(UeoBrl)HPfu-$?H+0YbO>(KQaOm$r\=Yr_LKid<-5%,:FYqOIR9JFa.DIG6\;CW"o)jS@]+;0ihkCh$GXg:o@?<c7?t@Z@I#Y!Q?AX'S/Bm7b?lZkf<O8l:5uF\t"qFJVYA(2;#ZVHNRm7rT`1dku8!eQEH7A^Pg'B*#TAN#*I*#$Ll\JDqPNV2_60#GSLXM8I9D(qWbigX(f$PRK%&dAoH/q]K>WGAJjPJao1kNf_sJeOf*fWZt43=(KA*[<3I,MP3u;NWJ?t+3%>h4<G*^@,pGQe3*%o3e*d/*DG]DYon;!fm859X+r.qT:[X!28RkF8KDIKqGD6DW=e2c53NVdST<Bg60V>8Z@8e\Wa\r:3YGNY&)L68kW-Ju?\gWV[XVOeFK[R;P,h5R9D0*JB<auh![r@XQi7/[rp0M?1lid/`D7"Va,_p#=IbC%)C+-89]/;M`HWF3AT#Q-oWdGAI*WN!R<>ibR6^X=@^JDZknTT`*S41F^F[i:?i19[I15o.^uphRE6c'Z^p&[qZ"D6q.%2+8V*1>Sa7pB,bp([!-e]O=b6jbNGUci+CtPFK]%fnWJe@@o\k@n-9Ofk;)7;4bK::>sZS_LuO27`NesQcKkMUka@`Z-BCG:IP/MdYA"_V?O2'2(n9MZa2o1THEMD_NUH!GJ5`8+WVJ3M$kCl"G,RNbtG76LK/ObhQD"Yh+bAg20Q.s!HEf_upM,iNZqS42@0h"@aK*=PL;[D)I84,aWV25'!0_\^J<BEZ%#5iuHQ6JU'c?3gM@i:#o$%:Y.pTZ*qV2`I$^B4V]=X7f$!RLFR#;(6Gak7D*?Xm2QrN2s<\Zq^LjlIRe\Wt$62P`R1TR1SXC/[=`&Pn:VFc^n44%'dbN/5C=\^7'cg]3Qa<ZHgYb0H0W&a&nii:Yh/e?`0ZApRZJ%(*26RX`ZbDlKZ_q>h;ChiR2L(qtrP6WKYZ1GOlO0jbOc[s!nokD8/)=FfC/nSm_9nB%X_0o0*?[?eqLlLN0`82h8I7P;JkKgLe[14[O:67;mVo(E(&>T'UNa*egrqlJVNH.>)ABPop-\#aR8/M1uTUDe_Y:h=2#:M'e`rs2IMM_RAh1,iYfI4VQ>Vehmp4ZpiDsQFSM3cp0TWp^hY]%mESjiVKrs:e.b3l?>J/S%(17-n+ltEUWZZ\+\I'_p,s7S@qT8;4#eC-fICmIHR3kD:<@-,`i[[6rtc#6JLOqRg<L:8l;-lIE%9cnnG/C$LP#7P=8WUf0A9?LkO-cG@*+Z[^kk5`]e2hF)ss]pPF]WO\%1TN?06#,Z&0>s7jr[mfs5QcFjJB*AY6RPZL6;UK/J(.mC-NhtXk.<@j9X%h05:^sGi.A(:n'^jB$FG`s`ga,EaP)!6H*QaK02qKtjS_s=LPinA_W<miTSXK-TOe$,4%k,Ng"]\KM]>l0:PYj\:YG."a-P@+347:R:c]T0A3&FK@GUt)pHq<qn`!%ti@Xel0Q.jCWpoS/S9'/J6<<EnH?3F:eVau;lc4I*ToFaPgo(t&"McTrtVnngS$nEOqa-@+/(Ydeb[dXmMu3k=*Bjs3rAEB9QLc/";X/uS*%d.!LKM&k]72tp<7efQ59GGFFirVgIMUEYV_i?[]'Gjc>@AJi86be9isYr^9.ks,u)kL:EmBGM<BGGBH`US#`Bjd[CBoQ15dR;*T6U?'uW$<E2A4T1?0E3aAU1c5cVUcME`K,&W4b<!2MY.l$a75*D,a1gKh[C.WZ.A_;UBj!#:/%&Z]c;XmS?tttU7(2InG?[Wq[WU$/=BIj/qmNJt-e4W")#/NO"3ot5MuJI=I?+h>e-[ONV9cAgiY4^Tjq?:]C2Jc]DbXgJ+nUl]9Jm6[M,MJfIX#Usj$q@FpY:r:AN^;;(33j6.UjK2D_M3[6soal'm'ACNP.o:R(0e5I]-=kRC@R9nViaZWQnJ\^^l-@"6Ip'pRJsGDVke*FYF1goGP)4m)6NiZfRsm_gNu&$sjd&J"NPu;[igB%_ns>7slegMTP(4I58j+U+3&IN[nBIX!?a]Q-?']oN,p%Q+dKeq;*khXa\X[qkBj%4CJ)[Fu9[;8OGj46UO3c2WhBD3X;t1nUcAjPUdaX8$#5DZpr4&a(??h^.K*p$\_V_Q.#d/@hKt(nFp/%K,E%FpLq7Zg\]t:bo*[e;n,TC\_=*'eW&IoTbiENPq<8a%/3PBC.EjDaa?#IQa\%iKTt*kXM;%3GktE&a.;8^0K9<<o4!&2A,f#<Nb*so?\<qdhKB.faVb4h_<D(TkSF6N$l'n.\8J5MF=8#bKd%HQ9&+l9bG$(Yn2MG"Dndh!>SC533d@URLb*mla]/<p8%ep-D`R_sNZC+?.hO!FfRV.XCpOor9Qcq<"R`Ot*LZsu^>'p"#VP'q6k,-1?!g@0F3I_dRpP%Rq-k:&(5O?&8n@_A$rVe[:,0cuS?r%OB"8W8M'8fZ,A.%-+_Li"/QTdP&A6V3qPHLdpH*oR%*K-63qY@D&p,O,/I.rt'Hbj@JC996"ic<d+L`<i0IU$3MOmpU&'d:65*7D_(s@o(e+rP(7>6*XeBFHT990HBJ4j!h=@1:eJ0k$#5$n&8GJ1sAiULQdnJQL5k@JBDh)q!!#>7_5m_#.,3o_2-lJM_j=)HFqDF[El=VgSAM6RRQcEWJs:NYpe3.%ANN7f_^\D3oA#7VGP*=WGe%1NaU%1Nb@A*<k>0MXV~>endstream
+endobj
+% 'F3': class PDFType1Font 
+6 0 obj
+% Font Courier
+<< /BaseFont /Courier
+ /Encoding /WinAnsiEncoding
+ /Name /F3
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page1': class PDFPage 
+7 0 obj
+% Page dictionary
+<< /Contents 31 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 30 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ]
+ /XObject << /FormXob.38d5c5d267c3f839f3418b18a24a942d 4 0 R >> >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page2': class PDFPage 
+8 0 obj
+% Page dictionary
+<< /Contents 32 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 30 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page3': class PDFPage 
+9 0 obj
+% Page dictionary
+<< /Contents 33 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 30 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page4': class PDFPage 
+10 0 obj
+% Page dictionary
+<< /Contents 34 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 30 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'F4': class PDFType1Font 
+11 0 obj
+% Font Helvetica-BoldOblique
+<< /BaseFont /Helvetica-BoldOblique
+ /Encoding /WinAnsiEncoding
+ /Name /F4
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page5': class PDFPage 
+12 0 obj
+% Page dictionary
+<< /Contents 35 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 30 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page6': class PDFPage 
+13 0 obj
+% Page dictionary
+<< /Contents 36 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 30 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R14': class PDFCatalog 
+14 0 obj
+% Document Root
+<< /Outlines 16 0 R
+ /PageLabels 37 0 R
+ /PageMode /UseNone
+ /Pages 30 0 R
+ /Type /Catalog >>
+endobj
+% 'R15': class PDFInfo 
+15 0 obj
+<< /Author ()
+ /CreationDate (D:20130306094944-01'00')
+ /Creator (\(unspecified\))
+ /Keywords ()
+ /Producer (ReportLab PDF Library - www.reportlab.com)
+ /Subject (\(unspecified\))
+ /Title (Bepado SDK API Documentation) >>
+endobj
+% 'R16': class PDFOutlines 
+16 0 obj
+<< /Count 17
+ /First 17 0 R
+ /Last 18 0 R
+ /Type /Outlines >>
+endobj
+% 'Outline.0': class OutlineEntryObject 
+17 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 695.0236
+ 0 ]
+ /Next 18 0 R
+ /Parent 16 0 R
+ /Title (Basic Concepts) >>
+endobj
+% 'Outline.1': class OutlineEntryObject 
+18 0 obj
+<< /Count 11
+ /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 307.6236
+ 0 ]
+ /First 19 0 R
+ /Last 21 0 R
+ /Parent 16 0 R
+ /Prev 17 0 R
+ /Title (Using The SDK) >>
+endobj
+% 'Outline.14.0': class OutlineEntryObject 
+19 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 172.6236
+ 0 ]
+ /Next 20 0 R
+ /Parent 18 0 R
+ /Title (Construct the SDK) >>
+endobj
+% 'Outline.14.1': class OutlineEntryObject 
+20 0 obj
+<< /Dest [ 10 0 R
+ /XYZ
+ 62.69291
+ 547.8236
+ 0 ]
+ /Next 21 0 R
+ /Parent 18 0 R
+ /Prev 19 0 R
+ /Title (Creating a Service Endpoint) >>
+endobj
+% 'Outline.14.2': class OutlineEntryObject 
+21 0 obj
+<< /Count 8
+ /Dest [ 10 0 R
+ /XYZ
+ 62.69291
+ 238.6236
+ 0 ]
+ /First 22 0 R
+ /Last 29 0 R
+ /Parent 18 0 R
+ /Prev 20 0 R
+ /Title (Calling the SDK) >>
+endobj
+% 'Outline.15.0': class OutlineEntryObject 
+22 0 obj
+<< /Count 2
+ /Dest [ 12 0 R
+ /XYZ
+ 62.69291
+ 711.0236
+ 0 ]
+ /First 23 0 R
+ /Last 24 0 R
+ /Next 25 0 R
+ /Parent 21 0 R
+ /Title (Register Products for Export) >>
+endobj
+% 'Outline.16.0': class OutlineEntryObject 
+23 0 obj
+<< /Dest [ 12 0 R
+ /XYZ
+ 62.69291
+ 582.0236
+ 0 ]
+ /Next 24 0 R
+ /Parent 22 0 R
+ /Title (Update notifications) >>
+endobj
+% 'Outline.16.1': class OutlineEntryObject 
+24 0 obj
+<< /Dest [ 12 0 R
+ /XYZ
+ 62.69291
+ 468.0236
+ 0 ]
+ /Parent 22 0 R
+ /Prev 23 0 R
+ /Title (Change evaluation) >>
+endobj
+% 'Outline.15.1': class OutlineEntryObject 
+25 0 obj
+<< /Count 3
+ /Dest [ 12 0 R
+ /XYZ
+ 62.69291
+ 342.0236
+ 0 ]
+ /First 26 0 R
+ /Last 28 0 R
+ /Next 29 0 R
+ /Parent 21 0 R
+ /Prev 22 0 R
+ /Title (Checkout of Remote Products) >>
+endobj
+% 'Outline.17.0': class OutlineEntryObject 
+26 0 obj
+<< /Dest [ 12 0 R
+ /XYZ
+ 62.69291
+ 273.0236
+ 0 ]
+ /Next 27 0 R
+ /Parent 25 0 R
+ /Title (Check Products) >>
+endobj
+% 'Outline.17.1': class OutlineEntryObject 
+27 0 obj
+<< /Dest [ 12 0 R
+ /XYZ
+ 62.69291
+ 177.0236
+ 0 ]
+ /Next 28 0 R
+ /Parent 25 0 R
+ /Prev 26 0 R
+ /Title (Reserve Products) >>
+endobj
+% 'Outline.17.2': class OutlineEntryObject 
+28 0 obj
+<< /Dest [ 13 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Parent 25 0 R
+ /Prev 27 0 R
+ /Title (Checkout Products) >>
+endobj
+% 'Outline.15.2': class OutlineEntryObject 
+29 0 obj
+<< /Dest [ 13 0 R
+ /XYZ
+ 62.69291
+ 657.0236
+ 0 ]
+ /Parent 21 0 R
+ /Prev 25 0 R
+ /Title (Cloud Search) >>
+endobj
+% 'R30': class PDFPages 
+30 0 obj
+% page tree
+<< /Count 6
+ /Kids [ 7 0 R
+ 8 0 R
+ 9 0 R
+ 10 0 R
+ 12 0 R
+ 13 0 R ]
+ /Type /Pages >>
+endobj
+% 'R31': class PDFStream 
+31 0 obj
+% page stream
+<< /Length 5526 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 741.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F2 20 Tf 24 TL 79.37488 0 Td (Bepado SDK API Documentation) Tj T* -79.37488 0 Td ET
+Q
+Q
+q
+1 0 0 1 62.69291 707.0236 cm
+q
+BT 1 0 0 1 0 14 Tm .178488 Tw 12 TL /F1 10 Tf 0 0 0 rg (This document describes how to use the SDK in a shop, or write an extension / module for a shop system) Tj T* 0 Tw (using the API.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 674.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Basic Concepts) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 632.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .382209 Tw (The basic idea is, that a shop exports a set of products, which are then synchronized with Bepado. Other) Tj T* 0 Tw 2.090651 Tw (shops may import those products and then customers in those shops may buy these products. This) Tj T* 0 Tw (results in three basic operations:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 280.5827 457.6236 cm
+q
+252 0 0 174.4 0 0 cm
+/FormXob.38d5c5d267c3f839f3418b18a24a942d Do
+Q
+Q
+q
+1 0 0 1 62.69291 451.6236 cm
+Q
+q
+1 0 0 1 62.69291 451.6236 cm
+Q
+q
+1 0 0 1 62.69291 421.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Product Export) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A set of exported products is synchronized with Bepado) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 415.6236 cm
+Q
+q
+1 0 0 1 62.69291 385.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Product Import) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A set of products, which the shop owner configured in Bepado are made available in the local shop.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 379.6236 cm
+Q
+q
+1 0 0 1 62.69291 349.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Product Checkout) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A product is bought in a remote shop, and the transaction is completed in the local shop.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 349.6236 cm
+Q
+q
+1 0 0 1 62.69291 319.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .065988 Tw (Each shop can act in both roles of course, or just in one of those roles. Product Export and Product Import) Tj T* 0 Tw (are both optional. Most common case is, that a shop acts in both roles, though.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 286.6236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Using The SDK) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 268.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Using the SDK in your shop requires you to do three things:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 262.6236 cm
+Q
+q
+1 0 0 1 62.69291 262.6236 cm
+Q
+q
+1 0 0 1 62.69291 220.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 27 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 27 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Construct the SDK) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .156098 Tw (When creating a new instance of the SDK to use in your shop, it requires five parameters. Find more) Tj T* 0 Tw (about these parameters below.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 214.6236 cm
+Q
+q
+1 0 0 1 62.69291 202.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Create a service endpoint URL for the SDK.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 196.6236 cm
+Q
+q
+1 0 0 1 62.69291 184.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (3.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Call methods on the SDK depending on the actions inside your shop.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 184.6236 cm
+Q
+q
+1 0 0 1 62.69291 154.6236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Construct the SDK) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 136.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The SDK receives five parameters. The parameters in more detail:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 130.6236 cm
+Q
+q
+1 0 0 1 62.69291 130.6236 cm
+Q
+q
+1 0 0 1 62.69291 76.86614 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 38.75748 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 38.75748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf ($apiKey) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 8.75748 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .35881 Tw (You get the API key for your shop instance after registering with the Bepado website. If you develop) Tj T* 0 Tw .428221 Tw (a SDK for a certain e-commerce system you probably want to provide the shop owner with a simple) Tj T* 0 Tw ET
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+% 'R32': class PDFStream 
+32 0 obj
+% page stream
+<< /Length 4349 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 735.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 17 Tm  T* ET
+q
+1 0 0 1 23 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (user interface to configure the API key to use and pass this one to the SDK.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf ($apiKey ) Tj /F1 10 Tf (will be validated on the first usage of the SDK.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 729.0236 cm
+Q
+q
+1 0 0 1 62.69291 687.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 27 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 27 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf ($apiEndpointUrl) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.633735 Tw (The URL MUST be an absolute URL under which your shop can be reached from Bepado. You) Tj T* 0 Tw (extension must handle requests to this URL and pass the data on to the SDK. More on that below.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 681.0236 cm
+Q
+q
+1 0 0 1 62.69291 615.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 51 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 51 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (Gateway) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 38 Tm .217633 Tw 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (Gateway ) Tj /F1 10 Tf (is used by the SDK to store various data. There is a default implementation using the) Tj T* 0 Tw 1.009398 Tw (PHP ) Tj /F3 10 Tf (mysqli ) Tj /F1 10 Tf (extension, which you might want to use. If your shop does not use ) Tj /F3 10 Tf (mysqli ) Tj /F1 10 Tf (or you) Tj T* 0 Tw .357984 Tw (must support additional databases you should implement a custom ) Tj /F3 10 Tf (Gateway ) Tj /F1 10 Tf (for this. If you do this,) Tj T* 0 Tw (we would love to this contributed back into the SDK.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 609.0236 cm
+Q
+q
+1 0 0 1 62.69291 76.86614 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 517.1575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 517.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (ProductToShop ) Tj /F1 10 Tf (interface) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 475.1575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .261984 Tw (This interface is used when products are imported into your shop. You must implement this interface) Tj T* 0 Tw 1.244692 Tw (to work with your shop. The interface is fairly simple and contains two methods. One to create or) Tj T* 0 Tw (update a remote product, and one to remove a remote product again.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 34.33729 cm
+q
+q
+.922464 0 0 .922464 0 0 cm
+q
+1 0 0 1 6.6 7.154749 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 480 468 re B*
+Q
+q
+BT 1 0 0 1 0 446 Tm 12 TL /F3 10 Tf 0 0 0 rg (<) Tj (?php) Tj T* (/**) Tj T* ( * This file is part of the Bepado SDK Component.) Tj T* ( *) Tj T* ( * @version $Revision$) Tj T* ( */) Tj T*  T* (namespace Bepado\\SDK;) Tj T*  T* (/**) Tj T* ( * Interface for product importers) Tj T* ( *) Tj T* ( * Implement this interface with shop specific details to update products in) Tj T* ( * your shop database, which originate from bepado.) Tj T* ( *) Tj T* ( * @version $Revision$) Tj T* ( * @api) Tj T* ( */) Tj T* (interface ProductToShop) Tj T* ({) Tj T* (    /**) Tj T* (     * Import or update given product) Tj T* (     *) Tj T* (     * Store product in your shop database as an external product. The) Tj T* (     * associated sourceId) Tj T* (     *) Tj T* (     * @param Struct\\Product $product) Tj T* (     */) Tj T* (    public function insertOrUpdate\(Struct\\Product $product\);) Tj T*  T* (    /**) Tj T* (     * Delete product with given shopId and sourceId.) Tj T* (     *) Tj T* (     * Only the combination of both identifies a product uniquely. Do NOT) Tj T* (     * delete products just by their sourceId.) Tj T* (     *) Tj T* (     * You might receive delete requests for products, which are not available) Tj T* (     * in your shop. Just ignore them.) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+% 'R33': class PDFStream 
+33 0 obj
+% page stream
+<< /Length 2743 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 667.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 84.2 Tm  T* ET
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 442.6898 96 re B*
+Q
+q
+BT 1 0 0 1 0 74 Tm 12 TL /F3 10 Tf 0 0 0 rg (     *) Tj T* (     * @param string $shopId) Tj T* (     * @param string $sourceId) Tj T* (     * @return void) Tj T* (     */) Tj T* (    public function delete\($shopId, $sourceId\);) Tj T* (}) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 661.8236 cm
+Q
+q
+1 0 0 1 62.69291 76.86614 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 569.9575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 569.9575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (ProductFromShop ) Tj /F1 10 Tf (interface) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 527.9575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .002651 Tw (This interface is used when products are exported from your shop. You must implement this interface) Tj T* 0 Tw 1.008735 Tw (to work with your shop. The interface contains two methods to verify the products, which the shop) Tj T* 0 Tw (currently exports, and two methods to perform an actual buy.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 36.83504 cm
+q
+q
+.934111 0 0 .934111 0 0 cm
+q
+1 0 0 1 6.6 7.065538 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 474 516 re B*
+Q
+q
+BT 1 0 0 1 0 494 Tm 12 TL /F3 10 Tf 0 0 0 rg (<) Tj (?php) Tj T* (/**) Tj T* ( * This file is part of the Bepado SDK Component.) Tj T* ( *) Tj T* ( * @version $Revision$) Tj T* ( */) Tj T*  T* (namespace Bepado\\SDK;) Tj T*  T* (/**) Tj T* ( * Interface for product providers) Tj T* ( *) Tj T* ( * @version $Revision$) Tj T* ( * @api) Tj T* ( */) Tj T* (interface ProductFromShop) Tj T* ({) Tj T* (    /**) Tj T* (     * Get product data) Tj T* (     *) Tj T* (     * Get product data for all the product IDs specified in the given string) Tj T* (     * array.) Tj T* (     *) Tj T* (     * @param string[] $ids) Tj T* (     * @return Struct\\Product[]) Tj T* (     */) Tj T* (    public function getProducts\(array $ids\);) Tj T*  T* (    /**) Tj T* (     * Get all IDs of all exported products) Tj T* (     *) Tj T* (     * @return string[]) Tj T* (     */) Tj T* (    public function getExportedProductIDs\(\);) Tj T*  T* (    /**) Tj T* (     * Reserve a product in shop for purchase) Tj T* (     *) Tj T* (     * @param Struct\\Order $order) Tj T* (     * @return void) Tj T* (     * @throws \\Exception Abort reservation by throwing an exception here.) Tj T* (     */) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+% 'R34': class PDFStream 
+34 0 obj
+% page stream
+<< /Length 4957 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 559.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 192.2 Tm  T* ET
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 442.6898 204 re B*
+Q
+q
+BT 1 0 0 1 0 182 Tm 12 TL /F3 10 Tf 0 0 0 rg (    public function reserve\(Struct\\Order $order\);) Tj T*  T* (    /**) Tj T* (     * Buy products mentioned in order) Tj T* (     *) Tj T* (     * Should return the internal order ID.) Tj T* (     *) Tj T* (     * @param Struct\\Order $order) Tj T* (     * @return string) Tj T* (     *) Tj T* (     * @throws \\Exception Abort buy by throwing an exception,) Tj T* (     *                    but only in very important cases.) Tj T* (     *                    Do validation in {@see reserve} instead.) Tj T* (     */) Tj T* (    public function buy\(Struct\\Order $order\);) Tj T* (}) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 559.8236 cm
+Q
+q
+1 0 0 1 62.69291 529.8236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Creating a Service Endpoint) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 487.8236 cm
+q
+BT 1 0 0 1 0 26 Tm 2.26881 Tw 12 TL /F1 10 Tf 0 0 0 rg (The service endpoint URL is used by Bepado and other shops to interact with your shop. All other) Tj T* 0 Tw .11936 Tw (instances execute ) Tj /F3 10 Tf (POST ) Tj /F1 10 Tf (requests against this URL. The URL itself does not matter, but the absolute URL) Tj T* 0 Tw (must be provided to the SDK using the ) Tj /F3 10 Tf ($apiEndpointUrl ) Tj /F1 10 Tf (constructor parameter.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 445.8236 cm
+q
+BT 1 0 0 1 0 26 Tm .253876 Tw 12 TL /F1 10 Tf 0 0 0 rg (When receiving a request to this URL the XML body of the request must be dispatched to the ) Tj /F3 10 Tf (handle\(\)) Tj T* 0 Tw .531163 Tw /F1 10 Tf (method on the SDK object. The ) Tj /F3 10 Tf (handle\(\) ) Tj /F1 10 Tf (method will then again return a XML string, which should be) Tj T* 0 Tw (echo'd. You must not echo anything but the raw XML returned by the method.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 427.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A simple PHP file, which does this could look as simple as:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 250.6236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 168 re B*
+Q
+q
+BT 1 0 0 1 0 146 Tm 12 TL /F3 10 Tf 0 0 0 rg (<) Tj (?php) Tj T*  T* ($sdk = new Bepado\\SDK\() Tj T* (    'my-api-key',) Tj T* (    'http://example.com/endpoint',) Tj T* (    new My\\Gateway\( /* \205 */ \),) Tj T* (    new My\\ProductToShop\(\),) Tj T* (    new My\\ProductFromShop\(\)) Tj T* (\);) Tj T*  T* (echo $sdk-) Tj (>) Tj (handle\(file_get_contents\('php://input'\)\);) Tj T*  T* (?) Tj (>) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 220.6236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Calling the SDK) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 190.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.124431 Tw (The SDK class has a set of methods, which provides you with the means to interact with Bepado. The) Tj T* 0 Tw (available methods can be related to the following tasks:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 184.6236 cm
+Q
+q
+1 0 0 1 62.69291 184.6236 cm
+Q
+q
+1 0 0 1 62.69291 172.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Registering products for export) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 166.6236 cm
+Q
+q
+1 0 0 1 62.69291 154.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Checkout of remote products) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 148.6236 cm
+Q
+q
+1 0 0 1 62.69291 136.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (3.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Bepado Cloud Search) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 136.6236 cm
+Q
+q
+1 0 0 1 62.69291 118.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (On top of that there are two helper methods:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 112.6236 cm
+Q
+q
+1 0 0 1 62.69291 112.6236 cm
+Q
+q
+1 0 0 1 62.69291 100.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf 0 0 0 rg (verifySDK\(\) ) Tj /F1 10 Tf (checks if the API key is valid and registers the API endpoint URL with Bepado.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 94.62362 cm
+Q
+ 
+endstream
+endobj
+% 'R35': class PDFStream 
+35 0 obj
+% page stream
+<< /Length 6258 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 741.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 9 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 14 Tm 1.030751 Tw 12 TL /F3 10 Tf 0 0 0 rg (getCategories\(\) ) Tj /F1 10 Tf (provides you with a list of valid Bepado categories to associate your products) Tj T* 0 Tw (with.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 741.0236 cm
+Q
+q
+1 0 0 1 62.69291 723.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The three tasks and the according methods are described in more detail in the following sections.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 696.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (Register Products for Export) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 666.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .499985 Tw (For product export Bepado must know about the products, which your shop wants to make available and) Tj T* 0 Tw (must be informed about all changes to those products.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 636.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.709987 Tw (The first step you need to implement, which is entirely dependent on the shop you are targeting is a) Tj T* 0 Tw (method to configure the set of exported products. This is independent from the SDK itself.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 594.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .40528 Tw (Once the list list of exported products is configurable, the SDK must be informed about the products \(and) Tj T* 0 Tw .010988 Tw (later of changes to the listed products, or changes to the list\). There are two ways to inform the SDK about) Tj T* 0 Tw (this:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 570.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F4 10 Tf 0 0 0 rg (Update notifications) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 540.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .597882 Tw (The SDK is called for every update to a product or the list. This method does require far less processing) Tj T* 0 Tw (power in the SDK, but, depending on your shop, might be hard to implement.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 510.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.452339 Tw (Using this method the SDK must also be informed about all changes, which might be applied by third) Tj T* 0 Tw (party tools, like ERP systems etc.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 480.0236 cm
+q
+BT 1 0 0 1 0 14 Tm 1.76816 Tw 12 TL /F1 10 Tf 0 0 0 rg (Use the ) Tj /F3 10 Tf (recordInsert\(\)) Tj /F1 10 Tf (, ) Tj /F3 10 Tf (recordUpdate\(\) ) Tj /F1 10 Tf (and ) Tj /F3 10 Tf (recordDelete ) Tj /F1 10 Tf (methods on the SDK object for) Tj T* 0 Tw (this. Just call the respective method every time a change to a product or the product list occurs.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 456.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F4 10 Tf 0 0 0 rg (Change evaluation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 414.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .261098 Tw (The SDK can itself verify which changes were made to the list or products. For large amounts of products) Tj T* 0 Tw .179398 Tw (this check might consume lots of processing power. It usually is far easier to implement with existing shop) Tj T* 0 Tw (systems, though.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 384.0236 cm
+q
+BT 1 0 0 1 0 14 Tm 1.506412 Tw 12 TL /F1 10 Tf 0 0 0 rg (Simply call the ) Tj /F3 10 Tf (recreateChangesFeed\(\) ) Tj /F1 10 Tf (method for this, and the SDK will do everything else. But) Tj T* 0 Tw (remember: This way costs far more processing power.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 354.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.015318 Tw (You should either call this method every time the currently exported products are requested by Bepado) Tj T* 0 Tw (using the service endpoint, or every time any change happens to the product database.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 327.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (Checkout of Remote Products) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 285.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .40528 Tw (If, during checkout, the shopping cart contains products from a remote shop the SDK provides you with a) Tj T* 0 Tw .135542 Tw (set of methods to verify the integrity of the remote products and perform the actual checkout in the remote) Tj T* 0 Tw (shops.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 261.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F4 10 Tf 0 0 0 rg (Check Products) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 219.0236 cm
+q
+BT 1 0 0 1 0 26 Tm .804651 Tw 12 TL /F1 10 Tf 0 0 0 rg (The method ) Tj /F3 10 Tf (checkProducts\(\) ) Tj /F1 10 Tf (allows you to verify that the remote products still have the same price) Tj T* 0 Tw .475542 Tw (and availability, as stored in your local database. You should call this method when you want to verify an) Tj T* 0 Tw (order.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 189.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.461318 Tw (The method receives an order struct, which should contain all products, which should be verified. The) Tj T* 0 Tw (SDK will verify that the order struct is valid.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 165.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F4 10 Tf 0 0 0 rg (Reserve Products) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 111.0236 cm
+q
+BT 1 0 0 1 0 38 Tm 1.035697 Tw 12 TL /F1 10 Tf 0 0 0 rg (The method ) Tj /F3 10 Tf (reserveProducts\(\) ) Tj /F1 10 Tf (should be called when you want to reserve products in the remote) Tj T* 0 Tw .307045 Tw (shop\(s\). You must call this method as a part of the checkout process. If relevant product details changed,) Tj T* 0 Tw .074431 Tw (compared to the data your shop has stored locally, the method will return a message struct. this should be) Tj T* 0 Tw (presented to the user. Examples for this are price and availability changes of products.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 81.02362 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .351654 Tw (If the reservation succeeded a set of hashes will be returned, which should be stored in the user session.) Tj T* 0 Tw (Those hashes will be used to finalize the checkout process.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R36': class PDFStream 
+36 0 obj
+% page stream
+<< /Length 1767 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 753.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F4 10 Tf 0 0 0 rg (Checkout Products) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 711.0236 cm
+q
+BT 1 0 0 1 0 26 Tm .12811 Tw 12 TL /F1 10 Tf 0 0 0 rg (The final step to buy products is calling the ) Tj /F3 10 Tf (checkout\(\) ) Tj /F1 10 Tf (method. This step receives a reservation struct,) Tj T* 0 Tw .337984 Tw (as returned by the ) Tj /F3 10 Tf (reserveProducts\(\) ) Tj /F1 10 Tf (method. Usually the method will just return ) Tj /F3 10 Tf (true ) Tj /F1 10 Tf (and the buy) Tj T* 0 Tw (process can be considered completed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 669.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL 1.313984 Tw (If some problem occured while finalizing the checkout, the method will return a message struct. Those) Tj T* 0 Tw 1.013984 Tw (messages should again be presented to the user, so the user can take appropriate action. Alternatively) Tj T* 0 Tw (you can still present the user a success message and let your support team handle the issue.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 642.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (Cloud Search) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 588.0236 cm
+q
+BT 1 0 0 1 0 38 Tm .63311 Tw 12 TL /F1 10 Tf 0 0 0 rg (The Bepado Cloud Search enables you to search for products in foreign shops. Just call the ) Tj /F3 10 Tf (search\(\)) Tj T* 0 Tw 1.343059 Tw /F1 10 Tf (method with an appropriate search struct, containing the search terms and optionally additional search) Tj T* 0 Tw .701163 Tw (configuration. The method will return a search result struct, which you can present as a search result on) Tj T* 0 Tw (your website. The structs should be self-documenting.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R37': class PDFPageLabels 
+37 0 obj
+% Document Root
+<< /Nums [ 0
+ 38 0 R
+ 1
+ 39 0 R
+ 2
+ 40 0 R
+ 3
+ 41 0 R
+ 4
+ 42 0 R
+ 5
+ 43 0 R ] >>
+endobj
+% 'R38': class PDFPageLabel 
+38 0 obj
+% None
+<< /S /D
+ /St 1 >>
+endobj
+% 'R39': class PDFPageLabel 
+39 0 obj
+% None
+<< /S /D
+ /St 2 >>
+endobj
+% 'R40': class PDFPageLabel 
+40 0 obj
+% None
+<< /S /D
+ /St 3 >>
+endobj
+% 'R41': class PDFPageLabel 
+41 0 obj
+% None
+<< /S /D
+ /St 4 >>
+endobj
+% 'R42': class PDFPageLabel 
+42 0 obj
+% None
+<< /S /D
+ /St 5 >>
+endobj
+% 'R43': class PDFPageLabel 
+43 0 obj
+% None
+<< /S /D
+ /St 6 >>
+endobj
+xref
+0 44
+0000000000 65535 f
+0000000113 00000 n
+0000000246 00000 n
+0000000411 00000 n
+0000000627 00000 n
+0000011794 00000 n
+0000019779 00000 n
+0000019938 00000 n
+0000020282 00000 n
+0000020561 00000 n
+0000020840 00000 n
+0000021122 00000 n
+0000021310 00000 n
+0000021590 00000 n
+0000021871 00000 n
+0000022030 00000 n
+0000022306 00000 n
+0000022432 00000 n
+0000022606 00000 n
+0000022825 00000 n
+0000023005 00000 n
+0000023211 00000 n
+0000023432 00000 n
+0000023666 00000 n
+0000023850 00000 n
+0000024031 00000 n
+0000024279 00000 n
+0000024457 00000 n
+0000024652 00000 n
+0000024833 00000 n
+0000024990 00000 n
+0000025140 00000 n
+0000030765 00000 n
+0000035213 00000 n
+0000038055 00000 n
+0000043111 00000 n
+0000049468 00000 n
+0000051338 00000 n
+0000051496 00000 n
+0000051573 00000 n
+0000051650 00000 n
+0000051727 00000 n
+0000051804 00000 n
+0000051881 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+ [(8]p\346\232\243\032\360\213\376\232\361\356\021e\003) (8]p\346\232\243\032\360\213\376\232\361\356\021e\003)] 
+
+ /Info 15 0 R
+ /Root 14 0 R
+ /Size 44 >>
+startxref
+51928
+%%EOF
