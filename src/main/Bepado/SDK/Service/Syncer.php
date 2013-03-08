@@ -8,11 +8,11 @@
 namespace Bepado\SDK\Service;
 
 use Bepado\SDK\Gateway;
-use Bepado\SDK\ProductFromShop;
-use Bepado\SDK\RevisionProvider;
-use Bepado\SDK\ProductHasher;
 use Bepado\SDK\Gateway\ChangeGateway;
 use Bepado\SDK\Gateway\ProductGateway;
+use Bepado\SDK\ProductFromShop;
+use Bepado\SDK\ProductHasher;
+use Bepado\SDK\RevisionProvider;
 
 /**
  * Service to sync product database with changes feed
@@ -89,11 +89,13 @@ class Syncer
         $shopProducts = $this->fromShop->getExportedProductIDs();
         $knownProducts = $this->products->getAllProductIDs();
 
+//$this->fromShop->getProducts($shopProducts)[0]->shopId
+/*
         if ($deletes = array_diff($knownProducts, $shopProducts)) {
             foreach ($deletes as $productId) {
                 $this->changes->recordDelete($productId, $this->revisions->next());
             }
-        }
+        }*/
 
         if ($inserts = array_diff($shopProducts, $knownProducts)) {
             foreach ($this->fromShop->getProducts($inserts) as $product) {
