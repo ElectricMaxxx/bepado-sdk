@@ -27,6 +27,13 @@ class Product extends ShopItem
     public $sourceId;
 
     /**
+     * The European Article Number (EAN) of the product.
+     *
+     * @var string
+     */
+    public $ean;
+
+    /**
      * URL to the product in your shop.
      *
      * Used for redirects to the product, or views of the product.
