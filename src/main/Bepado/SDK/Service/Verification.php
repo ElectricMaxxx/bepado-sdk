@@ -7,8 +7,8 @@
 
 namespace Bepado\SDK\Service;
 
-use Bepado\SDK\HttpClient;
 use Bepado\SDK\Gateway;
+use Bepado\SDK\HttpClient;
 
 /**
  * Verification service
@@ -76,7 +76,7 @@ class Verification
 
         if ($response->status >= 400) {
             $message = null;
-            if ($error = json_decode($response->body) &&
+            if (($error = json_decode($response->body)) &&
                 isset($error->message)) {
                 $message = $error->message;
             }
