@@ -84,6 +84,13 @@ class Product extends ShopItem
     public $price;
 
     /**
+     * The purchase price of this product.
+     *
+     * @var float
+     */
+    public $purchasePrice;
+
+    /**
      * Currency of the price
      *
      * Currently only the default "EUR" is supported.
