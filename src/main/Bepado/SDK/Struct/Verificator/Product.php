@@ -41,9 +41,10 @@ class Product extends Verificator
      *
      * Throws a RuntimeException if the struct does not verify.
      *
-     * @param VerificatorDispatcher $dispatcher
-     * @param Struct $struct
+     * @param \Bepado\SDK\Struct\VerificatorDispatcher $dispatcher
+     * @param \Bepado\SDK\Struct $struct
      * @return void
+     * @throws \RuntimeException
      */
     public function verify(VerificatorDispatcher $dispatcher, Struct $struct)
     {
