@@ -60,6 +60,10 @@ class Product extends Verificator
             }
         }
 
+        if (!in_array($struct->vat, array(0.0, 0.07, 0.19))) {
+            throw new \RuntimeException("Only 0.00, 0.07 and 0.19 are allowed as value added tax.");
+        }
+
         if (!count($struct->categories)) {
             throw new \RuntimeException("Assign at least one category to the product.");
         }

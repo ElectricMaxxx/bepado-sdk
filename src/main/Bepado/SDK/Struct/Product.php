@@ -107,12 +107,12 @@ class Product extends ShopItem
     public $vendor;
 
     /**
-     * If this property is set to <b>TRUE</b> this product will be shown as
-     * delivery free of charge.
+     * The value added tax for this product. The property must be set as a float
+     * value. At the moment only 0.00, 0.07 and 0.19 are supported.
      *
-     * @var boolean
+     * @var float
      */
-    public $freeDelivery = false;
+    public $vat = 0.19;
 
     /**
      * Current price of the product.
@@ -138,6 +138,14 @@ class Product extends ShopItem
      * @var string
      */
     public $currency = "EUR";
+
+    /**
+     * If this property is set to <b>TRUE</b> this product will be shown as
+     * delivery free of charge.
+     *
+     * @var boolean
+     */
+    public $freeDelivery = false;
 
     /**
      * Availibility of the product
