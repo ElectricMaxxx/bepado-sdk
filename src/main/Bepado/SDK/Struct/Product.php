@@ -148,7 +148,14 @@ class Product extends ShopItem
     public $freeDelivery = false;
 
     /**
-     * Availibility of the product
+     * Optional delivery date for this product as a unix timestamp.
+     *
+     * @var integer
+     */
+    public $deliveryDate;
+
+    /**
+     * Availability of the product
      *
      * Provide an integer with the amount of products currently in stock and
      * ready for delivery.
