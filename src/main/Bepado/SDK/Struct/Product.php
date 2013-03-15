@@ -18,6 +18,38 @@ use Bepado\SDK\Struct;
 class Product extends ShopItem
 {
     /**
+     * Describes the unit of this product, for example "Kg" or "ml"
+     */
+    const ATTRIBUTE_UNIT = 'unit';
+
+    /**
+     * Describes the weight of this product, e.g. "4.8" Kg
+     */
+    const ATTRIBUTE_WEIGHT = 'weight';
+
+    /**
+     * Describes the volume of this product, e.g. "0.75" L
+     */
+    const ATTRIBUTE_VOLUME = 'volume';
+
+    /**
+     * Describes the product dimension, e.g. 40 x 20 x 100
+     */
+    const ATTRIBUTE_DIMENSION = 'dimension';
+
+    /**
+     * Describes the base weight of a product, e.g "1.0" Kg for a product with
+     * a weight of 0.500 Kg
+     */
+    const ATTRIBUTE_BASE_WEIGHT = 'base_weight';
+
+    /**
+     * Describes the base volume of a product, e.g "1.0" L for a product with
+     * a weight of 0.75 L
+     */
+    const ATTRIBUTE_BASE_VOLUME = 'base_volume';
+
+    /**
      * Local ID of the product in your shop.
      *
      * ID should never change for one product or be reused for another product.
@@ -133,6 +165,20 @@ class Product extends ShopItem
      * @var string[]
      */
     public $categories = array();
+
+    /**
+     * Contains additional attributes for this product. Use one of the constants
+     * defined in this class to specify a an attribute:
+     *
+     * <code>
+     * $product->attributes[Product::ATTRIBUTE_UNIT] = 'kg';
+     * $product->attributes[Product::ATTRIBUTE_WEIGHT] = '1.0';
+     * $product->attributes[Product::ATTRIBUTE_DIMENSION] = '20x30x40';
+     * </code>
+     *
+     * @var string[]
+     */
+    public $attributes = array();
 
     /**
      * Restores a product from a previously stored state array.
