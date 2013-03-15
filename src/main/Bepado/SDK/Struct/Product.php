@@ -75,6 +75,14 @@ class Product extends ShopItem
     public $vendor;
 
     /**
+     * If this property is set to <b>TRUE</b> this product will be shown as
+     * delivery free of charge.
+     *
+     * @var boolean
+     */
+    public $freeDelivery = false;
+
+    /**
      * Current price of the product.
      *
      * Provided as a float.
