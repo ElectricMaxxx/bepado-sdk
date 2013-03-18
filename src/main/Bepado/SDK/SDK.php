@@ -75,7 +75,7 @@ final class SDK
         // entirely pre-configured object, except for the properties available
         // through constructor injection. Dependency Injection is only used
         // internally in the SDK.
-        $this->dependencies = new DependencyResolver($gateway, $toShop, $fromShop);
+        $this->dependencies = new DependencyResolver($gateway, $toShop, $fromShop, $apiKey);
     }
 
     /**

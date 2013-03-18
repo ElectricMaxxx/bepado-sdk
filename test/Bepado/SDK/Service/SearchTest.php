@@ -15,10 +15,13 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class SearchTest extends Common\Test\TestCase
 {
+    const APIKEY = '1234';
+
     public function testVerify()
     {
         $searchService = new Search(
-            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient')
+            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient'),
+            self::APIKEY
         );
 
         $httpClient
@@ -26,7 +29,7 @@ class SearchTest extends Common\Test\TestCase
             ->method('request')
             ->with(
                 'GET',
-                '/search?query=homme'
+                '/search?query=homme&apiKey=' . self::APIKEY
             )
             ->will(
                 $this->returnValue(

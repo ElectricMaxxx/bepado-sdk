@@ -25,9 +25,11 @@ class Search
     protected $httpClient;
 
     public function __construct(
-        HttpClient $httpClient
+        HttpClient $httpClient,
+        $apiKey
     ) {
         $this->httpClient = $httpClient;
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -39,6 +41,8 @@ class Search
      */
     public function search(Struct\Search $search)
     {
+        $search->apiKey = $this->apiKey;
+
         $response = $this->httpClient->request(
             'GET',
             '/search?' . http_build_query((array) $search)

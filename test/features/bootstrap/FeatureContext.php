@@ -7,6 +7,10 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
+// ABC .pear directory location
+$pearDirectory = __DIR__ . '/../../../../.pear/pear/php/';
+set_include_path(get_include_path() . PATH_SEPARATOR . $pearDirectory);
+
 require __DIR__ . '/../../../vendor/autoload.php';
 
 require __DIR__ . '/FromShopContext.php';
@@ -14,7 +18,7 @@ require __DIR__ . '/ToShopContext.php';
 require __DIR__ . '/ShopPurchaseContext.php';
 require __DIR__ . '/PushShopConfigContext.php';
 
-require_once __DIR__ . '/../../../../.pear/pear/php/PHPUnit/Autoload.php';
+require_once 'PHPUnit/Autoload.php';
 
 /**
  * Features context.

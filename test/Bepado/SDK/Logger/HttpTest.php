@@ -15,6 +15,8 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class HttpTest extends Common\Test\TestCase
 {
+    const APIKEY = '1234';
+
     /**
      * Get a valid order struct
      *
@@ -57,7 +59,8 @@ class HttpTest extends Common\Test\TestCase
     {
         $order = $this->getValidOrder();
         $logger = new Http(
-            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient')
+            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient'),
+            self::APIKEY
         );
 
         $httpClient
@@ -89,7 +92,8 @@ class HttpTest extends Common\Test\TestCase
     {
         $order = new Struct\Order();
         $logger = new Http(
-            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient')
+            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient'),
+            self::APIKEY
         );
 
         $logger->log($order);
@@ -102,7 +106,8 @@ class HttpTest extends Common\Test\TestCase
     {
         $order = $this->getValidOrder();
         $logger = new Http(
-            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient')
+            $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient'),
+            self::APIKEY
         );
 
         $httpClient
@@ -125,7 +130,8 @@ class HttpTest extends Common\Test\TestCase
     {
         $order = $this->getValidOrder();
         $logger = new Http(
-            new HttpClient\Stream('http://transaction.bepado.local/')
+            new HttpClient\Stream('http://transaction.bepado.local/'),
+            self::APIKEY
         );
 
         $logger->log($order);

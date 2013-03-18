@@ -17,6 +17,10 @@ use Bepado\Common\Struct\RpcCall;
  */
 class DependencyResolver
 {
+    /**
+     * @var string
+     */
+    protected $apiKey;
 
     /**
      * Gateway to custom storage
@@ -142,15 +146,18 @@ class DependencyResolver
      * @param \Bepado\SDK\Gateway $gateway
      * @param \Bepado\SDK\ProductToShop $toShop
      * @param \Bepado\SDK\ProductFromShop $fromShop
+     * @param string $apiKey
      */
     public function __construct(
         Gateway $gateway,
         ProductToShop $toShop,
-        ProductFromShop $fromShop
+        ProductFromShop $fromShop,
+        $apiKey
     ) {
         $this->gateway = $gateway;
         $this->toShop = $toShop;
         $this->fromShop = $fromShop;
+        $this->apiKey = $apiKey;
 
         if ($host = getenv('_SOCIALNETWORK_HOST')) {
             $this->socialNetworkHost = "http://{$host}";
@@ -161,6 +168,8 @@ class DependencyResolver
         if ($host = getenv('_SEARCH_HOST')) {
             $this->searchHost = "http://{$host}";
         }
+
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -348,7 +357,8 @@ class DependencyResolver
     {
         if ($this->searchService === null) {
             $this->searchService = new Service\Search(
-                $this->getHttpClient($this->searchHost)
+                $this->getHttpClient($this->searchHost),
+                $this->apiKey
             );
         }
 
@@ -432,7 +442,8 @@ class DependencyResolver
     {
         if ($this->logger === null) {
             $this->logger = new Logger\Http(
-                $this->getHttpClient($this->transactionHost)
+                $this->getHttpClient($this->transactionHost),
+                $this->apiKey
             );
         }
 

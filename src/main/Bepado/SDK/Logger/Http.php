@@ -25,10 +25,19 @@ class Http extends Logger
      */
     protected $httpClient;
 
+    /**
+     * API Key
+     *
+     * @var string
+     */
+    protected $apiKey;
+
     public function __construct(
-        HttpClient $httpClient
+        HttpClient $httpClient,
+        $apiKey
     ) {
         $this->httpClient = $httpClient;
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -39,12 +48,15 @@ class Http extends Logger
      */
     protected function doLog(Struct\Order $order)
     {
+        $hash = hash_hmac("sha256", $order->localOrderId, $this->apiKey);
+
         $response = $this->httpClient->request(
             'POST',
             '/transaction',
             json_encode($order),
             array(
                 'Content-Type: application/json',
+                'X-Bepado-Hash: ' . $hash
             )
         );
 
