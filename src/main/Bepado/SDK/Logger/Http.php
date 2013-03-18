@@ -48,7 +48,7 @@ class Http extends Logger
      */
     protected function doLog(Struct\Order $order)
     {
-        $hash = hash_hmac("sha256", $order->localOrderId, $this->apiKey);
+        $hash = hash_hmac("sha256", $order->localOrderId . $order->orderShop . $order->providerShop, $this->apiKey);
 
         $response = $this->httpClient->request(
             'POST',
@@ -56,7 +56,7 @@ class Http extends Logger
             json_encode($order),
             array(
                 'Content-Type: application/json',
-                'X-Bepado-Hash: ' . $hash
+                'X-Bepado-Order-Hash: ' . $hash
             )
         );
 
