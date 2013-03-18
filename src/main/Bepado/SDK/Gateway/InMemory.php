@@ -264,10 +264,18 @@ class InMemory extends Gateway
      * Get configuration for the given shop
      *
      * @param string $shopId
+     * @throws \RuntimeException If shop does not exist in configuration.
      * @return \Bepado\SDK\Struct\ShopConfiguration
      */
     public function getShopConfiguration($shopId)
     {
+        if (!isset($this->shopConfiguration[$shopId])) {
+            throw new \RuntimeException(sprintf(
+                'You are not connected to shop %s. Known shops are: %s.',
+                $shopId,
+                array_keys($this->shopConfiguration)));
+        }
+
         return $this->shopConfiguration[$shopId];
     }
 

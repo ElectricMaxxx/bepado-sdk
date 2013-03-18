@@ -363,6 +363,7 @@ class MySQLi extends Gateway
      * Get configuration for the given shop
      *
      * @param string $shopId
+     * @throws \RuntimeException If shop does not exist in configuration.
      * @return Struct\ShopConfiguration
      */
     public function getShopConfiguration($shopId)
@@ -377,8 +378,11 @@ class MySQLi extends Gateway
         );
 
         $rows = $result->fetch_all(\MYSQLI_ASSOC);
+
         if (!count($rows)) {
-            return null;
+            throw new \RuntimeException(sprintf(
+                'You are not connected to shop %s.',
+                $shopId));
         }
 
         return unserialize($rows[0]['s_config']);

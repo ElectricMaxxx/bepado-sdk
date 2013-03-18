@@ -64,6 +64,10 @@ class Product extends Verificator
             throw new \RuntimeException("Only 0.00, 0.07 and 0.19 are allowed as value added tax.");
         }
 
+        if (!is_array($struct->categories)) {
+            throw new \RuntimeException("Invalid Datatype, Product#categories has to be an array.");
+        }
+
         if (!count($struct->categories)) {
             throw new \RuntimeException("Assign at least one category to the product.");
         }

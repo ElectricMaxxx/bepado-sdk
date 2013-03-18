@@ -143,6 +143,11 @@ class DependencyResolver
     protected $searchHost = 'http://search.bepado.local';
 
     /**
+     * @var ChangeVisitor\Message
+     */
+    protected $changeVisitor;
+
+    /**
      * @param \Bepado\SDK\Gateway $gateway
      * @param \Bepado\SDK\ProductToShop $toShop
      * @param \Bepado\SDK\ProductFromShop $fromShop

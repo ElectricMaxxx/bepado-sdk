@@ -8,6 +8,7 @@
 namespace Bepado\SDK\ShopGateway;
 
 use Bepado\SDK\ShopGateway;
+use Bepado\SDK\Struct;
 
 /**
  * Shop gateway HTTP implementation
@@ -52,7 +53,7 @@ class Http extends ShopGateway
      * @param Struct\Order
      * @return mixed
      */
-    public function reserve(Struct\Order $order)
+    public function reserveProducts(Struct\Order $order)
     {
         throw new \RuntimeException("@TODO: Implement");
     }
