@@ -30,4 +30,18 @@ abstract class Change extends Struct
      * @var float
      */
     public $revision;
+
+    /**
+     * ID of the shop the affected product is from
+     *
+     * @var string
+     */
+    public $shopId;
+
+    /**
+     * SDK endpoint URL of the shop the affected product is from
+     *
+     * @var string
+     */
+    public $shopEndpoint;
 }

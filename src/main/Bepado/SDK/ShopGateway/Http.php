@@ -9,6 +9,9 @@ namespace Bepado\SDK\ShopGateway;
 
 use Bepado\SDK\ShopGateway;
 use Bepado\SDK\Struct;
+use Bepado\SDK\HttpClient;
+use Bepado\Common\Rpc\Marshaller\CallMarshaller;
+use Bepado\Common\Rpc\Marshaller\CallUnmarshaller;
 
 /**
  * Shop gateway HTTP implementation
@@ -19,9 +22,38 @@ use Bepado\SDK\Struct;
  */
 class Http extends ShopGateway
 {
-    public function __construct()
-    {
+    /**
+     * HTTP Client
+     *
+     * @var HttpClient
+     */
+    protected $httpClient;
 
+    /**
+     * Call marshaller
+     *
+     * @var Rpc\Marshaller\CallMarshaller
+     */
+    protected $marshaller;
+
+    /**
+     * Call unmarshaller
+     *
+     * @var Rpc\Marshaller\CallUnmarshaller
+     */
+    protected $unmarshaller;
+
+    /**
+     * @param Bepado\SDK\HttpClient $httpClient
+     * @param Bepado\Common\Rpc\Marshaller\CallMarshaller $marshaller
+     * @param Bepado\Common\Rpc\Marshaller\CallUnmarshaller $unmarshaller
+     */
+    public function __construct(HttpClient $httpClient, CallMarshaller $marshaller, CallUnmarshaller $unmarshaller)
+    {
+        $this->httpClient = $httpClient;
+        $this->marshaller = $marshaller;
+        $this->unmarshaller = $unmarshaller;
+        $this->serviceRegistry = $serviceRegistry;
     }
 
     /**
@@ -38,7 +70,22 @@ class Http extends ShopGateway
      */
     public function checkProducts(Struct\Order $order)
     {
-        throw new \RuntimeException("@TODO: Implement");
+        $call = new RpcCall(
+            array(
+                'service' => '???',
+                'command' => '???',
+                'arguments' => array(
+                    
+                )
+            )
+        );
+
+        $marshalledCall = $this->marshaller->marshal($call);
+
+        $httpResponse = $this->request('POST', '???', $marshalledCall);
+
+        // TODO: Check status
+        return $this->unmarshaller->unmarshaller($httpResponse->body);
     }
 
     /**

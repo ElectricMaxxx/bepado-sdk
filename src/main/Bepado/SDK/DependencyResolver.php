@@ -217,6 +217,7 @@ class DependencyResolver
                 new Service\ProductService(
                     $this->gateway,
                     $this->gateway,
+                    $this->gateway,
                     $this->toShop
                 )
             );
