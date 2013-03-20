@@ -54,9 +54,21 @@ class Product extends Verificator
                 'price',
                 'currency',
                 'availability',
+                'vat',
             ) as $property) {
             if ($struct->$property === null) {
                 throw new \RuntimeException("Property $property MUST be set in product.");
+            }
+        }
+
+        foreach (array(
+            'title',
+            'shortDescription',
+            'longDescription',
+            'vendor',
+            ) as $property) {
+            if (@iconv('UTF-8', 'UTF-8', $struct->$property) != $struct->$property) {
+                throw new \RuntimeException("Property $property MUST be UTF-8 encoded.");
             }
         }
 
