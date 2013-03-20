@@ -25,15 +25,15 @@ class Http extends ShopGateway
     }
 
     /**
-     * Reserve order in remote shop
+     * Check order in shop
      *
-     * Products SHOULD be reserved and not be sold out while bing reserved.
-     * Reservation may be cancelled after sufficient time has passed.
+     * Verifies, if all products in the given order still have the same price
+     * and availability.
      *
      * Returns true on success, or an array of Struct\Change with updates for
      * the requested products.
      *
-     * @param Struct\Order
+     * @param Struct\Order $order
      * @return mixed
      */
     public function checkProducts(Struct\Order $order)
