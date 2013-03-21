@@ -51,6 +51,9 @@ class Configuration
      *
      * @param Struct\ShopConfiguration $shopConfigurations
      * @return void
+     *
+     * @todo This method does not seem to be used. The class can therefore be
+     *       deprecated.
      */
     public function update(array $shopConfigurations)
     {
