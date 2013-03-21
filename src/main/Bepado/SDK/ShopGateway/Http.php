@@ -44,16 +44,24 @@ class Http extends ShopGateway
     protected $unmarshaller;
 
     /**
+     * Configuration of the provider shop
+     *
+     * @var Bepado\SDK\Struct\ShopConfiguration
+     */
+    protected $providerShopConfig;
+
+    /**
      * @param Bepado\SDK\HttpClient $httpClient
      * @param Bepado\Common\Rpc\Marshaller\CallMarshaller $marshaller
      * @param Bepado\Common\Rpc\Marshaller\CallUnmarshaller $unmarshaller
+     * @param Bepado\SDK\Gateway\ShopConfiguration $providerShopConfig
      */
-    public function __construct(HttpClient $httpClient, CallMarshaller $marshaller, CallUnmarshaller $unmarshaller)
+    public function __construct(HttpClient $httpClient, CallMarshaller $marshaller, CallUnmarshaller $unmarshaller, ShopConfiguration $providerShopConfig)
     {
         $this->httpClient = $httpClient;
         $this->marshaller = $marshaller;
         $this->unmarshaller = $unmarshaller;
-        $this->serviceRegistry = $serviceRegistry;
+        $this->providerShopConfig = $providerShopConfig;
     }
 
     /**
@@ -72,20 +80,18 @@ class Http extends ShopGateway
     {
         $call = new RpcCall(
             array(
-                'service' => '???',
-                'command' => '???',
-                'arguments' => array(
-                    
-                )
+                'service' => 'transaction',
+                'command' => 'checkProducts',
+                'arguments' => array($order),
             )
         );
-
         $marshalledCall = $this->marshaller->marshal($call);
 
-        $httpResponse = $this->request('POST', '???', $marshalledCall);
+        $httpResponse = $this->request('POST', $this->providerShopConfig->serviceEndpoint, $marshalledCall);
 
         // TODO: Check status
-        return $this->unmarshaller->unmarshaller($httpResponse->body);
+        $responseCall = $this->unmarshaller->unmarshaller($httpResponse->body);
+        return $responseCall->arguments[0];
     }
 
     /**

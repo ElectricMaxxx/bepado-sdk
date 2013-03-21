@@ -21,6 +21,11 @@ use Bepado\SDK\Gateway;
 class Http extends ShopFactory
 {
     /**
+     * @var Bepado\SDK\DependencyResolver
+     */
+    protected $dependencyResolver;
+
+    /**
      * Gateway to shop configuration
      *
      * @var Gateway\ShopConfiguration
@@ -34,8 +39,10 @@ class Http extends ShopFactory
      * @return void
      */
     public function __construct(
+        DependencyResolver $dependencyResolver,
         Gateway\ShopConfiguration $configuration
     ) {
+        $this->dependencyResolver = $dependencyResolver;
         $this->configuration = $configuration;
     }
 
@@ -48,6 +55,11 @@ class Http extends ShopFactory
     public function getShopGateway($shopId)
     {
         $configuration = $this->configuration->getShopConfiguration($shopId);
-        return new ShopGateway\Http($configuration->serviceEndpoint);
+        return new ShopGateway\Http(
+            $this->dependencyResolver->getHttpClient(),
+            $this->dependencyResolver->getMarshaller(),
+            $this->dependencyResolver->getUnmarshaller(),
+            $configuration->serviceEndpoint
+        );
     }
 }
