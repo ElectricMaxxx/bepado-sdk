@@ -12,6 +12,7 @@ use Bepado\SDK\Struct;
 use Bepado\SDK\HttpClient;
 use Bepado\Common\Rpc\Marshaller\CallMarshaller;
 use Bepado\Common\Rpc\Marshaller\CallUnmarshaller;
+use Bepado\Common\Struct\RpcCall;
 
 /**
  * Shop gateway HTTP implementation
@@ -44,24 +45,16 @@ class Http extends ShopGateway
     protected $unmarshaller;
 
     /**
-     * Configuration of the provider shop
-     *
-     * @var Bepado\SDK\Struct\ShopConfiguration
-     */
-    protected $providerShopConfig;
-
-    /**
      * @param Bepado\SDK\HttpClient $httpClient
      * @param Bepado\Common\Rpc\Marshaller\CallMarshaller $marshaller
      * @param Bepado\Common\Rpc\Marshaller\CallUnmarshaller $unmarshaller
      * @param Bepado\SDK\Gateway\ShopConfiguration $providerShopConfig
      */
-    public function __construct(HttpClient $httpClient, CallMarshaller $marshaller, CallUnmarshaller $unmarshaller, ShopConfiguration $providerShopConfig)
+    public function __construct(HttpClient $httpClient, CallMarshaller $marshaller, CallUnmarshaller $unmarshaller)
     {
         $this->httpClient = $httpClient;
         $this->marshaller = $marshaller;
         $this->unmarshaller = $unmarshaller;
-        $this->providerShopConfig = $providerShopConfig;
     }
 
     /**
@@ -168,14 +161,14 @@ class Http extends ShopGateway
     {
         $marshalledCall = $this->marshaller->marshal($call);
 
-        $httpResponse = $this->request(
+        $httpResponse = $this->httpClient->request(
             'POST',
-            $this->providerShopConfig->serviceEndpoint,
+            '',
             $marshalledCall
         );
 
         // TODO: Check status
-        $result = $this->unmarshaller->unmarshaller($httpResponse->body);
+        $result = $this->unmarshaller->unmarshal($httpResponse->body);
 
         return $result->arguments[0]->result;
     }

@@ -10,6 +10,7 @@ namespace Bepado\SDK\ShopFactory;
 use Bepado\SDK\ShopFactory;
 use Bepado\SDK\ShopGateway;
 use Bepado\SDK\Gateway;
+use Bepado\SDK\DependencyResolver;
 
 /**
  * Shop factory
@@ -56,10 +57,9 @@ class Http extends ShopFactory
     {
         $configuration = $this->configuration->getShopConfiguration($shopId);
         return new ShopGateway\Http(
-            $this->dependencyResolver->getHttpClient(),
+            $this->dependencyResolver->getHttpClient($configuration->serviceEndpoint),
             $this->dependencyResolver->getMarshaller(),
-            $this->dependencyResolver->getUnmarshaller(),
-            $configuration->serviceEndpoint
+            $this->dependencyResolver->getUnmarshaller()
         );
     }
 }
