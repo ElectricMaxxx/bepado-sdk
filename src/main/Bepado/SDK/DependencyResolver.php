@@ -332,7 +332,10 @@ class DependencyResolver
     {
         if ($this->shoppingService === null) {
             $this->shoppingService = new Service\Shopping(
-                new ShopFactory\Http($this->gateway),
+                new ShopFactory\Http(
+                    $this,
+                    $this->gateway
+                ),
                 $this->getChangeVisitor(),
                 $this->getLogger()
             );
