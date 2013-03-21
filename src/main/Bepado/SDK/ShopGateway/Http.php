@@ -78,20 +78,15 @@ class Http extends ShopGateway
      */
     public function checkProducts(Struct\Order $order)
     {
-        $call = new RpcCall(
-            array(
-                'service' => 'transaction',
-                'command' => 'checkProducts',
-                'arguments' => array($order),
+        return $this->makeRpcCall(
+            new RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'checkProducts',
+                    'arguments' => array($order),
+                )
             )
         );
-        $marshalledCall = $this->marshaller->marshal($call);
-
-        $httpResponse = $this->request('POST', $this->providerShopConfig->serviceEndpoint, $marshalledCall);
-
-        // TODO: Check status
-        $responseCall = $this->unmarshaller->unmarshaller($httpResponse->body);
-        return $responseCall->arguments[0];
     }
 
     /**
@@ -108,7 +103,15 @@ class Http extends ShopGateway
      */
     public function reserveProducts(Struct\Order $order)
     {
-        throw new \RuntimeException("@TODO: Implement");
+        return $this->makeRpcCall(
+            new RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'reserveProducts',
+                    'arguments' => array($order),
+                )
+            )
+        );
     }
 
     /**
@@ -122,7 +125,15 @@ class Http extends ShopGateway
      */
     public function buy($reservationId)
     {
-        throw new \RuntimeException("@TODO: Implement");
+        return $this->makeRpcCall(
+            new RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'buy',
+                    'arguments' => array($reservationId),
+                )
+            )
+        );
     }
 
     /**
@@ -136,6 +147,36 @@ class Http extends ShopGateway
      */
     public function confirm($reservationId)
     {
-        throw new \RuntimeException("@TODO: Implement");
+        return $this->makeRpcCall(
+            new RpcCall(
+                array(
+                    'service' => 'transaction',
+                    'command' => 'confirm',
+                    'arguments' => array($reservationId),
+                )
+            )
+        );
+    }
+
+    /**
+     * Performs the given $call to the provider shop
+     *
+     * @param Bepado\Command\Struct\RpcCall $call
+     * @return Bepado\Command\Struct\RpcCall Returned call
+     */
+    protected function makeRpcCall(RpcCall $call)
+    {
+        $marshalledCall = $this->marshaller->marshal($call);
+
+        $httpResponse = $this->request(
+            'POST',
+            $this->providerShopConfig->serviceEndpoint,
+            $marshalledCall
+        );
+
+        // TODO: Check status
+        $result = $this->unmarshaller->unmarshaller($httpResponse->body);
+
+        return $result->arguments[0]->result;
     }
 }
