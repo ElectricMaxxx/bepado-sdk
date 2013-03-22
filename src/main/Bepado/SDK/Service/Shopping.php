@@ -28,7 +28,7 @@ class Shopping
     protected $shopFactory;
 
     /**
-     * CHange visitor
+     * Change visitor
      *
      * Visits arrays of changes into corresponding messages
      *
