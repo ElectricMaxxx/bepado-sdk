@@ -407,9 +407,14 @@ class InMemory extends Gateway
     public static function __set_state(array $state)
     {
         $gateway = new InMemory();
-        foreach ($state as $name => $value) {
-            $gateway->$name = $value;
-        }
+        $gateway->setInternalState($state);
         return $gateway;
+    }
+
+    protected function setInternalState(array $state)
+    {
+        foreach ($state as $name => $value) {
+            $this->$name = $value;
+        }
     }
 }
