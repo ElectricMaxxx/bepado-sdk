@@ -273,7 +273,7 @@ class InMemory extends Gateway
             throw new \RuntimeException(sprintf(
                 'You are not connected to shop %s. Known shops are: %s.',
                 $shopId,
-                array_keys($this->shopConfiguration)));
+                implode(", ", array_keys($this->shopConfiguration))));
         }
 
         return $this->shopConfiguration[$shopId];
