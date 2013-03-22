@@ -122,10 +122,16 @@ class Shopping
         $reservation = new Struct\Reservation();
         $reservation->orders = $orders;
         foreach ($responses as $shopId => $response) {
-            if (!is_string($response)) {
+            if (is_string($response)) {
+                $reservation->orders[$shopId]->reservationId = $response;
+            } elseif (is_array($response)) {
                 $reservation->messages[$shopId] = $this->changeVisitor->visit($response);
             } else {
-                $reservation->orders[$shopId]->reservationId = $response;
+                // TODO: How to react on false value returned?
+                // This might occur if a reservation is canceled by the provider shop
+                // see Service\Transaction::reserveProducts().
+                // SDK::reserveProducts() needs an according update, too.
+                return false;
             }
         }
 
