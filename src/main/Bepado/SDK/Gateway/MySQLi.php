@@ -92,7 +92,7 @@ class MySQLi extends Gateway
             );
 
             if ($row['c_product']) {
-                $change->product = unserialize($row['c_product']);
+                $change->product = $this->ensureUtf8(unserialize($row['c_product']));
             }
         }
 
@@ -104,6 +104,20 @@ class MySQLi extends Gateway
         );
 
         return $changes;
+    }
+
+    private function ensureUtf8($product)
+    {
+        foreach (get_object_vars($product) as $name => $value) {
+            if (!is_string($value)) {
+                continue;
+            }
+            if (@iconv('UTF-8', 'UTF-8', $value)) {
+                continue;
+            }
+            $product->$name = @iconv("UTF-8", "UTF-8//TRANSLIT", $value);
+        }
+        return $product;
     }
 
     /**
