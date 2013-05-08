@@ -8,6 +8,7 @@
 namespace Bepado\SDK;
 
 use Bepado\Common\Struct\RpcCall;
+use Bepado\SDK\Struct\Shop;
 
 /**
  * Central SDK class, which serves as an etnry point and service fromShop.
@@ -322,6 +323,8 @@ final class SDK
     }
 
     /**
+     * Verify a given API key is valid.
+     *
      * @param $key
      */
     public function verifyKey($key)
@@ -330,5 +333,21 @@ final class SDK
             $key,
             $this->apiEndpointUrl
         );
+    }
+
+    /**
+     * Get information about a shop given its remote shop-id.
+     *
+     * This method allows access to the shop name - which can be
+     * used for UI purposes.
+     *
+     * @param string $shopId
+     * @return \Bepado\SDK\Struct\Shop
+     */
+    public function getShop($shopId)
+    {
+        $shopConfiguration = $this->dependencies->getGateway()->getShopConfiguration($shopId);
+
+        return new Shop(array('id' => $shopId, 'name' => $shopConfiguration->name));
     }
 }
