@@ -237,17 +237,11 @@ final class SDK
     {
         $this->verifySdk();
 
-        foreach ($products as $product) {
-            if ( ! ($product instanceof Struct\Product)) {
-                throw new \InvalidArgumentException("Elements passed to SDK#checkProducts() must be instanceof Bepado\SDK\Struct\Product");
-            }
+        $productList = new Struct\ProductList(array('products' => $products));
 
-            $this->dependencies->getVerificator()->verify($product);
-        }
+        $this->dependencies->getVerificator()->verify($productList);
 
-        return $this->dependencies->getShoppingService()->checkProducts(
-            new Struct\ProductList(array('products' => $products))
-        );
+        return $this->dependencies->getShoppingService()->checkProducts($productList);
     }
 
     /**
