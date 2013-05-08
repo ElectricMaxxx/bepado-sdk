@@ -233,12 +233,21 @@ final class SDK
      * @param Struct\Order $order
      * @return mixed
      */
-    public function checkProducts(Struct\Order $order)
+    public function checkProducts(array $products)
     {
         $this->verifySdk();
-        $this->dependencies->getVerificator()->verify($order);
-        $order->orderShop = $this->dependencies->getGateway()->getShopId();
-        return $this->dependencies->getShoppingService()->checkProducts($order);
+
+        foreach ($products as $product) {
+            if ( ! ($product instanceof Struct\Product)) {
+                throw new \InvalidArgumentException("Elements passed to SDK#checkProducts() must be instanceof Bepado\SDK\Struct\Product");
+            }
+
+            $this->dependencies->getVerificator()->verify($product);
+        }
+
+        return $this->dependencies->getShoppingService()->checkProducts(
+            new Struct\ProductList(array('products' => $products))
+        );
     }
 
     /**

@@ -268,7 +268,10 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerViewsTheOrderOverview()
     {
-        $this->result = $this->sdk->checkProducts($this->order);
+        $this->result = $this->sdk->checkProducts(array_map(
+            function ($orderItem) {
+                return $orderItem->product;
+            }, $this->order->products));
 
         if ($this->result === true) {
             $this->result = $this->sdk->reserveProducts($this->order);

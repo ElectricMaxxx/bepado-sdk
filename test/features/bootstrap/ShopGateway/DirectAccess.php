@@ -56,14 +56,14 @@ class DirectAccess extends ShopGateway
      * @param Struct\Order $order
      * @return mixed
      */
-    public function checkProducts(Struct\Order $order)
+    public function checkProducts(Struct\ProductList $productList)
     {
         return $this->makeRpcCall(
             new RpcCall(
                 array(
                     'service' => 'transaction',
                     'command' => 'checkProducts',
-                    'arguments' => array($order),
+                    'arguments' => array($productList),
                 )
             )
         );
