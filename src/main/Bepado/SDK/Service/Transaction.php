@@ -11,7 +11,6 @@ use Bepado\SDK\ProductFromShop;
 use Bepado\SDK\Gateway;
 use Bepado\SDK\Logger;
 use Bepado\SDK\Struct;
-use Bepado\SDK\Config;
 
 /**
  * Service to maintain transactions
