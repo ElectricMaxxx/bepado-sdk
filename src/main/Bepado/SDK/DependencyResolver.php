@@ -464,16 +464,21 @@ class DependencyResolver
 
     /**
      * @param string $server
+     * @param string $client
      * @param string $token X-Bepado-Token that is verified by the recieving server.
      *
      * @return \Bepado\SDK\HttpClient
      */
-    public function getHttpClient($server, $token = null)
+    public function getHttpClient($server, $client = null, $token = null)
     {
         $headers = array(
             'X-Bepado-SDK-Version: ' . SDK::VERSION,
             'Accept: applications/x-bepado-json-' . SDK::VERSION,
         );
+
+        if ($client) {
+            $headers[] = 'X-Bepado-Client: ' . $client;
+        }
 
         if ($token) {
             $headers[] = 'X-Bepado-Token: ' . $token;
