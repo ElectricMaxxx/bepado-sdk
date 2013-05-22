@@ -44,4 +44,18 @@ abstract class Change extends Struct
      * @var string
      */
     public $shopEndpoint;
+
+    /**
+     * From-Shop Display Name
+     *
+     * @var string
+     */
+    public $shopDisplayName;
+
+    /**
+     * From-Shop Url
+     *
+     * @var string
+     */
+    public $shopUrl;
 }

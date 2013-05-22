@@ -115,6 +115,7 @@ final class SDK
      * the response.
      *
      * @param string $xml
+     *
      * @return string
      */
     public function handle($xml)
@@ -382,6 +383,10 @@ final class SDK
     {
         $shopConfiguration = $this->dependencies->getGateway()->getShopConfiguration($shopId);
 
-        return new Shop(array('id' => $shopId, 'name' => $shopConfiguration->name));
+        return new Shop(array(
+            'id' => $shopId,
+            'name' => $shopConfiguration->displayName,
+            'url' => $shopConfiguration->url,
+        ));
     }
 }

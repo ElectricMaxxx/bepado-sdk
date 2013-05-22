@@ -478,17 +478,18 @@ class DependencyResolver
 
     /**
      * @param string $server
+     *
      * @return \Bepado\SDK\HttpClient
      */
     public function getHttpClient($server)
     {
-        $client = new HttpClient\Stream($server);
-        $client->addDefaultHeaders(
-            array(
-                'X-Bepado-SDK-Version: ' . SDK::VERSION,
-                'Accept: applications/x-bepado-json-' . SDK::VERSION,
-            )
+        $headers = array(
+            'X-Bepado-SDK-Version: ' . SDK::VERSION,
+            'Accept: applications/x-bepado-json-' . SDK::VERSION,
         );
+
+        $client = new HttpClient\Stream($server);
+        $client->addDefaultHeaders($headers);
 
         return $client;
     }
