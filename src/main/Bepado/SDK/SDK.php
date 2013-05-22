@@ -351,6 +351,10 @@ final class SDK
     {
         $shopConfiguration = $this->dependencies->getGateway()->getShopConfiguration($shopId);
 
-        return new Shop(array('id' => $shopId, 'name' => $shopConfiguration->name));
+        return new Shop(array(
+            'id' => $shopId,
+            'name' => $shopConfiguration->displayName,
+            'url' => $shopConfiguration->url,
+        ));
     }
 }

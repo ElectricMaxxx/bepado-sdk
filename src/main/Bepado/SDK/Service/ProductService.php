@@ -104,6 +104,9 @@ class ProductService
                         array(
                             'name' => $change->shopId,
                             'serviceEndpoint' => $change->shopEndpoint,
+                            'displayName' => $change->shopDisplayName,
+                            'url' => $change->shopUrl,
+                            'token' => $change->shopToken,
                         )
                     )
                 );
