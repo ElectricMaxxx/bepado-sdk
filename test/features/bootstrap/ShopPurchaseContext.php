@@ -43,20 +43,6 @@ class ShopPurchaseContext extends SDKContext
     protected $result;
 
     /**
-     * Currently used mock for to shop gateway
-     *
-     * @var ProductToShop
-     */
-    protected $productToShop;
-
-    /**
-     * Currently used mock for from shop gateway
-     *
-     * @var ProductFromShop
-     */
-    protected $productFromShop;
-
-    /**
      * Currently used mock for logger
      *
      * @var Logger
@@ -72,22 +58,9 @@ class ShopPurchaseContext extends SDKContext
 
     protected function initSDK()
     {
-        $this->productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
-        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
+        parent::initSDK();
+
         $this->logger = new Logger\Test();
-
-        $this->sdk = new SDK(
-            'apikey',
-            'http://example.com/endpoint',
-            $this->getGateway(),
-            $this->productToShop,
-            $this->productFromShop
-        );
-
-        // Inject custom direct access shop gateway factory
-        $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
-        $dependenciesProperty->setAccessible(true);
-        $this->dependencies = $dependenciesProperty->getValue($this->sdk);
 
         $shoppingServiceProperty = new \ReflectionProperty($this->dependencies, 'shoppingService');
         $shoppingServiceProperty->setAccessible(true);
