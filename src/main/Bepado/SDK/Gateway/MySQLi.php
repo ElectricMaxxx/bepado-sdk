@@ -395,7 +395,7 @@ class MySQLi extends Gateway
 
         if (!count($rows)) {
             throw new \RuntimeException(
-                'You are not connected to shop ' . $shopId . '.',
+                'You are not connected to shop ' . $shopId . '.'
             );
         }
 
