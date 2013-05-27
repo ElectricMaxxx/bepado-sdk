@@ -15,6 +15,7 @@ use Bepado\Common\Rpc;
 use Bepado\Common\Struct;
 
 use \PHPUnit_Framework_Assert as Assertion;
+use \PHPUnit_Framework_MockObject_Generator as Mocker;
 
 require_once __DIR__ . '/SDKContext.php';
 
@@ -28,6 +29,25 @@ class ToShopContext extends SDKContext
     protected $productId = 1;
 
     protected $shopRevision = null;
+
+    protected function initSDK()
+    {
+        parent::initSDK();
+
+        $serviceRegistry = $this->dependencies->getServiceRegistry();
+
+        $configurationServiceMock = Mocker::getMock('Bepado\\SDK\\Service\\Configuration', array('update'), array(), '', false);
+        $configurationServiceMock
+            ->expects(new \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount())
+            ->method('update');
+
+        $productService = $serviceRegistry->getService('products', 'toShop');
+        $productService = $productService['provider'];
+
+        $configurationProperty = new \ReflectionProperty($productService, 'configurationService');
+        $configurationProperty->setAccessible(true);
+        $configurationProperty->setValue($productService, $configurationServiceMock);
+    }
 
     /**
      * @Given /^The shop did not synchronize any products$/

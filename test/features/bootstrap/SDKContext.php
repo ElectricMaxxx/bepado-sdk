@@ -111,7 +111,7 @@ class SDKContext extends BehatContext
         $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
 
         $this->sdk = new SDK(
-            'fd4a49b0-623c-4142-bd09-871d4ccd86f0',
+            'apikey',
             'http://example.com/endpoint',
             $this->getGateway(),
             $this->productToShop,
