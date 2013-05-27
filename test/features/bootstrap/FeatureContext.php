@@ -16,7 +16,6 @@ require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/FromShopContext.php';
 require __DIR__ . '/ToShopContext.php';
 require __DIR__ . '/ShopPurchaseContext.php';
-require __DIR__ . '/PushShopConfigContext.php';
 
 require_once 'PHPUnit/Autoload.php';
 
@@ -36,7 +35,6 @@ class FeatureContext extends BehatContext
         $this->useContext('fromShop', new \Bepado\SDK\FromShopContext());
         $this->useContext('toShop', new \Bepado\SDK\ToShopContext());
         $this->useContext('shopPurchase', new \Bepado\SDK\ShopPurchaseContext());
-        $this->useContext('pushShopConfig', new \Bepado\SDK\PushShopConfigContext());
     }
 }
 
