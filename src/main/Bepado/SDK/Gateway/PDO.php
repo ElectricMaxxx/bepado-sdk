@@ -152,12 +152,7 @@ class PDO extends Gateway
                 ?, ?, ?, ?
             );'
         );
-        $query->execute(array(
-            $id,
-            'insert',
-            $revision,
-            serialize($product)
-        ));
+        $query->execute(array($id, 'insert', $revision, serialize($product)));
 
         $query =  $this->connection->prepare(
             'INSERT INTO
@@ -168,10 +163,7 @@ class PDO extends Gateway
                 null
             );'
         );
-        $query->execute(array(
-            $id,
-            $hash
-        ));
+        $query->execute(array($id, $hash));
     }
 
     /**
@@ -197,12 +189,7 @@ class PDO extends Gateway
                 ?, ?, ? ,?
             );'
         );
-        $query->execute(array(
-            $id,
-            'update',
-            $revision,
-            serialize($product)
-        ));
+        $query->execute(array($id, 'update', $revision, serialize($product)));
 
         $query = $this->connection->prepare(
             '
@@ -211,10 +198,7 @@ class PDO extends Gateway
             WHERE p_source_id = ?
             '
         );
-        $query->execute(array(
-            $hash,
-            $id
-        ));
+        $query->execute(array($hash, $id));
     }
 
     /**
@@ -237,11 +221,7 @@ class PDO extends Gateway
                 ?, ?, ?
             );'
         );
-        $query->execute(array(
-            $id,
-            'delete',
-            $revision
-        ));
+        $query->execute(array($id, 'delete', $revision));
 
         $query = $this->connection->prepare(
             'DELETE FROM
@@ -250,9 +230,7 @@ class PDO extends Gateway
                 p_source_id = ?
             ;'
         );
-        $query->execute(array(
-            $id
-        ));
+        $query->execute(array($id));
     }
 
     /**
@@ -274,9 +252,7 @@ class PDO extends Gateway
             WHERE
                 p_source_id = ?'
         );
-        $query->execute(array(
-            $id
-        ));
+        $query->execute(array($id));
 
         $result = $query->fetchColumn();
         return $result !== $hash;
@@ -484,11 +460,7 @@ class PDO extends Gateway
                 ?, ?, ?
             );'
         );
-        $query->execute(array(
-            $order->reservationId,
-            'new',
-            serialize($order)
-        ));
+        $query->execute(array($order->reservationId, 'new', serialize($order)));
         return $order->reservationId;
     }
 
@@ -609,9 +581,7 @@ class PDO extends Gateway
             WHERE
                 `s_shop` = ?'
         );
-        $query->execute(array(
-            $shopId
-        ));
+        $query->execute(array($shopId));
 
         $config = $query->fetchColumn();
         if ($config === false) {
