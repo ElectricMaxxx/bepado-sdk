@@ -411,6 +411,7 @@ class PDO extends Gateway
     public function setShopId($shopId)
     {
         $this->setConfig('_self_', $shopId);
+        $this->setConfig('_last_update_', time());
     }
 
     /**
@@ -446,19 +447,19 @@ class PDO extends Gateway
     {
         $query = $this->connection->query(
             'SELECT
-                `changed`
+                `s_config`
             FROM
                 `bepado_shop_config`
             WHERE
-                `s_shop` = "_self_"'
+                `s_shop` = "_last_update_"'
         );
 
         $result = $query->fetchColumn();
         if ($result === null) {
-            return null;
+            return false;
         }
 
-        return strtotime($result);
+        return $result;
     }
 
     /**
