@@ -343,7 +343,8 @@ class DependencyResolver
                     $this->gateway
                 ),
                 $this->getChangeVisitor(),
-                $this->getLogger()
+                $this->getLogger(),
+                new ShippingCostCalculator($this->gateway)
             );
         }
 

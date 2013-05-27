@@ -47,6 +47,13 @@ class SDKContext extends BehatContext
      */
     protected $productFromShop;
 
+    /**
+     * Main gateway of the local shop
+     *
+     * @var Gateway
+     */
+    protected $gateway;
+
     public function __construct()
     {
         $this->initSDK();
@@ -113,7 +120,7 @@ class SDKContext extends BehatContext
         $this->sdk = new SDK(
             'apikey',
             'http://example.com/endpoint',
-            $this->getGateway(),
+            $this->gateway = $this->getGateway(),
             $this->productToShop,
             $this->productFromShop
         );
