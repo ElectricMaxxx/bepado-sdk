@@ -127,12 +127,14 @@ class Shopping
         $productLists = array();
 
         foreach ($productList->products as $product) {
-            $productLists[$product->shopId][] = $product;
+            if (!isset($productLists[$product->shopId])) {
+                $productLists[$product->shopId] = new Struct\ProductList();
+            }
+
+            $productLists[$product->shopId]->products[] = $product;
         }
 
-        return array_map(function ($productsArray) {
-            return new Struct\ProductList(array('products' => $productsArray));
-        }, $productLists);
+        return $productLists;
     }
 
     /**
