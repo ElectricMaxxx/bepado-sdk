@@ -33,6 +33,27 @@ class SDKContext extends BehatContext
      */
     protected $dependencies;
 
+    /**
+     * Currently used mock for to shop gateway
+     *
+     * @var ProductToShop
+     */
+    protected $productToShop;
+
+    /**
+     * Currently used mock for from shop gateway
+     *
+     * @var ProductFromShop
+     */
+    protected $productFromShop;
+
+    /**
+     * Main gateway of the local shop
+     *
+     * @var Gateway
+     */
+    protected $gateway;
+
     public function __construct()
     {
         $this->initSDK();
@@ -93,15 +114,15 @@ class SDKContext extends BehatContext
 
     protected function initSDK()
     {
-        $productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
-        $productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
+        $this->productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
+        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
 
         $this->sdk = new SDK(
             'apikey',
             'http://example.com/endpoint',
-            $this->getGateway(),
-            $productToShop,
-            $productFromShop
+            $this->gateway = $this->getGateway(),
+            $this->productToShop,
+            $this->productFromShop
         );
 
         $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
