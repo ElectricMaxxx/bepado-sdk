@@ -394,9 +394,9 @@ class MySQLi extends Gateway
         $rows = $result->fetch_all(\MYSQLI_ASSOC);
 
         if (!count($rows)) {
-            throw new \RuntimeException(sprintf(
-                'You are not connected to shop %s.',
-                $shopId));
+            throw new \RuntimeException(
+                'You are not connected to shop ' . $shopId . '.',
+            );
         }
 
         return unserialize($rows[0]['s_config']);

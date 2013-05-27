@@ -98,10 +98,12 @@ class Configuration
         foreach ($configurations as $configuration) {
             $this->configuration->setShopConfiguration(
                 $configuration['shopId'],
-                new Struct\ShopConfiguration(array(
-                    'serviceEndpoint' => $configuration['serviceEndpoint'],
-                    'shippingCost' => $configuration['shippingCost'],
-                ))
+                new Struct\ShopConfiguration(
+                    array(
+                        'serviceEndpoint' => $configuration['serviceEndpoint'],
+                        'shippingCost' => $configuration['shippingCost'],
+                    )
+                )
             );
         }
     }
