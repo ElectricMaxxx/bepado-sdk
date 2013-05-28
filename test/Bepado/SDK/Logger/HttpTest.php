@@ -27,8 +27,8 @@ class HttpTest extends Common\Test\TestCase
         return new Struct\Order(array(
             'orderShop' => 'shop1',
             'providerShop' => 'shop2',
-            'reservationId' => '42',
-            'localOrderId' => 'local',
+            'reservationId' => md5(microtime()),
+            'localOrderId' => md5(microtime()),
             'shippingCosts' => 34.43,
             'products' => array(
                 new Struct\OrderItem(array(
@@ -134,6 +134,32 @@ class HttpTest extends Common\Test\TestCase
             self::APIKEY
         );
 
-        $logger->log($order);
+        return $logger->log($order);
+    }
+
+    /**
+     * @depends testAgainstLoggingService
+     */
+    public function testConfirmAgainstLoggingService($token)
+    {
+        $logger = new Http(
+            new HttpClient\Stream('http://transaction.bepado.local/'),
+            self::APIKEY
+        );
+
+        $logger->confirm($token);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testConfirmUnknownAgainstLoggingService()
+    {
+        $logger = new Http(
+            new HttpClient\Stream('http://transaction.bepado.local/'),
+            self::APIKEY
+        );
+
+        $logger->confirm("Unknown");
     }
 }
