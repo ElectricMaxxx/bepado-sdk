@@ -208,9 +208,9 @@ class Shopping
         foreach ($reservation->orders as $shopId => $order) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
 
-            if ($shopGateway->buy($order->reservationId)) {
+            if ($remoteLogTransactionId = $shopGateway->buy($order->reservationId)) {
                 try {
-                    $this->logger->log($order);
+                    $localLogTransactionId = $this->logger->log($order);
                 } catch (\Exception $e) {
                     $results[$shopId] = false;
                     continue;
@@ -220,9 +220,9 @@ class Shopping
                 continue;
             }
 
-            if ($shopGateway->confirm($order->reservationId)) {
+            if ($shopGateway->confirm($order->reservationId, $remoteLogTransactionId)) {
                 try {
-                    $this->logger->confirm($order);
+                    $this->logger->confirm($localLogTransactionId);
                 } catch (\Exception $e) {
                     $results[$shopId] = false;
                     continue;

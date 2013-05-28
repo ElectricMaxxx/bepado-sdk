@@ -188,11 +188,10 @@ class Transaction
             $order->localOrderId = $this->fromShop->buy($order);
             $order->reservationId = $reservationId;
             $this->reservations->setBought($reservationId, $order);
-            $this->logger->log($order);
+            return $this->logger->log($order);
         } catch (\Exception $e) {
             return false;
         }
-        return true;
     }
 
     /**
@@ -202,14 +201,15 @@ class Transaction
      * fail.
      *
      * @param string $reservationId
+     * @param string $remoteLogTransactionId
      * @return mixed
      */
-    public function confirm($reservationId)
+    public function confirm($reservationId, $remoteLogTransactionId)
     {
         try {
             $order = $this->reservations->getOrder($reservationId);
             $this->reservations->setConfirmed($reservationId);
-            $this->logger->confirm($order);
+            $this->logger->confirm($remoteLogTransactionId);
         } catch (\Exception $e) {
             return false;
         }
