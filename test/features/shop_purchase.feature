@@ -56,6 +56,37 @@ Feature: Interactions between shops on a purchase
          Then The buy process fails
           And No transactions are confirmed
 
+    Scenario: The Buy process fails in checkout because transaction logging failed in remote shop
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The remote shop transaction logging fails
+         When The Customer checks out
+         Then The buy process fails
+          And No transactions are confirmed
+
+    Scenario: The Buy process fails in checkout because transaction logging failed in local shop
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The local shop transaction logging fails
+         When The Customer checks out
+         Then The buy process fails
+          And No transactions are confirmed
+
+    Scenario: The Buy process fails in checkout because transaction confirmation failed in remote shop
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The remote shop transaction confirmation fails
+         When The Customer checks out
+         Then The buy process fails
+          And No transactions are confirmed
+
+    Scenario: The Buy process fails in checkout because transaction confirmation failed in local shop
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The local shop transaction confirmation fails
+         When The Customer checks out
+         Then The buy process fails
+
     Scenario: The Buy succeeds and everything is logged
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
