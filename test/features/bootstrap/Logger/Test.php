@@ -24,6 +24,10 @@ class Test extends Logger
      */
     protected $logMessages = array();
 
+    protected $counter = 0;
+
+    protected $breaks = array();
+
     /**
      * Log order
      *
@@ -32,7 +36,35 @@ class Test extends Logger
      */
     protected function doLog(Struct\Order $order)
     {
-        $this->logMessages[] = $order;
+        $this->counter += 1;
+        if (isset($this->breaks[$this->counter])) {
+            throw new \RuntimeException("Break logging.");
+        }
+
+        $this->logMessages[$this->counter] = $order;
+
+        return "confirm-" . $this->counter;
+    }
+
+    /**
+     * Confirm logging
+     *
+     * @param string $logTransactionId
+     * @return void
+     */
+    public function confirm($logTransactionId)
+    {
+        $this->counter += 1;
+        if (isset($this->breaks[$this->counter])) {
+            throw new \RuntimeException("Break logging.");
+        }
+
+        $this->logMessages[$this->counter] = $logTransactionId;
+    }
+
+    public function breakOnLogMessage($number)
+    {
+        $this->breaks[$number] = true;
     }
 
     /**

@@ -208,13 +208,31 @@ class Shopping
         foreach ($reservation->orders as $shopId => $order) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
 
-            $results[$shopId] =
-                $shopGateway->buy($order->reservationId) &&
-                $shopGateway->confirm($order->reservationId);
-
-            if ($results[$shopId] === true) {
-                $this->logger->log($order);
+            if ($shopGateway->buy($order->reservationId)) {
+                try {
+                    $this->logger->log($order);
+                } catch (\Exception $e) {
+                    $results[$shopId] = false;
+                    continue;
+                }
+            } else {
+                $results[$shopId] = false;
+                continue;
             }
+
+            if ($shopGateway->confirm($order->reservationId)) {
+                try {
+                    $this->logger->confirm($order);
+                } catch (\Exception $e) {
+                    $results[$shopId] = false;
+                    continue;
+                }
+            } else {
+                $results[$shopId] = false;
+                continue;
+            }
+
+            $results[$shopId] = true;
         }
 
         return $results;

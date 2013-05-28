@@ -36,8 +36,6 @@ Feature: Interactions between shops on a purchase
           And The product data is still valid
          When The Customer views the order overview
          Then The product is reserved in the remote shop
-          And The remote shop logs the transaction with Bepado
-          And The local shop logs the transaction with Bepado
 
     Scenario: The Buy process fails in checkout, because of availability change
         Given The product is listed as available
@@ -59,6 +57,7 @@ Feature: Interactions between shops on a purchase
     Scenario: The Buy process fails in checkout because transaction logging failed in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
           And The remote shop transaction logging fails
          When The Customer checks out
          Then The buy process fails
@@ -67,6 +66,7 @@ Feature: Interactions between shops on a purchase
     Scenario: The Buy process fails in checkout because transaction logging failed in local shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
           And The local shop transaction logging fails
          When The Customer checks out
          Then The buy process fails
@@ -75,6 +75,7 @@ Feature: Interactions between shops on a purchase
     Scenario: The Buy process fails in checkout because transaction confirmation failed in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
           And The remote shop transaction confirmation fails
          When The Customer checks out
          Then The buy process fails
@@ -83,6 +84,7 @@ Feature: Interactions between shops on a purchase
     Scenario: The Buy process fails in checkout because transaction confirmation failed in local shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
           And The local shop transaction confirmation fails
          When The Customer checks out
          Then The buy process fails
@@ -93,5 +95,7 @@ Feature: Interactions between shops on a purchase
           And The product is available in 1 shop
          When The Customer checks out
          Then The customer will receive the product
+          And The remote shop logs the transaction with Bepado
+          And The local shop logs the transaction with Bepado
           And The remote shop confirms the transaction with Bepado
           And The local shop confirms the transaction with Bepado

@@ -392,7 +392,7 @@ class ShopPurchaseContext extends SDKContext
     public function theBuyProcessFails()
     {
         foreach ($this->result as $shopId => $value) {
-            Assertion::assertFalse($value);
+            Assertion::assertFalse($value, "Buy process for $shopId did not fail.");
         }
     }
 
@@ -401,11 +401,83 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theShopLogsTheTransactionWithBepado($location)
     {
-        $expectedLogMessage = $location === 'remote' ? 0 : 1;
+        $expectedLogMessage = $location === 'remote' ? 1 : 2;
         $logMessages = $this->logger->getLogMessages();
 
-        Assertion::assertTrue(isset($logMessages[$expectedLogMessage]));
-        Assertion::assertTrue($logMessages[$expectedLogMessage] instanceof Struct\Order);
+        Assertion::assertTrue(
+            isset($logMessages[$expectedLogMessage]),
+            "Expected a $location shop log message, none available."
+        );
+        Assertion::assertTrue(
+            $logMessages[$expectedLogMessage] instanceof Struct\Order,
+            "Log message should contain an Order."
+        );
+    }
+
+    /**
+     * @Given /^No transaction is logged$/
+     */
+    public function noTransactionIsLogged()
+    {
+        $logMessages = $this->logger->getLogMessages();
+
+        Assertion::assertFalse(
+            isset($logMessages[0]),
+            "No remote shop transaction logs expected"
+        );
+        Assertion::assertFalse(
+            isset($logMessages[1]),
+            "No local shop  transaction logs expected"
+        );
+    }
+
+    /**
+     * @Given /^The (local|remote) shop confirms the transaction with Bepado$/
+     */
+    public function theShopConfirmsTheTransactionWithBepado($location)
+    {
+        $expectedLogMessage = $location === 'remote' ? 3 : 4;
+        $logMessages = $this->logger->getLogMessages();
+
+        Assertion::assertTrue(
+            isset($logMessages[$expectedLogMessage]),
+            "Expected a $location shop confirmation, none available."
+        );
+        Assertion::assertEquals(
+            'confirm-' . ($location === 'remote' ? 1 : 2),
+            $logMessages[$expectedLogMessage],
+            "Log message should contain an confirmation key."
+        );
+    }
+
+    /**
+     * @Given /^No transactions are confirmed$/
+     */
+    public function noTransactionsAreConfirmed()
+    {
+        $logMessages = $this->logger->getLogMessages();
+
+        Assertion::assertLessThan(
+            4,
+            count($logMessages),
+            "No confirmation messages expected."
+        );
+    }
+
+    /**
+     * @Given /^The (local|remote) shop transaction logging fails$/
+     */
+    public function theShopTransactionLoggingFails($location)
+    {
+        $this->logger->breakOnLogMessage($location === 'remote' ? 1 : 2);
+    }
+
+    /**
+     * @Given /^The (local|remote) shop transaction confirmation fails$/
+     */
+    public function theShopTransactionConfirmationFails($location)
+    {
+        $this->logger->breakOnLogMessage($location === 'remote' ? 3 : 4);
     }
 
     /**
