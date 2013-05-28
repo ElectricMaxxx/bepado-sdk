@@ -79,11 +79,11 @@ class Http extends Logger
      */
     public function confirm($logTransactionId)
     {
-        $hash = hash_hmac("sha256", $order->localOrderId . $order->orderShop . $order->providerShop, $this->apiKey);
+        $hash = hash_hmac("sha256", $logTransactionId, $this->apiKey);
 
         $response = $this->httpClient->request(
             'POST',
-            '/confirm',
+            '/transaction/confirm',
             json_encode($logTransactionId),
             array(
                 'Content-Type: application/json',
