@@ -182,7 +182,7 @@ class ShopPurchaseContext extends SDKContext
         $this->dependencies->getVerificator()->verify($this->result);
 
         if (!count($this->result->messages)) {
-            $this->result = $this->sdk->checkout($this->result);
+            $this->result = $this->sdk->checkout($this->result, 'orderId');
         }
     }
 
