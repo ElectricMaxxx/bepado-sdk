@@ -37,9 +37,18 @@ class Order extends Struct
     public $reservationId;
 
     /**
+     * Order ID from the shop the order is placed with
+     *
      * @var string
      */
-    public $localOrderId;
+    public $orderId;
+
+    /**
+     * Order ID from the product provider shop
+     *
+     * @var string
+     */
+    public $providerOrderId;
 
     /**
      * @var float
