@@ -28,7 +28,7 @@ class HttpTest extends Common\Test\TestCase
             'orderShop' => 'shop1',
             'providerShop' => 'shop2',
             'reservationId' => md5(microtime()),
-            'orderId' => md5(microtime()),
+            'localOrderId' => md5(microtime()),
             'providerOrderId' => md5(microtime()),
             'shippingCosts' => 34.43,
             'products' => array(

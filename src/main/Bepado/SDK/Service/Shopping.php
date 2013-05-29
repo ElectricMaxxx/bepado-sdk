@@ -207,7 +207,7 @@ class Shopping
     {
         $results = array();
         foreach ($reservation->orders as $shopId => $order) {
-            $order->orderId = $orderId;
+            $order->localOrderId = $orderId;
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
 
             if ($remoteLogTransactionId = $shopGateway->buy($order->reservationId, $orderId)) {

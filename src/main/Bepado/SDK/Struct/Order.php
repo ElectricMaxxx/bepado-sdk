@@ -41,7 +41,7 @@ class Order extends Struct
      *
      * @var string
      */
-    public $orderId;
+    public $localOrderId;
 
     /**
      * Order ID from the product provider shop

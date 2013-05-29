@@ -186,7 +186,7 @@ class Transaction
     {
         try {
             $order = $this->reservations->getOrder($reservationId);
-            $order->orderId = $orderId;
+            $order->localOrderId = $orderId;
             $order->providerOrderId = $this->fromShop->buy($order);
             $order->reservationId = $reservationId;
             $this->reservations->setBought($reservationId, $order);

@@ -48,7 +48,7 @@ class Http extends Logger
      */
     protected function doLog(Struct\Order $order)
     {
-        $hash = hash_hmac("sha256", $order->orderId . $order->orderShop . $order->providerShop, $this->apiKey);
+        $hash = hash_hmac("sha256", $order->localOrderId . $order->orderShop . $order->providerShop, $this->apiKey);
 
         $response = $this->httpClient->request(
             'POST',
