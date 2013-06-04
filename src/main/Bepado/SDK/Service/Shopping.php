@@ -221,12 +221,12 @@ class Shopping
             $order->localOrderId = $orderId;
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
 
-            if (($transactionIds = $this->tryBuy($shopGateway, $order, $orderId)) === false ) {
+            if (($transactionIds = $this->tryBuy($shopGateway, $order, $orderId)) === false) {
                 $results[$shopId] = false;
                 continue;
             }
 
-            if ($this->tryConfirm($shopGateway, $order, $transactionIds) === false ) {
+            if ($this->tryConfirm($shopGateway, $order, $transactionIds) === false) {
                 $results[$shopId] = false;
                 continue;
             }
