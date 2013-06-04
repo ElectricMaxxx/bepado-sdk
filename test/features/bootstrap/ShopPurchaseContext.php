@@ -12,6 +12,7 @@ use Behat\Gherkin\Node\PyStringNode,
 use Bepado\SDK\Struct;
 use Bepado\SDK\Controller;
 use Bepado\SDK\ShippingCostCalculator;
+use Bepado\SDK\ErrorHandler;
 use Bepado\Common\RPC;
 
 use \PHPUnit_Framework_MockObject_Generator as Mocker;
@@ -78,6 +79,7 @@ class ShopPurchaseContext extends SDKContext
                     $this->dependencies->getVerificator()
                 ),
                 $this->logger,
+                new ErrorHandler\Null(),
                 new ShippingCostCalculator($this->gateway)
             )
         );
