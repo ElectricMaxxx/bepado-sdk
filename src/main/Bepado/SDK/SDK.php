@@ -266,7 +266,9 @@ final class SDK
     /**
      * Reserve products
      *
-     * This method will reserve the given products in the remote shops.
+     * This method will reserve the given products in the remote shops. It
+     * should be called at the beginning of the checkout process. It is the
+     * last chance to verify that everything is OK with the order.
      *
      * If the product data change in a relevant way, this method will not
      * reserve the products, but instead return a Struct\Message, which should
@@ -294,16 +296,18 @@ final class SDK
     /**
      * Checkout product sets related to the given reservation IDs
      *
-     * This process is the final "buy" transaction. It should be part of the
-     * checkout process and be handled synchronously.
+     * This process is the final "buy" transaction. It should be the last step
+     * of the checkout process and be handled synchronously. Is supposed to
+     * "always" succeed, since the reservation beforhand should already ensure
+     * everything is fine.
      *
      * This method will just return true, if the transaction worked as
-     * expected. If it failed, or partially failed, a corresponding
-     * Struct\Message will be returned.
+     * expected. If it failed, or partially failed, an error will be logged
+     * with the ErrorHandler and the method will return false.
      *
      * @param Struct\Reservation $reservation
      * @param string $orderId
-     * @return mixed
+     * @return bool[]
      */
     public function checkout(Struct\Reservation $reservation, $orderId)
     {
