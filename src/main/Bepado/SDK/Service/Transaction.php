@@ -167,7 +167,12 @@ class Transaction
             $reservationId = $this->reservations->createReservation($order);
             $this->fromShop->reserve($order);
         } catch (\Exception $e) {
-            return false;
+            return new Struct\Error(
+                array(
+                    'message' => $e->getMessage(),
+                    'debugText' => (string) $e,
+                )
+            );
         }
         return $reservationId;
     }
@@ -192,7 +197,12 @@ class Transaction
             $this->reservations->setBought($reservationId, $order);
             return $this->logger->log($order);
         } catch (\Exception $e) {
-            return false;
+            return new Struct\Error(
+                array(
+                    'message' => $e->getMessage(),
+                    'debugText' => (string) $e,
+                )
+            );
         }
     }
 
@@ -213,7 +223,12 @@ class Transaction
             $this->reservations->setConfirmed($reservationId);
             $this->logger->confirm($remoteLogTransactionId);
         } catch (\Exception $e) {
-            return false;
+            return new Struct\Error(
+                array(
+                    'message' => $e->getMessage(),
+                    'debugText' => (string) $e,
+                )
+            );
         }
         return true;
     }
