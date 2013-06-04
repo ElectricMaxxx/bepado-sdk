@@ -156,16 +156,16 @@ final class SDK
      * Establish a hook in your shop and call this method for every new
      * product, which should be exported to Bepado.
      *
-     * @param string $id
-     * @param string $hash
-     * @param string $revision
-     * @param Struct\Product $product
+     * @param string $productId
      * @return void
      */
-    public function recordInsert(Struct\Product $product)
+    public function recordInsert($productId)
     {
         $this->verifySdk();
+
+        $product = $this->getProduct($productId);
         $product->shopId = $this->dependencies->getGateway()->getShopId();
+
         $this->dependencies->getVerificator()->verify($product);
         $this->dependencies->getGateway()->recordInsert(
             $product->sourceId,
@@ -181,16 +181,16 @@ final class SDK
      * Establish a hook in your shop and call this method for every update of a
      * product, which is exported to Bepado.
      *
-     * @param string $id
-     * @param string $hash
-     * @param string $revision
-     * @param Struct\Product $product
+     * @param string $productId
      * @return void
      */
-    public function recordUpdate(Struct\Product $product)
+    public function recordUpdate($productId)
     {
         $this->verifySdk();
+
+        $product = $this->getProduct($productId);
         $product->shopId = $this->dependencies->getGateway()->getShopId();
+
         $this->dependencies->getVerificator()->verify($product);
         $this->dependencies->getGateway()->recordUpdate(
             $product->sourceId,
@@ -201,18 +201,30 @@ final class SDK
     }
 
     /**
+     * Get single product from gateway
+     *
+     * @param mixed $productId
+     * @return Struct\Product
+     */
+    protected function getProduct($productId)
+    {
+        $products = $this->dependencies->getFromShop()->getProducts(array($productId));
+        return reset($products);
+    }
+
+    /**
      * Record product delete
      *
      * Establish a hook in your shop and call this method for every delete of a
      * product, which is exported to Bepado.
      *
-     * @param string $id
+     * @param string $productId
      * @return void
      */
-    public function recordDelete($id)
+    public function recordDelete($productId)
     {
         $this->verifySdk();
-        $this->dependencies->getGateway()->recordDelete($id, $this->dependencies->getRevisionProvider()->next());
+        $this->dependencies->getGateway()->recordDelete($productId, $this->dependencies->getRevisionProvider()->next());
     }
 
     /**

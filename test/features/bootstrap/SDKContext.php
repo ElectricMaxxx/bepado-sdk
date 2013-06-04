@@ -115,7 +115,7 @@ class SDKContext extends BehatContext
     protected function initSDK()
     {
         $this->productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
-        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
+        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop\\Test', array('getExportedProductIDs', 'reserve', 'buy'));
 
         $this->sdk = new SDK(
             'apikey',
@@ -140,8 +140,6 @@ class SDKContext extends BehatContext
     {
         return new Product(
             array(
-                // shopId is maintained by the SDK
-                // 'shopId' => 'shop-1',
                 'sourceId' => (string) $productId,
                 'title' => $data,
                 'price' => $productId * .89,

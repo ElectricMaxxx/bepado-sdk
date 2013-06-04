@@ -59,7 +59,20 @@ class ShopPurchaseContext extends SDKContext
 
     protected function initSDK()
     {
-        parent::initSDK();
+        $this->productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
+        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
+
+        $this->sdk = new SDK(
+            'apikey',
+            'http://example.com/endpoint',
+            $this->gateway = $this->getGateway(),
+            $this->productToShop,
+            $this->productFromShop
+        );
+
+        $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');
+        $dependenciesProperty->setAccessible(true);
+        $this->dependencies = $dependenciesProperty->getValue($this->sdk);
 
         $this->logger = new Logger\Test();
 

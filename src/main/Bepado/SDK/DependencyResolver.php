@@ -178,6 +178,26 @@ class DependencyResolver
     }
 
     /**
+     * Get from shop gateway
+     *
+     * @return ProductFromShop
+     */
+    public function getFromShop()
+    {
+        return $this->fromShop;
+    }
+
+    /**
+     * Get to shop gateway
+     *
+     * @return ProductToShop
+     */
+    public function getToShop()
+    {
+        return $this->toShop;
+    }
+
+    /**
      * Get gateway
      *
      * Access to the gateway implementation
