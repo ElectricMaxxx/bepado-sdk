@@ -104,8 +104,7 @@ class Transaction
                 $current->shopId = $myShopId;
 
                 if ($current->sourceId === $product->sourceId) {
-                    if (($current->price !== $product->price) ||
-                        ($current->availability < $product->availability)) {
+                    if ($this->priceHasChanged($current, $product) || $this->availabilityHasChanged($current, $product)) {
 
                         // Price or availability changed
                         $changes[] = new Struct\Change\InterShop\Update(
@@ -130,6 +129,29 @@ class Transaction
         }
 
         return $changes ?: true;
+    }
+
+    private function priceHasChanged($current, $product)
+    {
+        return ($current->price !== $product->price);
+    }
+
+    private function availabilityHasChanged($current, $product)
+    {
+        return ($this->groupAvailability($current) < $this->groupAvailability($product));
+    }
+
+    private function groupAvailability($product)
+    {
+        if ($product->availability > 100) {
+            return 100;
+        } else if ($product->availability > 10) {
+            return 10;
+        } else if ($product->availability > 0) {
+            return 1;
+        }
+
+        return 0;
     }
 
     /**
