@@ -37,25 +37,4 @@ abstract class Change extends Struct
      * @var string
      */
     public $shopId;
-
-    /**
-     * SDK endpoint URL of the shop the affected product is from
-     *
-     * @var string
-     */
-    public $shopEndpoint;
-
-    /**
-     * From-Shop Display Name
-     *
-     * @var string
-     */
-    public $shopDisplayName;
-
-    /**
-     * From-Shop Url
-     *
-     * @var string
-     */
-    public $shopUrl;
 }
