@@ -44,6 +44,13 @@ class DependencyResolver
     protected $fromShop;
 
     /**
+     * Error handler
+     *
+     * @var ErrorHandler
+     */
+    protected $errorHandler;
+
+    /**
      * Service registry
      *
      * @var Rpc\ServiceRegistry
@@ -157,11 +164,13 @@ class DependencyResolver
         Gateway $gateway,
         ProductToShop $toShop,
         ProductFromShop $fromShop,
+        ErrorHandler $errorHandler,
         $apiKey
     ) {
         $this->gateway = $gateway;
         $this->toShop = $toShop;
         $this->fromShop = $fromShop;
+        $this->errorHandler = $errorHandler;
         $this->apiKey = $apiKey;
 
         if ($host = getenv('_SOCIALNETWORK_HOST')) {
@@ -344,6 +353,7 @@ class DependencyResolver
                 ),
                 $this->getChangeVisitor(),
                 $this->getLogger(),
+                $this->errorHandler,
                 new ShippingCostCalculator($this->gateway)
             );
         }

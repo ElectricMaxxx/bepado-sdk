@@ -67,7 +67,8 @@ final class SDK
         $apiEndpointUrl,
         Gateway $gateway,
         ProductToShop $toShop,
-        ProductFromShop $fromShop
+        ProductFromShop $fromShop,
+        ErrorHandler $errorHandler = null
     ) {
         $this->apiKey = $apiKey;
         $this->apiEndpointUrl = $apiEndpointUrl;
@@ -76,7 +77,13 @@ final class SDK
         // entirely pre-configured object, except for the properties available
         // through constructor injection. Dependency Injection is only used
         // internally in the SDK.
-        $this->dependencies = new DependencyResolver($gateway, $toShop, $fromShop, $apiKey);
+        $this->dependencies = new DependencyResolver(
+            $gateway,
+            $toShop,
+            $fromShop,
+            $errorHandler ? $errorHandler : new ErrorHandler\Exception(),
+            $apiKey
+        );
     }
 
     /**
