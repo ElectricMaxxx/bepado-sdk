@@ -81,9 +81,7 @@ class FromShopContext extends SDKContext
         $end = $this->productId + $productCount;
         $this->modifiedProductCount += $productCount;
         for (; $this->productId < $end; ++$this->productId) {
-            $this->sdk->recordInsert(
-                $this->getProduct($this->productId)
-            );
+            $this->sdk->recordInsert($this->productId);
         }
     }
 
@@ -94,9 +92,7 @@ class FromShopContext extends SDKContext
     {
         $this->modifiedProductCount += $productCount;
         for ($i = 0; $i < $productCount; ++$i) {
-            $this->sdk->recordUpdate(
-                $this->getProduct($this->productId, 'update')
-            );
+            $this->sdk->recordUpdate($this->productId);
         }
     }
 
