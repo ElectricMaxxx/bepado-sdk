@@ -117,8 +117,8 @@ class PDO extends Gateway
     {
         $offset = $offset ?: 0;
         $result = $this->connection->prepare(
-            'SELECT
-                COUNT(*) `changes`
+            'EXPLAIN SELECT
+                *
             FROM
                 `bepado_change`
             WHERE
@@ -126,7 +126,8 @@ class PDO extends Gateway
         );
         $result->execute(array($offset));
         $changes = $result->fetchColumn();
-        return max(0, $changes - $limit);
+
+        return max(0, $changes['rows'] - $limit);
     }
 
     /**
