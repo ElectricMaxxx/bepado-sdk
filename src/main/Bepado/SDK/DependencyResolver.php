@@ -155,6 +155,11 @@ class DependencyResolver
     protected $changeVisitor;
 
     /**
+     * @var HttpClient\RequestSigner
+     */
+    protected $requestSigner;
+
+    /**
      * @param \Bepado\SDK\Gateway $gateway
      * @param \Bepado\SDK\ProductToShop $toShop
      * @param \Bepado\SDK\ProductFromShop $fromShop
@@ -165,13 +170,15 @@ class DependencyResolver
         ProductToShop $toShop,
         ProductFromShop $fromShop,
         ErrorHandler $errorHandler,
-        $apiKey
+        $apiKey,
+        HttpClient\RequestSigner $requestSigner = null
     ) {
         $this->gateway = $gateway;
         $this->toShop = $toShop;
         $this->fromShop = $fromShop;
         $this->errorHandler = $errorHandler;
         $this->apiKey = $apiKey;
+        $this->requestSigner = $requestSigner;
 
         if ($host = getenv('_SOCIALNETWORK_HOST')) {
             $this->socialNetworkHost = "http://{$host}";
@@ -512,5 +519,17 @@ class DependencyResolver
         $client->addDefaultHeaders($headers);
 
         return $client;
+    }
+
+    /**
+     * @return HttpClient\RequestSigner
+     */
+    public function getRequestSigner()
+    {
+        if ($this->requestSigner === null) {
+            $this->requestSigner = new HttpClient\SharedKeyRequestSigner($this->getGateway(), new Service\Clock(), $this->apiKey);
+        }
+
+        return $this->requestSigner;
     }
 }

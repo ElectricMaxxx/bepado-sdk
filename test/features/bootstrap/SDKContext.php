@@ -122,7 +122,9 @@ class SDKContext extends BehatContext
             'http://example.com/endpoint',
             $this->gateway = $this->getGateway(),
             $this->productToShop,
-            $this->productFromShop
+            $this->productFromShop,
+            null,
+            new \Bepado\SDK\HttpClient\NoSecurityRequestSigner()
         );
 
         $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');

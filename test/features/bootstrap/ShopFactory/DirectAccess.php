@@ -87,7 +87,9 @@ class DirectAccess extends ShopFactory
                 'http://example.com/endpoint-' . $shopId,
                 $this->gateway,
                 $this->toShop,
-                $this->fromShop
+                $this->fromShop,
+                null,
+                new \Bepado\SDK\HttpClient\NoSecurityRequestSigner()
             );
 
             // Inject custom logger

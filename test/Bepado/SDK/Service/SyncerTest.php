@@ -13,6 +13,7 @@ use Bepado\SDK;
 use Bepado\SDK\Struct\Change\FromShop\Delete;
 use Bepado\SDK\Struct\Change\FromShop\Insert;
 use Bepado\SDK\Struct\Change\FromShop\Update;
+use Bepado\SDK\HttpClient\NoSecurityRequestSigner;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -58,7 +59,9 @@ abstract class SyncerTest extends Common\Test\TestCase
             'http://example.com/endpoint',
             $gateway,
             $this->getMock('\\Bepado\\SDK\\ProductToShop'),
-            $productFromShop
+            $productFromShop,
+            null,
+            new NoSecurityRequestSigner()
         );
 
         $dependenciesProperty = new \ReflectionProperty($this->sdk, 'dependencies');

@@ -107,11 +107,6 @@ class ProductService
             }
         }
 
-        // @REFACTOR: This is a boundary violation, but currently we just want
-        // to trigger the configuration update on every product update, we
-        // receive.
-        $this->configurationService->update();
-
         $this->revision->storeLastRevision($change->revision);
         return $change->revision;
     }

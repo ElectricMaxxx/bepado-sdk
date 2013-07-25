@@ -12,7 +12,7 @@ use Bepado\SDK\Struct\ShopConfiguration;
 
 require_once __DIR__ . '/bootstrap.php';
 
-class SearchTest extends Common\Test\TestCase
+class SDKTest extends Common\Test\TestCase
 {
     public function testGetCategories()
     {
@@ -21,7 +21,9 @@ class SearchTest extends Common\Test\TestCase
             'http://example.com/api',
             $gatewayMock = $this->getMock('\\Bepado\\SDK\\Gateway'),
             $this->getMock('\\Bepado\\SDK\\ProductToShop'),
-            $this->getMock('\\Bepado\\SDK\\ProductFromShop')
+            $this->getMock('\\Bepado\\SDK\\ProductFromShop'),
+            null,
+            new HttpClient\NoSecurityRequestSigner()
         );
 
         $gatewayMock
@@ -52,7 +54,10 @@ class SearchTest extends Common\Test\TestCase
     public function testGetShop()
     {
         $shopId = 1234;
-        $shopConfig = new ShopConfiguration(array('displayName' => 'Test-Shop'));
+        $shopConfig = new ShopConfiguration(array(
+            'displayName' => 'Test-Shop',
+            'url' => 'http://foo',
+        ));
 
         $sdk = new SDK(
             'apiKey',
@@ -73,5 +78,6 @@ class SearchTest extends Common\Test\TestCase
         $this->assertInstanceOf('Bepado\SDK\Struct\Shop', $shop);
         $this->assertEquals('Test-Shop', $shop->name);
         $this->assertEquals($shopId, $shop->id);
+        $this->assertEquals('http://foo', $shop->url);
     }
 }

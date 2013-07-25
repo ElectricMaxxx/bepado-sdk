@@ -154,17 +154,4 @@ class HttpTest extends Common\Test\TestCase
 
         $logger->confirm($token);
     }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testConfirmUnknownAgainstLoggingService()
-    {
-        $logger = new Http(
-            new HttpClient\Stream('http://transaction.bepado.local/'),
-            self::APIKEY
-        );
-
-        $logger->confirm("Unknown");
-    }
 }
