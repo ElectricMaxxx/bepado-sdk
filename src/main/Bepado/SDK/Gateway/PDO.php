@@ -125,7 +125,7 @@ class PDO extends Gateway
                 `c_revision` > ?'
         );
         $result->execute(array($offset));
-        $changes = $result->fetchColumn();
+        $changes = $result->fetch(\PDO::FETCH_ASSOC);
 
         return max(0, $changes - $limit);
     }

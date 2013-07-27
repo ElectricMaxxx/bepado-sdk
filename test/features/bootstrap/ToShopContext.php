@@ -30,25 +30,6 @@ class ToShopContext extends SDKContext
 
     protected $shopRevision = null;
 
-    protected function initSDK()
-    {
-        parent::initSDK();
-
-        $serviceRegistry = $this->dependencies->getServiceRegistry();
-
-        $configurationServiceMock = Mocker::getMock('Bepado\\SDK\\Service\\Configuration', array('update'), array(), '', false);
-        $configurationServiceMock
-            ->expects(new \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount())
-            ->method('update');
-
-        $productService = $serviceRegistry->getService('products', 'toShop');
-        $productService = $productService['provider'];
-
-        $configurationProperty = new \ReflectionProperty($productService, 'configurationService');
-        $configurationProperty->setAccessible(true);
-        $configurationProperty->setValue($productService, $configurationServiceMock);
-    }
-
     /**
      * @Given /^The shop did not synchronize any products$/
      */
