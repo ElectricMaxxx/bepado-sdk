@@ -57,21 +57,18 @@ class ProductService
      * @param RevisionGateway $revision
      * @param ShopConfiguration $configurationGateway
      * @param ProductToShop $toShop
-     * @param Configuration $configurationService
      * @return void
      */
     public function __construct(
         ChangeGateway $changes,
         RevisionGateway $revision,
         ShopConfiguration $configurationGateway,
-        ProductToShop $toShop,
-        Configuration $configurationService
+        ProductToShop $toShop
     ) {
         $this->changes = $changes;
         $this->revision = $revision;
         $this->configurationGateway = $configurationGateway;
         $this->toShop = $toShop;
-        $this->configurationService = $configurationService;
     }
 
     /**

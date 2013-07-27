@@ -250,7 +250,7 @@ class DependencyResolver
             $this->registry->registerService(
                 'configuration',
                 array('update'),
-                $configurationService = new Service\Configuration(
+                new Service\Configuration(
                     $this->gateway,
                     $this->getHttpClient($this->socialNetworkHost),
                     $this->apiKey,
@@ -265,8 +265,7 @@ class DependencyResolver
                     $this->gateway,
                     $this->gateway,
                     $this->gateway,
-                    $this->toShop,
-                    $configurationService
+                    $this->toShop
                 )
             );
 
