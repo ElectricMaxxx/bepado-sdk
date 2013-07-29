@@ -196,6 +196,24 @@ class Product extends ShopItem
     public $categories = array();
 
     /**
+     * Product Tags
+     *
+     * A list of tags that can help other shops find your product.
+     * Is limited to 10 tags maximum per product.
+     *
+     * @var array
+     */
+    public $tags = array();
+
+    /**
+     * Factor that affects the boost of products in search results.
+     * Valid values are -1, 0, 1.
+     *
+     * @var int
+     */
+    public $relevance = 0;
+
+    /**
      * Contains additional attributes for this product. Use one of the constants
      * defined in this class to specify a an attribute:
      *

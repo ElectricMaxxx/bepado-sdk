@@ -55,6 +55,7 @@ class Product extends Verificator
                 'currency',
                 'availability',
                 'vat',
+                'relevance',
             ) as $property) {
             if ($struct->$property === null) {
                 throw new \RuntimeException("Property $property MUST be set in product.");
@@ -84,8 +85,16 @@ class Product extends Verificator
             throw new \RuntimeException("Assign at least one category to the product.");
         }
 
+        if (!is_array($struct->tags)) {
+            throw new \RuntimeException("Invalid Datatype, Product#tags has to be an array.");
+        }
+
         if (count($unknown = array_diff($struct->categories, array_keys($this->categories)))) {
             throw new \RuntimeException("Unknown categories: " . implode(", ", $unknown));
+        }
+
+        if ($product->relevance < 1 || $product->relevance > 1) {
+            throw new \RuntimeException("Invalid Value, Product#relevance has to be -1,0,1");
         }
     }
 }
