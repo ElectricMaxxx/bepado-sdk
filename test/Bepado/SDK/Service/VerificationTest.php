@@ -110,10 +110,14 @@ class VerificationTest extends Common\Test\TestCase
             $this->getGateway()
         );
 
-        $verificationService->verify(
-            'fd4a49b0-623c-4142-bd09-871d4ccd86f0',
-            'http://shop.bepado.local/kore/rpc.php?' . time()
-        );
+        try {
+            $verificationService->verify(
+                'fd4a49b0-623c-4142-bd09-871d4ccd86f0',
+                'http://shop.bepado.local/kore/rpc.php?' . time()
+            );
+        } catch (\RuntimeException $e) {
+            $this->markTestSkipped("Cannot reach real service.");
+        }
 
         $this->assertEquals(
             3,
