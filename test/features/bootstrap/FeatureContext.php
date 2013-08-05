@@ -1,11 +1,11 @@
 <?php
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\ClosuredContextInterface;
+use Behat\Behat\Context\TranslatedContextInterface;
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 
 // ABC .pear directory location
 $pearDirectory = __DIR__ . '/../../../../.pear/pear/php/';
@@ -37,4 +37,3 @@ class FeatureContext extends BehatContext
         $this->useContext('shopPurchase', new \Bepado\SDK\ShopPurchaseContext());
     }
 }
-

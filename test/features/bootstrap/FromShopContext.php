@@ -2,12 +2,12 @@
 
 namespace Bepado\SDK;
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\ClosuredContextInterface;
+use Behat\Behat\Context\TranslatedContextInterface;
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 
 use Bepado\SDK\Struct\Product;
 use Bepado\SDK\Struct\Change;
@@ -129,14 +129,16 @@ class FromShopContext extends SDKContext
         $overallProductCount = 0;
         for ($i = 0; $i < $this->offset; ++$i) {
             $changes = $this->makeRpcCall(
-                new Struct\RpcCall(array(
-                    'service' => 'products',
-                    'command' => 'fromShop',
-                    'arguments' => array(
-                        $this->lastRevision,
-                        $this->productsPerInterval
+                new Struct\RpcCall(
+                    array(
+                        'service' => 'products',
+                        'command' => 'fromShop',
+                        'arguments' => array(
+                            $this->lastRevision,
+                            $this->productsPerInterval
+                        )
                     )
-                ))
+                )
             );
 
             $overallProductCount += count($changes);

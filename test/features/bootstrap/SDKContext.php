@@ -8,8 +8,6 @@ use Bepado\Common\Rpc;
 use Bepado\Common\Struct;
 use Bepado\SDK\Struct\Product;
 
-use \PHPUnit_Framework_MockObject_Generator as Mocker;
-
 require_once __DIR__ . '/ShopGateway/DirectAccess.php';
 require_once __DIR__ . '/ShopFactory/DirectAccess.php';
 require_once __DIR__ . '/Logger/Test.php';
@@ -114,8 +112,10 @@ class SDKContext extends BehatContext
 
     protected function initSDK()
     {
-        $this->productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
-        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop\\Test', array('getExportedProductIDs', 'reserve', 'buy'));
+        $this->productToShop = \Phake::mock('\\Bepado\\SDK\\ProductToShop');
+        $this->productFromShop = \Phake::partialMock(
+            '\\Bepado\\SDK\\ProductFromShop\\Test'
+        );
 
         $this->sdk = new SDK(
             'apikey',
