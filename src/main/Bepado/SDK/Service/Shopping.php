@@ -133,6 +133,12 @@ class Shopping
         return $result ?: true;
     }
 
+    /**
+     * Zip product list by shop Id
+     *
+     * @param Struct\ProductList $productList
+     * @return Struct\ProductList[]
+     */
     private function zipProductListByShopId(Struct\ProductList $productList)
     {
         $productLists = array();
