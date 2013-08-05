@@ -334,6 +334,12 @@ class Shopping
         return $orders;
     }
 
+    /**
+     * Get Shop IDs
+     *
+     * @param Struct\Order $order
+     * @return string[]
+     */
     protected function getShopIds(Struct\Order $order)
     {
         return array_unique(
@@ -346,6 +352,13 @@ class Shopping
         );
     }
 
+    /**
+     * Get order items of a single shop
+     *
+     * @param Struct\Order $order
+     * @param string $shopId
+     * @return Struct\OrderItem[]
+     */
     protected function getShopProducts(Struct\Order $order, $shopId)
     {
         return array_filter(
