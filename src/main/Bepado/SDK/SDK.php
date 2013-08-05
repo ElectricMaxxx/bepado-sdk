@@ -397,7 +397,7 @@ final class SDK
 
         return new Shop(array(
             'id' => $shopId,
-            'name' => $shopConfiguration->displayName,
+            'name' => $shopConfiguration->displayName ?: $shopConfiguration->name,
             'url' => $shopConfiguration->url,
         ));
     }
