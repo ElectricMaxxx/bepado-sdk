@@ -29,7 +29,7 @@ class SearchTest extends Common\Test\TestCase
             ->method('request')
             ->with(
                 'GET',
-                '/search?query=homme&apiKey=' . self::APIKEY
+                '/search?query=homme&apiKey=' . self::APIKEY . '&offset=0&limit=10'
             )
             ->will(
                 $this->returnValue(
