@@ -83,7 +83,7 @@ class SharedKeyRequestSigner implements RequestSigner
 
             if ($party === "bepado") {
                 $verificationKey = $this->apiKey;
-            } else if (is_numeric($party)) {
+            } elseif (is_numeric($party)) {
                 $configuration = $this->gateway->getShopConfiguration($party);
                 $verificationKey = $configuration->key;
                 $party = (int)$party;

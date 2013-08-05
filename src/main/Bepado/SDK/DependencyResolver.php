@@ -526,7 +526,11 @@ class DependencyResolver
     public function getRequestSigner()
     {
         if ($this->requestSigner === null) {
-            $this->requestSigner = new HttpClient\SharedKeyRequestSigner($this->getGateway(), new Service\Clock(), $this->apiKey);
+            $this->requestSigner = new HttpClient\SharedKeyRequestSigner(
+                $this->getGateway(),
+                new Service\Clock(),
+                $this->apiKey
+            );
         }
 
         return $this->requestSigner;

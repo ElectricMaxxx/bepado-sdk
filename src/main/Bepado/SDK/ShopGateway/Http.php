@@ -56,8 +56,12 @@ class Http extends ShopGateway
      * @param Bepado\SDK\Gateway\ShopConfiguration $providerShopConfig
      * @param Bepado\SDK\ShopGateway\ShopRequestSigner $shopRequestSigner
      */
-    public function __construct(HttpClient $httpClient, CallMarshaller $marshaller, CallUnmarshaller $unmarshaller, ShopRequestSigner $shopRequestSigner)
-    {
+    public function __construct(
+        HttpClient $httpClient,
+        CallMarshaller $marshaller,
+        CallUnmarshaller $unmarshaller,
+        ShopRequestSigner $shopRequestSigner
+    ) {
         $this->httpClient = $httpClient;
         $this->marshaller = $marshaller;
         $this->unmarshaller = $unmarshaller;

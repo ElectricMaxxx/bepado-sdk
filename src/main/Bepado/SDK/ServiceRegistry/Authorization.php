@@ -78,14 +78,14 @@ class Authorization extends Rpc\ServiceRegistry
                 if ($this->token->userIdentifier !== "bepado") {
                     throw new SecurityException("No authorization to call 'products' or 'configuration' service.");
                 }
-
                 break;
-
             case 'transaction':
-                if ($rpcCall->command === 'reserve' && $this->token->userIdentifier !== $rpcCall->arguments[0]->orderShop) {
-                    throw new SecurityException("No authorization to call 'transaction.reserve' for a different order shop.");
+                if ($rpcCall->command === 'reserve' &&
+                    $this->token->userIdentifier !== $rpcCall->arguments[0]->orderShop) {
+                    throw new SecurityException(
+                        "No authorization to call 'transaction.reserve' for a different order shop."
+                    );
                 }
-
                 break;
         }
 
