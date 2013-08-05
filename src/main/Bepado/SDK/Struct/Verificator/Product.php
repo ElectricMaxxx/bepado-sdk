@@ -93,7 +93,7 @@ class Product extends Verificator
             throw new \RuntimeException("Unknown categories: " . implode(", ", $unknown));
         }
 
-        if ($product->relevance < 1 || $product->relevance > 1) {
+        if ($struct->relevance < -1 || $struct->relevance > 1) {
             throw new \RuntimeException("Invalid Value, Product#relevance has to be -1,0,1");
         }
     }
