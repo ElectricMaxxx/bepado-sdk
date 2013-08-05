@@ -299,6 +299,44 @@ class ShopPurchaseContext extends SDKContext
     }
 
     /**
+     * @Given /^The product was deleted in the remote shop$/
+     */
+    public function theProductWasDeletedInTheRemoteShop()
+    {
+        $methodStub = \Phake::when($this->productFromShop)
+            ->getProducts(\Phake::anyParameters())
+            ->thenReturn(
+                array()
+            );
+    }
+
+    /**
+     * @Then /^The customer is informed about the deleted product$/
+     */
+    public function theCustomerIsInformedAboutTheDeletedProduct()
+    {
+        Assertion::assertEquals(
+            array(
+                new Struct\Message(array(
+                    'message' => 'Product %product does not exist anymore.',
+                    'values' => array(
+                        'product' => '23-1',
+                    ),
+                ))
+            ),
+            $this->result
+        );
+    }
+
+    /**
+     * @Given /^The product is deleted in the local shop$/
+     */
+    public function theProductIsDeletedInTheLocalShop()
+    {
+        \Phake::verify($this->productToShop)->delete(\Phake::anyParameters());
+    }
+
+    /**
      * @Given /^The product price has changed in the remote shop$/
      */
     public function theProductPriceHasChangedInTheRemoteShop()
