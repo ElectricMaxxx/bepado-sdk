@@ -74,30 +74,4 @@ class SearchTest extends Common\Test\TestCase
         $this->assertEquals('Test-Shop', $shop->name);
         $this->assertEquals($shopId, $shop->id);
     }
-
-    public function testGetShopFallbackToName()
-    {
-        $shopId = 1234;
-        $shopConfig = new ShopConfiguration(array('name' => 'Test-Shop'));
-
-        $sdk = new SDK(
-            'apiKey',
-            'http://example.com/api',
-            $gatewayMock = $this->getMock('\\Bepado\\SDK\\Gateway'),
-            $this->getMock('\\Bepado\\SDK\\ProductToShop'),
-            $this->getMock('\\Bepado\\SDK\\ProductFromShop')
-        );
-
-        $gatewayMock
-            ->expects($this->once())
-            ->method('getShopConfiguration')
-            ->with($this->equalTo($shopId))
-            ->will($this->returnValue($shopConfig));
-
-        $shop = $sdk->getShop($shopId);
-
-        $this->assertInstanceOf('Bepado\SDK\Struct\Shop', $shop);
-        $this->assertEquals('Test-Shop', $shop->name);
-        $this->assertEquals($shopId, $shop->id);
-    }
 }
