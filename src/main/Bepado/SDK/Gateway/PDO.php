@@ -127,7 +127,7 @@ class PDO extends Gateway
         $result->execute(array($offset));
         $changes = $result->fetch(\PDO::FETCH_ASSOC);
 
-        return max(0, $changes - $limit);
+        return max(0, $changes['rows'] - $limit);
     }
 
     /**
