@@ -10,6 +10,7 @@ namespace Bepado\SDK\Service;
 use Bepado\Common;
 use Bepado\SDK\HttpClient;
 use Bepado\SDK\Gateway;
+use Bepado\SDK\SDK;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -44,7 +45,7 @@ class VerificationTest extends Common\Test\TestCase
             ->with(
                 'POST',
                 '/sdk/verify',
-                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}'
+                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint","version":"' . SDK::VERSION . '"}'
             )
             ->will(
                 $this->returnValue(
@@ -81,7 +82,7 @@ class VerificationTest extends Common\Test\TestCase
             ->with(
                 'POST',
                 '/sdk/verify',
-                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint"}'
+                '{"apiKey":"apiKey","apiEndpointUrl":"http:\/\/example.com\/endpoint","version":"' . SDK::VERSION . '"}'
             )
             ->will(
                 $this->returnValue(

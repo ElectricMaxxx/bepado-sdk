@@ -9,6 +9,7 @@ namespace Bepado\SDK\Service;
 
 use Bepado\SDK\Gateway;
 use Bepado\SDK\HttpClient;
+use Bepado\SDK\SDK;
 
 /**
  * Verification service
@@ -67,6 +68,7 @@ class Verification
                 array(
                     'apiKey' => $apiKey,
                     'apiEndpointUrl' => $apiEndpointUrl,
+                    'version' => SDK::VERSION,
                 )
             ),
             array(
