@@ -119,7 +119,11 @@ class Address extends Struct
         switch ($property)
         {
             case 'name':
-                if (!preg_match('(^(?P<firstName>\\S+)\\s+(?:(?P<middleName>.*)\\s+)?(?P<surName>\\S+)$)', $value, $matches)) {
+                if (!preg_match(
+                    '(^(?P<firstName>\\S+)\\s+(?:(?P<middleName>.*)\\s+)?(?P<surName>\\S+)$)',
+                    $value,
+                    $matches
+                )) {
                     throw new \DomainException("Invalid name provided");
                 }
 
