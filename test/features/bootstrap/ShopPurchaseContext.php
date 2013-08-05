@@ -291,6 +291,14 @@ class ShopPurchaseContext extends SDKContext
     }
 
     /**
+     * @Given /^The product (?:price|availability) is updated in the local shop$/
+     */
+    public function theProductAvailabilityIsUpdatedInTheLocalShop()
+    {
+        \Phake::verify($this->productToShop)->insertOrUpdate(\Phake::anyParameters());
+    }
+
+    /**
      * @Given /^The product price has changed in the remote shop$/
      */
     public function theProductPriceHasChangedInTheRemoteShop()

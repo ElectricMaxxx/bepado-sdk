@@ -21,6 +21,7 @@ Feature: Interactions between shops on a purchase
           And The product is not available in remote shop
          When The Customer views the order overview
          Then The customer is informed about the unavailability
+          And The product availability is updated in the local shop
 
     Scenario: Product price changed in remote shop
         Given The product is listed as available
@@ -28,6 +29,7 @@ Feature: Interactions between shops on a purchase
           And The product price has changed in the remote shop
          When The Customer views the order overview
          Then The customer is informed about the changed price
+          And The product price is updated in the local shop
           And No transaction is logged
 
     Scenario: Product is reserved in remote shop
@@ -43,6 +45,7 @@ Feature: Interactions between shops on a purchase
           And The product changes availability between check and purchase
          When The Customer checks out
          Then The buy process fails and customer is informed about this
+          And The product availability is updated in the local shop
           And No transactions are confirmed
 
     Scenario: The Buy process fails in checkout because of random error
