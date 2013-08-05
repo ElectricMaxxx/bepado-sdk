@@ -2,12 +2,12 @@
 
 namespace Bepado\SDK;
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\ClosuredContextInterface;
+use Behat\Behat\Context\TranslatedContextInterface;
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 
 use Bepado\SDK\Struct;
 use Bepado\SDK\Controller;
@@ -105,10 +105,12 @@ class ShopPurchaseContext extends SDKContext
         for ($i = 1; $i <= 2; ++$i) {
             $this->gateway->setShopConfiguration(
                 'shop-' . $i,
-                new Struct\ShopConfiguration(array(
-                    'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
-                    'shippingCost' => 23.42,
-                ))
+                new Struct\ShopConfiguration(
+                    array(
+                        'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
+                        'shippingCost' => 23.42,
+                    )
+                )
             );
         }
     }
@@ -261,10 +263,14 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerViewsTheOrderOverview()
     {
-        $this->result = $this->sdk->checkProducts(array_map(
-            function ($orderItem) {
-                return $orderItem->product;
-            }, $this->order->products));
+        $this->result = $this->sdk->checkProducts(
+            array_map(
+                function ($orderItem) {
+                    return $orderItem->product;
+                },
+                $this->order->products
+            )
+        );
 
         if ($this->result === true) {
             $this->result = $this->sdk->reserveProducts($this->order);
@@ -278,13 +284,15 @@ class ShopPurchaseContext extends SDKContext
     {
         Assertion::assertEquals(
             array(
-                new Struct\Message(array(
-                    'message' => 'Availability of product %product changed to %availability.',
-                    'values' => array(
-                        'product' => 'Sindelfingen',
-                        'availability' => 0,
-                    ),
-                ))
+                new Struct\Message(
+                    array(
+                        'message' => 'Availability of product %product changed to %availability.',
+                        'values' => array(
+                            'product' => 'Sindelfingen',
+                            'availability' => 0,
+                        ),
+                    )
+                )
             ),
             $this->result
         );
@@ -317,12 +325,14 @@ class ShopPurchaseContext extends SDKContext
     {
         Assertion::assertEquals(
             array(
-                new Struct\Message(array(
-                    'message' => 'Product %product does not exist anymore.',
-                    'values' => array(
-                        'product' => '23-1',
-                    ),
-                ))
+                new Struct\Message(
+                    array(
+                        'message' => 'Product %product does not exist anymore.',
+                        'values' => array(
+                            'product' => '23-1',
+                        ),
+                    )
+                )
             ),
             $this->result
         );
@@ -367,13 +377,15 @@ class ShopPurchaseContext extends SDKContext
     {
         Assertion::assertEquals(
             array(
-                new Struct\Message(array(
-                    'message' => 'Price of product %product changed to %price.',
-                    'values' => array(
-                        'product' => 'Sindelfingen',
-                        'price' => 45.23,
-                    ),
-                ))
+                new Struct\Message(
+                    array(
+                        'message' => 'Price of product %product changed to %price.',
+                        'values' => array(
+                            'product' => 'Sindelfingen',
+                            'price' => 45.23,
+                        ),
+                    )
+                )
             ),
             $this->result
         );
@@ -529,4 +541,3 @@ class ShopPurchaseContext extends SDKContext
         $this->logger->breakOnLogMessage($location === 'remote' ? 3 : 4);
     }
 }
-
