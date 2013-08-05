@@ -86,6 +86,7 @@ class Address extends Struct
     /**
      * Backwards compability wrapper for read access on some properties
      *
+     * @deprecated
      * @param string $property
      * @return mixed
      */
@@ -109,6 +110,7 @@ class Address extends Struct
     /**
      * Backwards compability wrapper for read access on some properties
      *
+     * @deprecated
      * @param string $property
      * @return mixed
      */
