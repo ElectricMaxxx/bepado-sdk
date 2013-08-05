@@ -15,12 +15,6 @@ use Bepado\SDK\ShippingCostCalculator;
 use Bepado\SDK\ErrorHandler;
 use Bepado\Common\RPC;
 
-use \PHPUnit_Framework_MockObject_Generator as Mocker;
-use \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCount;
-use \PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex as InvokedAt;
-use \PHPUnit_Framework_MockObject_Stub_Return as ReturnValue;
-use \PHPUnit_Framework_MockObject_Stub_Exception as StubException;
-
 use \PHPUnit_Framework_Assert as Assertion;
 
 require_once __DIR__ . '/SDKContext.php';
@@ -60,8 +54,8 @@ class ShopPurchaseContext extends SDKContext
 
     protected function initSDK()
     {
-        $this->productToShop = Mocker::getMock('\\Bepado\\SDK\\ProductToShop');
-        $this->productFromShop = Mocker::getMock('\\Bepado\\SDK\\ProductFromShop');
+        $this->productToShop = \Phake::mock('\\Bepado\\SDK\\ProductToShop');
+        $this->productFromShop = \Phake::mock('\\Bepado\\SDK\\ProductFromShop');
 
         $this->sdk = new SDK(
             'apikey',
@@ -93,6 +87,7 @@ class ShopPurchaseContext extends SDKContext
                 new ChangeVisitor\Message(
                     $this->dependencies->getVerificator()
                 ),
+                $this->productToShop,
                 $this->logger,
                 new ErrorHandler\Null(),
                 new ShippingCostCalculator($this->gateway)
@@ -131,25 +126,25 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsAvailableInNShops($shops)
     {
+        $methodStub = \Phake::when($this->productFromShop)
+            ->getProducts(\Phake::anyParameters());
+
         for ($i = 1; $i <= $shops; ++$i) {
-            $this->productFromShop
-                ->expects(new InvokedAt(($i - 1) * 2))
-                ->method('getProducts')
-                ->will(new ReturnValue(
-                    array(
-                        new Struct\Product(
-                            array(
-                                'shopId' => 'shop-' . $i,
-                                'sourceId' => '23-' . $i,
-                                'price' => 42.23,
-                                'currency' => 'EUR',
-                                'availability' => 5,
-                                'title' => 'Sindelfingen',
-                                'categories' => array('/others'),
-                            )
-                        ),
-                    )
-                ));
+            $methodStub->thenReturn(
+                array(
+                    new Struct\Product(
+                        array(
+                            'shopId' => 'shop-' . $i,
+                            'sourceId' => '23-' . $i,
+                            'price' => 42.23,
+                            'currency' => 'EUR',
+                            'availability' => 5,
+                            'title' => 'Sindelfingen',
+                            'categories' => array('/others'),
+                        )
+                    ),
+                )
+            );
         }
     }
 
@@ -218,11 +213,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsNotAvailableInRemoteShop()
     {
-        $this->productFromShop
-            ->expects(new InvokedAt(0))
-            ->method('getProducts')
-            ->with(array('23-1'))
-            ->will(new ReturnValue(
+        $methodStub = \Phake::when($this->productFromShop)
+            ->getProducts(\Phake::anyParameters())
+            ->thenReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -236,7 +229,7 @@ class ShopPurchaseContext extends SDKContext
                         )
                     ),
                 )
-            ));
+            );
     }
 
     /**
@@ -244,11 +237,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductDataIsStillValid()
     {
-        $this->productFromShop
-            ->expects(new AnyInvokedCount())
-            ->method('getProducts')
-            ->with(array('23-1'))
-            ->will(new ReturnValue(
+        $methodStub = \Phake::when($this->productFromShop)
+            ->getProducts(\Phake::anyParameters())
+            ->thenReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -262,7 +253,7 @@ class ShopPurchaseContext extends SDKContext
                         )
                     ),
                 )
-            ));
+            );
     }
 
     /**
@@ -304,11 +295,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductPriceHasChangedInTheRemoteShop()
     {
-        $this->productFromShop
-            ->expects(new InvokedAt(0))
-            ->method('getProducts')
-            ->with(array('23-1'))
-            ->will(new ReturnValue(
+        $methodStub = \Phake::when($this->productFromShop)
+            ->getProducts(\Phake::anyParameters())
+            ->thenReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -322,7 +311,7 @@ class ShopPurchaseContext extends SDKContext
                         )
                     ),
                 )
-            ));
+            );
     }
 
     /**
@@ -359,11 +348,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductChangesAvailabilityBetweenCheckAndPurchase()
     {
-        $this->productFromShop
-            ->expects(new InvokedAt(0))
-            ->method('getProducts')
-            ->with(array('23-1'))
-            ->will(new ReturnValue(
+        $methodStub = \Phake::when($this->productFromShop)
+            ->getProducts(\Phake::anyParameters())
+            ->thenReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -377,7 +364,7 @@ class ShopPurchaseContext extends SDKContext
                         )
                     ),
                 )
-            ));
+            );
     }
 
     /**
@@ -395,12 +382,11 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theRemoteShopDeniesTheBuy()
     {
-        $this->productFromShop
-            ->expects(new InvokedAt(2))
-            ->method('buy')
-            ->will(new StubException(
+        $methodStub = \Phake::when($this->productFromShop)
+            ->buy(\Phake::anyParameters())
+            ->thenThrow(
                 new \RuntimeException("Buy denied.")
-            ));
+            );
     }
 
     /**
@@ -495,18 +481,6 @@ class ShopPurchaseContext extends SDKContext
     public function theShopTransactionConfirmationFails($location)
     {
         $this->logger->breakOnLogMessage($location === 'remote' ? 3 : 4);
-    }
-
-    /**
-     * @AfterScenario
-     */
-    public function tearDown()
-    {
-        $this->productFromShop->__phpunit_verify();
-        $this->productFromShop->__phpunit_cleanup();
-
-        $this->productToShop->__phpunit_verify();
-        $this->productToShop->__phpunit_cleanup();
     }
 }
 
