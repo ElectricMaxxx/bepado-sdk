@@ -48,6 +48,8 @@ class Product extends Verificator
      */
     public function verify(VerificatorDispatcher $dispatcher, Struct $struct)
     {
+        /* @var $struct \Bepado\SDK\Struct\Product */
+
         foreach (array(
                 'shopId',
                 'sourceId',
