@@ -26,7 +26,7 @@ class Verification
     protected $httpClient;
 
     /**
-     * Shop cinfiguration gateway
+     * Shop configuration gateway
      *
      * @var Gateway\ShopConfiguration
      */

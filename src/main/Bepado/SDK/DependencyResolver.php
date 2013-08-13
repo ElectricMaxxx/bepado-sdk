@@ -128,6 +128,13 @@ class DependencyResolver
     protected $revisionFromShop;
 
     /**
+     * OrderStatusUpdate service
+     *
+     * @var Service\OrderStatusUpdate
+     */
+    protected $orderStatusUpdate;
+
+    /**
      * Logger
      *
      * @var Logger
@@ -535,5 +542,20 @@ class DependencyResolver
         }
 
         return $this->requestSigner;
+    }
+
+    /**
+     * @return Service\OrderStatusUpdate
+     */
+    public function getOrderStatusService()
+    {
+        if ($this->orderStatusUpdate === null) {
+            $this->orderStatusUpdate = new Service\OrderStatusUpdate(
+                $this->getHttpClient($this->socialNetworkHost),
+                $this->apiKey
+            );
+        }
+
+        return $this->orderStatusUpdate;
     }
 }

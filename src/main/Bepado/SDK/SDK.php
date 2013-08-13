@@ -440,4 +440,20 @@ final class SDK
             )
         );
     }
+
+    /**
+     * Update the status of a bepado order.
+     *
+     * @param int $orderId
+     * @param string $status
+     *
+     * @return void
+     */
+    public function updateOrderStatus($orderId, $status)
+    {
+        $this->dependencies->getOrderStatusService()->update(
+            $orderId,
+            $status
+        );
+    }
 }
