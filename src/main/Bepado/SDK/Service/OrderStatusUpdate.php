@@ -52,11 +52,13 @@ class OrderStatusUpdate
         $allowedStates = array('open', 'in_process', 'delivered', 'cancelation');
 
         if (!in_array($status, $allowedStates)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Invalid order state given: %s. Expected one of: %s',
-                $status,
-                implode(', ', $allowedStates)
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Invalid order state given: %s. Expected one of: %s',
+                    $status,
+                    implode(', ', $allowedStates)
+                )
+            );
         }
 
         $response = $this->httpClient->request(
