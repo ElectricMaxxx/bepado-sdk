@@ -142,6 +142,25 @@ class Product extends ShopItem
     public $purchasePrice;
 
     /**
+     * Do national laws require the price to be fixed at the suppliers level?
+     *
+     * This flag covers laws such as "Buchpreisbindung" in Germany.
+     * SDK implementors have to force the selling price to customers to
+     * be the same as given by the suplier.
+     *
+     * If this flag is not set, then selling shops are free to change
+     * the price in their shops to their wishes and SDK implementors
+     * **HAVE** to grant Shop users this possibility.
+     *
+     * This flag is **ONLY** for national price laws, not to prevent your
+     * partners to change the price. Using this flag for preventing partners
+     * to change the price is not allowed.
+     *
+     * @var boolean
+     */
+    public $fixedPrice = false;
+
+    /**
      * Currency of the price
      *
      * Currently only the default "EUR" is supported.
