@@ -32,6 +32,11 @@ class ShopPurchaseContext extends SDKContext
     protected $order;
 
     /**
+     * @var bool
+     */
+    protected $fixedPriceItems = true;
+
+    /**
      * Result of last processing
      *
      * @var mixed
@@ -139,6 +144,8 @@ class ShopPurchaseContext extends SDKContext
                             'shopId' => 'shop-' . $i,
                             'sourceId' => '23-' . $i,
                             'price' => 42.23,
+                            'purchasePrice' => 23.42,
+                            'fixedPrice' => $this->fixedPriceItems,
                             'currency' => 'EUR',
                             'availability' => 5,
                             'title' => 'Sindelfingen',
@@ -177,6 +184,8 @@ class ShopPurchaseContext extends SDKContext
                         'shopId' => 'shop-' . $remoteShop,
                         'sourceId' => '23-' . $remoteShop,
                         'price' => 42.23,
+                        'purchasePrice' => 23.42,
+                        'fixedPrice' => $this->fixedPriceItems,
                         'currency' => 'EUR',
                         'availability' => 5,
                         'title' => 'Sindelfingen',
@@ -224,6 +233,8 @@ class ShopPurchaseContext extends SDKContext
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 42.23,
+                            'purchasePrice' => 23.42,
+                            'fixedPrice' => $this->fixedPriceItems,
                             'currency' => 'EUR',
                             'availability' => 0,
                             'title' => 'Sindelfingen',
@@ -248,6 +259,8 @@ class ShopPurchaseContext extends SDKContext
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 42.23,
+                            'purchasePrice' => 23.42,
+                            'fixedPrice' => $this->fixedPriceItems,
                             'currency' => 'EUR',
                             'availability' => 5,
                             'title' => 'Sindelfingen',
@@ -360,6 +373,8 @@ class ShopPurchaseContext extends SDKContext
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 45.23,
+                            'purchasePrice' => 23.42,
+                            'fixedPrice' => $this->fixedPriceItems,
                             'currency' => 'EUR',
                             'availability' => 5,
                             'title' => 'Sindelfingen',
@@ -415,6 +430,8 @@ class ShopPurchaseContext extends SDKContext
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 42.23,
+                            'purchasePrice' => 23.42,
+                            'fixedPrice' => $this->fixedPriceItems,
                             'currency' => 'EUR',
                             'availability' => 0,
                             'title' => 'Sindelfingen',
@@ -539,5 +556,47 @@ class ShopPurchaseContext extends SDKContext
     public function theShopTransactionConfirmationFails($location)
     {
         $this->logger->breakOnLogMessage($location === 'remote' ? 3 : 4);
+    }
+
+    /**
+     * @Given /^The product purchase price has changed in the remote shop$/
+     */
+    public function theProductPurchasePriceHasChangedInTheRemoteShop()
+    {
+        $methodStub = \Phake::when($this->productFromShop)
+            ->getProducts(\Phake::anyParameters())
+            ->thenReturn(
+                array(
+                    new Struct\Product(
+                        array(
+                            'shopId' => 'shop-1',
+                            'sourceId' => '23-1',
+                            'price' => 42.23,
+                            'purchasePrice' => 13.37,
+                            'fixedPrice' => $this->fixedPriceItems,
+                            'currency' => 'EUR',
+                            'availability' => 0,
+                            'title' => 'Sindelfingen',
+                            'categories' => array('/others'),
+                        )
+                    ),
+                )
+            );
+    }
+
+    /**
+     * @Given /^The product purchase price is updated in the local shop$/
+     */
+    public function theProductPurchasePriceIsUpdatedInTheLocalShop()
+    {
+        \Phake::verify($this->productToShop)->insertOrUpdate(\Phake::anyParameters());
+    }
+
+    /**
+     * @Given /^The product does not have a fixed price$/
+     */
+    public function theProductDoesNotHaveAFixedPrice()
+    {
+        $this->fixedPriceItems = false;
     }
 }

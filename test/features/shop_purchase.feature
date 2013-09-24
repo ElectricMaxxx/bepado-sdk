@@ -23,13 +23,29 @@ Feature: Interactions between shops on a purchase
          Then The customer is informed about the unavailability
           And The product availability is updated in the local shop
 
-    Scenario: Product price changed in remote shop
+    Scenario: Product fixed price changed in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And The product price has changed in the remote shop
          When The Customer views the order overview
          Then The customer is informed about the changed price
           And The product price is updated in the local shop
+          And No transaction is logged
+
+    Scenario: Product non-fixed price changed in remote shop
+        Given The product does not have a fixed price
+          And A customer adds a product from remote shop 1 to basket
+          And The product price has changed in the remote shop
+         When The Customer checks out
+         Then The customer will receive the product
+
+    Scenario: Product purchase price changed in remote shop
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The product purchase price has changed in the remote shop
+         When The Customer views the order overview
+         Then The customer is informed about the unavailability
+          And The product purchase price is updated in the local shop
           And No transaction is logged
 
     Scenario: Product was removed in remote shop
