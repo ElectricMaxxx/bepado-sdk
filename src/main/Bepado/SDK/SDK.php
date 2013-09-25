@@ -444,16 +444,25 @@ final class SDK
     /**
      * Update the status of a bepado order.
      *
+     * The $status is one of:
+     *
+     * - open
+     * - in_progress
+     * - delivered
+     * - cancelation
+     *
      * @param int $orderId
      * @param string $status
+     * @param \Bepado\SDK\Struct\Message[] $messages
      *
      * @return void
      */
-    public function updateOrderStatus($orderId, $status)
+    public function updateOrderStatus($orderId, $status, array $messages = array())
     {
         $this->dependencies->getOrderStatusService()->update(
             $orderId,
-            $status
+            $status,
+            $messages
         );
     }
 }

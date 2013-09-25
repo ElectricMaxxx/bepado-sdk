@@ -44,10 +44,11 @@ class OrderStatusUpdate
      *
      * @param int $orderId
      * @param string $status
+     * @param \Bepado\SDK\Struct\Message[] $messages
      *
      * @return void
      */
-    public function update($orderId, $status)
+    public function update($orderId, $status, array $messages)
     {
         $allowedStates = array('open', 'in_process', 'delivered', 'cancelation');
 
@@ -68,7 +69,8 @@ class OrderStatusUpdate
                 array(
                     'apiKey' => $this->apiKey,
                     'remoteOrderId' => $orderId,
-                    'orderStatus' => $status
+                    'orderStatus' => $status,
+                    'messages' => $messages,
                 )
             ),
             array(
