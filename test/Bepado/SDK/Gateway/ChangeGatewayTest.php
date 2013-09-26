@@ -7,7 +7,6 @@
 
 namespace Bepado\SDK\Gateway;
 
-use Bepado\Common\Test\TestCase;
 use Bepado\SDK\Struct\Change\FromShop\Delete;
 use Bepado\SDK\Struct\Change\FromShop\Insert;
 use Bepado\SDK\Struct\Product;
@@ -17,7 +16,7 @@ require_once __DIR__ . '/../bootstrap.php';
 /**
  * Common tests for the change gateway implementations.
  */
-abstract class ChangeGatewayTest extends TestCase
+abstract class ChangeGatewayTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @return void
