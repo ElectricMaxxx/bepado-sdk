@@ -48,16 +48,6 @@ class ShopConfiguration extends Struct
     public $key;
 
     /**
-     * Additional margin on top of purchase price in percent.
-     *
-     * Defaults to 0, where only the purchase price is used.
-     * Margin is calculated on top of purchase price.
-     *
-     * @var int
-     */
-    public $priceGroupMargin;
-
-    /**
      * Restores a shop configuration from a previously stored state array.
      *
      * @param array $state
