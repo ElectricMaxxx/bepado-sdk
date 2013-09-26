@@ -451,16 +451,16 @@ final class SDK
      * - delivered
      * - cancelation
      *
-     * @param int $orderId
+     * @param int $providerOrderId
      * @param string $status
      * @param \Bepado\SDK\Struct\Message[] $messages
      *
      * @return void
      */
-    public function updateOrderStatus($orderId, $status, array $messages = array())
+    public function updateOrderStatus($providerOrderId, $status, array $messages = array())
     {
         $this->dependencies->getOrderStatusService()->update(
-            $orderId,
+            $providerOrderId,
             $status,
             $messages
         );
