@@ -72,11 +72,11 @@ The SDK receives five parameters. The parameters in more detail:
 
 * The ``Gateway``
 
-  The ``Gateway`` is used by the SDK to store various data. There is a default
-  implementation using the PHP ``mysqli`` extension, which you might want to
-  use. If your shop does not use ``mysqli`` or you must support additional
-  databases you should implement a custom ``Gateway`` for this. If you do this,
-  we would love to this contributed back into the SDK.
+  The ``Gateway`` is used by the SDK to store various data. There are default
+  implementation using the PHP ``mysqli`` and ``PDO`` with MySQL extensions,
+  which you might want to use. If your shop does not use these databases you
+  should implement a custom ``Gateway`` for this. If you do this, we would love
+  to this contributed back into the SDK.
 
 * The ``ProductToShop`` interface
 
@@ -139,6 +139,8 @@ tasks:
 2) Checkout of remote products
 
 3) Bepado Cloud Search
+
+4) Update Order Status
 
 On top of that there are two helper methods:
 
@@ -246,6 +248,12 @@ Just call the ``search()`` method with an appropriate search struct,
 containing the search terms and optionally additional search configuration. The
 method will return a search result struct, which you can present as a search
 result on your website. The structs should be self-documenting.
+
+Update Order Status
+-------------------
+
+To notify other shops about changes in orders that you accepted, you can use
+the ``updateOrderStatus()`` method on the SDK.
 
 ..
    Local Variables:
