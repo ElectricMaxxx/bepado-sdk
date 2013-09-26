@@ -39,7 +39,7 @@ class OrderStatusUpdate
     /**
      * Update the status of a remote Bepado order using your local order id.
      *
-     * Status can be one of 'open', 'in_process', 'delivered', 'cancelation'.
+     * Status can be one of 'open', 'in_process', 'delivered', 'canceled', 'error'.
      * Bepado will update the order shop of this change.
      *
      * @param int $orderId
@@ -50,7 +50,7 @@ class OrderStatusUpdate
      */
     public function update($orderId, $status, array $messages)
     {
-        $allowedStates = array('open', 'in_process', 'delivered', 'cancelation');
+        $allowedStates = array('open', 'in_process', 'delivered', 'canceled', 'error');
 
         if (!in_array($status, $allowedStates)) {
             throw new \InvalidArgumentException(

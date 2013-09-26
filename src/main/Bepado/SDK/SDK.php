@@ -449,7 +449,8 @@ final class SDK
      * - open
      * - in_progress
      * - delivered
-     * - cancelation
+     * - canceled
+     * - error
      *
      * @param int $providerOrderId
      * @param string $status
