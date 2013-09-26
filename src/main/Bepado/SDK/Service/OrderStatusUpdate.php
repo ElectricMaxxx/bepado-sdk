@@ -48,7 +48,7 @@ class OrderStatusUpdate
      *
      * @return void
      */
-    public function update($orderId, $status, array $messages)
+    public function update($orderId, $status, array $messages = array())
     {
         $allowedStates = array('open', 'in_process', 'delivered', 'canceled', 'error');
 

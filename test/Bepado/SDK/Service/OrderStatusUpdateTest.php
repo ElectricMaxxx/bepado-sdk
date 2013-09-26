@@ -14,6 +14,7 @@ class OrderStatusUpdateTest extends \PHPUnit_Framework_TestCase
             'apiKey' => self::APIKEY,
             'remoteOrderId' => 1,
             'orderStatus' => 'open',
+            'messages' => array(),
         );
 
         $client = $this->getMock('Bepado\SDK\HttpClient');
