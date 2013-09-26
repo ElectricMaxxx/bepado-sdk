@@ -53,7 +53,7 @@ final class SDK
     /**
      * Version constant
      */
-    const VERSION = '0.1-alpha';
+    const VERSION = '$Revision$';
 
     /**
      * @param string $apiKey API key assigned to you by Bepado
