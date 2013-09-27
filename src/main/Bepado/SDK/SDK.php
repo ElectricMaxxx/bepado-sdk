@@ -447,7 +447,7 @@ final class SDK
      * The $status is one of:
      *
      * - open
-     * - in_progress
+     * - in_process
      * - delivered
      * - canceled
      * - error
