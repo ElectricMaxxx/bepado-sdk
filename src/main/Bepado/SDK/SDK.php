@@ -61,6 +61,8 @@ final class SDK
      * @param \Bepado\SDK\Gateway $gateway
      * @param \Bepado\SDK\ProductToShop $toShop
      * @param \Bepado\SDK\ProductFromShop $fromShop
+     * @param \Bepado\SDK\ErrorHandler $errorHandler
+     * @param \Bepado\SDK\HttpClient\RequestSigner $requestSigner
      */
     public function __construct(
         $apiKey,
