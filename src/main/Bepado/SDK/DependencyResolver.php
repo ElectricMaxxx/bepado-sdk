@@ -388,7 +388,8 @@ class DependencyResolver
                 $this->toShop,
                 $this->getLogger(),
                 $this->errorHandler,
-                new ShippingCostCalculator($this->gateway)
+                new ShippingCostCalculator($this->gateway),
+                $this->gateway
             );
         }
 

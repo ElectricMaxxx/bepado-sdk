@@ -29,10 +29,14 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         $configuration = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
 
         $remoteProduct = new Struct\Product(array(
-            'availability' => $remoteAvailability
+            'availability' => $remoteAvailability,
+            'purchasePrice' => 0,
+            'priceGroupMargin' => 0,
         ));
         $localProduct = new Struct\Product(array(
             'availability' => $actualAvailability,
+            'purchasePrice' => 0,
+            'priceGroupMargin' => 0,
         ));
 
         $products = new Struct\ProductList(array(
