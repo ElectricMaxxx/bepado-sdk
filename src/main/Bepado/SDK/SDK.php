@@ -170,7 +170,12 @@ final class SDK
         $token = $requestSigner->verifyRequest($body, $headers);
 
         if (false === $token->authenticated) {
-            throw new SecurityException("Authorization of RPC request failed.");
+            throw new SecurityException(
+                sprintf(
+                    "Authorization of RPC request failed for user '%s'.",
+                    $token->userIdentifier
+                )
+            );
         }
 
         return $token;
