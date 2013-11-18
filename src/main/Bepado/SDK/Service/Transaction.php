@@ -148,6 +148,7 @@ class Transaction
     private function purchasePriceHasChanged($current, $product)
     {
         $buyersDiscountedPrice = $current->purchasePrice * (100 - $product->priceGroupMargin) / 100;
+
         return ($buyersDiscountedPrice !== $product->purchasePrice);
     }
 

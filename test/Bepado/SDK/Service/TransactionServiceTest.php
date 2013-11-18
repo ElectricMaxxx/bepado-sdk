@@ -18,16 +18,20 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function setUp()
+    {
+        $this->fromShop = $this->getMock('Bepado\SDK\ProductFromShop');
+        $this->gateway = $this->getMock('Bepado\SDK\Gateway\ReservationGateway');
+        $this->logger = $this->getMock('Bepado\SDK\Logger', array('doLog', 'confirm'));
+        $this->configuration = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
+        $this->transaction = new Transaction($this->fromShop, $this->gateway, $this->logger, $this->configuration);
+    }
+
     /**
      * @dataProvider matchingAvailabilityGroups
      */
     public function testMatchingAvailabilityGroups($remoteAvailability, $actualAvailability)
     {
-        $fromShop = $this->getMock('Bepado\SDK\ProductFromShop');
-        $gateway = $this->getMock('Bepado\SDK\Gateway\ReservationGateway');
-        $logger = $this->getMock('Bepado\SDK\Logger', array('doLog', 'confirm'));
-        $configuration = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
-
         $remoteProduct = new Struct\Product(array(
             'availability' => $remoteAvailability,
             'purchasePrice' => 0,
@@ -43,21 +47,15 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             'products' => array($remoteProduct)
         ));
 
-        $fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
+        $this->fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
 
-        $transaction = new Transaction($fromShop, $gateway, $logger, $configuration);
-        $result = $transaction->checkProducts($products);
+        $result = $this->transaction->checkProducts($products);
 
         $this->assertTrue($result);
     }
 
     public function testNonMatchingAvailabilityGroups()
     {
-        $fromShop = $this->getMock('Bepado\SDK\ProductFromShop');
-        $gateway = $this->getMock('Bepado\SDK\Gateway\ReservationGateway');
-        $logger = $this->getMock('Bepado\SDK\Logger', array('doLog', 'confirm'));
-        $configuration = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
-
         $remoteProduct = new Struct\Product(array(
             'availability' => 100,
         ));
@@ -69,12 +67,35 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             'products' => array($remoteProduct)
         ));
 
-        $fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
+        $this->fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
 
-        $transaction = new Transaction($fromShop, $gateway, $logger, $configuration);
-        $result = $transaction->checkProducts($products);
+        $result = $this->transaction->checkProducts($products);
 
         $this->assertContainsOnly('Bepado\SDK\Struct\Change\InterShop\Update', $result);
+    }
+
+    public function testCheckIncludesPriceGroupMarginOnPurchasePrice()
+    {
+        $remoteProduct = new Struct\Product(array(
+            'availability' => 100,
+            'purchasePrice' => 90,
+            'priceGroupMargin' => 10
+        ));
+        $localProduct = new Struct\Product(array(
+            'availability' => 100,
+            'purchasePrice' => 100,
+            'priceGroupMargin' => 0
+        ));
+
+        $products = new Struct\ProductList(array(
+            'products' => array($remoteProduct)
+        ));
+
+        $this->fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
+
+        $result = $this->transaction->checkProducts($products);
+
+        $this->assertTrue($result);
     }
 }
 
