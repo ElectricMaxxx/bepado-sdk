@@ -238,7 +238,7 @@ class Shopping
                     break;
                 default:
                     throw new \RuntimeException(
-                        'Invalid change calss provided: ' . get_class($change)
+                        'Invalid change class provided: ' . get_class($change)
                     );
             }
         }
