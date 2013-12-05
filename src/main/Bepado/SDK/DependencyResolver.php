@@ -144,7 +144,7 @@ class DependencyResolver
     /**
      * @var string
      */
-    protected $socialNetworkHost = 'http://bepado.de';
+    protected $socialNetworkHost = 'http://sn.bepado.de';
 
     /**
      * @var string
