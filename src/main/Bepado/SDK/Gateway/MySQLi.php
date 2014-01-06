@@ -195,6 +195,15 @@ class MySQLi extends Gateway
      */
     public function recordUpdate($id, $hash, $revision, Struct\Product $product)
     {
+        $row = $this->connection
+            ->query('SELECT p_hash FROM bepado_product WHERE p_source_id = "' . $this->connection->real_escape_string($id) . '"')
+            ->fetch_assoc();
+        $currentHash = $row['p_hash'];
+
+        if ($currentHash === $hash) {
+            return;
+        }
+
         $this->connection->query(
             'INSERT INTO
                 bepado_change (
