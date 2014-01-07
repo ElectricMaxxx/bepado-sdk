@@ -139,6 +139,7 @@ abstract class SyncerTest extends Common\Test\TestCase
                 'sourceId' => (string) $productId,
                 'title' => $data,
                 'price' => $productId * .89,
+                'purchasePrice' => $productId * .89,
                 'currency' => 'EUR',
                 'availability' => $productId,
                 'categories' => array('/others'),
