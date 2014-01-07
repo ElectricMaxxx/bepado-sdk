@@ -36,6 +36,7 @@ class Test implements ProductFromShop
                         'sourceId' => (string) $productId,
                         'title' => 'Sindelfingen ' . $productId,
                         'price' => $productId * .89,
+                        'purchasePrice' => $productId * .89,
                         'currency' => 'EUR',
                         'availability' => $productId,
                         'categories' => array('/others'),
