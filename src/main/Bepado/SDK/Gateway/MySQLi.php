@@ -77,6 +77,7 @@ class MySQLi extends Gateway
                 `bepado_change`
             WHERE
                 `c_revision` > ' . $offset . '
+            ORDER BY `c_revision` ASC
             LIMIT
                 ' . ((int) $limit)
         );
