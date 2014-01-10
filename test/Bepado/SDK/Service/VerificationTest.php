@@ -119,9 +119,7 @@ class VerificationTest extends Common\Test\TestCase
             $this->markTestSkipped("Cannot reach real service.");
         }
 
-        $this->assertEquals(
-            3,
-            $this->getGateway()->getShopId()
-        );
+        $this->assertTrue(is_numeric($this->getGateway()->getShopId()), 'Verification Service should return integer shop id.');
+        $this->assertTrue($this->getGateway()->getShopId() > 0, 'ShopId should be larger than 0');
     }
 }
