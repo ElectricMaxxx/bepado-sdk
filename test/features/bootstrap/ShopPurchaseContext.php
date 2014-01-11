@@ -398,7 +398,7 @@ class ShopPurchaseContext extends SDKContext
                         'message' => 'Price of product %product changed to %price.',
                         'values' => array(
                             'product' => 'Sindelfingen',
-                            'price' => 45.23,
+                            'price' => 53.8237,
                         ),
                     )
                 )
