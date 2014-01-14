@@ -173,6 +173,8 @@ class ShopPurchaseContext extends SDKContext
                     'zip' => '12345',
                     'city' => 'Sindelfingen',
                     'country' => 'DEU',
+                    'email' => 'foo@qafoo.com',
+                    'phone' => '+12345678',
                 )
             );
         }
