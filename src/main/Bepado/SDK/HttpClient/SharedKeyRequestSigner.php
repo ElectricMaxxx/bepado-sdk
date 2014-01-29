@@ -14,6 +14,16 @@ use Bepado\SDK\Struct\AuthenticationToken;
 class SharedKeyRequestSigner implements RequestSigner
 {
     /**
+     * Custom HTTP header to ship around web servers filtering "Authorization".
+     */
+    const HTTP_HEADER = 'X-Bepado-Authorization';
+
+    /**
+     * $_SERVER key for custom HTTP header
+     */
+    const HTTP_HEADER_KEY = 'HTTP_X_BEPADO_AUTHORIZATION';
+
+    /**
      * @param ShopConfiguration
      */
     private $gateway;
@@ -50,8 +60,11 @@ class SharedKeyRequestSigner implements RequestSigner
         $requestDate     = gmdate('D, d M Y H:i:s', $this->clock->time()) . ' GMT';
         $nonce           = $this->generateNonce($requestDate, $body, $verificationKey);
 
+        $headerContent = 'SharedKey party="' . $myShopId . '",nonce="' . $nonce . '"';
+
         return array(
-            'Authorization: SharedKey party="' . $myShopId . '",nonce="' . $nonce . '"',
+            'Authorization: ' . $headerContent,
+            self::HTTP_HEADER . ': ' . $headerContent,
             'Date: ' . $requestDate
         );
     }
@@ -65,13 +78,15 @@ class SharedKeyRequestSigner implements RequestSigner
      */
     public function verifyRequest($body, array $headers)
     {
-        if (!isset($headers['HTTP_AUTHORIZATION']) || !isset($headers['HTTP_DATE'])) {
+        $authHeader = $this->getAuthorizationHeader($headers);
+
+        if (!isset($headers['HTTP_DATE'])) {
             return new AuthenticationToken(array('authenticated' => false));
         }
 
         $currentDate = time();
 
-        list($type, $params) = explode(" ", $headers['HTTP_AUTHORIZATION'], 2);
+        list($type, $params) = explode(" ", $authHeader, 2);
 
         if ($type !== "SharedKey") {
             return new AuthenticationToken(array('authenticated' => false));
@@ -100,6 +115,30 @@ class SharedKeyRequestSigner implements RequestSigner
         }
 
         return new AuthenticationToken(array('authenticated' => false, 'userIdentifier' => $party));
+    }
+
+    /**
+     * Returns the content of the bepado authorization header.
+     *
+     * This method tries:
+     *
+     * - HTTP_AUTHORIZATION
+     * - HTTP_X_BEPADO_AUTHORIZATION
+     *
+     * If none of them worked, it returns an empty string
+     *
+     * @param array $headers
+     */
+    private function getAuthorizationHeader(array $headers)
+    {
+        if (isset($headers['HTTP_AUTHORIZATION'])) {
+            return $headers['HTTP_AUTHORIZATION'];
+        }
+        if (isset($headers[self::HTTP_HEADER_KEY])) {
+            return $headers[self::HTTP_HEADER_KEY];
+        }
+
+        return null;
     }
 
     private function generateNonce($requestDate, $body, $key)
