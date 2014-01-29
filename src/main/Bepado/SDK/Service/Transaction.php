@@ -148,7 +148,7 @@ class Transaction
 
     private function purchasePriceHasChanged($current, $product, $priceGroupMargin)
     {
-        $discount = $current->purchasePrice * $priceGroupMargin / 100;
+        $discount = ($current->purchasePrice * $priceGroupMargin) / 100;
         $discountedPrice = $current->purchasePrice - $discount;
 
         return !$this->floatsEqual($discountedPrice, $product->purchasePrice);

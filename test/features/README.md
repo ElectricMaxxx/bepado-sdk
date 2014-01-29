@@ -2,6 +2,8 @@
 
 Rough inner workings description:
 
-Through a DirectAccess ShopFactory and ShopGateway an SDK is created within the SDK
-during the tests, so that both parts of the local+remote stack during a transaction
-are working.
+Through test/features/bootstrap/ShopGateway/DirectAccess.php and
+test/features/bootstrap/ShopFactory/DirectAccess.php an SDK is created for the
+remote shop within the local shop SDK during the tests. Both parts of the
+local+remote stack during a transaction are tested in a single process this
+way.
