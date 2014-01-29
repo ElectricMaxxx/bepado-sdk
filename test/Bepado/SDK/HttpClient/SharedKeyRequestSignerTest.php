@@ -11,14 +11,15 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->gatewayMock = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
-        $this->gatewayMock->expects($this->once())
-            ->method('getShopConfiguration')
-            ->with($this->equalTo(42))
-            ->will($this->returnValue(new ShopConfiguration(array('key' => 1234))));
     }
 
     public function testSignRequest()
     {
+        $this->gatewayMock->expects($this->any())
+            ->method('getShopConfiguration')
+            ->with($this->equalTo(42))
+            ->will($this->returnValue(new ShopConfiguration(array('key' => 1234))));
+
         $this->gatewayMock->expects($this->once())
             ->method('getShopId')
             ->will($this->returnValue(1337));
@@ -41,7 +42,6 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifyBepadoRequest()
     {
-        $this->gatewayMock = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
         $this->gatewayMock->expects($this->never())->method('getShopConfiguration');
 
         $clock = $this->getMock('Bepado\SDK\Service\Clock');
@@ -61,7 +61,6 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifyBepadoRequestFallbackCustomAuthHeader()
     {
-        $this->gatewayMock = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
         $this->gatewayMock->expects($this->never())->method('getShopConfiguration');
 
         $clock = $this->getMock('Bepado\SDK\Service\Clock');
@@ -81,6 +80,11 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifyShopRequest()
     {
+        $this->gatewayMock->expects($this->once())
+            ->method('getShopConfiguration')
+            ->with($this->equalTo(42))
+            ->will($this->returnValue(new ShopConfiguration(array('key' => 1234))));
+
         $clock = $this->getMock('Bepado\SDK\Service\Clock');
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
@@ -98,6 +102,11 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifyShopRequestFallbackCustomAuthHeader()
     {
+        $this->gatewayMock->expects($this->once())
+            ->method('getShopConfiguration')
+            ->with($this->equalTo(42))
+            ->will($this->returnValue(new ShopConfiguration(array('key' => 1234))));
+
         $clock = $this->getMock('Bepado\SDK\Service\Clock');
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
