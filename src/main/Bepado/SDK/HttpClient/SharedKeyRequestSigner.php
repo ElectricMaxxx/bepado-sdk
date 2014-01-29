@@ -13,15 +13,23 @@ use Bepado\SDK\Struct\AuthenticationToken;
 
 class SharedKeyRequestSigner implements RequestSigner
 {
+    const HTTP_AUTH_HEADER = 'Authorization';
+
+    const HTTP_AUTH_HEADER_KEY = 'HTTP_AUTHORIZATION';
+
     /**
      * Custom HTTP header to ship around web servers filtering "Authorization".
      */
-    const HTTP_HEADER = 'X-Bepado-Authorization';
+    const HTTP_CUSTOM_AUTH_HEADER = 'X-Bepado-Authorization';
 
     /**
      * $_SERVER key for custom HTTP header
      */
-    const HTTP_HEADER_KEY = 'HTTP_X_BEPADO_AUTHORIZATION';
+    const HTTP_CUSTOM_AUTH_HEADER_KEY = 'HTTP_X_BEPADO_AUTHORIZATION';
+
+    const HTTP_DATE_HEADER = 'Date';
+
+    const HTTP_DATE_HEADER_KEY = 'HTTP_DATE';
 
     /**
      * @param ShopConfiguration
@@ -63,9 +71,9 @@ class SharedKeyRequestSigner implements RequestSigner
         $headerContent = 'SharedKey party="' . $myShopId . '",nonce="' . $nonce . '"';
 
         return array(
-            'Authorization: ' . $headerContent,
-            self::HTTP_HEADER . ': ' . $headerContent,
-            'Date: ' . $requestDate
+            self::HTTP_AUTH_HEADER . ': ' . $headerContent,
+            self::HTTP_CUSTOM_AUTH_HEADER . ': ' . $headerContent,
+            self::HTTP_DATE_HEADER . ': ' . $requestDate
         );
     }
 
@@ -89,7 +97,7 @@ class SharedKeyRequestSigner implements RequestSigner
             );
         }
 
-        if (!isset($headers['HTTP_DATE'])) {
+        if (!isset($headers[self::HTTP_DATE_HEADER_KEY])) {
             return new AuthenticationToken(
                 array(
                     'authenticated' => false,
@@ -161,11 +169,11 @@ class SharedKeyRequestSigner implements RequestSigner
      */
     private function getAuthorizationHeader(array $headers)
     {
-        if (isset($headers['HTTP_AUTHORIZATION'])) {
-            return $headers['HTTP_AUTHORIZATION'];
+        if (isset($headers[self::HTTP_AUTH_HEADER_KEY])) {
+            return $headers[self::HTTP_AUTH_HEADER_KEY];
         }
-        if (isset($headers[self::HTTP_HEADER_KEY])) {
-            return $headers[self::HTTP_HEADER_KEY];
+        if (isset($headers[self::HTTP_CUSTOM_AUTH_HEADER_KEY])) {
+            return $headers[self::HTTP_CUSTOM_AUTH_HEADER_KEY];
         }
 
         return null;
