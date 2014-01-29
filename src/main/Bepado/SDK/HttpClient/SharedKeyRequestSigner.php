@@ -68,13 +68,22 @@ class SharedKeyRequestSigner implements RequestSigner
         $requestDate     = gmdate('D, d M Y H:i:s', $this->clock->time()) . ' GMT';
         $nonce           = $this->generateNonce($requestDate, $body, $verificationKey);
 
-        $headerContent = 'SharedKey party="' . $myShopId . '",nonce="' . $nonce . '"';
+        $authHeaderContent = 'SharedKey party="' . $myShopId . '",nonce="' . $nonce . '"';
 
         return array(
-            self::HTTP_AUTH_HEADER . ': ' . $headerContent,
-            self::HTTP_CUSTOM_AUTH_HEADER . ': ' . $headerContent,
-            self::HTTP_DATE_HEADER . ': ' . $requestDate
+            $this->createHttpHeader(self::HTTP_AUTH_HEADER, $authHeaderContent),
+            $this->createHttpHeader(self::HTTP_CUSTOM_AUTH_HEADER, $authHeaderContent),
+            $this->createHttpHeader(self::HTTP_DATE_HEADER, $requestDate)
         );
+    }
+
+    /**
+     * @param string $headerName
+     * @param string $headerContent
+     */
+    private function createHttpHeader($headerName, $headerContent)
+    {
+        return sprintf('%s: %s', $headerName, $headerContent);
     }
 
     /**
