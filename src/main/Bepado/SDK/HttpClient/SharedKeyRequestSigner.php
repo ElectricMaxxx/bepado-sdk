@@ -80,8 +80,22 @@ class SharedKeyRequestSigner implements RequestSigner
     {
         $authHeader = $this->getAuthorizationHeader($headers);
 
+        if ($authHeader == '') {
+            return new AuthenticationToken(
+                array(
+                    'authenticated' => false,
+                    'errorMessage' => 'No authorization header found.',
+                )
+            );
+        }
+
         if (!isset($headers['HTTP_DATE'])) {
-            return new AuthenticationToken(array('authenticated' => false));
+            return new AuthenticationToken(
+                array(
+                    'authenticated' => false,
+                    'errorMessage' => 'No date header found.',
+                )
+            );
         }
 
         $currentDate = time();
@@ -89,7 +103,12 @@ class SharedKeyRequestSigner implements RequestSigner
         list($type, $params) = explode(" ", $authHeader, 2);
 
         if ($type !== "SharedKey") {
-            return new AuthenticationToken(array('authenticated' => false));
+            return new AuthenticationToken(
+                array(
+                    'authenticated' => false,
+                    'errorMessage' => 'Authorization type is not "SharedKey".',
+                )
+            );
         }
 
         $party = "";
@@ -104,7 +123,12 @@ class SharedKeyRequestSigner implements RequestSigner
                 $verificationKey = $configuration->key;
                 $party = (int)$party;
             } else {
-                return new AuthenticationToken(array('authenticated' => false));
+                return new AuthenticationToken(
+                    array(
+                        'authenticated' => false,
+                        'errorMessage' => 'Unrecognized party in SharedKey authorization.'
+                    )
+                );
             }
 
             $expectedNonce = $this->generateNonce($headers['HTTP_DATE'], $body, $verificationKey);
@@ -114,7 +138,13 @@ class SharedKeyRequestSigner implements RequestSigner
             }
         }
 
-        return new AuthenticationToken(array('authenticated' => false, 'userIdentifier' => $party));
+        return new AuthenticationToken(
+            array(
+                'authenticated' => false,
+                'userIdentifier' => $party,
+                'errorMessage' => 'Could not match SharedKey elements ot invalid nounce.',
+            )
+        );
     }
 
     /**

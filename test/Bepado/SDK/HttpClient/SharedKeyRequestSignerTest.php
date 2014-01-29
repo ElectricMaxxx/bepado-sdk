@@ -121,4 +121,124 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($token->authenticated, "Authorization Header is valid");
         $this->assertEquals(42, $token->userIdentifier);
     }
+
+    public function testVerifyErrorMissingAuthHeaders()
+    {
+        $this->configureDefaultGatewayMock();
+
+        $clock = $this->getMock('Bepado\SDK\Service\Clock');
+
+        $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
+
+        $token = $signer->verifyRequest(
+            '<xml body>',
+            array(
+                'HTTP_DATE' => 'Fri, 13 Feb 2009 23:31:30 GMT'
+            )
+        );
+
+        $this->assertFalse($token->authenticated, 'Missing auth headers not detected.');
+        $this->assertEquals(
+            'No authorization header found.',
+            $token->errorMessage
+        );
+    }
+
+    public function testVerifyErrorMissingDateHeader()
+    {
+        $this->configureDefaultGatewayMock();
+
+        $clock = $this->getMock('Bepado\SDK\Service\Clock');
+
+        $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
+
+        $token = $signer->verifyRequest(
+            '<xml body>',
+            array(
+                'HTTP_X_BEPADO_AUTHORIZATION' => 'SharedKey party="42",nonce="de93510785d31758983da9a65fd7216c280cd41248a26ff25af037c97a4b31fb0a63fa2906b763b31601448f6cc3563c9c3afa4dcf557fa714129af302780f7a"',
+            )
+        );
+
+        $this->assertFalse($token->authenticated, 'Missing date header not detected.');
+        $this->assertEquals(
+            'No date header found.',
+            $token->errorMessage
+        );
+    }
+
+    public function testVerifyErrorIncorrectAuthType()
+    {
+        $this->configureDefaultGatewayMock();
+
+        $clock = $this->getMock('Bepado\SDK\Service\Clock');
+
+        $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
+
+        $token = $signer->verifyRequest(
+            '<xml body>',
+            array(
+                'HTTP_X_BEPADO_AUTHORIZATION' => 'FooBar party="42",nonce="de93510785d31758983da9a65fd7216c280cd41248a26ff25af037c97a4b31fb0a63fa2906b763b31601448f6cc3563c9c3afa4dcf557fa714129af302780f7a"',
+                'HTTP_DATE' => 'Fri, 13 Feb 2009 23:31:30 GMT'
+            )
+        );
+
+        $this->assertFalse($token->authenticated, 'Incorrect auth type not detected.');
+        $this->assertEquals(
+            'Authorization type is not "SharedKey".',
+            $token->errorMessage
+        );
+    }
+
+    public function testVerifyErrorUnrecognizedParty()
+    {
+        $this->configureDefaultGatewayMock();
+
+        $clock = $this->getMock('Bepado\SDK\Service\Clock');
+
+        $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
+
+        $token = $signer->verifyRequest(
+            '<xml body>',
+            array(
+                'HTTP_X_BEPADO_AUTHORIZATION' => 'SharedKey party="foobar",nonce="de93510785d31758983da9a65fd7216c280cd41248a26ff25af037c97a4b31fb0a63fa2906b763b31601448f6cc3563c9c3afa4dcf557fa714129af302780f7a"',
+                'HTTP_DATE' => 'Fri, 13 Feb 2009 23:31:30 GMT'
+            )
+        );
+
+        $this->assertFalse($token->authenticated, 'Incorrect auth type not detected.');
+        $this->assertEquals(
+            'Unrecognized party in SharedKey authorization.',
+            $token->errorMessage
+        );
+    }
+
+    public function testVerifyErrorNounceIncorrect()
+    {
+        $this->configureDefaultGatewayMock();
+
+        $clock = $this->getMock('Bepado\SDK\Service\Clock');
+
+        $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
+
+        $token = $signer->verifyRequest(
+            '<xml body>',
+            array(
+                'HTTP_X_BEPADO_AUTHORIZATION' => 'SharedKey party="bepado",nonce="abc-die-katze-lief-im-schnee"',
+                'HTTP_DATE' => 'Fri, 13 Feb 2009 23:31:30 GMT'
+            )
+        );
+
+        $this->assertFalse($token->authenticated, 'Incorrect nounce not detected.');
+        $this->assertEquals(
+            'Could not match SharedKey elements ot invalid nounce.',
+            $token->errorMessage
+        );
+    }
+
+    private function configureDefaultGatewayMock()
+    {
+        $this->gatewayMock->expects($this->any())
+            ->method('getShopConfiguration')
+            ->will($this->returnValue(new ShopConfiguration(array('key' => 1234))));
+    }
 }
