@@ -1,19 +1,27 @@
 Feature: Interactions between shops on a purchase
 
-    Scenario: Succussful purchase
+    Scenario: Successful purchase
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And The product is available in 1 shop
          When The Customer checks out
          Then The customer will receive the product
 
-    Scenario: Succussful purchase from multiple shops
+    Scenario: Successful purchase from multiple shops
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket
           And A customer adds a product from remote shop 2 to basket
           And The products are available in 2 shops
          When The Customer checks out
          Then The customer will receive the products
+
+    Scenario: Successful purchase with purchase price margin
+        Given The product is listed as available
+          And the local shop receives a price group margin
+          And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
+         When The Customer checks out
+         Then The customer will receive the product
 
     Scenario: Product is not available any more in remote shop
         Given The product is listed as available

@@ -140,10 +140,11 @@ class Shopping
     {
         $responses = array();
         $productLists = $this->zipProductListByShopId($productList);
+        $myShopId = $this->config->getShopId();
 
         foreach ($productLists as $shopId => $products) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
-            $responses[$shopId] = $shopGateway->checkProducts($products);
+            $responses[$shopId] = $shopGateway->checkProducts($products, $myShopId);
         }
 
         $result = array();

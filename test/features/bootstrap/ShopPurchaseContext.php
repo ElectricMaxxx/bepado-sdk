@@ -57,6 +57,11 @@ class ShopPurchaseContext extends SDKContext
      */
     protected $remoteGateway;
 
+    /**
+     * @var int
+     */
+    protected $priceGroupMargin = 0;
+
     protected function initSDK()
     {
         $this->productToShop = \Phake::mock('\\Bepado\\SDK\\ProductToShop');
@@ -108,6 +113,12 @@ class ShopPurchaseContext extends SDKContext
             $this->logger
         );
 
+        $this->priceGroupMargin = 0;
+        $this->distributeShopConfiguration();
+    }
+
+    private function distributeShopConfiguration()
+    {
         for ($i = 1; $i <= 2; ++$i) {
             $this->gateway->setShopConfiguration(
                 'shop-' . $i,
@@ -115,6 +126,17 @@ class ShopPurchaseContext extends SDKContext
                     array(
                         'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
                         'shippingCost' => 23.42,
+                    )
+                )
+            );
+
+            $this->remoteGateway->setShopConfiguration(
+                'shop',
+                new Struct\ShopConfiguration(
+                    array(
+                        'serviceEndpoint' => 'http://shop.example.com/',
+                        'shippingCost' => 12.24,
+                        'priceGroupMargin' => $this->priceGroupMargin,
                     )
                 )
             );
@@ -127,6 +149,15 @@ class ShopPurchaseContext extends SDKContext
     public function theProductIsListedAsAvailable()
     {
         // Just do nothing…
+    }
+
+    /**
+     * @Given /^the local shop receives a price group margin$/
+     */
+    public function theLocalShopReceivesAPriceGroupMargin()
+    {
+        $this->priceGroupMargin = 10;
+        $this->distributeShopConfiguration();
     }
 
     /**
@@ -187,7 +218,7 @@ class ShopPurchaseContext extends SDKContext
                         'shopId' => 'shop-' . $remoteShop,
                         'sourceId' => '23-' . $remoteShop,
                         'price' => 42.23,
-                        'purchasePrice' => 23.42,
+                        'purchasePrice' => $this->applyCurrentPriceGroupMargin(23.42),
                         'fixedPrice' => $this->fixedPriceItems,
                         'currency' => 'EUR',
                         'availability' => 5,
@@ -197,6 +228,12 @@ class ShopPurchaseContext extends SDKContext
                 ),
             )
         );
+    }
+
+    private function applyCurrentPriceGroupMargin($price)
+    {
+        $discount = $price * $this->priceGroupMargin / 100;
+        return ($price - $discount);
     }
 
     /**
