@@ -2,10 +2,13 @@
 
 namespace Bepado\SDK\Service;
 
+use Phake;
 use Bepado\SDK\Struct;
 
 class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 {
+    const BUYER_SHOP_ID = 1;
+
     static public function matchingAvailabilityGroups()
     {
         return array(
@@ -20,11 +23,17 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->fromShop = $this->getMock('Bepado\SDK\ProductFromShop');
-        $this->gateway = $this->getMock('Bepado\SDK\Gateway\ReservationGateway');
-        $this->logger = $this->getMock('Bepado\SDK\Logger', array('doLog', 'confirm'));
-        $this->configuration = $this->getMock('Bepado\SDK\Gateway\ShopConfiguration');
+        $this->fromShop = Phake::mock('Bepado\SDK\ProductFromShop');
+        $this->gateway = Phake::mock('Bepado\SDK\Gateway\ReservationGateway');
+        $this->logger = Phake::mock('Bepado\SDK\Logger');
+        $this->configuration = Phake::mock('Bepado\SDK\Gateway\ShopConfiguration');
         $this->transaction = new Transaction($this->fromShop, $this->gateway, $this->logger, $this->configuration);
+
+        \Phake::when($this->configuration)
+            ->getShopConfiguration(self::BUYER_SHOP_ID)
+            ->thenReturn(new Struct\ShopConfiguration(array(
+                'priceGroupMargin' => 0,
+            )));
     }
 
     /**
@@ -33,23 +42,23 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
     public function testMatchingAvailabilityGroups($remoteAvailability, $actualAvailability)
     {
         $remoteProduct = new Struct\Product(array(
+            'sourceId' => 10,
             'availability' => $remoteAvailability,
             'purchasePrice' => 0,
-            'priceGroupMargin' => 0,
         ));
         $localProduct = new Struct\Product(array(
+            'sourceId' => 10,
             'availability' => $actualAvailability,
             'purchasePrice' => 0,
-            'priceGroupMargin' => 0,
         ));
 
         $products = new Struct\ProductList(array(
             'products' => array($remoteProduct)
         ));
 
-        $this->fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
+        \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
 
-        $result = $this->transaction->checkProducts($products);
+        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
 
         $this->assertTrue($result);
     }
@@ -57,9 +66,11 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
     public function testNonMatchingAvailabilityGroups()
     {
         $remoteProduct = new Struct\Product(array(
+            'sourceId' => 10,
             'availability' => 100,
         ));
         $localProduct = new Struct\Product(array(
+            'sourceId' => 10,
             'availability' => 5,
         ));
 
@@ -67,33 +78,39 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             'products' => array($remoteProduct)
         ));
 
-        $this->fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
+        \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
 
-        $result = $this->transaction->checkProducts($products);
+        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
 
         $this->assertContainsOnly('Bepado\SDK\Struct\Change\InterShop\Update', $result);
     }
 
     public function testCheckIncludesPriceGroupMarginOnPurchasePrice()
     {
+        \Phake::when($this->configuration)
+            ->getShopConfiguration(self::BUYER_SHOP_ID)
+            ->thenReturn(new Struct\ShopConfiguration(array(
+                'priceGroupMargin' => 10,
+            )));
+
         $remoteProduct = new Struct\Product(array(
+            'sourceId' => 10,
             'availability' => 100,
             'purchasePrice' => 90,
-            'priceGroupMargin' => 10
         ));
         $localProduct = new Struct\Product(array(
+            'sourceId' => 10,
             'availability' => 100,
             'purchasePrice' => 100,
-            'priceGroupMargin' => 0
         ));
 
         $products = new Struct\ProductList(array(
             'products' => array($remoteProduct)
         ));
 
-        $this->fromShop->expects($this->once())->method('getProducts')->will($this->returnValue(array($localProduct)));
+        \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
 
-        $result = $this->transaction->checkProducts($products);
+        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
 
         $this->assertTrue($result);
     }
