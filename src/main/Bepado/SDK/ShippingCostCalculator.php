@@ -31,7 +31,7 @@ class ShippingCostCalculator
      * Get shipping costs for order
      *
      * @param Struct\Order $order
-     * @return Struct\ShippingCosts
+     * @return Struct\Order
      */
     public function calculateShippingCosts(Struct\Order $order)
     {
