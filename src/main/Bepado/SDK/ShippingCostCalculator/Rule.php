@@ -9,7 +9,12 @@ namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\SDK\Struct;
 
-abstract class ShippingCostRule
+/**
+ * Class: Rule
+ *
+ * Base class for rules to calculate shipping costs for a given order.
+ */
+abstract class Rule
 {
     /**
      * Check if shipping cost is applicable to given order
@@ -22,8 +27,10 @@ abstract class ShippingCostRule
     /**
      * Get shipping costs for order
      *
+     * Returns the net shipping costs.
+     *
      * @param Struct\Order $order
-     * @return Struct\ShippingCosts
+     * @return float
      */
     abstract public function getShippingCosts(Struct\Order $order);
 
