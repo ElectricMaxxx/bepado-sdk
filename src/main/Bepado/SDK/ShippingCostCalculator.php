@@ -35,33 +35,42 @@ class ShippingCostCalculator
      */
     public function calculateShippingCosts(Struct\Order $order)
     {
-        $products = array();
-        foreach ($order->products as $orderItem) {
-            $products[] = $orderItem->product;
+        $shippingCostRules = $this->getShippingCostRules($order);
+        $maximumVat = $this->getMaximumVat($order);
+        $netShippingCosts = 0;
+
+        foreach ($shippingCostRules as $shippingCostRule) {
+            if ($shippingCostRule->isApplicable($order)) {
+                $netShippingCosts += $shippingCostRule->getShippingCosts($order);
+
+                if ($shippingCostRule->shouldStopProcessing($order)) {
+                    break;
+                }
+            }
         }
 
-        return $this->getShippingCosts($products);
+        $order->shippingCosts = $netShippingCosts;
+        $order->grossShippingCosts = $netShippingCosts * (1 + $maximumVat);
+
+        return $order;
     }
 
     /**
-     * Get shipping costs
+     * Get shipping cost rules for current order
      *
-     * @param Struct\Product[] $products
-     * @return Struct\ShippingCosts
+     * @param Struct\Order $order
+     * @return ShippingCostCalculator\Rule[]
      */
-    protected function getShippingCosts(array $products)
+    protected function getShippingCostRules(Struct\Order $order)
     {
-        $productCount = 0;
-        $shopIds = array();
-        $maxVat = 0;
-        foreach ($products as $product) {
-            $shopIds[$product->shopId] = true;
-            $maxVat = max($maxVat, $product->vat);
-
-            if (!$product->freeDelivery) {
-                ++$productCount;
-            }
-        }
+        $shopIds = array_unique(
+            array_map(
+                function (Struct\OrderItem $orderItem) {
+                    return $orderItem->product->shopId;
+                },
+                $order->products
+            )
+        );
 
         if (count($shopIds) > 1) {
             throw new \InvalidArgumentException(
@@ -70,20 +79,35 @@ class ShippingCostCalculator
             );
         }
 
-        $shopId = key($shopIds);
+        $shopId = reset($shopIds);
 
-        if (!$productCount) {
-            return 0.;
-        }
+        $shopConfiguration = $this->configuration->getShopConfiguration($shopId);
 
-        $shopConfiguration = $this->configuration->getShopConfiguration($product->shopId);
-        $netShippingCost = $shopConfiguration->shippingCost;
+        // @TODO: This should be replaced by some factory crafting the shipping
+        // cost rules from some DSL. For now we only support fixed price
+        // shipping cost rules.
+        return array(
+            new ShippingCostCalculator\Rule\FixedPrice($shopConfiguration->shippingCost)
+        );
+    }
 
-        return new Struct\ShippingCosts(
-            array(
-                'shopId' => $shopId,
-                'shippingCosts' => $netShippingCost,
-                'grossShippingCosts' => $netShippingCost * (1 + $maxVat),
+    /**
+     * Get maximum VAT of all products
+     *
+     * This seems to be a safe assumption to apply the maximum VAT of all
+     * products to the shipping costs.
+     *
+     * @param Struct\Order $order
+     * @return float
+     */
+    protected function getMaximumVat(Struct\Order $order)
+    {
+        return max(
+            array_map(
+                function (Struct\OrderItem $orderItem) {
+                    return $orderItem->product->vat;
+                },
+                $order->products
             )
         );
     }
