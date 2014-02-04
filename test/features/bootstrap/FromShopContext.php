@@ -91,8 +91,8 @@ class FromShopContext extends SDKContext
     public function iUpdateProducts($productCount)
     {
         $this->modifiedProductCount += $productCount;
-        for ($i = 0; $i < $productCount; ++$i) {
-            $this->sdk->recordUpdate($this->productId);
+        for ($productId = 1; $productId <= $productCount; ++$productId) {
+            $this->sdk->recordUpdate($productId);
         }
     }
 
@@ -102,8 +102,8 @@ class FromShopContext extends SDKContext
     public function iRemoveProducts($productCount)
     {
         $this->modifiedProductCount += $productCount;
-        for ($i = 0; $i < $productCount; ++$i) {
-            $this->sdk->recordDelete($i);
+        for ($productId = 1; $productId <= $productCount; ++$productId) {
+            $this->sdk->recordDelete($productId);
         }
     }
 
