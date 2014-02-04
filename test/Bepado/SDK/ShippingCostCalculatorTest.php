@@ -23,25 +23,35 @@ class ShippingCostCalculatorTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $shippingCosts = $this->calculator->calculateProductListShippingCosts(
-            new Struct\ProductList(
+        $shippingCosts = $this->calculator->calculateShippingCosts(
+            new \Bepado\SDK\Struct\Order(
                 array(
                     'products' => array(
-                        new Struct\Product(
+                        new \Bepado\SDK\Struct\OrderItem(
                             array(
-                                'shopId' => 1,
-                                'freeDelivery' => false,
-                                'vat' => 0.07,
+                                'count' => 1,
+                                'product' => new \Bepado\SDK\Struct\Product(
+                                    array(
+                                        'shopId' => 1,
+                                        'freeDelivery' => false,
+                                        'vat' => 0.07,
+                                    )
+                                ),
                             )
                         ),
-                        new Struct\Product(
+                        new \Bepado\SDK\Struct\OrderItem(
                             array(
-                                'shopId' => 1,
-                                'freeDelivery' => false,
-                                'vat' => 0.19,
+                                'count' => 1,
+                                'product' => new \Bepado\SDK\Struct\Product(
+                                    array(
+                                        'shopId' => 1,
+                                        'freeDelivery' => false,
+                                        'vat' => 0.19,
+                                    )
+                                ),
                             )
                         ),
-                    )
+                    ),
                 )
             )
         );
@@ -58,25 +68,35 @@ class ShippingCostCalculatorTest extends \PHPUnit_Framework_TestCase
             'ShippingCostCalculator can only calculate shipping costs for products belonging to exactly one remote shop.'
         );
 
-        $this->calculator->calculateProductListShippingCosts(
-            new Struct\ProductList(
+        $this->calculator->calculateShippingCosts(
+            new \Bepado\SDK\Struct\Order(
                 array(
                     'products' => array(
-                        new Struct\Product(
+                        new \Bepado\SDK\Struct\OrderItem(
                             array(
-                                'shopId' => 1,
-                                'freeDelivery' => false,
-                                'vat' => 0.07,
+                                'count' => 1,
+                                'product' => new \Bepado\SDK\Struct\Product(
+                                    array(
+                                        'shopId' => 1,
+                                        'freeDelivery' => false,
+                                        'vat' => 0.07,
+                                    )
+                                ),
                             )
                         ),
-                        new Struct\Product(
+                        new \Bepado\SDK\Struct\OrderItem(
                             array(
-                                'shopId' => 2,
-                                'freeDelivery' => false,
-                                'vat' => 0.19,
+                                'count' => 1,
+                                'product' => new \Bepado\SDK\Struct\Product(
+                                    array(
+                                        'shopId' => 2,
+                                        'freeDelivery' => false,
+                                        'vat' => 0.19,
+                                    )
+                                ),
                             )
                         ),
-                    )
+                    ),
                 )
             )
         );

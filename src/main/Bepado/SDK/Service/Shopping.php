@@ -94,28 +94,32 @@ class Shopping
      *
      * Calculate shipping costs for the given set of products.
      *
-     * @param Struct\ProductList $productList
-     * @return float
+     * @param Struct\Order $order
+     * @return Struct\Order
      */
-    public function calculateShippingCosts(Struct\ProductList $productList)
+    public function calculateShippingCosts(Struct\Order $order)
     {
-        $shippingCosts = array_map(
-            array($this->calculator, 'calculateProductListShippingCosts'),
-            $this->zipProductListByShopId($productList)
-        );
+        $orders = $this->splitShopOrders($order);
 
-        $property = function ($property) {
-            return function ($shippingCost) use ($property) {
-                return $shippingCost->$property;
-            };
-        };
-
-        return new Struct\ShippingCosts(
-            array(
-                'grossShippingCosts' => array_sum(array_map($property('grossShippingCosts'), $shippingCosts)),
-                'shippingCosts' => array_sum(array_map($property('shippingCosts'), $shippingCosts))
+        $order->shippingCosts = array_sum(
+            array_map(
+                function (Struct\Order $order) {
+                    return $order->shippingCosts;
+                },
+                $orders
             )
         );
+
+        $order->grossShippingCosts = array_sum(
+            array_map(
+                function (Struct\Order $order) {
+                    return $order->grossShippingCosts;
+                },
+                $orders
+            )
+        );
+
+        return $order;
     }
 
     /**
@@ -383,7 +387,7 @@ class Shopping
             $shopOrder->providerShop = $shopId;
             $shopOrder->products = $this->getShopProducts($order, $shopId);
 
-            $shippingCosts = $this->calculator->calculateOrderShippingCosts($shopOrder);
+            $shippingCosts = $this->calculator->calculateShippingCosts($shopOrder);
 
             $shopOrder->shippingCosts = $shippingCosts->shippingCosts;
             $shopOrder->grossShippingCosts = $shippingCosts->grossShippingCosts;
