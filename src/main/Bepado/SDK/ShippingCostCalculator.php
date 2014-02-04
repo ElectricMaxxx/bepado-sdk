@@ -33,7 +33,7 @@ class ShippingCostCalculator
      * @param Struct\Order $order
      * @return Struct\ShippingCosts
      */
-    public function calculateOrderShippingCosts(Struct\Order $order)
+    public function calculateShippingCosts(Struct\Order $order)
     {
         $products = array();
         foreach ($order->products as $orderItem) {
@@ -41,17 +41,6 @@ class ShippingCostCalculator
         }
 
         return $this->getShippingCosts($products);
-    }
-
-    /**
-     * Get shipping costs for order
-     *
-     * @param Struct\Order $order
-     * @return Struct\ShippingCosts
-     */
-    public function calculateProductListShippingCosts(Struct\ProductList $productList)
-    {
-        return $this->getShippingCosts($productList->products);
     }
 
     /**
