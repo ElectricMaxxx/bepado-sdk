@@ -34,7 +34,7 @@ class Test implements ProductFromShop
                 return new Struct\Product(
                     array(
                         'sourceId' => (string) $productId,
-                        'title' => 'Sindelfingen ' . $productId,
+                        'title' => 'Sindelfingen ' . microtime(),
                         'price' => $productId * .89,
                         'purchasePrice' => $productId * .89,
                         'currency' => 'EUR',
