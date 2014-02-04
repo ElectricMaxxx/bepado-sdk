@@ -101,7 +101,7 @@ class SharedKeyRequestSigner implements RequestSigner
             return new AuthenticationToken(
                 array(
                     'authenticated' => false,
-                    'errorMessage' => 'No authorization header found.',
+                    'errorMessage' => 'No authorization header found. Only: ' . $this->getHeaderNames($headers),
                 )
             );
         }
@@ -114,8 +114,6 @@ class SharedKeyRequestSigner implements RequestSigner
                 )
             );
         }
-
-        $currentDate = time();
 
         list($type, $params) = explode(" ", $authHeader, 2);
 
@@ -159,7 +157,24 @@ class SharedKeyRequestSigner implements RequestSigner
             array(
                 'authenticated' => false,
                 'userIdentifier' => $party,
-                'errorMessage' => 'Could not match SharedKey elements ot invalid nounce.',
+                'errorMessage' => 'Could not match SharedKey elements at invalid nounce.',
+            )
+        );
+    }
+
+    /**
+     * @param array $headers
+     * @return string
+     */
+    private function getHeaderNames($headers)
+    {
+        return implode(
+            ', ',
+            array_filter(
+                array_keys($headers),
+                function ($header) {
+                    return strpos($header, 'HTTP_') === 0;
+                }
             )
         );
     }

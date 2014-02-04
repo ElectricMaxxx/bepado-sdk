@@ -139,7 +139,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($token->authenticated, 'Missing auth headers not detected.');
         $this->assertEquals(
-            'No authorization header found.',
+            'No authorization header found. Only: HTTP_DATE',
             $token->errorMessage
         );
     }
@@ -230,7 +230,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($token->authenticated, 'Incorrect nounce not detected.');
         $this->assertEquals(
-            'Could not match SharedKey elements ot invalid nounce.',
+            'Could not match SharedKey elements at invalid nounce.',
             $token->errorMessage
         );
     }
