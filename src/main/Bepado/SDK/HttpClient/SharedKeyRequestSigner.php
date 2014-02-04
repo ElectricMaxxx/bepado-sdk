@@ -151,6 +151,14 @@ class SharedKeyRequestSigner implements RequestSigner
             if ($this->stringsEqual($actualNonce, $expectedNonce)) {
                 return new AuthenticationToken(array('authenticated' => true, 'userIdentifier' => $party));
             }
+
+            return new AuthenticationToken(
+                array(
+                    'authenticated' => false,
+                    'userIdentifier' => $party,
+                    'errorMessage' => 'Nounce does not match.',
+                )
+            );
         }
 
         return new AuthenticationToken(

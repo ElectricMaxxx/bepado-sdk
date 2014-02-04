@@ -230,7 +230,61 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($token->authenticated, 'Incorrect nounce not detected.');
         $this->assertEquals(
-            'Could not match SharedKey elements at invalid nounce.',
+            'Nounce does not match.',
+            $token->errorMessage
+        );
+    }
+
+    public function testArktisRegression()
+    {
+        $this->configureDefaultGatewayMock();
+
+        $clock = $this->getMock('Bepado\SDK\Service\Clock');
+
+        $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
+
+        $token = $signer->verifyRequest(
+            '<xml body>',
+            array(
+                'PATH' => '/usr/local/bin:/usr/bin:/bin',
+                'PHPRC' => '/var/www/web5/fcgi',
+                'PWD' => '/var/www/web5/fcgi',
+                'HTTP_CONNECTION' => 'close',
+                'SCRIPT_NAME' => '/shopware.php',
+                'REQUEST_URI' => '/backend/bepado_gateway',
+                'QUERY_STRING' => '',
+                'REQUEST_METHOD' => 'POST',
+                'SERVER_PROTOCOL' => 'HTTP/1.1',
+                'GATEWAY_INTERFACE' => 'CGI/1.1',
+                'REDIRECT_URL' => '/backend/bepado_gateway',
+                'REMOTE_PORT' => '35213',
+                'SCRIPT_FILENAME' => '/var/www/web5/html/shop-update/shopware.php',
+                'SERVER_ADMIN' => '[no address given]',
+                'DOCUMENT_ROOT' => '/var/www/web5/html/shop-update',
+                'REMOTE_ADDR' => '37.44.4.37',
+                'SERVER_PORT' => '80',
+                'SERVER_ADDR' => '212.53.175.13',
+                'SERVER_NAME' => 'testshop.arktis.de',
+                'SERVER_SOFTWARE' => 'Apache/2.2.22 (Debian)',
+                'SERVER_SIGNATURE' => '<address>Apache/2.2.22 (Debian) Server at testshop.arktis.de Port 80</address>
+                    ',
+                'CONTENT_LENGTH' => '1644',
+                'HTTP_DATE' => 'Tue, 04 Feb 2014 14:49:52 GMT',
+                'HTTP_X_BEPADO_AUTHORIZATION' => 'SharedKey party="bepado",nonce="16fc7ae51b4617134a1d7264f379e20e639aef53d871264bd2b2b85ef175aced43fa98e2483fa7940312e0b93bf9b9d284975b216f353108332b09687d4a6e48"',
+                'HTTP_USER_AGENT' => 'Guzzle/3.8.1 curl/7.31.0 PHP/5.4.20-pl0-gentoo',
+                'HTTP_HOST' => 'testshop.arktis.de',
+                'REDIRECT_STATUS' => '200',
+                'FCGI_ROLE' => 'RESPONDER',
+                'PHP_SELF' => '/shopware.php',
+                'REQUEST_TIME_FLOAT' => 1391525392.7312,
+                'REQUEST_TIME' => 1391525392,
+                'HTTP_SURROGATE_CAPABILITY' => 'shopware="ESI/1.0"',
+            )
+        );
+
+        $this->assertFalse($token->authenticated, 'Incorrect nounce not detected.');
+        $this->assertEquals(
+            'Nounce does not match.',
             $token->errorMessage
         );
     }
