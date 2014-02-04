@@ -286,18 +286,17 @@ final class SDK
      *
      * Calculate shipping costs for the given set of products.
      *
-     * @param Struct\Product[] $products
-     * @return Struct\ShippingCosts
+     * @param Struct\Order $order
+     * @return Struct\Order
      */
-    public function calculateShippingCosts(array $products)
+    public function calculateShippingCosts(Struct\Order $order)
     {
         $this->verifySdk();
 
-        $productList = new Struct\ProductList(array('products' => $products));
+        $this->dependencies->getVerificator()->verify($order);
 
-        $this->dependencies->getVerificator()->verify($productList);
-
-        return $this->dependencies->getShoppingService()->calculateShippingCosts($productList);
+        $this->dependencies->getShoppingService()->calculateShippingCosts($order);
+        return $order;
     }
 
     /**
