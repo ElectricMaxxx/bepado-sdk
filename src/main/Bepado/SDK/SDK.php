@@ -380,8 +380,22 @@ final class SDK
     {
         $this->verifySdk();
 
-        // @TODO: Verify no messages are contained in the reservation struct
-        // and all orders have reservations IDs.
+        if (!$reservation->success ||
+            count($reservation->messages) ||
+            !array_reduce(
+                array_map(
+                    function (Struct\Order $order) {
+                        return $order->reservationId;
+                    },
+                    $reservation->orders
+                ),
+                function ($old, $reservationID) {
+                    return $old && $reservationID;
+                },
+                true
+            )) {
+            throw new \RuntimeException("Invalid reservation provided.");
+        }
 
         return $this->dependencies->getShoppingService()->checkout($reservation, $orderId);
     }
