@@ -27,7 +27,14 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         $this->gateway = Phake::mock('Bepado\SDK\Gateway\ReservationGateway');
         $this->logger = Phake::mock('Bepado\SDK\Logger');
         $this->configuration = Phake::mock('Bepado\SDK\Gateway\ShopConfiguration');
-        $this->transaction = new Transaction($this->fromShop, $this->gateway, $this->logger, $this->configuration);
+        $this->calculator = Phake::mock('Bepado\SDK\ShippingCostCalculator');
+        $this->transaction = new Transaction(
+            $this->fromShop,
+            $this->gateway,
+            $this->logger,
+            $this->configuration,
+            $this->calculator
+        );
 
         \Phake::when($this->configuration)
             ->getShopConfiguration(self::BUYER_SHOP_ID)
