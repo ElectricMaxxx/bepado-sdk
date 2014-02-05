@@ -461,8 +461,8 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsReservedInTheRemoteShop()
     {
-        Assertion::assertTrue($this->result instanceof Struct\Reservation);
-        Assertion::assertTrue($this->result->success);
+        Assertion::assertTrue($this->result instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
+        Assertion::assertTrue($this->result->success, "Result should be success.");
         Assertion::assertEquals(0, count($this->result->messages));
         Assertion::assertEquals(1, count($this->result->orders));
     }
@@ -498,9 +498,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theBuyProcessFailsAndTheCustomerIsInformedAboutThis()
     {
-        Assertion::assertTrue($this->result instanceof Struct\Reservation);
+        Assertion::assertTrue($this->result instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
         $this->dependencies->getVerificator()->verify($this->result);
-        Assertion::assertFalse($this->result->success);
+        Assertion::assertFalse($this->result->success, "Result should not be success.");
         Assertion::assertNotEquals(0, count($this->result->messages));
     }
 
@@ -657,6 +657,12 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductShippingCostsChangedInTheRemoteShop()
     {
+        if (!$this->gateway instanceof Gateway\InMemory) {
+            throw new PendingException(
+                "Since the remote and local shop use the same database for configuration we cannot test this easily with anything but the InMemory gateway. Thus we are skipping this test."
+            );
+        }
+
         $this->remoteGateway->setShopConfiguration(
             'shop-1',
             new Struct\ShopConfiguration(
@@ -673,8 +679,8 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theCustomerIsInformedAboutTheChangedShippingCosts()
     {
-        Assertion::assertTrue($this->result instanceof Struct\Reservation);
-        Assertion::assertFalse($this->result->success);
+        Assertion::assertTrue($this->result instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
+        Assertion::assertFalse($this->result->success, "Result should not be success.");
         Assertion::assertEquals(
             array(
                 'shop-1' => new Struct\Message(
