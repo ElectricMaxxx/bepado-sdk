@@ -336,19 +336,21 @@ final class SDK
      * last chance to verify that everything is OK with the order.
      *
      * If the product data change in a relevant way, this method will not
-     * reserve the products, but instead return a Struct\Message, which should
-     * be ACK'ed by the user. Afterwards another reservation may be issued.
+     * reserve the products, but instead the messages property will contain
+     * messages, which should be displayed to the user and the success property
+     * will be false. The messages should be ACK'ed by the user. Afterwards
+     * another reservation may be issued.
      *
-     * If The reservation of the product set succeeded a hash of reservation
-     * IDs for all involved shops will be returned. This hash must be stored in
-     * the shop for all further transactions. The session is probably the best
-     * location for this.
+     * If The reservation of the product set succeeded the orders in the
+     * reservation struct will have a reservationID set. The reservation struct
+     * should be sored in the shop for the checkout process. The session is
+     * probably the best location for this.
      *
      * If data updated are detected, the local product database will be updated
      * accordingly.
      *
      * @param Struct\Order $order
-     * @return mixed
+     * @return Struct\Reservation
      */
     public function reserveProducts(Struct\Order $order)
     {
