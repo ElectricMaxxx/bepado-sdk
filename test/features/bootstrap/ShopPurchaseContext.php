@@ -131,6 +131,16 @@ class ShopPurchaseContext extends SDKContext
             );
 
             $this->remoteGateway->setShopConfiguration(
+                'shop-' . $i,
+                new Struct\ShopConfiguration(
+                    array(
+                        'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
+                        'shippingCost' => $i * 2,
+                    )
+                )
+            );
+
+            $this->remoteGateway->setShopConfiguration(
                 'shop',
                 new Struct\ShopConfiguration(
                     array(
