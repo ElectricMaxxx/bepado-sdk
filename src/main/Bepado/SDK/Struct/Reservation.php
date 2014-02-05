@@ -18,6 +18,13 @@ use Bepado\SDK\Struct;
 class Reservation extends Struct
 {
     /**
+     * Indicator if reservation failed or not
+     *
+     * @var bool
+     */
+    public $success = false;
+
+    /**
      * Messages from shops, where the reservation failed.
      *
      * @var array

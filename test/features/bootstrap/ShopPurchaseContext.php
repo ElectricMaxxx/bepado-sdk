@@ -462,6 +462,7 @@ class ShopPurchaseContext extends SDKContext
     public function theProductIsReservedInTheRemoteShop()
     {
         Assertion::assertTrue($this->result instanceof Struct\Reservation);
+        Assertion::assertTrue($this->result->success);
         Assertion::assertEquals(0, count($this->result->messages));
         Assertion::assertEquals(1, count($this->result->orders));
     }
@@ -499,6 +500,7 @@ class ShopPurchaseContext extends SDKContext
     {
         Assertion::assertTrue($this->result instanceof Struct\Reservation);
         $this->dependencies->getVerificator()->verify($this->result);
+        Assertion::assertFalse($this->result->success);
         Assertion::assertNotEquals(0, count($this->result->messages));
     }
 
@@ -672,7 +674,7 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerIsInformedAboutTheChangedShippingCosts()
     {
         Assertion::assertTrue($this->result instanceof Struct\Reservation);
-        // @TODO: Assertion::assertFalse($this->result->success);
+        Assertion::assertFalse($this->result->success);
         Assertion::assertEquals(
             array(
                 'shop-1' => new Struct\Message(

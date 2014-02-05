@@ -240,7 +240,7 @@ class Shopping
             }
         }
 
-        // @TODO: $reservation->success = !count($reservation->messages);
+        $reservation->success = !count($reservation->messages);
         return $reservation;
     }
 
