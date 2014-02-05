@@ -377,6 +377,10 @@ final class SDK
     public function checkout(Struct\Reservation $reservation, $orderId)
     {
         $this->verifySdk();
+
+        // @TODO: Verify no messages are contained in the reservation struct
+        // and all orders have reservations IDs.
+
         return $this->dependencies->getShoppingService()->checkout($reservation, $orderId);
     }
 

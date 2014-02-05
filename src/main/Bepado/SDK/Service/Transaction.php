@@ -11,6 +11,7 @@ use Bepado\SDK\ProductFromShop;
 use Bepado\SDK\Gateway;
 use Bepado\SDK\Logger;
 use Bepado\SDK\Struct;
+use Bepado\SDK\ShippingCostCalculator;
 
 /**
  * Service to maintain transactions
@@ -48,6 +49,13 @@ class Transaction
     protected $shopConfiguration;
 
     /**
+     * Shipping cost calculator
+     *
+     * @var ShippingCostCalculator
+     */
+    protected $calculator;
+
+    /**
      * COnstruct from gateway
      *
      * @param ProductFromShop $fromShop
@@ -59,12 +67,14 @@ class Transaction
         ProductFromShop $fromShop,
         Gateway\ReservationGateway $reservations,
         Logger $logger,
-        Gateway\ShopConfiguration $shopConfiguration
+        Gateway\ShopConfiguration $shopConfiguration,
+        ShippingCostCalculator $calculator
     ) {
         $this->fromShop = $fromShop;
         $this->reservations = $reservations;
         $this->logger = $logger;
         $this->shopConfiguration = $shopConfiguration;
+        $this->calculator = $calculator;
     }
 
     /**
@@ -209,6 +219,21 @@ class Transaction
             ),
             $order->orderShop
         );
+
+        $clonedOrder = clone $order;
+        $clonedOrder = $this->calculator->calculateShippingCosts($clonedOrder);
+
+        if (!$this->floatsEqual($order->shippingCosts, $clonedOrder->shippingCosts)) {
+            return new Struct\Message(
+                array(
+                    'message' => "Shipping costs have changed from %oldValue to %newValue.",
+                    'values' => array(
+                        'oldValue' => sprintf("%.2f", $order->shippingCosts),
+                        'newValue' => sprintf("%.2f", $clonedOrder->shippingCosts),
+                    ),
+                )
+            );
+        }
 
         if ($verify !== true) {
             return $verify;

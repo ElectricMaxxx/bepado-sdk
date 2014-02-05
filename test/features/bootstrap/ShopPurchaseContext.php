@@ -125,7 +125,7 @@ class ShopPurchaseContext extends SDKContext
                 new Struct\ShopConfiguration(
                     array(
                         'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
-                        'shippingCost' => 23.42,
+                        'shippingCost' => $i * 2,
                     )
                 )
             );
@@ -638,5 +638,44 @@ class ShopPurchaseContext extends SDKContext
     public function theProductDoesNotHaveAFixedPrice()
     {
         $this->fixedPriceItems = false;
+    }
+
+    /**
+     * @Given /^The product shipping costs changed in the remote shop$/
+     */
+    public function theProductShippingCostsChangedInTheRemoteShop()
+    {
+        $this->remoteGateway->setShopConfiguration(
+            'shop-1',
+            new Struct\ShopConfiguration(
+                array(
+                    'serviceEndpoint' => 'http://shop1.example.com/',
+                    'shippingCost' => .5,
+                )
+            )
+        );
+    }
+
+    /**
+     * @Then /^The customer is informed about the changed shipping costs$/
+     */
+    public function theCustomerIsInformedAboutTheChangedShippingCosts()
+    {
+        Assertion::assertTrue($this->result instanceof Struct\Reservation);
+        // @TODO: Assertion::assertFalse($this->result->success);
+        Assertion::assertEquals(
+            array(
+                'shop-1' => new Struct\Message(
+                    array(
+                        'message' => 'Shipping costs have changed from %oldValue to %newValue.',
+                        'values' => array(
+                            'oldValue' => '2.00',
+                            'newValue' => '0.50',
+                        ),
+                    )
+                )
+            ),
+            $this->result->messages
+        );
     }
 }

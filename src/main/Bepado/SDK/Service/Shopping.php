@@ -227,6 +227,8 @@ class Shopping
             } elseif (is_array($response)) {
                 $this->applyRemoteShopChanges($response);
                 $reservation->messages[$shopId] = $this->changeVisitor->visit($response);
+            } elseif ($response instanceof Struct\Message) {
+                $reservation->messages[$shopId] = $response;
             } else {
                 // TODO: How to react on false value returned?
                 // This might occur if a reservation is canceled by the provider shop
@@ -236,6 +238,7 @@ class Shopping
             }
         }
 
+        // @TODO: $reservation->success = !count($reservation->messages);
         return $reservation;
     }
 

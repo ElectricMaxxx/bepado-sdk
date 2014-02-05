@@ -167,6 +167,11 @@ class DependencyResolver
     protected $requestSigner;
 
     /**
+     * @var ShippingCostCalculator
+     */
+    protected $shippingCostCalculator;
+
+    /**
      * @param \Bepado\SDK\Gateway $gateway
      * @param \Bepado\SDK\ProductToShop $toShop
      * @param \Bepado\SDK\ProductFromShop $fromShop
@@ -283,7 +288,8 @@ class DependencyResolver
                     $this->fromShop,
                     $this->gateway,
                     $this->getLogger(),
-                    $this->gateway
+                    $this->gateway,
+                    $this->getShippingCostCalculator()
                 )
             );
         }
@@ -388,12 +394,23 @@ class DependencyResolver
                 $this->toShop,
                 $this->getLogger(),
                 $this->errorHandler,
-                new ShippingCostCalculator($this->gateway),
+                $this->getShippingCostCalculator(),
                 $this->gateway
             );
         }
 
         return $this->shoppingService;
+    }
+
+    public function getShippingCostCalculator()
+    {
+        if ($this->shippingCostCalculator === null) {
+            $this->shippingCostCalculator = new ShippingCostCalculator(
+                $this->gateway
+            );
+        }
+
+        return $this->shippingCostCalculator;
     }
 
     /**
