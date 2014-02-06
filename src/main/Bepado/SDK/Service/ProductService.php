@@ -80,7 +80,11 @@ class ProductService
      */
     public function fromShop($revision, $productCount)
     {
-        return $this->changes->getNextChanges($revision, $productCount);
+        $changes = $this->changes->getNextChanges($revision, $productCount);
+
+        $this->changes->cleanChangesUntil($revision);
+
+        return $changes;
     }
 
     /**
