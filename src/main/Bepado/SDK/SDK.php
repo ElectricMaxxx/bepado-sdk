@@ -459,6 +459,8 @@ final class SDK
      */
     public function updateOrderStatus(Struct\OrderStatus $status)
     {
+        $this->verifySdk();
+
         $this->dependencies->getSocialNetworkService()->updateOrderStatus($status);
     }
 }

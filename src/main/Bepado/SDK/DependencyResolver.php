@@ -557,7 +557,8 @@ class DependencyResolver
         if ($this->socialNetwork === null) {
             $this->socialNetwork = new Service\SocialNetwork(
                 $this->getHttpClient($this->socialNetworkHost),
-                $this->getVerificationService(),
+                $this->getVerificator(),
+                $this->gateway->getShopId(),
                 $this->apiKey
             );
         }

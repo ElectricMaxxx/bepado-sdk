@@ -26,6 +26,11 @@ class SocialNetwork
     protected $httpClient;
 
     /**
+     * @var integer
+     */
+    protected $shopId;
+
+    /**
      * The Bepado Api-Key
      *
      * @var string
@@ -37,10 +42,11 @@ class SocialNetwork
      */
     protected $verificator;
 
-    public function __construct(HttpClient $httpClient, VerificatorDispatcher $verificator, $apiKey)
+    public function __construct(HttpClient $httpClient, VerificatorDispatcher $verificator, $shopId, $apiKey)
     {
         $this->httpClient = $httpClient;
         $this->apiKey = $apiKey;
+        $this->shopId = $shopId;
         $this->verificator = $verificator;
     }
 
@@ -67,11 +73,13 @@ class SocialNetwork
             $data,
             array(
                 'Content-Type: application/json',
+                'X-Bepado-Shop: ' . $this->shopId,
                 'X-Bepado-Key: ' . $key,
             )
         );
 
         if ($response->status >= 400) {
+            echo($response->body);
             $message = null;
             if (($error = json_decode($response->body)) &&
                 isset($error->message)) {

@@ -22,13 +22,14 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
             json_encode($status),
             array(
                 'Content-Type: application/json',
+                'X-Bepado-Shop: 1',
                 'X-Bepado-Key: ' . hash_hmac('sha512', json_encode($status), self::APIKEY)
             )
         )->thenReturn(new Response(array('status' => 200)));
 
         $dispatcher = \Phake::mock('Bepado\SDK\Struct\VerificatorDispatcher');
 
-        $socialNetwork = new SocialNetwork($client, $dispatcher, self::APIKEY);
+        $socialNetwork = new SocialNetwork($client, $dispatcher, 1, self::APIKEY);
         $socialNetwork->updateOrderStatus($status);
     }
 }
