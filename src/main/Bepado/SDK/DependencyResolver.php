@@ -128,11 +128,11 @@ class DependencyResolver
     protected $revisionFromShop;
 
     /**
-     * OrderStatusUpdate service
+     * SocialNetwork service
      *
-     * @var Service\OrderStatusUpdate
+     * @var Service\SocialNetwork
      */
-    protected $orderStatusUpdate;
+    protected $socialNetwork;
 
     /**
      * Logger
@@ -336,7 +336,11 @@ class DependencyResolver
                     'Bepado\\SDK\\Struct\\Address' =>
                         new Struct\Verificator\Address(),
                     'Bepado\\SDK\\Struct\\ProductList' =>
-                        new Struct\Verificator\ProductList()
+                        new Struct\Verificator\ProductList(),
+                    'Bepado\\SDK\\Struct\\Tracking' =>
+                        new Struct\Verificator\Tracking(),
+                    'Bepado\\SDK\\Struct\\OrderStatus' =>
+                        new Struct\Verificator\OrderStatus(),
                 )
             );
         }
@@ -546,17 +550,18 @@ class DependencyResolver
     }
 
     /**
-     * @return Service\OrderStatusUpdate
+     * @return Service\SocialNetwork
      */
-    public function getOrderStatusService()
+    public function getSocialNetworkService()
     {
-        if ($this->orderStatusUpdate === null) {
-            $this->orderStatusUpdate = new Service\OrderStatusUpdate(
+        if ($this->socialNetwork === null) {
+            $this->socialNetwork = new Service\SocialNetwork(
                 $this->getHttpClient($this->socialNetworkHost),
+                $this->getVerificationService(),
                 $this->apiKey
             );
         }
 
-        return $this->orderStatusUpdate;
+        return $this->socialNetwork;
     }
 }

@@ -7,14 +7,16 @@
 
 namespace Bepado\SDK\Service;
 
+use Bepado\SDK\Struct\VerificatorDispatcher;
 use Bepado\SDK\Gateway;
 use Bepado\SDK\HttpClient;
+use Bepado\SDK\Struct\OrderStatus;
 
 /**
  * Allows updating the status of orders for provider shops,
  * making the Status visible in Bepado.
  */
-class OrderStatusUpdate
+class SocialNetwork
 {
     /**
      * HTTP Client
@@ -30,10 +32,16 @@ class OrderStatusUpdate
      */
     protected $apiKey;
 
-    public function __construct(HttpClient $httpClient, $apiKey)
+    /**
+     * @var \Bepado\SDK\Struct\VerificatorDispatcher
+     */
+    protected $verificator;
+
+    public function __construct(HttpClient $httpClient, VerificatorDispatcher $verificator, $apiKey)
     {
         $this->httpClient = $httpClient;
         $this->apiKey = $apiKey;
+        $this->verificator = $verificator;
     }
 
     /**
@@ -42,39 +50,24 @@ class OrderStatusUpdate
      * Status can be one of 'open', 'in_process', 'delivered', 'canceled', 'error'.
      * Bepado will update the order shop of this change.
      *
-     * @param int $orderId
-     * @param string $status
-     * @param \Bepado\SDK\Struct\Message[] $messages
+     * @param \Bepado\SDK\Struct\OrderStatus
      *
      * @return void
      */
-    public function update($orderId, $status, array $messages = array())
+    public function updateOrderStatus(OrderStatus $orderStatus)
     {
-        $allowedStates = array('open', 'in_process', 'delivered', 'canceled', 'error');
+        $this->verificator->verify($orderStatus);
 
-        if (!in_array($status, $allowedStates)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Invalid order state given: %s. Expected one of: %s',
-                    $status,
-                    implode(', ', $allowedStates)
-                )
-            );
-        }
+        $data = json_encode($orderStatus);
+        $key = hash_hmac('sha512', $data, $this->apiKey);
 
         $response = $this->httpClient->request(
             'POST',
             '/sdk/update-order-status',
-            json_encode(
-                array(
-                    'apiKey' => $this->apiKey,
-                    'remoteOrderId' => $orderId,
-                    'orderStatus' => $status,
-                    'messages' => $messages,
-                )
-            ),
+            $data,
             array(
                 'Content-Type: application/json',
+                'X-Bepado-Key: ' . $key,
             )
         );
 
