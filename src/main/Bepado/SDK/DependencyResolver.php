@@ -426,7 +426,8 @@ class DependencyResolver
         if ($this->searchService === null) {
             $this->searchService = new Service\Search(
                 $this->getHttpClient($this->searchHost),
-                $this->apiKey
+                $this->apiKey,
+                $this->gateway->getShopId()
             );
         }
 
