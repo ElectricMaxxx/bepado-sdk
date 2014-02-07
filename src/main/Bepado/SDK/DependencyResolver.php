@@ -167,6 +167,11 @@ class DependencyResolver
     protected $requestSigner;
 
     /**
+     * @var string
+     */
+    protected $pluginSoftwareVersion;
+
+    /**
      * @param \Bepado\SDK\Gateway $gateway
      * @param \Bepado\SDK\ProductToShop $toShop
      * @param \Bepado\SDK\ProductFromShop $fromShop
@@ -178,7 +183,8 @@ class DependencyResolver
         ProductFromShop $fromShop,
         ErrorHandler $errorHandler,
         $apiKey,
-        HttpClient\RequestSigner $requestSigner = null
+        HttpClient\RequestSigner $requestSigner = null,
+        $pluginSoftwareVersion = null
     ) {
         $this->gateway = $gateway;
         $this->toShop = $toShop;
@@ -198,6 +204,7 @@ class DependencyResolver
         }
 
         $this->apiKey = $apiKey;
+        $this->pluginSoftwareVersion = $pluginSoftwareVersion;
     }
 
     /**
@@ -247,7 +254,8 @@ class DependencyResolver
             $this->registry = new ServiceRegistry\Metric(
                 new Rpc\ServiceRegistry(
                     new Rpc\ErrorHandler\XmlErrorHandler()
-                )
+                ),
+                $this->pluginSoftwareVersion
             );
 
             $this->registry->registerMetric(
@@ -526,9 +534,11 @@ class DependencyResolver
      */
     public function getHttpClient($server)
     {
+        $version = SDK::VERSION === '$Revision$' ? 'dev' : SDK::VERSION;
+
         $headers = array(
-            'X-Bepado-SDK-Version: ' . SDK::VERSION,
-            'Accept: applications/x-bepado-json-' . SDK::VERSION,
+            'X-Bepado-SDK-Version: ' . $version,
+            'Accept: applications/x-bepado-json-' . $version,
         );
 
         $client = new HttpClient\Stream($server);
