@@ -41,4 +41,19 @@ abstract class Rule
      * @return bool
      */
     abstract public function shouldStopProcessing(Struct\Order $order);
+
+    /**
+     * Get all values from rule
+     *
+     * @return array
+     */
+    abstract public function getState();
+
+    /**
+     * Recreate rule from values
+     *
+     * @param array $values
+     * @return Rule
+     */
+    abstract public function setState(array $values);
 }
