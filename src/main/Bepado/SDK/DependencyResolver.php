@@ -245,7 +245,9 @@ class DependencyResolver
     {
         if ($this->registry === null) {
             $this->registry = new ServiceRegistry\Metric(
-                new Rpc\ServiceRegistry()
+                new Rpc\ServiceRegistry(
+                    new Rpc\ErrorHandler\XmlErrorHandler()
+                )
             );
 
             $this->registry->registerMetric(
