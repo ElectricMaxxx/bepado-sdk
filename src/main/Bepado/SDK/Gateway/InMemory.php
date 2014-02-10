@@ -31,6 +31,7 @@ class InMemory extends Gateway
     protected $lastVerificationDate = null;
     protected $categories = array();
     protected $reservations = array();
+    protected $shippingCosts = array();
 
     /**
      * Get next changes
@@ -413,6 +414,50 @@ class InMemory extends Gateway
         }
 
         $this->reservations[$reservationId]['state'] = 'confirmed';
+    }
+
+    /**
+     * Get last revision
+     *
+     * @return string
+     */
+    public function getLastShippingCostsRevision()
+    {
+        return max(
+            array_map(
+                function ($shippingCosts) {
+                    return $shippingCosts['revision'];
+                },
+                $this->shippingCosts
+            ) ?: array(null)
+        );
+    }
+
+    /**
+     * Store shop shipping costs
+     *
+     * @return void
+     */
+    public function storeShippingCosts($shop, $revision, $shippingCosts)
+    {
+        $this->shippingCosts[$shop] = array(
+            'revision' => $revision,
+            'rules' => $shippingCosts,
+        );
+    }
+
+    /**
+     * Get shop shipping costs
+     *
+     * @return array
+     */
+    public function getShippingCosts($shop)
+    {
+        if (!isset($this->shippingCosts[$shop])) {
+            throw new \RuntimeException("Unknown shop $shop");
+        }
+
+        return $this->shippingCosts[$shop]['rules'];
     }
 
     /**

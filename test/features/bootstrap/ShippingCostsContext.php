@@ -42,6 +42,30 @@ class ShippingCostsContext extends SDKContext
     }
 
     /**
+     * @When /^Shipping costs are pushed to the SDK for shop "([^"]*)" with revision "([^"]*)"$/
+     */
+    public function shippingCostsArePushedToTheSdkForShopWithRevision($shop, $revision)
+    {
+        $this->shopRevision = $this->makeRpcCall(
+            new Struct\RpcCall(
+                array(
+                    'service' => 'shippingCosts',
+                    'command' => 'replicate',
+                    'arguments' => array(
+                        'changes' => array(
+                            array(
+                                'shop' => $shop,
+                                'revision' => $revision,
+                                'shippingCosts' => array(),
+                            ),
+                        ),
+                    ),
+                )
+            )
+        );
+    }
+
+    /**
      * @Then /^The shipping costs revision is "([^"]*)"$/
      */
     public function theShippingCostsRevisionIs($revision)
