@@ -63,6 +63,7 @@ final class SDK
      * @param \Bepado\SDK\ProductFromShop $fromShop
      * @param \Bepado\SDK\ErrorHandler $errorHandler
      * @param \Bepado\SDK\HttpClient\RequestSigner $requestSigner
+     * @param string $pluginSoftwareVersion
      */
     public function __construct(
         $apiKey,
@@ -71,7 +72,8 @@ final class SDK
         ProductToShop $toShop,
         ProductFromShop $fromShop,
         ErrorHandler $errorHandler = null,
-        HttpClient\RequestSigner $requestSigner = null
+        HttpClient\RequestSigner $requestSigner = null,
+        $pluginSoftwareVersion = null
     ) {
         $this->apiKey = $apiKey;
         $this->apiEndpointUrl = $apiEndpointUrl;
@@ -86,7 +88,8 @@ final class SDK
             $fromShop,
             $errorHandler ? $errorHandler : new ErrorHandler\Exception(),
             $apiKey,
-            $requestSigner
+            $requestSigner,
+            $pluginSoftwareVersion
         );
     }
 

@@ -21,7 +21,8 @@ class SearchTest extends Common\Test\TestCase
     {
         $searchService = new Search(
             $httpClient = $this->getMock('\\Bepado\\SDK\\HttpClient'),
-            self::APIKEY
+            self::APIKEY,
+            1234
         );
 
         $httpClient
@@ -29,7 +30,7 @@ class SearchTest extends Common\Test\TestCase
             ->method('request')
             ->with(
                 'GET',
-                '/search?query=homme&apiKey=' . self::APIKEY . '&offset=0&limit=10'
+                '/search?limit=10&offset=0&query=homme&shopId=1234&hash=3cb2035d08e33c3f2cee62bb39fdfd6a25de9d40dfeca40604be8dc0187dcb24'
             )
             ->will(
                 $this->returnValue(
