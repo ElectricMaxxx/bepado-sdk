@@ -88,9 +88,9 @@ class ShippingCostCalculator
         // @TODO: This should be replaced by some factory crafting the shipping
         // cost rules from some DSL. For now we only support fixed price
         // shipping cost rules.
-        $fixedPrice = new Rule\FixedPrice();
-        $fixedPrice->setState(array('price' => $shopConfiguration->shippingCost));
-        return array($fixedPrice);
+        return array(
+            new Rule\FixedPrice(array('price' => $shopConfiguration->shippingCost)),
+        );
     }
 
     /**

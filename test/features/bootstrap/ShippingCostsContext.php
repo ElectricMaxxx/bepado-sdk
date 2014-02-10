@@ -13,6 +13,7 @@ use Bepado\SDK\Struct\Product;
 use Bepado\SDK\Struct\Change;
 use Bepado\Common\Rpc;
 use Bepado\Common\Struct;
+use Bepado\Common\ShippingCosts\Rule;
 
 use \PHPUnit_Framework_Assert as Assertion;
 
@@ -46,6 +47,8 @@ class ShippingCostsContext extends SDKContext
      */
     public function shippingCostsArePushedToTheSdkForShopWithRevision($shop, $revision)
     {
+        $rule = new Rule\FixedPrice(array('price' => 10));
+
         $this->shopRevision = $this->makeRpcCall(
             new Struct\RpcCall(
                 array(
@@ -56,7 +59,7 @@ class ShippingCostsContext extends SDKContext
                             array(
                                 'shop' => $shop,
                                 'revision' => $revision,
-                                'shippingCosts' => array(),
+                                'shippingCosts' => array($rule),
                             ),
                         ),
                     ),
