@@ -17,16 +17,16 @@ use Bepado\Common\ShippingCosts\Rule;
 class ShippingCostCalculator
 {
     /**
-     * Shipping cost calculator
+     * Shipping costs gateway
      *
-     * @var ShippingCostCalculator
+     * @var Gateway\ShippingCosts
      */
-    protected $calculator;
+    protected $shippingCosts;
 
     public function __construct(
-        Gateway\ShopConfiguration $configuration
+        Gateway\ShippingCosts $shippingCosts
     ) {
-        $this->configuration = $configuration;
+        $this->shippingCosts = $shippingCosts;
     }
 
     /**
@@ -82,15 +82,7 @@ class ShippingCostCalculator
         }
 
         $shopId = reset($shopIds);
-
-        $shopConfiguration = $this->configuration->getShopConfiguration($shopId);
-
-        // @TODO: This should be replaced by some factory crafting the shipping
-        // cost rules from some DSL. For now we only support fixed price
-        // shipping cost rules.
-        return array(
-            new Rule\FixedPrice(array('price' => $shopConfiguration->shippingCost)),
-        );
+        return $this->shippingCosts->getShippingCosts($shopId);
     }
 
     /**

@@ -14,6 +14,7 @@ use Bepado\SDK\Controller;
 use Bepado\SDK\ShippingCostCalculator;
 use Bepado\SDK\ErrorHandler;
 use Bepado\Common\RPC;
+use Bepado\Common\ShippingCosts\Rule;
 
 use \PHPUnit_Framework_Assert as Assertion;
 
@@ -125,27 +126,26 @@ class ShopPurchaseContext extends SDKContext
                 new Struct\ShopConfiguration(
                     array(
                         'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
-                        'shippingCost' => $i * 2,
                     )
                 )
             );
 
-            $this->remoteGateway->setShopConfiguration(
-                'shop-' . $i,
-                new Struct\ShopConfiguration(
+            $rules = array(
+                new Rule\FixedPrice(
                     array(
-                        'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
-                        'shippingCost' => $i * 2,
+                        'price' => $i * 2,
                     )
                 )
             );
+
+            $this->gateway->storeShippingCosts('shop-' . $i, 'revision', $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'revision', $rules);
 
             $this->remoteGateway->setShopConfiguration(
                 'shop',
                 new Struct\ShopConfiguration(
                     array(
                         'serviceEndpoint' => 'http://shop.example.com/',
-                        'shippingCost' => 12.24,
                         'priceGroupMargin' => $this->priceGroupMargin,
                     )
                 )
@@ -663,15 +663,15 @@ class ShopPurchaseContext extends SDKContext
             );
         }
 
-        $this->remoteGateway->setShopConfiguration(
-            'shop-1',
-            new Struct\ShopConfiguration(
+        $rules = array(
+            new Rule\FixedPrice(
                 array(
-                    'serviceEndpoint' => 'http://shop1.example.com/',
-                    'shippingCost' => .5,
+                    'price' => .5,
                 )
             )
         );
+
+        $this->remoteGateway->storeShippingCosts('shop-1', 'revision', $rules);
     }
 
     /**
