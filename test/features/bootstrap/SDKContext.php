@@ -78,6 +78,7 @@ class SDKContext extends BehatContext
                 $connection->query('TRUNCATE TABLE bepado_product;');
                 $connection->query('TRUNCATE TABLE bepado_data;');
                 $connection->query('TRUNCATE TABLE bepado_reservations;');
+                $connection->query('TRUNCATE TABLE bepado_shipping_costs;');
                 break;
             case 'PDO':
                 $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
@@ -96,6 +97,7 @@ class SDKContext extends BehatContext
                 $connection->query('TRUNCATE TABLE bepado_product;');
                 $connection->query('TRUNCATE TABLE bepado_data;');
                 $connection->query('TRUNCATE TABLE bepado_reservations;');
+                $connection->query('TRUNCATE TABLE bepado_shipping_costs;');
                 break;
             default:
                 throw new \RuntimeException("Unknown storage backend $storage");

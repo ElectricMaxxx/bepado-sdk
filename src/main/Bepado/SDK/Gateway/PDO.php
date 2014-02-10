@@ -637,4 +637,79 @@ class PDO extends Gateway
 
         return $config;
     }
+
+    /**
+     * Get last revision
+     *
+     * @return string
+     */
+    public function getLastShippingCostsRevision()
+    {
+        $query = $this->connection->prepare(
+            'SELECT
+                MAX(`sc_revision`)
+            FROM
+                `' . $this->tableName('shipping_costs') . '`'
+        );
+        $query->execute();
+
+        $revision = $query->fetchColumn();
+        if ($revision === false) {
+            return null;
+        }
+
+        return $revision;
+    }
+
+    /**
+     * Store shop shipping costs
+     *
+     * @param string $shop
+     * @param string $revision
+     * @param array $shippingCosts
+     * @return void
+     */
+    public function storeShippingCosts($shop, $revision, $shippingCosts)
+    {
+        $query = $this->connection->prepare(
+            'INSERT INTO
+                bepado_shipping_costs (
+                    `sc_shop`,
+                    `sc_revision`,
+                    `sc_shipping_costs`
+                )
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                `sc_revision` = VALUES(`sc_revision`),
+                `sc_shipping_costs` = VALUES(`sc_shipping_costs`)
+            ;'
+        );
+        $query->execute(array($shop, $revision, serialize($shippingCosts)));
+    }
+
+    /**
+     * Get shop shipping costs
+     *
+     * @param string $shop
+     * @return array
+     */
+    public function getShippingCosts($shop)
+    {
+        $query = $this->connection->prepare(
+            'SELECT
+                `sc_shipping_costs`
+            FROM
+                `' . $this->tableName('shop_config') . '`
+            WHERE
+                `s_shop` = ?'
+        );
+        $query->execute(array($shop));
+
+        $costs = $query->fetchColumn();
+        if ($costs === false) {
+            return array();
+        }
+
+        return unserialize($costs);
+    }
 }

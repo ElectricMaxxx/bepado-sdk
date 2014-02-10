@@ -617,7 +617,6 @@ class MySQLi extends Gateway
                 `r_id` = "' . $this->connection->real_escape_string($reservationId) . '";'
         );
 
-        $changes = array();
         $rows = $result->fetch_all();
         if (!count($rows)) {
             throw new \OutOfBoundsException("Reservation $reservationId not found.");
@@ -672,5 +671,81 @@ class MySQLi extends Gateway
         if ($this->connection->affected_rows !== 1) {
             throw new \OutOfBoundsException("Reservation $reservationId not found.");
         }
+    }
+
+    /**
+     * Get last revision
+     *
+     * @return string
+     */
+    public function getLastShippingCostsRevision()
+    {
+        $result = $this->connection->query(
+            'SELECT
+                MAX(`sc_revision`)
+            FROM
+                `bepado_shipping_costs`'
+        );
+
+        $rows = $result->fetch_all();
+        if (!count($rows)) {
+            return null;
+        }
+
+        return $rows[0][0];
+    }
+
+    /**
+     * Store shop shipping costs
+     *
+     * @param string $shop
+     * @param string $revision
+     * @param array $shippingCosts
+     * @return void
+     */
+    public function storeShippingCosts($shop, $revision, $shippingCosts)
+    {
+        $this->connection->query(
+            'INSERT INTO
+                bepado_shipping_costs (
+                    `sc_shop`,
+                    `sc_revision`,
+                    `sc_shipping_costs`
+                )
+            VALUES (
+               "' . $this->connection->real_escape_string($shop) . '",
+               "' . $this->connection->real_escape_string($revision) . '",
+               "' . $this->connection->real_escape_string(serialize($shippingCosts)) . '"
+            )
+            ON DUPLICATE KEY UPDATE
+                `sc_revision` = VALUES(`sc_revision`),
+                `sc_shipping_costs` = VALUES(`sc_shipping_costs`)
+            ;'
+        );
+    }
+
+    /**
+     * Get shop shipping costs
+     *
+     * @param string $shop
+     * @return array
+     */
+    public function getShippingCosts($shop)
+    {
+        $result = $this->connection->query(
+            'SELECT
+                `sc_shipping_costs`
+            FROM
+                `bepado_shipping_costs`
+            WHERE
+                `s_shop` = "' . $this->connection->real_escape_string($shop) . '";'
+        );
+
+        $rows = $result->fetch_all();
+        if (!count($rows)) {
+            throw new \OutOfBoundsException("Shipping costs for shop $shop not found.");
+        }
+
+        return unserialize($rows[0][0]);
     }
 }
