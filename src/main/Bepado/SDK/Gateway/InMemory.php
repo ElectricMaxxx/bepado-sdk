@@ -436,6 +436,9 @@ class InMemory extends Gateway
     /**
      * Store shop shipping costs
      *
+     * @param string $shop
+     * @param string $revision
+     * @param array $shippingCosts
      * @return void
      */
     public function storeShippingCosts($shop, $revision, $shippingCosts)
@@ -449,6 +452,7 @@ class InMemory extends Gateway
     /**
      * Get shop shipping costs
      *
+     * @param string $shop
      * @return array
      */
     public function getShippingCosts($shop)
