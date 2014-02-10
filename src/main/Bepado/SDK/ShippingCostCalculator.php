@@ -7,6 +7,8 @@
 
 namespace Bepado\SDK;
 
+use Bepado\Common\ShippingCosts\Rule;
+
 /**
  * Shipping cost calculator
  *
@@ -59,7 +61,7 @@ class ShippingCostCalculator
      * Get shipping cost rules for current order
      *
      * @param Struct\Order $order
-     * @return ShippingCostCalculator\Rule[]
+     * @return Rule[]
      */
     protected function getShippingCostRules(Struct\Order $order)
     {
@@ -86,9 +88,9 @@ class ShippingCostCalculator
         // @TODO: This should be replaced by some factory crafting the shipping
         // cost rules from some DSL. For now we only support fixed price
         // shipping cost rules.
-        return array(
-            new ShippingCostCalculator\Rule\FixedPrice($shopConfiguration->shippingCost)
-        );
+        $fixedPrice = new Rule\FixedPrice();
+        $fixedPrice->setState(array('price' => $shopConfiguration->shippingCost));
+        return array($fixedPrice);
     }
 
     /**
