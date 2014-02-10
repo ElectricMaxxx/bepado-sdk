@@ -138,19 +138,20 @@ class ShopPurchaseContext extends SDKContext
                 )
             );
 
-            $this->gateway->storeShippingCosts('shop-' . $i, 'revision', $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'revision', $rules);
-
-            $this->remoteGateway->setShopConfiguration(
-                'shop',
-                new Struct\ShopConfiguration(
-                    array(
-                        'serviceEndpoint' => 'http://shop.example.com/',
-                        'priceGroupMargin' => $this->priceGroupMargin,
-                    )
-                )
-            );
+            $this->gateway->storeShippingCosts('shop-' . $i, null, $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, null, $rules);
         }
+
+        $this->remoteGateway->setShopConfiguration(
+            'shop',
+            new Struct\ShopConfiguration(
+                array(
+                    'serviceEndpoint' => 'http://shop.example.com/',
+                    'priceGroupMargin' => $this->priceGroupMargin,
+                )
+            )
+        );
+        $this->remoteGateway->storeShippingCosts('shop', null, $rules);
     }
 
     /**
