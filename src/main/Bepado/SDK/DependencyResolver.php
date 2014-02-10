@@ -303,6 +303,15 @@ class DependencyResolver
                     $this->getShippingCostCalculator()
                 )
             );
+
+            $this->registry->registerService(
+                'shippingCosts',
+                array('lastRevision', 'replicate'),
+                new Service\ShippingCosts(
+                    $this->gateway,
+                    $this->getShippingCostCalculator()
+                )
+            );
         }
 
         return $this->registry;
