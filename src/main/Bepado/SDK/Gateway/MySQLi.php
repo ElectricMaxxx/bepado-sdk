@@ -718,8 +718,8 @@ class MySQLi extends Gateway
                "' . $this->connection->real_escape_string(serialize($shippingCosts)) . '"
             )
             ON DUPLICATE KEY UPDATE
-                `sc_revision` = VALUES(`sc_revision`),
-                `sc_shipping_costs` = VALUES(`sc_shipping_costs`)
+                `sc_revision` = "' . $this->connection->real_escape_string($revision) . '",
+                `sc_shipping_costs` = "' . $this->connection->real_escape_string(serialize($shippingCosts)) . '"
             ;'
         );
     }
@@ -738,7 +738,7 @@ class MySQLi extends Gateway
             FROM
                 `bepado_shipping_costs`
             WHERE
-                `s_shop` = "' . $this->connection->real_escape_string($shop) . '";'
+                `sc_shop` = "' . $this->connection->real_escape_string($shop) . '";'
         );
 
         $rows = $result->fetch_all();
