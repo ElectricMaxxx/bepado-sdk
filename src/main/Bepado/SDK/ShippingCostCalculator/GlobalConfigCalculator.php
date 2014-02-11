@@ -7,8 +7,10 @@
 
 namespace Bepado\SDK\ShippingCostCalculator;
 
+use Bepado\SDK\Gateway\ShopConfiguration;
 use Bepado\SDK\ShippingCostCalculator;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\Struct\OrderItem;
 use Bepado\SDK\Struct\ShippingCosts;
 
 class GlobalConfigCalculator implements ShippingCostCalculator

@@ -4,7 +4,7 @@ namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\Common\ShippingCosts\Rule;
 
-class ShippingCostCalculatorTest extends \PHPUnit_Framework_TestCase
+class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     private $gateway;
     private $calculator;
