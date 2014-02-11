@@ -38,9 +38,12 @@ class Configuration
     /**
      * Store shop configuration updates
      *
+     * @param array $configurations
+     * @param array $features
+     *
      * @return void
      */
-    public function update(array $configurations)
+    public function update(array $configurations, array $features = null)
     {
         foreach ($configurations as $configuration) {
             $this->configuration->setShopConfiguration(
@@ -56,6 +59,10 @@ class Configuration
                     )
                 )
             );
+        }
+
+        if (is_array($features)) {
+            $this->configuration->setEnabledFeatures($features);
         }
     }
 }

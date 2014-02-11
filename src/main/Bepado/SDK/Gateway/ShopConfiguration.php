@@ -71,4 +71,19 @@ interface ShopConfiguration
      * @return string
      */
     public function getShopId();
+
+    /**
+     * Set all the enabled features.
+     *
+     * @param array<string>
+     */
+    public function setEnabledFeatures(array $features);
+
+    /**
+     * Is a feature enabled?
+     *
+     * @param string $featureName
+     * @return bool
+     */
+    public function isFeatureEnabled($feature);
 }

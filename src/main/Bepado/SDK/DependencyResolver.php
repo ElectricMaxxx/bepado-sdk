@@ -429,9 +429,15 @@ class DependencyResolver
     public function getShippingCostCalculator()
     {
         if ($this->shippingCostCalculator === null) {
-            $this->shippingCostCalculator = new ShippingCostCalculator\RuleCalculator(
-                $this->gateway
-            );
+            if ($this->gateway->isFeatureEnabled('shipping_rules')) {
+                $this->shippingCostCalculator = new ShippingCostCalculator\RuleCalculator(
+                    $this->gateway
+                );
+            } else {
+                $this->shippingCostCalculator = new ShippingCostCalculator\GlobalConfigCalculator(
+                    $this->gateway
+                );
+            }
         }
 
         return $this->shippingCostCalculator;

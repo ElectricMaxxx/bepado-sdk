@@ -109,6 +109,8 @@ class SDKContext extends BehatContext
                 '/others' => 'Others',
             )
         );
+        $gateway->setEnabledFeatures(array('shipping_rules'));
+
         return $gateway;
     }
 

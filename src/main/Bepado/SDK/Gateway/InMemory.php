@@ -32,6 +32,7 @@ class InMemory extends Gateway
     protected $categories = array();
     protected $reservations = array();
     protected $shippingCosts = array();
+    protected $features = array();
 
     /**
      * Get next changes
@@ -482,5 +483,26 @@ class InMemory extends Gateway
         foreach ($state as $name => $value) {
             $this->$name = $value;
         }
+    }
+
+    /**
+     * Set all the enabled features.
+     *
+     * @param array<string>
+     */
+    public function setEnabledFeatures(array $features)
+    {
+        $this->features = array_map('strtolower', $features);
+    }
+
+    /**
+     * Is a feature enabled?
+     *
+     * @param string $featureName
+     * @return bool
+     */
+    public function isFeatureEnabled($feature)
+    {
+        return in_array(strtolower($feature), $this->features);
     }
 }

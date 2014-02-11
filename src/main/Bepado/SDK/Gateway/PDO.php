@@ -712,4 +712,34 @@ class PDO extends Gateway
 
         return unserialize($costs);
     }
+
+    /**
+     * Set all the enabled features.
+     *
+     * @param array<string>
+     */
+    public function setEnabledFeatures(array $features)
+    {
+        $this->setConfig(
+            '_features_',
+            strtolower(implode(',', $features))
+        );
+    }
+
+    /**
+     * Is a feature enabled?
+     *
+     * @param string $featureName
+     * @return bool
+     */
+    public function isFeatureEnabled($feature)
+    {
+        $features = $this->getConfig('_features_');
+
+        if ($features === null) {
+            return false;
+        }
+
+        return in_array($feature, explode(',', $features));
+    }
 }
