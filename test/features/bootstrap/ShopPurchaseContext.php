@@ -101,7 +101,7 @@ class ShopPurchaseContext extends SDKContext
                 $this->productToShop,
                 $this->logger,
                 new ErrorHandler\Null(),
-                new ShippingCostCalculator($this->gateway),
+                new ShippingCostCalculator\RuleCalculator($this->gateway),
                 $this->gateway
             )
         );

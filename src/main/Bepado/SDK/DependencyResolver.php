@@ -429,7 +429,7 @@ class DependencyResolver
     public function getShippingCostCalculator()
     {
         if ($this->shippingCostCalculator === null) {
-            $this->shippingCostCalculator = new ShippingCostCalculator(
+            $this->shippingCostCalculator = new ShippingCostCalculator\RuleCalculator(
                 $this->gateway
             );
         }

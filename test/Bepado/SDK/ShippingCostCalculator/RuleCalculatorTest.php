@@ -1,6 +1,6 @@
 <?php
 
-namespace Bepado\SDK;
+namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\Common\ShippingCosts\Rule;
 
@@ -12,7 +12,7 @@ class ShippingCostCalculatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->gateway = \Phake::mock('Bepado\SDK\Gateway\ShippingCosts');
-        $this->calculator = new ShippingCostCalculator($this->gateway);
+        $this->calculator = new RuleCalculator($this->gateway);
     }
 
     public function testCalculateWithMixedVatProductsUsesMaxVat()
