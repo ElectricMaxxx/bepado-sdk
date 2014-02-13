@@ -251,6 +251,13 @@ class Product extends ShopItem
     public $attributes = array();
 
     /**
+     * Workdays until this product can be delivered.
+     *
+     * @var int
+     */
+    public $deliveryWorkDays;
+
+    /**
      * Restores a product from a previously stored state array.
      *
      * @param array $state

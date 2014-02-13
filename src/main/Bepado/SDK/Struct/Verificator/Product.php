@@ -77,5 +77,9 @@ class Product extends Verificator
         if ($struct->relevance < -1 || $struct->relevance > 1) {
             throw new \RuntimeException("Invalid Value, Product#relevance has to be -1,0,1");
         }
+
+        if ($struct->deliveryWorkDays !== null && !is_numeric($struct->deliveryWorkDays)) {
+            throw new \RuntimeException("Delivery Workdays needs to be either null or a number of days.");
+        }
     }
 }
