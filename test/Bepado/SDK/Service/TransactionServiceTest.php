@@ -13,7 +13,6 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(1, 1), // equal
-            array(0, 0), // empty
             array(5, 1), // low group
             array(99, 11), // medium group
             array(201, 101), // high group
@@ -71,7 +70,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         ));
         $localProduct = new Struct\Product(array(
             'sourceId' => 10,
-            'availability' => 5,
+            'availability' => 0,
         ));
 
         $products = new Struct\ProductList(array(
