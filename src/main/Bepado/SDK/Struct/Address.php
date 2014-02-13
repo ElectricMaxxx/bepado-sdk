@@ -50,6 +50,11 @@ class Address extends Struct
     /**
      * @var string
      */
+    public $doorCode;
+
+    /**
+     * @var string
+     */
     public $additionalAddressLine;
 
     /**
