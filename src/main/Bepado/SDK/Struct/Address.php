@@ -68,6 +68,8 @@ class Address extends Struct
     public $state;
 
     /**
+     * ISO-3 Country Code
+     *
      * @var string
      */
     public $country;
