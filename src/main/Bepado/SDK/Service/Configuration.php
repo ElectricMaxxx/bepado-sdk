@@ -10,6 +10,7 @@ namespace Bepado\SDK\Service;
 use Bepado\SDK\Gateway;
 use Bepado\SDK\HttpClient;
 use Bepado\SDK\Struct;
+use Bepado\SDK\RevisionProvider;
 
 /**
  * Service to store configuration updates
@@ -26,6 +27,11 @@ class Configuration
     protected $configuration;
 
     /**
+     * @var \Bepado\SDK\RevisionProvider
+     */
+    protected $revisionProvider;
+
+    /**
      * Construct from gateway
      *
      * @param Gateway\ShopConfiguration $gateway
@@ -33,6 +39,7 @@ class Configuration
     public function __construct(Gateway\ShopConfiguration $configuration)
     {
         $this->configuration = $configuration;
+        $this->revisionProvider = new RevisionProvider\Time();
     }
 
     /**
@@ -57,5 +64,27 @@ class Configuration
                 )
             );
         }
+    }
+
+    /**
+     * Get the categories last revision.
+     *
+     * @return string
+     */
+    public function getCategoriesLastRevision()
+    {
+        return $this->configuration->getCategoriesLastRevision();
+    }
+
+    /**
+     * Update the categories in this shop and increment the last revision.
+     *
+     * @param array $categories
+     * @return void
+     */
+    public function updateCategories(array $categories)
+    {
+        $this->configuration->setCategories($categories);
+        $this->configuration->setCategoriesLastRevision($this->revisionProvider->next());
     }
 }
