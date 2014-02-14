@@ -466,4 +466,17 @@ final class SDK
 
         $this->dependencies->getSocialNetworkService()->updateOrderStatus($status);
     }
+
+    /**
+     * Request unsubscribe of product subscriptions
+     *
+     * @param \Bepado\SDK\Struct\ProductId[]
+     * @return void
+     */
+    public function unsubscribeProducts(array $productIds)
+    {
+        $this->verifySdk();
+
+        $this->dependencies->getSocialNetworkService()->unsubscribeProducts($productIds);
+    }
 }
