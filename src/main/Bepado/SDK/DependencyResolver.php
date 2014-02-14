@@ -253,7 +253,10 @@ class DependencyResolver
         if ($this->registry === null) {
             $this->registry = new ServiceRegistry\Metric(
                 new Rpc\ServiceRegistry(
-                    new Rpc\ErrorHandler\XmlErrorHandler()
+                    new ServiceRegistry\RpcErrorWrapper(
+                        $this->errorHandler,
+                        new Rpc\ErrorHandler\XmlErrorHandler()
+                    )
                 ),
                 $this->pluginSoftwareVersion
             );
