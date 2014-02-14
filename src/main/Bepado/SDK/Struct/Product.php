@@ -30,7 +30,7 @@ class Product extends ShopItem
     const ATTRIBUTE_VOLUME = 'volume';
 
     /**
-     * Describes the product dimension, e.g. 40 x 20 x 100
+     * Describes the product dimension, e.g. 40x20x100 (Length, Width, Height)
      */
     const ATTRIBUTE_DIMENSION = 'dimension';
 

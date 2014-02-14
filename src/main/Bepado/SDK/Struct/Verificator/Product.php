@@ -82,6 +82,10 @@ class Product extends Verificator
             throw new \RuntimeException("Delivery Workdays needs to be either null or a number of days.");
         }
 
+        if (!is_array($struct->attributes)) {
+            throw new \RuntimeException("Product#attributes has to be an array.");
+        }
+
         if (array_key_exists(Struct\Product::ATTRIBUTE_DIMENSION, $struct->attributes)) {
             if (!preg_match('(^(\d+x\d+x\d+)$', $struct->attributes[Struct\Product::ATTRIBUTE_DIMENSION])) {
                 throw new \RuntimeException(
