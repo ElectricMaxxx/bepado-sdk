@@ -18,17 +18,14 @@ use Bepado\SDK\Struct;
 class Product extends ShopItem
 {
     /**
-     * Describes the unit of this product, for example "Kg" or "ml"
-     */
-    const ATTRIBUTE_UNIT = 'unit';
-
-    /**
-     * Describes the weight of this product, e.g. "4.8" Kg
+     * Describes the weight of this product, e.g. "4.8" in kilograms Kg
+     *
+     * May be used for shipping cost weight calculation.
      */
     const ATTRIBUTE_WEIGHT = 'weight';
 
     /**
-     * Describes the volume of this product, e.g. "0.75" L
+     * Describes the volume of this product, e.g. "0.75" in liters (L)
      */
     const ATTRIBUTE_VOLUME = 'volume';
 
@@ -38,16 +35,19 @@ class Product extends ShopItem
     const ATTRIBUTE_DIMENSION = 'dimension';
 
     /**
-     * Describes the base weight of a product, e.g "1.0" Kg for a product with
-     * a weight of 0.500 Kg
+     * Describes the unit of this product, for example "Kg" or "ml"
      */
-    const ATTRIBUTE_BASE_WEIGHT = 'base_weight';
+    const ATTRIBUTE_UNIT = 'unit';
 
     /**
-     * Describes the base volume of a product, e.g "1.0" L for a product with
-     * a weight of 0.75 L
+     * Reference quantity in the configured unit
      */
-    const ATTRIBUTE_BASE_VOLUME = 'base_volume';
+    const ATTRIBUTE_REFERENCE_QUANTITY = 'ref_quantity';
+
+    /**
+     * Units of the reference quantity the product has
+     */
+    const ATTRIBUTE_QUANTITY = 'quantity';
 
     /**
      * Local ID of the product in your shop.
