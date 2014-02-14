@@ -166,7 +166,7 @@ class Transaction
 
     private function availabilityHasChanged($current, $product)
     {
-        return $current->availability == 0;
+        return $current->availability <= 0;
     }
 
     /**

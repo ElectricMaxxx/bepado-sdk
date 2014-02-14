@@ -84,6 +84,28 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertContainsOnly('Bepado\SDK\Struct\Change\InterShop\Update', $result);
     }
 
+    public function testNegativeAvailabillity()
+    {
+        $remoteProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => 1,
+        ));
+        $localProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => -1,
+        ));
+
+        $products = new Struct\ProductList(array(
+            'products' => array($remoteProduct)
+        ));
+
+        \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
+
+        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
+
+        $this->assertContainsOnly('Bepado\SDK\Struct\Change\InterShop\Update', $result);
+    }
+
     public function testCheckIncludesPriceGroupMarginOnPurchasePrice()
     {
         \Phake::when($this->configuration)
