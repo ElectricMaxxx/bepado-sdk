@@ -221,7 +221,7 @@ class ShopPurchaseContext extends SDKContext
             );
         }
 
-        $this->order->products[] = new Struct\OrderItem(
+        $this->order->orderItems[] = new Struct\OrderItem(
             array(
                 'count' => 1,
                 'product' => new Struct\Product(

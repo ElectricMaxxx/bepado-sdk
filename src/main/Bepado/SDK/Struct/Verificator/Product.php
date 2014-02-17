@@ -19,24 +19,6 @@ use Bepado\SDK\Struct;
 class Product extends Verificator
 {
     /**
-     * Categories
-     *
-     * @var array
-     */
-    protected $categories;
-
-    /**
-     * Construct from category mapping
-     *
-     * @param array $categories
-     * @return void
-     */
-    public function __construct(array $categories)
-    {
-        $this->categories = $categories;
-    }
-
-    /**
      * Method to verify a structs integrity
      *
      * Throws a RuntimeException if the struct does not verify.
@@ -88,16 +70,35 @@ class Product extends Verificator
             throw new \RuntimeException("Invalid Datatype, Product#categories has to be an array.");
         }
 
-        if (!count($struct->categories)) {
-            throw new \RuntimeException("Assign at least one category to the product.");
-        }
-
         if (!is_array($struct->tags)) {
             throw new \RuntimeException("Invalid Datatype, Product#tags has to be an array.");
         }
 
         if ($struct->relevance < -1 || $struct->relevance > 1) {
             throw new \RuntimeException("Invalid Value, Product#relevance has to be -1,0,1");
+        }
+
+        if ($struct->deliveryWorkDays !== null && !is_numeric($struct->deliveryWorkDays)) {
+            throw new \RuntimeException("Delivery Workdays needs to be either null or a number of days.");
+        }
+
+        if (!is_array($struct->attributes)) {
+            throw new \RuntimeException("Product#attributes has to be an array.");
+        }
+
+        if (array_key_exists(Struct\Product::ATTRIBUTE_DIMENSION, $struct->attributes)) {
+            if (!preg_match('(^(\d+x\d+x\d+)$', $struct->attributes[Struct\Product::ATTRIBUTE_DIMENSION])) {
+                throw new \RuntimeException(
+                    "Product Dimensions Attribute has to be in format " .
+                    "'Length x Width x Height' without spaces, i.e. 20x40x60"
+                );
+            }
+        }
+
+        if (array_key_exists(Struct\Product::ATTRIBUTE_WEIGHT, $struct->attributes)) {
+            if (!is_numeric($struct->attributes[Struct\Product::ATTRIBUTE_WEIGHT])) {
+                throw new \RuntimeException("Product Weight Attribute has to be a number.");
+            }
         }
     }
 }

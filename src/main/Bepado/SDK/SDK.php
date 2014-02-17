@@ -416,7 +416,7 @@ final class SDK
     public function search(Struct\Search $search)
     {
         $this->verifySdk();
-        $search->apiKey = $this->apiKey;
+
         return $this->dependencies->getSearchService()->search($search);
     }
 
@@ -484,5 +484,18 @@ final class SDK
         $this->verifySdk();
 
         $this->dependencies->getSocialNetworkService()->updateOrderStatus($status);
+    }
+
+    /**
+     * Request unsubscribe of product subscriptions
+     *
+     * @param \Bepado\SDK\Struct\ProductId[]
+     * @return void
+     */
+    public function unsubscribeProducts(array $productIds)
+    {
+        $this->verifySdk();
+
+        $this->dependencies->getSocialNetworkService()->unsubscribeProducts($productIds);
     }
 }
