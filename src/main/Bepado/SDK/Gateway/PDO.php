@@ -664,36 +664,39 @@ class PDO extends Gateway
     /**
      * Store shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @param string $revision
      * @param array $shippingCosts
      * @return void
      */
-    public function storeShippingCosts($shop, $revision, $shippingCosts)
+    public function storeShippingCosts($fromShop, $toShop, $revision, $shippingCosts)
     {
         $query = $this->connection->prepare(
             'INSERT INTO
                 bepado_shipping_costs (
-                    `sc_shop`,
+                    `sc_from_shop`,
+                    `sc_to_shop`,
                     `sc_revision`,
                     `sc_shipping_costs`
                 )
-            VALUES (?, ?, ?)
+            VALUES (?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 `sc_revision` = VALUES(`sc_revision`),
                 `sc_shipping_costs` = VALUES(`sc_shipping_costs`)
             ;'
         );
-        $query->execute(array($shop, $revision, serialize($shippingCosts)));
+        $query->execute(array($fromShop, $toShop, $revision, serialize($shippingCosts)));
     }
 
     /**
      * Get shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @return array
      */
-    public function getShippingCosts($shop)
+    public function getShippingCosts($fromShop, $toShop)
     {
         $query = $this->connection->prepare(
             'SELECT
@@ -701,9 +704,9 @@ class PDO extends Gateway
             FROM
                 `' . $this->tableName('shop_config') . '`
             WHERE
-                `s_shop` = ?'
+                `sc_from_shop` = ? AND `sc_to_shop` = ?'
         );
-        $query->execute(array($shop));
+        $query->execute(array($fromShop, $toShop));
 
         $costs = $query->fetchColumn();
         if ($costs === false) {

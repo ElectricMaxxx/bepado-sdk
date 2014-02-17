@@ -27,18 +27,20 @@ interface ShippingCosts
     /**
      * Store shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @param string $revision
      * @param array $shippingCosts
      * @return void
      */
-    public function storeShippingCosts($shop, $revision, $shippingCosts);
+    public function storeShippingCosts($fromShop, $toShop, $revision, $shippingCosts);
 
     /**
      * Get shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @return array
      */
-    public function getShippingCosts($shop);
+    public function getShippingCosts($fromShop, $toShop);
 }

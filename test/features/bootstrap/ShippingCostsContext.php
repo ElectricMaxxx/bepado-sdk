@@ -57,7 +57,8 @@ class ShippingCostsContext extends SDKContext
                     'arguments' => array(
                         'changes' => array(
                             array(
-                                'shop' => $shop,
+                                'to_shop_id' => $shop,
+                                'from_shop_id' => $shop,
                                 'revision' => $revision,
                                 'shippingCosts' => array($rule),
                             ),

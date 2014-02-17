@@ -32,6 +32,7 @@ class InMemory extends Gateway
     protected $categories = array();
     protected $reservations = array();
     protected $shippingCosts = array();
+    protected $shippingCostsRevision;
     protected $features = array();
 
     /**
@@ -424,45 +425,42 @@ class InMemory extends Gateway
      */
     public function getLastShippingCostsRevision()
     {
-        return max(
-            array_map(
-                function ($shippingCosts) {
-                    return $shippingCosts['revision'];
-                },
-                $this->shippingCosts
-            ) ?: array(null)
-        );
+        return $this->shippingCostsRevision;
     }
 
     /**
      * Store shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @param string $revision
      * @param array $shippingCosts
      * @return void
      */
-    public function storeShippingCosts($shop, $revision, $shippingCosts)
+    public function storeShippingCosts($fromShop, $toShop, $revision, $shippingCosts)
     {
-        $this->shippingCosts[$shop] = array(
-            'revision' => $revision,
-            'rules' => $shippingCosts,
-        );
+        $this->shippingCostsRevision = max($this->shippingCostsRevision, $revision);
+        $this->shippingCosts[$fromShop][$toShop] = $shippingCosts;
     }
 
     /**
      * Get shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @return array
      */
-    public function getShippingCosts($shop)
+    public function getShippingCosts($fromShop, $toShop)
     {
-        if (!isset($this->shippingCosts[$shop])) {
-            throw new \RuntimeException("Unknown shop $shop");
+        if (!isset($this->shippingCosts[$fromShop][$toShop])) {
+            $pairs = array_map(function ($fromShop) {
+                return $fromShop . ": " . implode(", ", array_keys($this->shippingCosts[$fromShop]));
+            }, array_keys($this->shippingCosts));
+
+            throw new \RuntimeException("Unknown shops $fromShop-$toShop, knowing " . implode(', ', $pairs));
         }
 
-        return $this->shippingCosts[$shop]['rules'];
+        return $this->shippingCosts[$fromShop][$toShop];
     }
 
     /**

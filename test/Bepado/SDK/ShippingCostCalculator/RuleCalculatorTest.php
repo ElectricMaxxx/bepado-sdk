@@ -17,7 +17,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateWithMixedVatProductsUsesMaxVat()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1)->thenReturn(
+        \Phake::when($this->gateway)->getShippingCosts(1, 2)->thenReturn(
             array(
                 new Rule\FixedPrice(
                     array(
@@ -30,6 +30,8 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
         $order = $this->calculator->calculateShippingCosts(
             new \Bepado\SDK\Struct\Order(
                 array(
+                    'orderShop' => 2,
+                    'providerShop' => 1,
                     'products' => array(
                         new \Bepado\SDK\Struct\OrderItem(
                             array(
@@ -65,6 +67,20 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(11.9, $order->grossShippingCosts);
     }
 
+    public function testCalculationAbortedWhenProviderOrderShopAreEmpty()
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'Order#providerShop and Order#orderShop must be non-empty to calculate the shipping costs.'
+        );
+
+        $this->calculator->calculateShippingCosts(
+            new \Bepado\SDK\Struct\Order(
+                array()
+            )
+        );
+    }
+
     public function testCalculationAbortedWhenProductsFromMultipleShops()
     {
         $this->setExpectedException(
@@ -75,6 +91,8 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->calculator->calculateShippingCosts(
             new \Bepado\SDK\Struct\Order(
                 array(
+                    'orderShop' => 2,
+                    'providerShop' => 1,
                     'products' => array(
                         new \Bepado\SDK\Struct\OrderItem(
                             array(

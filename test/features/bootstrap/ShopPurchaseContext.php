@@ -138,8 +138,11 @@ class ShopPurchaseContext extends SDKContext
                 )
             );
 
-            $this->gateway->storeShippingCosts('shop-' . $i, null, $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, null, $rules);
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop', null, $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', null, $rules);
+            // for shared state reasons
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, null, $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, null, $rules);
         }
 
         $this->remoteGateway->setShopConfiguration(
@@ -151,7 +154,6 @@ class ShopPurchaseContext extends SDKContext
                 )
             )
         );
-        $this->remoteGateway->storeShippingCosts('shop', null, $rules);
     }
 
     /**
@@ -672,7 +674,7 @@ class ShopPurchaseContext extends SDKContext
             )
         );
 
-        $this->remoteGateway->storeShippingCosts('shop-1', 'revision', $rules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', 'revision', $rules);
     }
 
     /**

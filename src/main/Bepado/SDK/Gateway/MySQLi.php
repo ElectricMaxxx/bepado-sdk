@@ -698,22 +698,25 @@ class MySQLi extends Gateway
     /**
      * Store shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @param string $revision
      * @param array $shippingCosts
      * @return void
      */
-    public function storeShippingCosts($shop, $revision, $shippingCosts)
+    public function storeShippingCosts($fromShop, $toShop, $revision, $shippingCosts)
     {
         $this->connection->query(
             'INSERT INTO
                 bepado_shipping_costs (
-                    `sc_shop`,
+                    `sc_from_shop`,
+                    `sc_to_shop`,
                     `sc_revision`,
                     `sc_shipping_costs`
                 )
             VALUES (
-               "' . $this->connection->real_escape_string($shop) . '",
+               "' . $this->connection->real_escape_string($fromShop) . '",
+               "' . $this->connection->real_escape_string($toShop) . '",
                "' . $this->connection->real_escape_string($revision) . '",
                "' . $this->connection->real_escape_string(serialize($shippingCosts)) . '"
             )
@@ -727,10 +730,11 @@ class MySQLi extends Gateway
     /**
      * Get shop shipping costs
      *
-     * @param string $shop
+     * @param string $fromShop
+     * @param string $toShop
      * @return array
      */
-    public function getShippingCosts($shop)
+    public function getShippingCosts($fromShop, $toShop)
     {
         $result = $this->connection->query(
             'SELECT
@@ -738,12 +742,14 @@ class MySQLi extends Gateway
             FROM
                 `bepado_shipping_costs`
             WHERE
-                `sc_shop` = "' . $this->connection->real_escape_string($shop) . '";'
+                `sc_from_shop` = "' . $this->connection->real_escape_string($fromShop) . '" AND
+                `sc_to_shop` = "' . $this->connection->real_escape_string($toShop) . '";'
         );
 
         $rows = $result->fetch_all();
+
         if (!count($rows)) {
-            throw new \OutOfBoundsException("Shipping costs for shop $shop not found.");
+            throw new \OutOfBoundsException("Shipping costs for shops $fromShop-$toShop not found.");
         }
 
         return unserialize($rows[0][0]);

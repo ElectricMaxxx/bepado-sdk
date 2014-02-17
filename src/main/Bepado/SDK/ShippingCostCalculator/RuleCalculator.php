@@ -65,24 +65,23 @@ class RuleCalculator implements ShippingCostCalculator
      */
     protected function getShippingCostRules(Order $order)
     {
-        $shopIds = array_unique(
-            array_map(
-                function (OrderItem $orderItem) {
-                    return $orderItem->product->shopId;
-                },
-                $order->products
-            )
-        );
-
-        if (count($shopIds) > 1) {
+        if (empty($order->providerShop) || empty($order->orderShop)) {
             throw new \InvalidArgumentException(
-                "ShippingCostCalculator can only calculate shipping costs for " .
-                "products belonging to exactly one remote shop."
+                "Order#providerShop and Order#orderShop must be non-empty ".
+                "to calculate the shipping costs."
             );
         }
 
-        $shopId = reset($shopIds);
-        return $this->shippingCosts->getShippingCosts($shopId);
+        foreach ($order->products as $orderItem) {
+            if ($orderItem->product->shopId != $order->providerShop) {
+                throw new \InvalidArgumentException(
+                    "ShippingCostCalculator can only calculate shipping costs for " .
+                    "products belonging to exactly one remote shop."
+                );
+            }
+        }
+
+        return $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop);
     }
 
     /**

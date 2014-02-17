@@ -66,7 +66,8 @@ class ShippingCosts
     {
         foreach ($changes as $change) {
             $this->shippingCosts->storeShippingCosts(
-                $change['shop'],
+                $change['from_shop_id'],
+                $change['to_shop_id'],
                 $change['revision'],
                 $change['shippingCosts']
             );
