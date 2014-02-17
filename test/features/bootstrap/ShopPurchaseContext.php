@@ -12,9 +12,9 @@ use Behat\Gherkin\Node\TableNode;
 use Bepado\SDK\Struct;
 use Bepado\SDK\Controller;
 use Bepado\SDK\ShippingCostCalculator;
+use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\ErrorHandler;
 use Bepado\Common\RPC;
-use Bepado\Common\ShippingCosts\Rule;
 
 use \PHPUnit_Framework_Assert as Assertion;
 

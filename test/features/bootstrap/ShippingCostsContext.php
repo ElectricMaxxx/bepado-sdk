@@ -11,9 +11,9 @@ use Behat\Gherkin\Node\TableNode;
 
 use Bepado\SDK\Struct\Product;
 use Bepado\SDK\Struct\Change;
+use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\Common\Rpc;
 use Bepado\Common\Struct;
-use Bepado\Common\ShippingCosts\Rule;
 
 use \PHPUnit_Framework_Assert as Assertion;
 
