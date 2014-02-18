@@ -30,6 +30,7 @@ class InMemory extends Gateway
     protected $shopId = null;
     protected $lastVerificationDate = null;
     protected $categories = array();
+    protected $categoriesLastRevision = null;
     protected $reservations = array();
     protected $shippingCosts = array();
     protected $shippingCostsRevision;
@@ -502,5 +503,26 @@ class InMemory extends Gateway
     public function isFeatureEnabled($feature)
     {
         return in_array(strtolower($feature), $this->features);
+    }
+
+    /**
+     * Set the last revision of the category tree that the SDK has seen.
+     *
+     * @param string
+     * @return void
+     */
+    public function setCategoriesLastRevision($revision)
+    {
+        $this->categoriesLastRevision = $revision;
+    }
+
+    /**
+     * Get the last revision of the category tree that the SDK has seen.
+     *
+     * @return string
+     */
+    public function getCategoriesLastRevision()
+    {
+        return $this->categoriesLastRevision;
     }
 }

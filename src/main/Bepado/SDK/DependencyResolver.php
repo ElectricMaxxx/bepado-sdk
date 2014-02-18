@@ -274,12 +274,9 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'configuration',
-                array('update'),
+                array('update', 'getCategoriesLastRevision', 'updateCategories'),
                 new Service\Configuration(
-                    $this->gateway,
-                    $this->getHttpClient($this->socialNetworkHost),
-                    $this->apiKey,
-                    $this->getVerificator()
+                    $this->gateway
                 )
             );
 

@@ -36,5 +36,6 @@ class FeatureContext extends BehatContext
         $this->useContext('toShop', new \Bepado\SDK\ToShopContext());
         $this->useContext('shippingCosts', new \Bepado\SDK\ShippingCostsContext());
         $this->useContext('shopPurchase', new \Bepado\SDK\ShopPurchaseContext());
+        $this->useContext('category', new \Bepado\SDK\CategoryContext());
     }
 }

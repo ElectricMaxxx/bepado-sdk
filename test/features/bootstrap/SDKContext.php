@@ -110,6 +110,7 @@ class SDKContext extends BehatContext
             )
         );
         $gateway->setEnabledFeatures(array('shipping_rules'));
+        $gateway->setCategoriesLastRevision("");
 
         return $gateway;
     }

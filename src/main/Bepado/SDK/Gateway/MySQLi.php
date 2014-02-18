@@ -785,6 +785,27 @@ class MySQLi extends Gateway
         return in_array($feature, explode(',', $features));
     }
 
+    /**
+     * Set the last revision of the category tree that the SDK has seen.
+     *
+     * @param string
+     * @return void
+     */
+    public function setCategoriesLastRevision($revision)
+    {
+        $this->setConfig('_categories_revision_', $revision);
+    }
+
+    /**
+     * Get the last revision of the category tree that the SDK has seen.
+     *
+     * @return string
+     */
+    public function getCategoriesLastRevision()
+    {
+        return $this->getConfig('_categories_revision_');
+    }
+
     private function setConfig($name, $value)
     {
         $this->connection->query(
