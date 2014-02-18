@@ -6,6 +6,9 @@ use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Event\ScenarioEvent;
+
+use Bepado\SDK\MySQLi;
 
 // ABC .pear directory location
 $pearDirectory = __DIR__ . '/../../../../.pear/pear/php/';
@@ -37,5 +40,59 @@ class FeatureContext extends BehatContext
         $this->useContext('shippingCosts', new \Bepado\SDK\ShippingCostsContext());
         $this->useContext('shopPurchase', new \Bepado\SDK\ShopPurchaseContext());
         $this->useContext('category', new \Bepado\SDK\CategoryContext());
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function setupDatabase(ScenarioEvent $event)
+    {
+        $connection = $this->createConnection();
+        foreach ($this->getSubcontexts() as $context) {
+            $context->initSDK($connection);
+        }
+    }
+
+    private function createConnection()
+    {
+        $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
+        $storage = getenv('STORAGE') ?: 'InMemory';
+
+        switch ($storage) {
+            case 'MySQLi':
+                $connection = new MySQLi(
+                    $config['db.hostname'],
+                    $config['db.userid'],
+                    $config['db.password'],
+                    $config['db.name']
+                );
+                break;
+
+            case 'PDO':
+                $connection = new \PDO(
+                    sprintf(
+                        'mysql:dbname=%s;host=%s',
+                        $config['db.name'],
+                        $config['db.hostname']
+                    ),
+                    $config['db.userid'],
+                    $config['db.password']
+                );
+                break;
+
+            default:
+                $connection = null;
+                break;
+        }
+
+        if ($connection) {
+            $connection->query('TRUNCATE TABLE bepado_change;');
+            $connection->query('TRUNCATE TABLE bepado_product;');
+            $connection->query('TRUNCATE TABLE bepado_data;');
+            $connection->query('TRUNCATE TABLE bepado_reservations;');
+            $connection->query('TRUNCATE TABLE bepado_shipping_costs;');
+        }
+
+        return $connection;
     }
 }

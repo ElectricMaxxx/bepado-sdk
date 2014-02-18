@@ -67,8 +67,6 @@ class FromShopContext extends SDKContext
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->revisionProvider = new RevisionProvider\Time();
     }
 

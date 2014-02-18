@@ -743,7 +743,9 @@ class MySQLi extends Gateway
                 `bepado_shipping_costs`
             WHERE
                 `sc_from_shop` = "' . $this->connection->real_escape_string($fromShop) . '" AND
-                `sc_to_shop` = "' . $this->connection->real_escape_string($toShop) . '";'
+                `sc_to_shop` = "' . $this->connection->real_escape_string($toShop) . '"
+            ORDER BY `sc_revision` DESC
+            LIMIT 1'
         );
 
         $rows = $result->fetch_all();

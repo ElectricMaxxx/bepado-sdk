@@ -725,7 +725,9 @@ class PDO extends Gateway
             FROM
                 `' . $this->tableName('shop_config') . '`
             WHERE
-                `sc_from_shop` = ? AND `sc_to_shop` = ?'
+                `sc_from_shop` = ? AND `sc_to_shop` = ?
+            ORDER BY `sc_revision` DESC
+            LIMIT 1'
         );
         $query->execute(array($fromShop, $toShop));
 

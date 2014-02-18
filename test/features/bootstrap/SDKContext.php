@@ -52,12 +52,7 @@ class SDKContext extends BehatContext
      */
     protected $gateway;
 
-    public function __construct()
-    {
-        $this->initSDK();
-    }
-
-    protected function getGateway()
+    protected function getGateway($connection)
     {
         $storage = getenv('STORAGE') ?: 'InMemory';
         switch ($storage) {
@@ -65,39 +60,10 @@ class SDKContext extends BehatContext
                 $gateway = new Gateway\InMemory();
                 break;
             case 'MySQLi':
-                $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
-                $gateway = new Gateway\MySQLi(
-                    $connection = new MySQLi(
-                        $config['db.hostname'],
-                        $config['db.userid'],
-                        $config['db.password'],
-                        $config['db.name']
-                    )
-                );
-                $connection->query('TRUNCATE TABLE bepado_change;');
-                $connection->query('TRUNCATE TABLE bepado_product;');
-                $connection->query('TRUNCATE TABLE bepado_data;');
-                $connection->query('TRUNCATE TABLE bepado_reservations;');
-                $connection->query('TRUNCATE TABLE bepado_shipping_costs;');
+                $gateway = new Gateway\MySQLi($connection);
                 break;
             case 'PDO':
-                $config = @parse_ini_file(__DIR__ . '/../../../build.properties');
-                $gateway = new Gateway\PDO(
-                    $connection = new \PDO(
-                        sprintf(
-                            'mysql:dbname=%s;host=%s',
-                            $config['db.name'],
-                            $config['db.hostname']
-                        ),
-                        $config['db.userid'],
-                        $config['db.password']
-                    )
-                );
-                $connection->query('TRUNCATE TABLE bepado_change;');
-                $connection->query('TRUNCATE TABLE bepado_product;');
-                $connection->query('TRUNCATE TABLE bepado_data;');
-                $connection->query('TRUNCATE TABLE bepado_reservations;');
-                $connection->query('TRUNCATE TABLE bepado_shipping_costs;');
+                $gateway = new Gateway\PDO($connection);
                 break;
             default:
                 throw new \RuntimeException("Unknown storage backend $storage");
@@ -115,7 +81,7 @@ class SDKContext extends BehatContext
         return $gateway;
     }
 
-    protected function initSDK()
+    public function initSDK($connection)
     {
         $this->productToShop = \Phake::mock('\\Bepado\\SDK\\ProductToShop');
         $this->productFromShop = \Phake::partialMock(
@@ -125,7 +91,7 @@ class SDKContext extends BehatContext
         $this->sdk = new SDK(
             'apikey',
             'http://example.com/endpoint',
-            $this->gateway = $this->getGateway(),
+            $this->gateway = $this->getGateway($connection),
             $this->productToShop,
             $this->productFromShop,
             null,

@@ -63,7 +63,7 @@ class ShopPurchaseContext extends SDKContext
      */
     protected $priceGroupMargin = 0;
 
-    protected function initSDK()
+    public function initSDK($connection)
     {
         $this->productToShop = \Phake::mock('\\Bepado\\SDK\\ProductToShop');
         $this->productFromShop = \Phake::mock('\\Bepado\\SDK\\ProductFromShop');
@@ -71,7 +71,7 @@ class ShopPurchaseContext extends SDKContext
         $this->sdk = new SDK(
             'apikey',
             'http://example.com/endpoint',
-            $this->gateway = $this->getGateway(),
+            $this->gateway = $this->getGateway($connection),
             $this->productToShop,
             $this->productFromShop,
             null,
@@ -92,7 +92,7 @@ class ShopPurchaseContext extends SDKContext
                 new ShopFactory\DirectAccess(
                     $this->productToShop,
                     $this->productFromShop,
-                    $this->remoteGateway = $this->getGateway(),
+                    $this->remoteGateway = $this->getGateway($connection),
                     $this->logger
                 ),
                 new ChangeVisitor\Message(
