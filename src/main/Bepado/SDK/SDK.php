@@ -94,6 +94,17 @@ final class SDK
     }
 
     /**
+     * Check if the SDK was verified before successfully.
+     *
+     * @return bool
+     */
+    public function isVerified()
+    {
+        return ($this->verified ||
+            $this->dependencies->getVerificationService()->isVerified());
+    }
+
+    /**
      * Tries to verify this SDK, if this did not happen yet.
      *
      * Throws an exception if the verification failed and the required data
