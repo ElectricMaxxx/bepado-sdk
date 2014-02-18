@@ -107,6 +107,8 @@ class SDKContext extends BehatContext
                 '/others' => 'Others',
             )
         );
+        $gateway->setCategoriesLastRevision("");
+
         return $gateway;
     }
 
