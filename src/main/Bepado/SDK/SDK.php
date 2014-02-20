@@ -17,6 +17,11 @@ use Bepado\SDK\Struct\Shop;
  * dispatched to this class. It constructs the required helper classes as
  * required.
  *
+ * NOTICE: Use the \Bepado\SDK\SDKBuilder to create an instance of the SDK.
+ * This handles all the complexity of creating the different dependencies.
+ * The constructor may change in the future, using the SDKBuilder is
+ * required to implement a supported plugin.
+ *
  * @version $Revision$
  * @api
  */

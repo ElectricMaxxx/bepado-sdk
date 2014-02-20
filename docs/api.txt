@@ -1,16 +1,25 @@
 ============================
-Bepado SDK API Documentation
+bepado SDK API Documentation
 ============================
 
 This document describes how to use the SDK in a shop, or write an extension /
 module for a shop system using the API.
+
+------------
+Requirements
+------------
+
+The bepado SDK has the following requirements:
+
+* PHP 5.3+
+* A database (PDO and MySQLi drivers are currently included)
 
 --------------
 Basic Concepts
 --------------
 
 The basic idea is, that a shop exports a set of products, which are then
-synchronized with Bepado. Other shops may import those products and then
+synchronized with bepado. Other shops may import those products and then
 customers in those shops may buy these products. This results in three basic
 operations:
 
@@ -19,11 +28,11 @@ operations:
 
 * Product Export
 
-  A set of exported products is synchronized with Bepado
+  A set of exported products is synchronized with bepado
 
 * Product Import
 
-  A set of products, which the shop owner configured in Bepado are made
+  A set of products, which the shop owner configured in bepado are made
   available in the local shop.
 
 * Product Checkout
@@ -31,9 +40,8 @@ operations:
   A product is bought in a remote shop, and the transaction is completed in the
   local shop.
 
-Each shop can act in both roles of course, or just in one of those roles.
-Product Export and Product Import are both optional. Most common case is, that
-a shop acts in both roles, though.
+Each shop can act as both an importer or exporter of products or just in one of
+those roles.  Product Export and Product Import are both optional.
 
 -------------
 Using The SDK
@@ -41,10 +49,10 @@ Using The SDK
 
 Using the SDK in your shop requires you to do three things:
 
-1) Construct the SDK
+1) Create an instance of the SDK
 
    When creating a new instance of the SDK to use in your shop, it requires
-   five parameters. Find more about these parameters below.
+   several parameters. Find more about these parameters below.
 
 2) Create a service endpoint URL for the SDK.
 
@@ -53,11 +61,11 @@ Using the SDK in your shop requires you to do three things:
 Construct the SDK
 =================
 
-The SDK receives five parameters. The parameters in more detail:
+The SDK requires several parameters. The parameters in more detail:
 
 * The ``$apiKey``
 
-  You get the API key for your shop instance after registering with the Bepado
+  You get the API key for your shop instance after registering with the bepado
   website. If you develop a SDK for a certain e-commerce system you probably
   want to provide the shop owner with a simple user interface to configure the
   API key to use and pass this one to the SDK.
@@ -67,7 +75,7 @@ The SDK receives five parameters. The parameters in more detail:
 * The ``$apiEndpointUrl``
 
   The URL MUST be an absolute URL under which your shop can be reached from
-  Bepado. You extension must handle requests to this URL and pass the data on
+  bepado. You extension must handle requests to this URL and pass the data on
   to the SDK. More on that below.
 
 * The ``Gateway``
@@ -85,7 +93,7 @@ The SDK receives five parameters. The parameters in more detail:
   simple and contains two methods. One to create or update a remote product,
   and one to remove a remote product again.
 
-  .. include:: ../src/main/Bepado/SDK/ProductToShop.php
+  .. include:: ../src/main/bepado/SDK/ProductToShop.php
      :literal:
 
 * The ``ProductFromShop`` interface
@@ -95,13 +103,40 @@ The SDK receives five parameters. The parameters in more detail:
   methods to verify the products, which the shop currently exports, and two
   methods to perform an actual buy.
 
-  .. include:: ../src/main/Bepado/SDK/ProductFromShop.php
+  .. include:: ../src/main/bepado/SDK/ProductFromShop.php
      :literal:
+
+There are also some optional parameters:
+
+* The ``ErrorHandler`` can be used to get more information about failures
+  inside the SDK. This includes exceptions, RPC error and shutdowns (Fatal
+  Error) during RPC calls.
+
+* The ``$pluginSoftwareVersion`` contains information about the plugin
+  you are developing. This information will be required in the future.
+
+Use the \Bepado\SDK\SDKBuilder to create an instance of the SDK. This handles
+all the complexity of creating the different dependencies. The constructor may
+change in the future, using the SDKBuilder is required to implement a supported
+plugin.::
+
+    <?php
+
+    $builder = new \Bepado\SDK\SDKBuilder();
+    $builder
+        ->setApiKey($yourBepadoApiKey)
+        ->setApiEndpointUrl($urlWhereBepadoCanReachYourPlugin)
+        ->configurePDOGateway($pdoConnection)
+        ->setProductToShop($productToShop)
+        ->setProductFromShop($productFromShop)
+        ->setPluginSoftwareVersion('my Plugin v1.2.4')
+    ;
+    $sdk = $builder->build();
 
 Creating a Service Endpoint
 ===========================
 
-The service endpoint URL is used by Bepado and other shops to interact with
+The service endpoint URL is used by bepado and other shops to interact with
 your shop. All other instances execute ``POST`` requests against this URL. The
 URL itself does not matter, but the absolute URL must be provided to the SDK
 using the ``$apiEndpointUrl`` constructor parameter.
@@ -115,48 +150,54 @@ A simple PHP file, which does this could look as simple as::
 
     <?php
 
-    $sdk = new Bepado\SDK(
-        'my-api-key',
-        'http://example.com/endpoint',
-        new My\Gateway( /* … */ ),
-        new My\ProductToShop(),
-        new My\ProductFromShop()
-    );
+    $sdk = $builder->build();
 
     echo $sdk->handle(file_get_contents('php://input'));
 
     ?>
 
+You can of course integrate this call into frameworks, plugins or modules of
+your shop system or application.
+
 Calling the SDK
 ===============
 
 The SDK class has a set of methods, which provides you with the means to
-interact with Bepado. The available methods can be related to the following
+interact with bepado. The available methods can be related to the following
 tasks:
 
 1) Registering products for export
 
 2) Checkout of remote products
 
-3) Bepado Cloud Search
+3) bepado Cloud Search
 
 4) Update Order Status
 
-On top of that there are two helper methods:
+5) Unsubscribe Products
+
+The different tasks and the methods are described in more detail in the
+following sections.
+
+On top of that there are several helper methods:
 
 1) ``verifySDK()`` checks if the API key is valid and registers the API
-   endpoint URL with Bepado.
+   endpoint URL with bepado.
 
-2) ``getCategories()`` provides you with a list of valid Bepado categories to
+2) ``isVerified()`` checks if the SDK was previoiusly verified successfully.
+
+3) ``getCategories()`` provides you with a list of valid bepado categories to
    associate your products with.
 
-The three tasks and the according methods are described in more detail in the
-following sections.
+4) ``getShop($shopId)`` provides you with information about your connected
+   shops such as the name of the shop and an URL to the shop.
+   This can be useful to implement for product detail views or during
+   the checkout.
 
 Register Products for Export
 ----------------------------
 
-For product export Bepado must know about the products, which your shop wants
+For product export bepado must know about the products, which your shop wants
 to make available and must be informed about all changes to those products.
 
 The first step you need to implement, which is entirely dependent on the shop
@@ -193,7 +234,7 @@ Simply call the ``recreateChangesFeed()`` method for this, and the SDK will
 do everything else. But remember: This way costs far more processing power.
 
 You should either call this method every time the currently exported products
-are requested by Bepado using the service endpoint, or every time any change
+are requested by bepado using the service endpoint, or every time any change
 happens to the product database.
 
 Checkout of Remote Products
@@ -212,6 +253,21 @@ You should call this method when you want to verify an order.
 
 The method receives an order struct, which should contain all products, which
 should be verified. The SDK will verify that the order struct is valid.
+
+Calculate Shipping Costs
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The method ``SDK#calculateShippingCosts()`` will return an object containing
+the shipping costs your shop has to pay the supplying shop for shipping.
+
+This information can be used to directly pass on to the customer of your shop
+or as a first calculation to perform your own shipping cost calculation.
+
+Be aware that you need to pass an ``Bepado\SDK\Struct\Order`` object to this
+method. This is required, because shipping costs can depend on items or
+delivery address. If you don't have all the information about the order
+in the checkout process yet, just build a "pretend" version of an order,
+using for example the default delivery country.
 
 Reserve Products
 ^^^^^^^^^^^^^^^^
@@ -243,7 +299,7 @@ a success message and let your support team handle the issue.
 Cloud Search
 ------------
 
-The Bepado Cloud Search enables you to search for products in foreign shops.
+The bepado Cloud Search enables you to search for products in foreign shops.
 Just call the ``search()`` method with an appropriate search struct,
 containing the search terms and optionally additional search configuration. The
 method will return a search result struct, which you can present as a search
@@ -254,6 +310,14 @@ Update Order Status
 
 To notify other shops about changes in orders that you accepted, you can use
 the ``updateOrderStatus()`` method on the SDK.
+
+Unsubscribe Products
+--------------------
+
+When you delete bepado products in your shop system through the backend you can
+directly notify bepado that you want to unsubscribe these products. Otherwise
+bepado will push the products to your shop whenever changes happen.
+Unsubscribe from products by calling ``unsubscribeProducts()`` on the SDK.
 
 ..
    Local Variables:
