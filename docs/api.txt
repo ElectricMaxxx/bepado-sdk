@@ -93,7 +93,7 @@ The SDK requires several parameters. The parameters in more detail:
   simple and contains two methods. One to create or update a remote product,
   and one to remove a remote product again.
 
-  .. include:: ../src/main/bepado/SDK/ProductToShop.php
+  .. include:: ../src/main/Bepado/SDK/ProductToShop.php
      :literal:
 
 * The ``ProductFromShop`` interface
@@ -103,7 +103,7 @@ The SDK requires several parameters. The parameters in more detail:
   methods to verify the products, which the shop currently exports, and two
   methods to perform an actual buy.
 
-  .. include:: ../src/main/bepado/SDK/ProductFromShop.php
+  .. include:: ../src/main/Bepado/SDK/ProductFromShop.php
      :literal:
 
 There are also some optional parameters:
