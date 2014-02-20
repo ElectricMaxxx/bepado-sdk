@@ -208,6 +208,15 @@ class Transaction
 
         $myShippingCosts = $this->calculator->calculateShippingCosts($order);
 
+        if (!$myShippingCosts->isShippable) {
+            return new Struct\Message(array(
+                'message' => 'Products cannot be shipped to %country.',
+                'values' => array(
+                    'country' => $order->deliveryAddress->country
+                )
+            ));
+        }
+
         if (!$this->floatsEqual($order->shippingCosts, $myShippingCosts->shippingCosts) ||
             !$this->floatsEqual($order->grossShippingCosts, $myShippingCosts->grossShippingCosts)) {
 
