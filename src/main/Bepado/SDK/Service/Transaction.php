@@ -116,7 +116,6 @@ class Transaction
 
                 if ($current->sourceId === $product->sourceId) {
                     if ($this->purchasePriceHasChanged($current, $product, $buyerShopConfig->priceGroupMargin)) {
-
                         $currentNotAvailable = clone $current;
                         $currentNotAvailable->availability = 0;
 
@@ -207,16 +206,17 @@ class Transaction
             $order->orderShop
         );
 
-        $clonedOrder = clone $order;
-        $clonedOrder = $this->calculator->calculateShippingCosts($clonedOrder);
+        $myShippingCosts = $this->calculator->calculateShippingCosts($order);
 
-        if (!$this->floatsEqual($order->shippingCosts, $clonedOrder->shippingCosts)) {
+        if (!$this->floatsEqual($order->shippingCosts, $myShippingCosts->shippingCosts) ||
+            !$this->floatsEqual($order->grossShippingCosts, $myShippingCosts->grossShippingCosts)) {
+
             return new Struct\Message(
                 array(
                     'message' => "Shipping costs have changed from %oldValue to %newValue.",
                     'values' => array(
-                        'oldValue' => sprintf("%.2f", $order->shippingCosts),
-                        'newValue' => sprintf("%.2f", $clonedOrder->shippingCosts),
+                        'oldValue' => round($order->grossShippingCosts, 2),
+                        'newValue' => round($myShippingCosts->grossShippingCosts, 2),
                     ),
                 )
             );

@@ -695,7 +695,7 @@ class PDO extends Gateway
     {
         $query = $this->connection->prepare(
             'INSERT INTO
-                bepado_shipping_costs (
+                ' . $this->tableName('shipping_costs') . ' (
                     `sc_from_shop`,
                     `sc_to_shop`,
                     `sc_revision`,
@@ -723,7 +723,7 @@ class PDO extends Gateway
             'SELECT
                 `sc_shipping_costs`
             FROM
-                `' . $this->tableName('shop_config') . '`
+                `' . $this->tableName('shipping_costs') . '`
             WHERE
                 `sc_from_shop` = ? AND `sc_to_shop` = ?
             ORDER BY `sc_revision` DESC

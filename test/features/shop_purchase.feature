@@ -74,6 +74,15 @@ Feature: Interactions between shops on a purchase
          Then The customer is informed about the changed shipping costs
           And No transaction is logged
 
+    Scenario: Products are not shippable
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
+          And The remote shop allows shipping only to "UK"
+         When The Customer views the order overview
+         Then The Customer is informed about not shippable order
+          And No transaction is logged
+
     Scenario: Product is reserved in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket

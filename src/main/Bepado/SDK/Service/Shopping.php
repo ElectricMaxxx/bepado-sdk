@@ -109,8 +109,8 @@ class Shopping
 
         $isShippable = array_reduce(
             $shops,
-            function ($all, $isShippable) {
-                return $all && $isShippable;
+            function ($all, $shippingCosts) {
+                return $all && $shippingCosts->isShippable;
             },
             true
         );
@@ -257,7 +257,7 @@ class Shopping
                 $this->applyRemoteShopChanges($response);
                 $reservation->messages[$shopId] = $this->changeVisitor->visit($response);
             } elseif ($response instanceof Struct\Message) {
-                $reservation->messages[$shopId] = $response;
+                $reservation->messages[$shopId] = array($response);
             } else {
                 // TODO: How to react on false value returned?
                 // This might occur if a reservation is canceled by the provider shop
@@ -281,13 +281,18 @@ class Shopping
         $reservation = new Struct\Reservation();
         $reservation->orders = $orders;
         $reservation->success = false;
+        $reservation->messages = array();
 
         foreach ($shippingCosts->shops as $shopId => $shopShippingCosts) {
             if (!$shopShippingCosts->isShippable) {
-                $reservation->messages[$shopId] = new Struct\Message(array(
-                    'message' => 'Products cannot be shipped to %country.',
-                    array('country' => $orders[$shopId]->deliveryAddress->country)
-                ));
+                $reservation->messages[$shopId] = array(
+                    new Struct\Message(array(
+                        'message' => 'Products cannot be shipped to %country.',
+                        'values' => array(
+                            'country' => $orders[$shopId]->deliveryAddress->country
+                        )
+                    ))
+                );
             }
         }
 

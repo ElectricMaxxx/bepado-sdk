@@ -138,11 +138,11 @@ class ShopPurchaseContext extends SDKContext
                 )
             );
 
-            $this->gateway->storeShippingCosts('shop-' . $i, 'shop', null, $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', null, $rules);
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules);
             // for shared state reasons
-            $this->gateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, null, $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, null, $rules);
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules);
         }
 
         $this->remoteGateway->setShopConfiguration(
@@ -257,7 +257,7 @@ class ShopPurchaseContext extends SDKContext
         $this->result = $this->sdk->reserveProducts($this->order);
         $this->dependencies->getVerificator()->verify($this->result);
 
-        if (!count($this->result->messages)) {
+        if ($this->result->success) {
             $this->result = $this->sdk->checkout($this->result, 'orderId');
         }
     }
@@ -686,15 +686,63 @@ class ShopPurchaseContext extends SDKContext
         Assertion::assertFalse($this->result->success, "Result should not be success.");
         Assertion::assertEquals(
             array(
-                'shop-1' => new Struct\Message(
-                    array(
-                        'message' => 'Shipping costs have changed from %oldValue to %newValue.',
-                        'values' => array(
-                            'oldValue' => '2.00',
-                            'newValue' => '0.50',
-                        ),
+                'shop-1' => array(
+                    new Struct\Message(
+                        array(
+                            'message' => 'Shipping costs have changed from %oldValue to %newValue.',
+                            'values' => array(
+                                'oldValue' => '2.38',
+                                'newValue' => '0.60',
+                            ),
+                        )
                     )
                 )
+            ),
+            $this->result->messages
+        );
+    }
+
+    /**
+     * @Given /^The remote shop allows shipping only to "([^"]*)"$/
+     */
+    public function theRemoteShopAllowsShippingOnlyTo($country)
+    {
+        $rules = array(
+            new Rule\CountryDecorator(
+                array(
+                    'countries' => array($country),
+                    'delegatee' => new Rule\FixedPrice(
+                        array(
+                            'price' => .5,
+                        )
+                    )
+                )
+            )
+        );
+
+        $this->gateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules);
+        // shared state madness
+        $this->gateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $rules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $rules);
+    }
+
+    /**
+     * @Then /^The Customer is informed about not shippable order$/
+     */
+    public function theCustomerIsInformedAboutNotShippableOrder()
+    {
+        Assertion::assertTrue($this->result instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
+        Assertion::assertFalse($this->result->success, "Result should not be success.");
+        Assertion::assertEquals(
+            array(
+                'shop-1' => array(new Struct\Message(
+                    array( 'message' => 'Products cannot be shipped to %country.',
+                        'values' => array(
+                            'country' => 'DEU',
+                        ),
+                    )
+                ))
             ),
             $this->result->messages
         );

@@ -78,6 +78,7 @@ class FeatureContext extends BehatContext
                     $config['db.userid'],
                     $config['db.password']
                 );
+                $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 break;
 
             default:
