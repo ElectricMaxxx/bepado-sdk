@@ -9,15 +9,20 @@ namespace Bepado\SDK\Struct;
 
 use Bepado\SDK\Struct;
 
-class ShippingCosts extends Struct
+/**
+ * The shipping cost total for all the remote bepado orders.
+ */
+class TotalShippingCosts extends Struct
 {
     /**
-     * @var integer
+     * Key value pairs of shop ids and shipping costs.
+     *
+     * @var array<int,ShippingCosts>
      */
-    public $shopId;
+    public $shops = array();
 
     /**
-     * @return bool
+     * @var bool
      */
     public $isShippable = true;
 

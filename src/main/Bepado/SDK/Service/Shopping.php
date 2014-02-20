@@ -99,27 +99,44 @@ class Shopping
      */
     public function calculateShippingCosts(Struct\Order $order)
     {
+        $shops = array();
         $orders = $this->splitShopOrders($order);
 
-        $order->shippingCosts = array_sum(
-            array_map(
-                function (Struct\Order $order) {
-                    return $order->shippingCosts;
+        foreach ($orders as $shopId => $shopOrder) {
+            $shops[$shopId] = $this->calculator->calculateShippingCosts($shopOrder);
+            $shops[$shopId]->shopId = $shopId;
+        }
+
+        $isShippable = array_reduce(
+            $shops,
+            function ($all, $isShippable) {
+                return $all && $isShippable;
+            },
+            true
+        );
+
+        $netShippingCosts = array_sum(
+            array_map(function (Struct\ShippingCosts $costs) {
+                    return $costs->shippingCosts;
                 },
-                $orders
+                $shops
             )
         );
 
-        $order->grossShippingCosts = array_sum(
-            array_map(
-                function (Struct\Order $order) {
-                    return $order->grossShippingCosts;
+        $grossShippingCosts = array_sum(
+            array_map(function (Struct\ShippingCosts $costs) {
+                    return $costs->grossShippingCosts;
                 },
-                $orders
+                $shops
             )
         );
 
-        return $order;
+        return new Struct\TotalShippingCosts(array(
+            'shops' => $shops,
+            'isShippable' => $isShippable,
+            'shippingCosts' => $netShippingCosts,
+            'grossShippingCosts' => $grossShippingCosts,
+        ));
     }
 
     /**
@@ -216,7 +233,17 @@ class Shopping
     {
         $responses = array();
         $orders = $this->splitShopOrders($order);
+
+        $shippingCosts = $this->calculateShippingCosts($order);
+
+        if (!$shippingCosts->isShippable) {
+            return $this->failedReservationNotShippable($orders, $shippingCosts);
+        }
+
         foreach ($orders as $shopId => $order) {
+            $order->shippingCosts = $shippingCosts->shops[$shopId]->shippingCosts;
+            $order->grossShippingCosts = $shippingCosts->shops[$shopId]->grossShippingCosts;
+
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
             $responses[$shopId] = $shopGateway->reserveProducts($order);
         }
@@ -241,6 +268,29 @@ class Shopping
         }
 
         $reservation->success = !count($reservation->messages);
+        return $reservation;
+    }
+
+    /**
+     * Create failed reservation with order not shippable error messages.
+     *
+     * @return Struct\Reservation
+     */
+    private function failedReservationNotShippable(array $orders, Struct\TotalShippingCosts $shippingCosts)
+    {
+        $reservation = new Struct\Reservation();
+        $reservation->orders = $orders;
+        $reservation->success = false;
+
+        foreach ($shippingCosts->shops as $shopId => $shopShippingCosts) {
+            if (!$shopShippingCosts->isShippable) {
+                $reservation->messages[$shopId] = new Struct\Message(array(
+                    'message' => 'Products cannot be shipped to %country.',
+                    array('country' => $orders[$shopId]->deliveryAddress->country)
+                ));
+            }
+        }
+
         return $reservation;
     }
 
@@ -391,11 +441,6 @@ class Shopping
             $shopOrder = clone $order;
             $shopOrder->providerShop = $shopId;
             $shopOrder->products = $this->getShopProducts($order, $shopId);
-
-            $shippingCosts = $this->calculator->calculateShippingCosts($shopOrder);
-
-            $shopOrder->shippingCosts = $shippingCosts->shippingCosts;
-            $shopOrder->grossShippingCosts = $shippingCosts->grossShippingCosts;
 
             $orders[$shopId] = $shopOrder;
         }

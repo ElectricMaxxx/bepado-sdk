@@ -301,7 +301,7 @@ final class SDK
      * Calculate shipping costs for the given set of products.
      *
      * @param Struct\Order $order
-     * @return Struct\Order
+     * @return Struct\TotalShippingCosts
      */
     public function calculateShippingCosts(Struct\Order $order)
     {

@@ -27,7 +27,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $order = $this->calculator->calculateShippingCosts(
+        $result = $this->calculator->calculateShippingCosts(
             new \Bepado\SDK\Struct\Order(
                 array(
                     'orderShop' => 2,
@@ -62,9 +62,9 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\Order', $order);
-        $this->assertEquals(10, $order->shippingCosts);
-        $this->assertEquals(11.9, $order->grossShippingCosts);
+        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertEquals(10, $result->shippingCosts);
+        $this->assertEquals(11.9, $result->grossShippingCosts);
     }
 
     public function testCalculationAbortedWhenProviderOrderShopAreEmpty()

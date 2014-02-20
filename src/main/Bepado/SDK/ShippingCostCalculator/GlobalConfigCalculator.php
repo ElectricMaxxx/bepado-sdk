@@ -31,18 +31,16 @@ class GlobalConfigCalculator implements ShippingCostCalculator
      * Get shipping costs for order
      *
      * @param \Bepado\SDK\Struct\Order $order
-     * @return \Bepado\SDK\Struct\Order
+     * @return \Bepado\SDK\Struct\TotalShippingCosts
      */
     public function calculateShippingCosts(Order $order)
     {
-        $shipping = $this->getShippingCosts(array_map(function (OrderItem $item) {
-            return $item->product;
-        }, $order->products));
-
-        $order->shippingCosts = $shipping->shippingCosts;
-        $order->grossShippingCosts = $shipping->grossShippingCosts;
-
-        return $order;
+        return $this->getShippingCosts(
+            array_map(function (OrderItem $item) {
+                return $item->product;
+            },
+            $order->products)
+        );
     }
 
     /**
@@ -72,10 +70,12 @@ class GlobalConfigCalculator implements ShippingCostCalculator
             );
         }
 
-        $shopId = key($shopIds);
-
         if (!$productCount) {
-            return 0.;
+            return new ShippingCosts(
+                array(
+                    'isShippable' => false,
+                )
+            );
         }
 
         $shopConfiguration = $this->configuration->getShopConfiguration($product->shopId);
@@ -83,9 +83,9 @@ class GlobalConfigCalculator implements ShippingCostCalculator
 
         return new ShippingCosts(
             array(
-                'shopId' => $shopId,
                 'shippingCosts' => $netShippingCost,
                 'grossShippingCosts' => $netShippingCost * (1 + $maxVat),
+                'isShippable' => true,
             )
         );
     }

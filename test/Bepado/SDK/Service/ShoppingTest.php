@@ -21,7 +21,7 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
             ->thenReturn(new \Bepado\SDK\Struct\ShippingCosts(array('shippingCosts' => 4, 'grossShippingCosts' => 8)))
         ;
 
-        $order = $shopping->calculateShippingCosts(
+        $result = $shopping->calculateShippingCosts(
             new \Bepado\SDK\Struct\Order(
                 array(
                     'products' => array(
@@ -54,8 +54,8 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\Order', $order);
-        $this->assertEquals(5, $order->shippingCosts);
-        $this->assertEquals(10, $order->grossShippingCosts);
+        $this->assertInstanceOf('Bepado\SDK\Struct\TotalShippingCosts', $result);
+        $this->assertEquals(5, $result->shippingCosts);
+        $this->assertEquals(10, $result->grossShippingCosts);
     }
 }

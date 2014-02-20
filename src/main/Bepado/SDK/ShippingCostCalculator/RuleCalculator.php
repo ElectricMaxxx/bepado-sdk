@@ -9,6 +9,7 @@ namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\SDK\Gateway\ShippingCosts;
 use Bepado\SDK\ShippingCostCalculator;
+use Bepado\SDK\Struct;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\OrderItem;
 
@@ -40,9 +41,11 @@ class RuleCalculator implements ShippingCostCalculator
         $shippingCostRules = $this->getShippingCostRules($order);
         $maximumVat = $this->getMaximumVat($order);
         $netShippingCosts = 0;
+        $isShippable = false;
 
         foreach ($shippingCostRules as $shippingCostRule) {
             if ($shippingCostRule->isApplicable($order)) {
+                $isShippable = true;
                 $netShippingCosts += $shippingCostRule->getShippingCosts($order);
 
                 if ($shippingCostRule->shouldStopProcessing($order)) {
@@ -51,10 +54,11 @@ class RuleCalculator implements ShippingCostCalculator
             }
         }
 
-        $order->shippingCosts = $netShippingCosts;
-        $order->grossShippingCosts = $netShippingCosts * (1 + $maximumVat);
-
-        return $order;
+        return new Struct\ShippingCosts(array(
+            'isShippable' => $isShippable,
+            'shippingCosts' => $netShippingCosts,
+            'grossShippingCosts' => $netShippingCosts * (1 + $maximumVat),
+        ));
     }
 
     /**
