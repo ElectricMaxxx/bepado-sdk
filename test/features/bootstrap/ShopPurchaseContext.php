@@ -13,6 +13,7 @@ use Bepado\SDK\Struct;
 use Bepado\SDK\Controller;
 use Bepado\SDK\ShippingCostCalculator;
 use Bepado\SDK\ShippingCosts\Rule;
+use Bepado\SDK\ShippingCosts\Rules;
 use Bepado\SDK\ErrorHandler;
 use Bepado\Common\RPC;
 
@@ -130,13 +131,15 @@ class ShopPurchaseContext extends SDKContext
                 )
             );
 
-            $rules = array(
-                new Rule\FixedPrice(
-                    array(
-                        'price' => $i * 2,
+            $rules = new Rules(array(
+                'rules' => array(
+                    new Rule\FixedPrice(
+                        array(
+                            'price' => $i * 2,
+                        )
                     )
                 )
-            );
+            ));
 
             $this->gateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules);
             $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules);
@@ -666,13 +669,15 @@ class ShopPurchaseContext extends SDKContext
             );
         }
 
-        $rules = array(
-            new Rule\FixedPrice(
-                array(
-                    'price' => .5,
+        $rules = new Rules(array(
+            'rules' => array(
+                new Rule\FixedPrice(
+                    array(
+                        'price' => .5,
+                    )
                 )
             )
-        );
+        ));
 
         $this->remoteGateway->storeShippingCosts('shop-1', 'shop', 'revision', $rules);
     }
@@ -707,18 +712,20 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theRemoteShopAllowsShippingOnlyTo($country)
     {
-        $rules = array(
-            new Rule\CountryDecorator(
-                array(
-                    'countries' => array($country),
-                    'delegatee' => new Rule\FixedPrice(
-                        array(
-                            'price' => .5,
+        $rules = new Rules(array(
+            'rules' => array(
+                new Rule\CountryDecorator(
+                    array(
+                        'countries' => array($country),
+                        'delegatee' => new Rule\FixedPrice(
+                            array(
+                                'price' => .5,
+                            )
                         )
                     )
                 )
             )
-        );
+        ));
 
         $this->gateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules);
         $this->remoteGateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules);

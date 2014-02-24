@@ -11,6 +11,7 @@ use Bepado\SDK\Gateway;
 use Bepado\SDK\Struct;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\Product;
+use Bepado\SDK\ShippingCosts\Rules;
 
 /**
  * Abstract base class to store SDK related data
@@ -435,10 +436,10 @@ class InMemory extends Gateway
      * @param string $fromShop
      * @param string $toShop
      * @param string $revision
-     * @param array $shippingCosts
+     * @param \Bepado\SDK\ShippingCosts\Rules $shippingCosts
      * @return void
      */
-    public function storeShippingCosts($fromShop, $toShop, $revision, $shippingCosts)
+    public function storeShippingCosts($fromShop, $toShop, $revision, Rules $shippingCosts)
     {
         $this->shippingCostsRevision = max($this->shippingCostsRevision, $revision);
         $this->shippingCosts[$fromShop][$toShop] = $shippingCosts;
@@ -449,7 +450,7 @@ class InMemory extends Gateway
      *
      * @param string $fromShop
      * @param string $toShop
-     * @return array
+     * @return \Bepado\SDK\ShippingCosts\Rules
      */
     public function getShippingCosts($fromShop, $toShop)
     {

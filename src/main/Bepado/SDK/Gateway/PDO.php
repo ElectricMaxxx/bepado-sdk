@@ -9,6 +9,7 @@ namespace Bepado\SDK\Gateway;
 
 use Bepado\SDK\Gateway;
 use Bepado\SDK\Struct;
+use Bepado\SDK\ShippingCosts\Rules;
 
 /**
  * PDO implementation of the storage gateway
@@ -688,10 +689,10 @@ class PDO extends Gateway
      * @param string $fromShop
      * @param string $toShop
      * @param string $revision
-     * @param array $shippingCosts
+     * @param \Bepado\SDK\ShippingCosts\Rules $shippingCosts
      * @return void
      */
-    public function storeShippingCosts($fromShop, $toShop, $revision, $shippingCosts)
+    public function storeShippingCosts($fromShop, $toShop, $revision, Rules $shippingCosts)
     {
         $query = $this->connection->prepare(
             'INSERT INTO
@@ -715,7 +716,7 @@ class PDO extends Gateway
      *
      * @param string $fromShop
      * @param string $toShop
-     * @return array
+     * @return \Bepado\SDK\ShippingCosts\Rules
      */
     public function getShippingCosts($fromShop, $toShop)
     {

@@ -12,6 +12,7 @@ use Behat\Gherkin\Node\TableNode;
 use Bepado\SDK\Struct\Product;
 use Bepado\SDK\Struct\Change;
 use Bepado\SDK\ShippingCosts\Rule;
+use Bepado\SDK\ShippingCosts\Rules;
 use Bepado\Common\Rpc;
 use Bepado\Common\Struct;
 
@@ -60,7 +61,7 @@ class ShippingCostsContext extends SDKContext
                                 'to_shop_id' => $shop,
                                 'from_shop_id' => $shop,
                                 'revision' => $revision,
-                                'shippingCosts' => array($rule),
+                                'shippingCosts' => new Rules(array('rules' => $rule)),
                             ),
                         ),
                     ),

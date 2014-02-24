@@ -118,7 +118,7 @@ class RuleCalculator implements ShippingCostCalculator
                 $prices = array();
 
                 foreach ($order->orderItems as $orderItem) {
-                    if (!isset($prices[$orderItem->product->vat])) {
+                    if (!isset($prices[(string)$orderItem->product->vat])) {
                         $prices[(string)$orderItem->product->vat] = 0;
                     }
 
