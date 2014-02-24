@@ -9,6 +9,7 @@ namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\SDK\Gateway\ShippingCosts;
 use Bepado\SDK\ShippingCostCalculator;
+use Bepado\SDK\ShippingCosts\Rules;
 use Bepado\SDK\Struct;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\OrderItem;
@@ -39,7 +40,7 @@ class RuleCalculator implements ShippingCostCalculator
     public function calculateShippingCosts(Order $order)
     {
         $shippingCostRules = $this->getShippingCostRules($order);
-        $maximumVat = $this->getMaximumVat($order);
+        $vat = $this->calculateVat($order, $shippingCostRules);
         $netShippingCosts = 0;
         $isShippable = false;
 
@@ -57,7 +58,7 @@ class RuleCalculator implements ShippingCostCalculator
         return new Struct\ShippingCosts(array(
             'isShippable' => $isShippable,
             'shippingCosts' => $netShippingCosts,
-            'grossShippingCosts' => $netShippingCosts * (1 + $maximumVat),
+            'grossShippingCosts' => $netShippingCosts * (1 + $vat),
         ));
     }
 
@@ -95,17 +96,45 @@ class RuleCalculator implements ShippingCostCalculator
      * products to the shipping costs.
      *
      * @param \Bepado\SDK\Struct\Order $order
+     * @param array|\Bepado\SDK\ShippingCosts\Rules $rules
      * @return float
      */
-    protected function getMaximumVat(Order $order)
+    protected function calculateVat(Order $order, $rules)
     {
-        return max(
-            array_map(
-                function (OrderItem $orderItem) {
-                    return $orderItem->product->vat;
-                },
-                $order->products
-            )
-        );
+        $vatMode = is_array($rules) ? Rules::VAT_MAX : $rules->vatMode;
+
+        switch ($vatMode) {
+            case Rules::VAT_MAX:
+                return max(
+                    array_map(
+                        function (OrderItem $orderItem) {
+                            return $orderItem->product->vat;
+                        },
+                        $order->orderItems
+                    )
+                );
+
+            case Rules::VAT_DOMINATING:
+                $prices = array();
+
+                foreach ($order->orderItems as $orderItem) {
+                    if (!isset($prices[$orderItem->product->vat])) {
+                        $prices[(string)$orderItem->product->vat] = 0;
+                    }
+
+                    $prices[(string)$orderItem->product->vat] += $orderItem->product->price * $orderItem->count;
+                }
+
+                arsort($prices);
+                reset($prices);
+
+                return key($prices);
+
+            case Rules::VAT_FIX:
+                return $rules->vat;
+
+            default:
+                throw new \RuntimeException("Unknown VAT mode specified.");
+        }
     }
 }
