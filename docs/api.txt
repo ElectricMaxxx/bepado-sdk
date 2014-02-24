@@ -12,7 +12,8 @@ Requirements
 The bepado SDK has the following requirements:
 
 * PHP 5.3+
-* A database (PDO and MySQLi drivers are currently included)
+* A database (PDO MySQL and MySQLi drivers are currently included, custom
+  implementations are possible)
 
 --------------
 Basic Concepts
@@ -28,17 +29,18 @@ operations:
 
 * Product Export
 
-  A set of exported products is synchronized with bepado
+  A set of local products is exported to bepado. This allows other shops to
+  subscribe and sell in their own shops.
 
 * Product Import
 
-  A set of products, which the shop owner configured in bepado are made
-  available in the local shop.
+  A set of products, which the shop owner subscribed to in bepado are made
+  available as products in the local shop.
 
 * Product Checkout
 
-  A product is bought in a remote shop, and the transaction is completed in the
-  local shop.
+  Another shops sells your product in their remote shop, and the transaction is
+  acknowledged and completed in your local shop.
 
 Each shop can act as both an importer or exporter of products or just in one of
 those roles.  Product Export and Product Import are both optional.
@@ -115,7 +117,7 @@ There are also some optional parameters:
 * The ``$pluginSoftwareVersion`` contains information about the plugin
   you are developing. This information will be required in the future.
 
-Use the \Bepado\SDK\SDKBuilder to create an instance of the SDK. This handles
+Use the ``\Bepado\SDK\SDKBuilder`` to create an instance of the SDK. This handles
 all the complexity of creating the different dependencies. The constructor may
 change in the future, using the SDKBuilder is required to implement a supported
 plugin.::
