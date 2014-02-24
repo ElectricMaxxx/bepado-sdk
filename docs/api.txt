@@ -74,6 +74,10 @@ The SDK requires several parameters. The parameters in more detail:
 
   The ``$apiKey`` will be validated on the first usage of the SDK.
 
+  The API key is like a password and has be kept secret to outside parties.
+  You should never give the bepado API key to anyone, not even bepado support
+  staff.
+
 * The ``$apiEndpointUrl``
 
   The URL MUST be an absolute URL under which your shop can be reached from
@@ -161,6 +165,42 @@ A simple PHP file, which does this could look as simple as::
 You can of course integrate this call into frameworks, plugins or modules of
 your shop system or application.
 
+Datastructures
+==============
+
+There are four datastructures that you need to create from your own product
+and order data to work with the bepado SDK.
+
+- ``Bepado\SDK\Struct\Product`` representing a product.
+- ``Bepado\SDK\Struct\Order`` representing an order containing bepado/remote
+  products.
+- ``Bepado\SDK\Struct\OrderItem`` representing an order line-item containing
+  products.
+- ``Bepado\SDK\Struct\Address`` for the delivery address of your customer.
+
+You should look at the three classes in code to get all the information
+about their structure and requirements.
+
+.. include:: ../src/main/Bepado/SDK/Struct/Product.php
+   :literal:
+
+The following validation rules apply to products:
+
+- ``sourceId``, ``price``, ``purchasePrice``, ``currency``, ``availability``,
+  ``vat`` are required attributes.
+- ``title``, ``shortDescription``, ``longDescription``, ``vendor`` are required
+  and must be UTF-8 strings.
+- ``purchasePrice`` and ``price`` must be non-zero floats.
+- ``vat`` must be a float of the Value-Added-Tax percentage between 0 and 1,
+  for example 0.07 or 0.19 in Germany.
+- ``tags`` and ``categories`` must be a numerically-indexed arrays of values.
+- ``relevance`` must be either -1, 0 or 1 and represents the importance of the
+  products in your own search overview. It cannot be used to affect the
+  relevance of products in global searches.
+-  ``deliveryWorkDays`` must be a non-zero integer.
+- The optional Dimension-Attribute has to be in the format "XxYxZ" (20x40x60)
+- The optional Weight Attribute has to be a number.
+
 Calling the SDK
 ===============
 
@@ -222,7 +262,17 @@ might be applied by third party tools, like ERP systems etc.
 
 Use the ``recordInsert()``, ``recordUpdate()`` and ``recordDelete`` methods
 on the SDK object for this. Just call the respective method every time a change
-to a product or the product list occurs.
+to a product or the product list occurs.::
+
+    <?php
+
+    $product = MyDatabase::getProduct($_GET['id']);
+
+    if (!$product) {
+        throw new \RuntimeException("No product found.");
+    }
+
+    $sdk->recordInsert($product->getId());
 
 Change evaluation
 ^^^^^^^^^^^^^^^^^
@@ -253,8 +303,49 @@ The method ``checkProducts()`` allows you to verify that the remote products
 still have the same price and availability, as stored in your local database.
 You should call this method when you want to verify an order.
 
-The method receives an order struct, which should contain all products, which
-should be verified. The SDK will verify that the order struct is valid.
+The method receives an array of all products to verify. The SDK will verify
+that the structure is valid.::
+
+    <?php
+
+    use Bepado\SDK\Struct;
+
+    $converter = new YourBepadoConverter();
+
+    $yourProductObject = Product::get($productId);
+    $bepadoProduct = $converter->toBepadoProduct($yourProduct);
+
+    $order = new Struct\Order(array(
+        'address' => new Struct\Address(
+            'firstName' => 'Max',
+            'lastName' => 'Mustermann',
+            // more
+        ),
+        'orderItems' => array(
+            new Struct\OrderItem(array(
+                'count' => 1,
+                'product' => $bepadoProduct
+            ))
+        )
+    ));
+
+    $results = $sdk->checkProducts(array($bepadoProduct));
+
+    foreach ($results as $shopId => $result) {
+        if ($result === true) {
+            // everything alright
+        } else {
+            foreach ($result as $message) {
+                var_dump($message);
+            }
+        }
+    }
+
+You can recieve the following kind of messages:
+
+- Price has changed, old and new values are available in the message and the
+  end-user should be able to confirm to buy the products as the new price.
+- Availability decreases to zero. No purchase possible anymore.
 
 Calculate Shipping Costs
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -269,7 +360,35 @@ Be aware that you need to pass an ``Bepado\SDK\Struct\Order`` object to this
 method. This is required, because shipping costs can depend on items or
 delivery address. If you don't have all the information about the order
 in the checkout process yet, just build a "pretend" version of an order,
-using for example the default delivery country.
+using for example the default delivery country.::
+
+    <?php
+
+    use Bepado\SDK\Struct;
+
+    $order = new Struct\Order(array(
+        'address' => new Struct\Address(
+            'firstName' => 'Max',
+            'lastName' => 'Mustermann',
+            // more
+        ),
+        'orderItems' => array(
+            new Struct\OrderItem(array(
+                'count' => 1,
+                'product' => $bepadoProduct
+            ))
+        )
+    ));
+
+    $shippingCosts = $sdk->calculateShippingCosts($order);
+
+    if ( ! $shippingCosts->isShippable) {
+        // Show your user that the combination of products
+        // is not possible to buy for him, because of delivery
+        // address or other criteria.
+    } else {
+        echo round($shippingCosts->shippingCosts, 2) . " €";
+    }
 
 Reserve Products
 ^^^^^^^^^^^^^^^^
@@ -283,7 +402,24 @@ changes of products.
 
 If the reservation succeeded a set of hashes will be returned, which should be
 stored in the user session. Those hashes will be used to finalize the checkout
-process.
+process.::
+
+    <?php
+
+    $reservation = $sdk->reserveProducts($order);
+
+    if (!$reservation->success) {
+        foreach ($reservation->messages as $shopId => $messages) {
+            // handle individual error messages here
+        }
+    }
+
+The ``reserveProducts()`` method can fail for all the same reasons that
+``checkProducts()`` can fail for and two more:
+
+- Shipping costs have changed. No purchase possible anymore.
+- Products are not shippable to the delivery address of the user, you should
+  detect this early with ``calculateShippingCosts()``.
 
 Checkout Products
 ^^^^^^^^^^^^^^^^^
@@ -296,7 +432,14 @@ considered completed.
 If some problem occured while finalizing the checkout, the method will return a
 message struct. Those messages should again be presented to the user, so the
 user can take appropriate action. Alternatively you can still present the user
-a success message and let your support team handle the issue.
+a success message and let your support team handle the issue.::
+
+    <?php
+
+    $result = $sdk->checkout($reservation);
+
+You can combine ``checkout()`` and ``reserveProducts()`` in a single request
+to reduce the implementation overhead of handling reservations.
 
 Cloud Search
 ------------
@@ -321,9 +464,63 @@ directly notify bepado that you want to unsubscribe these products. Otherwise
 bepado will push the products to your shop whenever changes happen.
 Unsubscribe from products by calling ``unsubscribeProducts()`` on the SDK.
 
+Implementation Hints
+====================
+
+Money as floats
+---------------
+
+Througout the SDK we have to handle money as float objects, because all the big
+shop systems save money as float themselves. We evaluated handling money as
+integers of cents, however the conversion between shop system price floats and
+bepado integers would already be the point where precision is lost through the
+conversion. Introducing a money object would only make the likelihood of
+precision errors higher and therefore introduce a risk.
+
+There are some requirements for you to keep in mind: You are not allowed to
+round the money floats when saving or retrieving them from the database or
+using them to create products for an order. Only for display purposes should
+you use ``round($money, 2)`` to get the value to display to the end user.
+
+If you don't save money as a float in your database then you should save
+the money values as strings in the database.
+
+Converting Products
+-------------------
+
+For various tasks in combination with the SDK you will need a way to
+convert the product datastructures of your shop system to Bepado product
+datastructures. Therefore it makes sense to introduce a dedicated
+converter object that handles this conversion.::
+
+    <?php
+
+    interface ProductConverter
+    {
+        public function toBepadoProduct($shopProduct);
+        public function toShopProduct($bepadoProduct);
+    }
+
+Security
+--------
+
+bepado, your SDK and others talk to each other using remote-procedure calls
+with XML. Message security is handled by using HMAC signatures with a SHA-512
+hash. Every combination of parties (two shops or shop-bepado) has a unique
+shared secret that is generated by bepado and only known to those parties and
+bepado.
+
+Only the bepado party is allowed to push new products to your shop. The secret
+key shared between two shops is only allowed to create and confirm remote
+orders of products between your two shops.
+
+To protect yourself further you should make sure that new products pushed to
+your shop by bepado are never visible to your customers automatically but
+should be "activated" or "approved" through a seperate step.
+
 ..
    Local Variables:
    mode: rst
    fill-column: 79
-   End: 
+   End:
    vim: et syn=rst tw=79
