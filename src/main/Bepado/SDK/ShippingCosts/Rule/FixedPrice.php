@@ -17,6 +17,14 @@ use Bepado\SDK\Struct\Order;
  */
 class FixedPrice extends Rule
 {
+    /**
+     * @var string
+     */
+    public $label;
+
+    /**
+     * @var float
+     */
     public $price = 0;
 
     /**

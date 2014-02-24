@@ -18,11 +18,6 @@ use Bepado\SDK\Struct;
 abstract class Rule extends Struct
 {
     /**
-     * @var string
-     */
-    public $label;
-
-    /**
      * Check if shipping cost is applicable to given order
      *
      * @param Order $order
