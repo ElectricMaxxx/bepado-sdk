@@ -107,8 +107,8 @@ class Product extends ShopItem
     public $vendor;
 
     /**
-     * The value added tax for this product. The property must be set as a float
-     * value. At the moment only 0.00, 0.07 and 0.19 are supported.
+     * The value added tax for this product. The property must be set as a numerical
+     * value between 0 and 1. Default value is 0.19, the German default VAT.
      *
      * @var float
      */

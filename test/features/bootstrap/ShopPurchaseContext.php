@@ -184,25 +184,26 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = \Phake::when($this->productFromShop)
             ->getProducts(\Phake::anyParameters());
 
+        $products = array();
         for ($i = 1; $i <= $shops; ++$i) {
-            $methodStub->thenReturn(
+            $products[] = new Struct\Product(
                 array(
-                    new Struct\Product(
-                        array(
-                            'shopId' => 'shop-' . $i,
-                            'sourceId' => '23-' . $i,
-                            'price' => 42.23,
-                            'purchasePrice' => 23.42,
-                            'fixedPrice' => $this->fixedPriceItems,
-                            'currency' => 'EUR',
-                            'availability' => 5,
-                            'title' => 'Sindelfingen',
-                            'categories' => array('/others'),
-                        )
-                    ),
+                    'shopId' => 'shop-' . $i,
+                    'sourceId' => '23-' . $i,
+                    'price' => 42.23,
+                    'purchasePrice' => 23.42,
+                    'fixedPrice' => $this->fixedPriceItems,
+                    'currency' => 'EUR',
+                    'availability' => 5,
+                    'title' => 'Sindelfingen',
+                    'categories' => array('/others'),
                 )
             );
         }
+
+        // this is "wrong" to always return both products of both shops, but
+        // the algorithm doesn't mind and the test then works.
+        $methodStub->thenReturn($products);
     }
 
     /**
