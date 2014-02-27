@@ -564,7 +564,7 @@ class DependencyResolver
      */
     public function getHttpClient($server)
     {
-        $version = SDK::VERSION === '$Revision$' ? 'dev' : SDK::VERSION;
+        $version = strpos(SDK::VERSION, '$') === 0 ? 'dev' : SDK::VERSION;
 
         $headers = array(
             'X-Bepado-SDK-Version: ' . $version,
