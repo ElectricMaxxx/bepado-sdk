@@ -100,5 +100,43 @@ class Product extends Verificator
                 throw new \RuntimeException("Product Weight Attribute has to be a number.");
             }
         }
+
+        if (array_key_exists(Struct\Product::ATTRIBUTE_UNIT, $struct->attributes)) {
+            $this->validateUnit($struct);
+        }
+    }
+
+    private function validateUnit($struct)
+    {
+        if (!Units::exists($struct->attributes[Struct\Product::ATTRIBUTE_UNIT])) {
+            throw new \RuntimeException(sprintf(
+                "Unit has to be one value from the available Bepado units, %s given",
+                $struct->attributes[Struct\Product::ATTRIBUTE_UNIT]
+            ));
+        }
+
+        if (!array_key_exists(Struct\Product::ATTRIBUTE_QUANTITY, $struct->attributes)) {
+            throw new \RuntimeException(
+                "When unit is given for product, specifying the quantity is required."
+            );
+        }
+
+        if (!is_int($struct->attributes[Struct\Product::ATTRIBUTE_QUANTITY])) {
+            throw new \RuntimeException(
+                "Product Quantity Attribute has to be an integer."
+            );
+        }
+
+        if (!array_key_exists(Struct\Product::ATTRIBUTE_REFERENCE_QUANTITY, $struct->attributes)) {
+            throw new \RuntimeException(
+                "When unit is given for product, specifying the reference quantity is required."
+            );
+        }
+
+        if (!is_int($struct->attributes[Struct\Product::ATTRIBUTE_REFERENCE_QUANTITY])) {
+            throw new \RuntimeException(
+                "Product Quantity Attribute has to be an integer."
+            );
+        }
     }
 }
