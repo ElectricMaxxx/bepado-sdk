@@ -314,8 +314,7 @@ final class SDK
 
         $this->dependencies->getVerificator()->verify($order);
 
-        $this->dependencies->getShoppingService()->calculateShippingCosts($order);
-        return $order;
+        return $this->dependencies->getShoppingService()->calculateShippingCosts($order);
     }
 
     /**
