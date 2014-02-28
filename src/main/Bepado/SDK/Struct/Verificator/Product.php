@@ -10,6 +10,7 @@ namespace Bepado\SDK\Struct\Verificator;
 use Bepado\SDK\Struct\Verificator;
 use Bepado\SDK\Struct\VerificatorDispatcher;
 use Bepado\SDK\Struct;
+use Bepado\SDK\Units;
 
 /**
  * Visitor verifying integrity of struct classes
