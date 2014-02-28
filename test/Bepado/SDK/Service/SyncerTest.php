@@ -8,7 +8,7 @@
 namespace Bepado\SDK\Service;
 
 use Bepado\Common;
-use Bepado\Common\Struct\RpcCall;
+use Bepado\SDK\Struct\RpcCall;
 use Bepado\SDK;
 use Bepado\SDK\Struct\Change\FromShop\Delete;
 use Bepado\SDK\Struct\Change\FromShop\Insert;
@@ -17,7 +17,7 @@ use Bepado\SDK\HttpClient\NoSecurityRequestSigner;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-abstract class SyncerTest extends Common\Test\TestCase
+abstract class SyncerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Bepado\SDK\SDK

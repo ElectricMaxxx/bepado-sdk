@@ -10,7 +10,7 @@ namespace Bepado\SDK\ShopGateway;
 use Bepado\SDK\ShopGateway;
 use Bepado\SDK\Struct;
 use Bepado\SDK\SDK;
-use Bepado\Common\Struct\RpcCall;
+use Bepado\SDK\Struct\RpcCall;
 
 /**
  * Shop gateway base class

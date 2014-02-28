@@ -15,7 +15,7 @@ use Bepado\SDK\ShippingCostCalculator;
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\ShippingCosts\Rules;
 use Bepado\SDK\ErrorHandler;
-use Bepado\Common\RPC;
+use Bepado\SDK\RPC;
 
 use \PHPUnit_Framework_Assert as Assertion;
 

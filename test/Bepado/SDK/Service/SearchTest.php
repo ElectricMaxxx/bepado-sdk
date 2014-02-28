@@ -13,7 +13,7 @@ use Bepado\SDK\Struct;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-class SearchTest extends Common\Test\TestCase
+class SearchTest extends \PHPUnit_Framework_TestCase
 {
     const APIKEY = '1234';
 

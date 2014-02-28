@@ -8,7 +8,7 @@
 namespace Bepado\SDK\Service;
 
 use Bepado\SDK\Gateway\ChangeGateway;
-use Bepado\Common\Struct;
+use Bepado\SDK\Struct;
 
 /**
  * Service to receive current shop metrics
@@ -40,7 +40,7 @@ class Metric
      *
      * @param string $revision
      * @param int $productCount
-     * @return \Bepado\Common\Struct\Metric[]
+     * @return \Bepado\SDK\Struct\Metric[]
      */
     public function fromShop($revision, $productCount)
     {

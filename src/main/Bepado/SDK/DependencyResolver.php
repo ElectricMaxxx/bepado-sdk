@@ -7,8 +7,8 @@
 
 namespace Bepado\SDK;
 
-use Bepado\Common\Rpc;
-use Bepado\Common\Struct\RpcCall;
+use Bepado\SDK\Rpc;
+use Bepado\SDK\Struct\RpcCall;
 
 /**
  * SDK Dependency Resolver
@@ -393,7 +393,7 @@ class DependencyResolver
     {
         if ($this->marshaller === null) {
             $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
-                new \Bepado\Common\XmlHelper(),
+                new \Bepado\SDK\XmlHelper(),
                 new Rpc\Marshaller\Converter\ExceptionToErrorConverter()
             );
         }

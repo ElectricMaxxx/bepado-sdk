@@ -25,7 +25,7 @@ class CountryDecorator extends Rule
     public $countries = array();
 
     /**
-     * @var \Bepado\Common\ShippingCosts\Rule
+     * @var \Bepado\SDK\ShippingCosts\Rule
      */
     public $delegatee;
 

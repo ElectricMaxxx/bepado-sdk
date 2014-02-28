@@ -8,7 +8,7 @@
 namespace Bepado\SDK\ServiceRegistry;
 
 use Bepado\SDK\ErrorHandler as SDKErrorHandler;
-use Bepado\Common\Rpc\ErrorHandler as RpcErrorHandler;
+use Bepado\SDK\Rpc\ErrorHandler as RpcErrorHandler;
 
 /**
  * Wrapper for RpcErrorHandler to notify SDK error handler about pending shutdown.

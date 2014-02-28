@@ -11,8 +11,8 @@ use Behat\Gherkin\Node\TableNode;
 
 use Bepado\SDK\Struct\Product;
 use Bepado\SDK\Struct\Change;
-use Bepado\Common\Rpc;
-use Bepado\Common\Struct;
+use Bepado\SDK\Rpc;
+use Bepado\SDK\Struct;
 
 use \PHPUnit_Framework_Assert as Assertion;
 

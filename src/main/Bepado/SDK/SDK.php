@@ -7,7 +7,7 @@
 
 namespace Bepado\SDK;
 
-use Bepado\Common\Struct\RpcCall;
+use Bepado\SDK\Struct\RpcCall;
 use Bepado\SDK\Struct\Shop;
 
 /**

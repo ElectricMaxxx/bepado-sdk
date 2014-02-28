@@ -7,8 +7,8 @@
 
 namespace Bepado\SDK\ServiceRegistry;
 
-use Bepado\Common\Rpc;
-use Bepado\Common\Struct;
+use Bepado\SDK\Rpc;
+use Bepado\SDK\Struct;
 
 use Bepado\SDK\SDK;
 

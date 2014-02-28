@@ -11,7 +11,7 @@ use Bepado\Common;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-class AddressTest extends Common\Test\TestCase
+class AddressTest extends \PHPUnit_Framework_TestCase
 {
     public function getValidNames()
     {

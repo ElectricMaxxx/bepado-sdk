@@ -4,8 +4,8 @@ namespace Bepado\SDK;
 
 use Behat\Behat\Context\BehatContext;
 
-use Bepado\Common\Rpc;
-use Bepado\Common\Struct;
+use Bepado\SDK\Rpc;
+use Bepado\SDK\Struct;
 use Bepado\SDK\Struct\Product;
 
 require_once __DIR__ . '/ShopGateway/DirectAccess.php';

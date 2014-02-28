@@ -12,7 +12,7 @@ use Bepado\SDK\Struct\ShopConfiguration;
 
 require_once __DIR__ . '/bootstrap.php';
 
-class SDKTest extends Common\Test\TestCase
+class SDKTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCategories()
     {
