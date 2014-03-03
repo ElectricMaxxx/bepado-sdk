@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SDK" basedir="." default="verify">
+
+    <!--
+        Import project specific settings.
+    -->
+    <property file="${basedir}/build.properties" />
+
+    <!--
+        Import the build-commons framework.
+    -->
+    <import file="setup/src/main/xml/base.xml" />
+
+    <property name="docsdir" value="${commons:builddir}/docs" />
+
+    <target name="behat" extensionOf="-test:after~hook">
+        <exec executable="${commons.executable.php}" failonerror="true" dir="${basedir}">
+            <env key="STORAGE" value="InMemory" />
+
+            <arg value="vendor/bin/behat" />
+
+            <arg value="--format" />
+            <arg value="junit,progress" />
+            <arg value="--out" />
+            <arg value="${commons:logsdir}," />
+        </exec>
+        
+        <exec executable="${commons.executable.php}" failonerror="true" dir="${basedir}">
+            <env key="STORAGE" value="MySQLi" />
+
+            <arg value="vendor/bin/behat" />
+
+            <arg value="--format" />
+            <arg value="junit,progress" />
+            <arg value="--out" />
+            <arg value="${commons:logsdir}," />
+        </exec>
+
+        <exec executable="${commons.executable.php}" failonerror="true" dir="${basedir}">
+            <env key="STORAGE" value="PDO" />
+
+            <arg value="vendor/bin/behat" />
+
+            <arg value="--format" />
+            <arg value="junit,progress" />
+            <arg value="--out" />
+            <arg value="${commons:logsdir}," />
+        </exec>
+    </target>
+
+    <target name="api-docs">
+        <mkdir dir="${docsdir}" />
+
+        <!--
+        <exec executable="rst2html" failonerror="true" dir="${basedir}" output="${commons:builddir}/docs/usage.html">
+            <arg value="${basedir}/docs/api.txt" />
+        </exec>
+        -->
+    </target>
+
+    <target name="user-docs" depends="api-docs">
+        <copy todir="${docsdir}">
+            <fileset dir="${basedir}/docs/">
+                <include name="**/*.png" />
+            </fileset>
+        </copy>
+
+        <exec executable="rst2html" failonerror="true" dir="${basedir}" output="${docsdir}/usage.html">
+            <arg value="${basedir}/docs/api.txt" />
+        </exec>
+    </target>
+
+    <target name="sdk-release" depends="verify,user-docs">
+
+        <property name="releasedir" value="${commons:builddir}/release/${build.file}" />
+
+        <delete>
+            <fileset dir="${commons:builddir}">
+                <include name="release/**/*.*" />
+            </fileset>
+        </delete>
+
+        <mkdir dir="${releasedir}" />
+        <copy todir="${releasedir}" includeEmptyDirs="false">
+            <fileset dir="${basedir}">
+                <include name="**/*.*" />
+                <exclude name=".gitignore" />
+                <exclude name="build.*" />
+                <exclude name="composer.*" />
+                <exclude name=".abc/**/*.*" />
+                <exclude name="build/**/*.*" />
+                <exclude name="docs/**/*.*" />
+                <exclude name="vendor/**/*.*" />
+            </fileset>
+
+            <filterchain>
+                <replacetokens begintoken="$" endtoken="$">
+                    <token key="Revision" value="${build.version.release}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <copy tofile="${releasedir}/composer.json" file="${basedir}/composer.json">
+            <filterchain>
+                <linecontains negate="true">
+                    <contains value='"Bepado\\SDK"' />
+                </linecontains>
+            </filterchain>
+        </copy>
+
+        <mkdir dir="${releasedir}/docs" />
+        <copy todir="${releasedir}/docs">
+            <fileset dir="${docsdir}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+
+        <exec executable="php" dir="${releasedir}">
+            <arg value="${basedir}/composer.phar" />
+            <arg value="update" />
+            <arg value="--no-dev" />
+        </exec>
+
+        <mkdir dir="${releasedir}/src/schema/deltas" />
+        <move todir="${releasedir}/src/schema/deltas">
+            <fileset dir="${releasedir}/src/schema" includes="**/*.sql" />
+        </move>
+
+        <exec executable="mysqldump" output="${releasedir}/src/schema/schema.sql">
+            <arg value="-u" />
+            <arg value="${db.userid}" />
+            <arg value="-p${db.password}" />
+            <arg value="${db.name}" />
+        </exec>
+
+        <zip destfile="${commons:builddir}/dist/${build.file}.zip">
+            <fileset dir="${releasedir}/.." includes="**/*.*" />
+        </zip>
+    </target>
+
+    <target name="docs" extensionOf="-compile:main~hook" depends="api-docs, user-docs"/>
+
+
+</project>
