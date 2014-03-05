@@ -106,7 +106,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     public function testVerifyAgainstRealService()
     {
         $verificationService = new Verification(
-            new HttpClient\Stream('http://socialnetwork.bepado.local/'),
+            new HttpClient\Stream('http://sn.bepado.local/'),
             $this->getGateway()
         );
 

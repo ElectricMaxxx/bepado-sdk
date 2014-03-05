@@ -114,7 +114,7 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue(
                     array_map(
                         function ($productId) use ($data) {
-                            return $this->getProduct($productId, $data);
+                            return SyncerTest::getProduct($productId, $data);
                         },
                         $products
                     )
@@ -131,7 +131,7 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
      * @param string $data
      * @return \Bepado\SDK\Struct\Product
      */
-    protected function getProduct($productId, $data = 'foo')
+    public static function getProduct($productId, $data = 'foo')
     {
         return new SDK\Struct\Product(
             array(
