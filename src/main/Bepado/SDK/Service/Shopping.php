@@ -100,6 +100,7 @@ class Shopping
     public function calculateShippingCosts(Struct\Order $order)
     {
         $shops = array();
+        $order->orderShop = $this->config->getShopId();
         $orders = $this->splitShopOrders($order);
 
         foreach ($orders as $shopId => $shopOrder) {

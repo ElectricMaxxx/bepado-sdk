@@ -312,7 +312,9 @@ final class SDK
     {
         $this->verifySdk();
 
-        $this->dependencies->getVerificator()->verify($order);
+        foreach ($order->orderItems as $orderItem) {
+            $this->dependencies->getVerificator()->verify($orderItem);
+        }
 
         return $this->dependencies->getShoppingService()->calculateShippingCosts($order);
     }
