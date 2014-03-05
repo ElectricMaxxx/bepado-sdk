@@ -100,13 +100,7 @@
             </filterchain>
         </copy>
 
-        <copy tofile="${releasedir}/composer.json" file="${basedir}/composer.json">
-            <filterchain>
-                <linecontains negate="true">
-                    <contains value='"Bepado\\SDK"' />
-                </linecontains>
-            </filterchain>
-        </copy>
+        <copy tofile="${releasedir}/composer.json" file="${basedir}/composer.json" />
 
         <mkdir dir="${releasedir}/docs" />
         <copy todir="${releasedir}/docs">
@@ -125,13 +119,6 @@
         <move todir="${releasedir}/src/schema/deltas">
             <fileset dir="${releasedir}/src/schema" includes="**/*.sql" />
         </move>
-
-        <exec executable="mysqldump" output="${releasedir}/src/schema/schema.sql">
-            <arg value="-u" />
-            <arg value="${db.userid}" />
-            <arg value="-p${db.password}" />
-            <arg value="${db.name}" />
-        </exec>
 
         <zip destfile="${commons:builddir}/dist/${build.file}.zip">
             <fileset dir="${releasedir}/.." includes="**/*.*" />
