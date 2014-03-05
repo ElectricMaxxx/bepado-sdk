@@ -11,6 +11,7 @@ use Bepado\SDK\ProductFromShop;
 use Bepado\SDK\Gateway;
 use Bepado\SDK\Logger;
 use Bepado\SDK\Struct;
+use Bepado\SDK\Struct\VerificatorDispatcher;
 use Bepado\SDK\ShippingCostCalculator;
 
 /**
@@ -56,6 +57,11 @@ class Transaction
     protected $calculator;
 
     /**
+     * @var \Bepado\SDK\Struct\VerificatorDispatcher
+     */
+    protected $verificator;
+
+    /**
      * COnstruct from gateway
      *
      * @param ProductFromShop $fromShop
@@ -68,13 +74,15 @@ class Transaction
         Gateway\ReservationGateway $reservations,
         Logger $logger,
         Gateway\ShopConfiguration $shopConfiguration,
-        ShippingCostCalculator $calculator
+        ShippingCostCalculator $calculator,
+        VerificatorDispatcher $verificator
     ) {
         $this->fromShop = $fromShop;
         $this->reservations = $reservations;
         $this->logger = $logger;
         $this->shopConfiguration = $shopConfiguration;
         $this->calculator = $calculator;
+        $this->verificator = $verificator;
     }
 
     /**
@@ -91,6 +99,8 @@ class Transaction
      */
     public function checkProducts(Struct\ProductList $products, $buyerShopId)
     {
+        $this->verificator->verify($products);
+
         if (count($products->products) === 0) {
             throw new \InvalidArgumentException(
                 "ProductList is not allowed to be empty in remote Transaction#checkProducts()"
@@ -210,6 +220,8 @@ class Transaction
      */
     public function reserveProducts(Struct\Order $order)
     {
+        $this->verificator->verify($order);
+
         $products = array();
         foreach ($order->products as $orderItem) {
             $products[] = $orderItem->product;

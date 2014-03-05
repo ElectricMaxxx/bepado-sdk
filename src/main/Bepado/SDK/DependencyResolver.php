@@ -300,7 +300,8 @@ class DependencyResolver
                     $this->gateway,
                     $this->getLogger(),
                     $this->gateway,
-                    $this->getShippingCostCalculator()
+                    $this->getShippingCostCalculator(),
+                    $this->getVerificator()
                 )
             );
 

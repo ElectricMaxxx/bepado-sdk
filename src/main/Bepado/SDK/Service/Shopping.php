@@ -244,6 +244,7 @@ class Shopping
         foreach ($orders as $shopId => $order) {
             $order->shippingCosts = $shippingCosts->shops[$shopId]->shippingCosts;
             $order->grossShippingCosts = $shippingCosts->shops[$shopId]->grossShippingCosts;
+            $order->shippingRule = $shippingCosts->shops[$shopId]->rule;
 
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
             $responses[$shopId] = $shopGateway->reserveProducts($order);

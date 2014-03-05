@@ -32,7 +32,8 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             $this->gateway,
             $this->logger,
             $this->configuration,
-            $this->calculator
+            $this->calculator,
+            \Phake::mock('Bepado\SDK\Struct\VerificatorDispatcher')
         );
 
         \Phake::when($this->configuration)

@@ -17,6 +17,11 @@ class ShippingCosts extends Struct
     public $shopId;
 
     /**
+     * @var \Bepado\SDK\ShippingCosts\Rule
+     */
+    public $rule;
+
+    /**
      * @return bool
      */
     public $isShippable = true;

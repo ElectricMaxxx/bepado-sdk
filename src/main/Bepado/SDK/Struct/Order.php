@@ -80,9 +80,9 @@ class Order extends Struct
      *
      * Is calculated internally by the SDK.
      *
-     * @var string
+     * @var \Bepado\SDK\ShippingCosts\Rule
      */
-    public $deliveryType;
+    public $shippingRule;
 
     /**
      * The payment type that is used for this order.

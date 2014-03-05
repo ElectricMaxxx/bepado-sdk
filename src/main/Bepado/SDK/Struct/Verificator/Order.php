@@ -62,12 +62,16 @@ class Order extends Verificator
         );
 
         if (!in_array($struct->paymentType, $paymentTypes)) {
-            throw new \runtimeException(
+            throw new \RuntimeException(
                 sprintf(
                     'Invalid paymentType specified in order, must be one of: %s',
                     implode(", ", $paymentTypes)
                 )
             );
+        }
+
+        if ($struct->shippingRule && !($struct->shipingRule instanceof \Bepado\SDK\ShippingCosts\Rule)) {
+            throw new \RuntimeException('Shipping Rule MUST be an instance of \\Bepado\\SDK\\ShippingCosts\\Rule.');
         }
     }
 }
