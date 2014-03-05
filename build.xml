@@ -85,6 +85,8 @@
             <fileset dir="${basedir}">
                 <include name="**/*.*" />
                 <exclude name=".gitignore" />
+                <exclude name=".pear/**" />
+                <exclude name="setup/**" />
                 <exclude name="build.*" />
                 <exclude name="composer.*" />
                 <exclude name=".abc/**/*.*" />
