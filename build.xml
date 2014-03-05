@@ -91,6 +91,8 @@
                 <exclude name="build/**/*.*" />
                 <exclude name="docs/**/*.*" />
                 <exclude name="vendor/**/*.*" />
+                <exclude name="**/*.swp" />
+                <exclude name="**/*.swo" />
             </fileset>
 
             <filterchain>
