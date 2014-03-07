@@ -77,7 +77,7 @@ class XmlValueUnmarshaller implements ValueUnmarshaller
         $marshalledClass = $element->getAttribute("struct");
 
         if (!is_subclass_of($marshalledClass, 'Bepado\SDK\Struct') &&
-            !is_subclass_of($marshalledClass, 'Bepado\SDK\Struct')) {
+            !is_subclass_of($marshalledClass, 'Bepado\Common\Struct')) {
             throw new \RuntimeException("Cannot unmarshall non-Struct classes.");
         }
 
