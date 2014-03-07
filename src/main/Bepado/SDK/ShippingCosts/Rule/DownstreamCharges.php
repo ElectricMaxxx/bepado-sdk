@@ -16,6 +16,16 @@ use Bepado\SDK\Struct\Order;
 class DownstreamCharges extends Rule
 {
     /**
+     * @var string
+     */
+    public $label;
+
+    /**
+     * @var string
+     */
+    public $url;
+
+    /**
      * Check if shipping cost is applicable to given order
      *
      * @param Order $order
