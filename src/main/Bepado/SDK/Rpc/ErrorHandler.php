@@ -36,7 +36,7 @@ abstract class ErrorHandler
             return;
         }
 
-        if ($error['type'] > 4) {
+        if (($error['type'] & (E_ERROR|E_PARSE)) === 0) {
             return;
         }
 

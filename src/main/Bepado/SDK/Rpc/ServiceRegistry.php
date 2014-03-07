@@ -73,10 +73,15 @@ class ServiceRegistry
         $this->errorHandler->registerHandlers();
         $service = $this->getService($rpcCall->service, $rpcCall->command);
 
-        $response = call_user_func_array(
-            array($service['provider'], $service['command']),
-            $rpcCall->arguments
-        );
+        try {
+            $response = call_user_func_array(
+                array($service['provider'], $service['command']),
+                $rpcCall->arguments
+            );
+        } catch (\Exception $e) {
+            $this->errorHandler->restore();
+            throw $e;
+        }
 
         $this->errorHandler->restore();
 
