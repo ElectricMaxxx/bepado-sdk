@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\Service;
@@ -17,7 +17,7 @@ use Bepado\SDK\ShippingCostCalculator;
 /**
  * Service to maintain transactions
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 class Transaction
 {

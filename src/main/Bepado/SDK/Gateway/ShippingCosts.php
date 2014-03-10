@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\Gateway;
@@ -13,7 +13,7 @@ use Bepado\SDK\ShippingCosts\Rules;
 /**
  * Gateaway interface to maintain shipping costs
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
 interface ShippingCosts

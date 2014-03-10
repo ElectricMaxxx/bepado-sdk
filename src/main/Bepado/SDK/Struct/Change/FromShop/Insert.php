@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\Struct\Change\FromShop;
@@ -13,7 +13,7 @@ use Bepado\SDK\Struct\Product;
 /**
  * Insert change struct
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
 class Insert extends Change

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\Service;
@@ -21,7 +21,7 @@ use Bepado\SDK\Gateway\ShopConfiguration;
 /**
  * Shopping service
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 class Shopping
 {

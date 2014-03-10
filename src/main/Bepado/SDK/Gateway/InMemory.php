@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\Gateway;
@@ -19,7 +19,7 @@ use Bepado\SDK\ShippingCosts\Rules;
  * You may create custom extensions of this class, if the default data stores
  * do not work for you.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
 class InMemory extends Gateway

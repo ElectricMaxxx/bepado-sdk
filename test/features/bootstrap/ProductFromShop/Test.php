@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\ProductFromShop;
@@ -13,7 +13,7 @@ use Bepado\SDK\Struct;
 /**
  * Interface for product providers
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
 class Test implements ProductFromShop

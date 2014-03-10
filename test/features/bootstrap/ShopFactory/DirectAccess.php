@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\ShopFactory;
@@ -21,7 +21,7 @@ use Bepado\SDK\SDK;
  * Constructs gateways to interact with other shops
  *
  * @private
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 class DirectAccess extends ShopFactory
 {

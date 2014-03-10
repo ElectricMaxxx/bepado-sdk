@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado Common Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK\Struct;
@@ -12,7 +12,7 @@ use Bepado\SDK\Struct;
 /**
  * Struct class representing a message
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
 class Response extends Struct

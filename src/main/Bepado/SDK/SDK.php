@@ -2,7 +2,7 @@
 /**
  * This file is part of the Bepado SDK Component.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
 namespace Bepado\SDK;
@@ -22,7 +22,7 @@ use Bepado\SDK\Struct\Shop;
  * The constructor may change in the future, using the SDKBuilder is
  * required to implement a supported plugin.
  *
- * @version $Revision$
+ * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
 final class SDK
