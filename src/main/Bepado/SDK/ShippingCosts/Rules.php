@@ -52,4 +52,15 @@ class Rules extends Struct implements IteratorAggregate
     {
         return new ArrayIterator($this->rules);
     }
+
+    /**
+     * Restores Rules from a previously stored state array.
+     *
+     * @param array $state
+     * @return \Bepado\SDK\ShippingCosts\Rules
+     */
+    public function __set_state(array $state)
+    {
+        return new Rules($state);
+    }
 }
