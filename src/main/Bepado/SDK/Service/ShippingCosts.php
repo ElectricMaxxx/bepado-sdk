@@ -69,7 +69,8 @@ class ShippingCosts
                 $change['from_shop_id'],
                 $change['to_shop_id'],
                 $change['revision'],
-                $change['shippingCosts']
+                $change['shippingCosts'],
+                isset($change['customerCosts']) ? $change['customerCosts'] : $change['shippingCosts']
             );
         }
     }

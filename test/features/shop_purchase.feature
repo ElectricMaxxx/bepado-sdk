@@ -83,6 +83,15 @@ Feature: Interactions between shops on a purchase
          Then The Customer is informed about not shippable order
           And No transaction is logged
 
+    Scenario: Customer shipping costs
+        Given The product is listed as available
+          And A customer adds a product from remote shop 1 to basket
+          And The product is available in 1 shop
+          And The shop configured net shipping costs of "3.00" and customer costs of "10.00"
+         When The Customer views the order overview
+         Then The Customer is informed about net customer shipping costs "10.00"
+          And The intrashop shipping costs are "3.00" for shop "1"
+
     Scenario: Product is reserved in remote shop
         Given The product is listed as available
           And A customer adds a product from remote shop 1 to basket

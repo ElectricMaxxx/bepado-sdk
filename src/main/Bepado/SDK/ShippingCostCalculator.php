@@ -8,6 +8,7 @@
 namespace Bepado\SDK;
 
 use Bepado\SDK\ShippingCosts\Rule;
+use Bepado\SDK\Gateway\ShippingCosts;
 
 /**
  * Shipping cost calculator
@@ -17,7 +18,10 @@ use Bepado\SDK\ShippingCosts\Rule;
 interface ShippingCostCalculator
 {
     /**
+     * @param \Bepado\SDK\Struct\Order
+     * @param string $type
+     *
      * @return \Bepado\SDK\Struct\TotalShippingCosts
      */
-    public function calculateShippingCosts(Struct\Order $order);
+    public function calculateShippingCosts(Struct\Order $order, $type);
 }

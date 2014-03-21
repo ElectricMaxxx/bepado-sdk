@@ -316,7 +316,10 @@ final class SDK
             $this->dependencies->getVerificator()->verify($orderItem);
         }
 
-        return $this->dependencies->getShoppingService()->calculateShippingCosts($order);
+        return $this->dependencies->getShoppingService()->calculateShippingCosts(
+            $order,
+            Gateway\ShippingCosts::SHIPPING_COSTS_CUSTOMER
+        );
     }
 
     /**

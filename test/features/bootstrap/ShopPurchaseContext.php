@@ -141,11 +141,11 @@ class ShopPurchaseContext extends SDKContext
                 )
             ));
 
-            $this->gateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules);
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules, $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules, $rules);
             // for shared state reasons
-            $this->gateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules);
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules, $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules, $rules);
         }
 
         $this->remoteGateway->setShopConfiguration(
@@ -680,7 +680,7 @@ class ShopPurchaseContext extends SDKContext
             )
         ));
 
-        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', 'revision', $rules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', 'revision', $rules, $rules);
     }
 
     /**
@@ -728,11 +728,11 @@ class ShopPurchaseContext extends SDKContext
             )
         ));
 
-        $this->gateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules);
-        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules);
+        $this->gateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules, $rules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', (string)time(), $rules, $rules);
         // shared state madness
-        $this->gateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $rules);
-        $this->remoteGateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $rules);
+        $this->gateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $rules, $rules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $rules, $rules);
     }
 
     /**
@@ -753,6 +753,57 @@ class ShopPurchaseContext extends SDKContext
                 ))
             ),
             $this->result->messages
+        );
+    }
+
+    /**
+     * @Given /^The shop configured net shipping costs of "([^"]*)" and customer costs of "([^"]*)"$/
+     */
+    public function theShopConfiguredNetShippingCostsOfAndCustomerCostsOf($intrashopCosts, $customerCosts)
+    {
+        $intrashopRules = new Rules(array(
+            'rules' => array(
+                new Rule\FixedPrice(array(
+                        'price' => $intrashopCosts,
+                    )
+                )
+            )
+        ));
+        $customerRules = new Rules(array(
+            'rules' => array(
+                new Rule\FixedPrice(array(
+                        'price' => $customerCosts,
+                    )
+                )
+            )
+        ));
+
+        $this->gateway->storeShippingCosts('shop-1', 'shop', (string)time(), $intrashopRules, $customerRules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', (string)time(), $intrashopRules, $customerRules);
+        // shared state madness
+        $this->gateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $intrashopRules, $customerRules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $intrashopRules, $customerRules);
+    }
+
+    /**
+     * @Then /^The Customer is informed about net customer shipping costs "([^"]*)"$/
+     */
+    public function theCustomerIsInformedAboutNetCustomerShippingCosts($costs)
+    {
+        $totalShippingCosts = $this->sdk->calculateShippingCosts($this->order);
+
+        Assertion::assertEquals($totalShippingCosts->shippingCosts, $costs, "Net Customer shipping cost comparison failed.");
+    }
+
+    /**
+     * @Given /^The intrashop shipping costs are "([^"]*)" for shop "([^"]*)"$/
+     */
+    public function theIntrashopShippingCostsAre($costs, $shop)
+    {
+        Assertion::assertEquals(
+            $this->result->orders['shop-' . $shop]->shippingCosts,
+            $costs,
+            "Net Intrashop shipping cost comparison failed."
         );
     }
 }

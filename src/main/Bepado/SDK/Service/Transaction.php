@@ -236,7 +236,10 @@ class Transaction
             $order->orderShop
         );
 
-        $myShippingCosts = $this->calculator->calculateShippingCosts($order);
+        $myShippingCosts = $this->calculator->calculateShippingCosts(
+            $order,
+            Gateway\ShippingCosts::SHIPPING_COSTS_INTERSHOP
+        );
 
         if (!$myShippingCosts->isShippable) {
             return new Struct\Message(array(

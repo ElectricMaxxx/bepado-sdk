@@ -31,9 +31,11 @@ class GlobalConfigCalculator implements ShippingCostCalculator
      * Get shipping costs for order
      *
      * @param \Bepado\SDK\Struct\Order $order
+     * @param string $type
+     *
      * @return \Bepado\SDK\Struct\TotalShippingCosts
      */
-    public function calculateShippingCosts(Order $order)
+    public function calculateShippingCosts(Order $order, $type)
     {
         return $this->getShippingCosts(
             array_map(function (OrderItem $item) {
