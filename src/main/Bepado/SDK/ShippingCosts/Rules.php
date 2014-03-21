@@ -59,7 +59,7 @@ class Rules extends Struct implements IteratorAggregate
      * @param array $state
      * @return \Bepado\SDK\ShippingCosts\Rules
      */
-    public function __set_state(array $state)
+    public static function __set_state(array $state)
     {
         return new Rules($state);
     }
