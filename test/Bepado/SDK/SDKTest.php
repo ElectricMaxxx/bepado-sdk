@@ -10,8 +10,6 @@ namespace Bepado\SDK;
 use Bepado\Common;
 use Bepado\SDK\Struct\ShopConfiguration;
 
-require_once __DIR__ . '/bootstrap.php';
-
 class SDKTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCategories()

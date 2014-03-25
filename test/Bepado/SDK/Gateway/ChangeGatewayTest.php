@@ -11,8 +11,6 @@ use Bepado\SDK\Struct\Change\FromShop\Delete;
 use Bepado\SDK\Struct\Change\FromShop\Insert;
 use Bepado\SDK\Struct\Product;
 
-require_once __DIR__ . '/../bootstrap.php';
-
 /**
  * Common tests for the change gateway implementations.
  */

@@ -15,8 +15,6 @@ use Bepado\SDK\Struct\Change\FromShop\Insert;
 use Bepado\SDK\Struct\Change\FromShop\Update;
 use Bepado\SDK\HttpClient\NoSecurityRequestSigner;
 
-require_once __DIR__ . '/../bootstrap.php';
-
 abstract class SyncerTest extends \PHPUnit_Framework_TestCase
 {
     /**

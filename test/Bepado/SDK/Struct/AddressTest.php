@@ -9,8 +9,6 @@ namespace Bepado\SDK\Struct;
 
 use Bepado\Common;
 
-require_once __DIR__ . '/../bootstrap.php';
-
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     public function getValidNames()

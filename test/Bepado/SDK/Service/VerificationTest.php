@@ -12,8 +12,6 @@ use Bepado\SDK\HttpClient;
 use Bepado\SDK\Gateway;
 use Bepado\SDK\SDK;
 
-require_once __DIR__ . '/../bootstrap.php';
-
 class VerificationTest extends \PHPUnit_Framework_TestCase
 {
     protected $gateway;

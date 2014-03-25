@@ -11,8 +11,6 @@ use Bepado\Common;
 use Bepado\SDK\Struct;
 use Bepado\SDK\HttpClient;
 
-require_once __DIR__ . '/../bootstrap.php';
-
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
     const APIKEY = '1234';

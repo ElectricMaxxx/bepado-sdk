@@ -5,7 +5,8 @@
 
     "autoload": {
         "psr-0": {
-            "Bepado\\SDK": "src/main"
+            "Bepado\\SDK": "src/main",
+            "Bepado\\SDK": "test"
         }
     },
 
