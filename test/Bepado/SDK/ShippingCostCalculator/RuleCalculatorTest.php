@@ -18,7 +18,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateMixedVatUsesDominantStrategy()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2)->thenReturn(
+        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_DOMINATING,
@@ -67,7 +67,8 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 )
-            )
+            ),
+            'test'
         );
 
         $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
@@ -77,7 +78,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateWithMixedVatProductsUsesMaxVat()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2)->thenReturn(
+        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_MAX,
@@ -124,7 +125,8 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 )
-            )
+            ),
+            'test'
         );
 
         $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
@@ -134,7 +136,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateVatModeFixedVat()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2)->thenReturn(
+        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_FIX,
@@ -170,7 +172,8 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 )
-            )
+            ),
+            'test'
         );
 
         $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
@@ -188,7 +191,8 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->calculator->calculateShippingCosts(
             new \Bepado\SDK\Struct\Order(
                 array()
-            )
+            ),
+            'test'
         );
     }
 
@@ -231,7 +235,8 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 )
-            )
+            ),
+            'test'
         );
     }
 }

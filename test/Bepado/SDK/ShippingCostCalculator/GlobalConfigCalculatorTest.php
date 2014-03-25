@@ -49,7 +49,8 @@ class GlobalConfigCalculatorTest extends \PHPUnit_Framework_TestCase
                         )),
                     )
                 )
-            )
+            ),
+            'test'
         );
 
         $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
@@ -89,7 +90,8 @@ class GlobalConfigCalculatorTest extends \PHPUnit_Framework_TestCase
                         )),
                     )
                 )
-            )
+            ),
+            'test'
         );
     }
 }

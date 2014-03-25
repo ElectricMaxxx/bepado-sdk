@@ -51,7 +51,8 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 )
-            )
+            ),
+            'test'
         );
 
         $this->assertInstanceOf('Bepado\SDK\Struct\TotalShippingCosts', $result);
