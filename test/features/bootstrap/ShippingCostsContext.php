@@ -25,7 +25,9 @@ require_once __DIR__ . '/SDKContext.php';
  */
 class ShippingCostsContext extends SDKContext
 {
+    protected $shopIds = array();
     protected $shopRevision = null;
+    protected $shippingCostRules;
 
     /**
      * @When /^The updater requests the shipping costs revision$/
@@ -49,6 +51,7 @@ class ShippingCostsContext extends SDKContext
     public function shippingCostsArePushedToTheSdkForShopWithRevision($shop, $revision)
     {
         $rule = new Rule\FixedPrice(array('price' => 10));
+        $this->shopIds[] = $shop;
 
         $this->shopRevision = $this->makeRpcCall(
             new Struct\RpcCall(
@@ -58,7 +61,7 @@ class ShippingCostsContext extends SDKContext
                     'arguments' => array(
                         'changes' => array(
                             array(
-                                'to_shop_id' => $shop,
+                                'to_shop_id' => 'shop',
                                 'from_shop_id' => $shop,
                                 'revision' => $revision,
                                 'shippingCosts' => new Rules(array('rules' => $rule)),
@@ -76,5 +79,44 @@ class ShippingCostsContext extends SDKContext
     public function theShippingCostsRevisionIs($revision)
     {
         Assertion::assertEquals($revision, $this->shopRevision);
+    }
+
+    /**
+     * @Given /^the developer retrieves the shipping cost rules from the SDK$/
+     */
+    public function theDeveloperRetrievesTheShippingCostRulesFromTheSdk()
+    {
+        $configurations = array();
+        foreach ($this->shopIds AS $shopId) {
+            $configurations[] = array(
+                'shopId' => $shopId,
+                'serviceEndpoint' => '',
+                'shippingCost' => '',
+                'shopDisplayName' => '',
+                'shopUrl' => '',
+                'key' => '',
+                'priceGroupMargin' => '',
+            );
+        }
+
+        $this->makeRpcCall(
+            new Struct\RpcCall(
+                array(
+                    'service' => 'configuration',
+                    'command' => 'update',
+                    'arguments' => array($configurations)
+                )
+            )
+        );
+
+        $this->shippingCostRules = $this->sdk->getShippingCostRules();
+    }
+
+    /**
+     * @Then /^the shipping cost rules for shop "([^"]*)" are available$/
+     */
+    public function theShippingCostRulesForShopAreAvailable($shopId)
+    {
+        Assertion::assertInstanceOf('Bepado\SDK\ShippingCosts\Rules', $this->shippingCostRules[$shopId]);
     }
 }
