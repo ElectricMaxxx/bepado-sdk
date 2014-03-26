@@ -43,6 +43,49 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->attributes[Struct\Product::ATTRIBUTE_QUANTITY] = 10;
         $product->attributes[Struct\Product::ATTRIBUTE_REFERENCE_QUANTITY] = 100;
 
-        $this->verify($this->createValidProduct());
+        $this->verify($product);
+    }
+
+    /**
+     * @dataProvider dataValidDimensions
+     */
+    public function testValidDimensions($dimension)
+    {
+        $product = $this->createValidProduct();
+        $product->attributes[Struct\Product::ATTRIBUTE_DIMENSION] = $dimension;
+
+        $this->verify($product);
+    }
+
+    /**
+     * @dataProvider dataInvalidDimensions
+     */
+    public function testInvalidDimensions($dimension)
+    {
+        $product = $this->createValidProduct();
+        $product->attributes[Struct\Product::ATTRIBUTE_DIMENSION] = $dimension;
+
+        $this->setExpectedException('RuntimeException', 'Product Dimensions Attribute has to be in format ');
+        $this->verify($product);
+    }
+
+    static public function dataValidDimensions()
+    {
+        return array(
+            array('10x20x30'),
+            array('10.5x20.7x30.2'),
+            array('1.5x20x30'),
+            array('1x20.5x30'),
+            array('1x20x30.7'),
+        );
+    }
+
+    static public function dataInvalidDimensions()
+    {
+        return array(
+            array('axbxc'),
+            array('10x10'),
+            array('10,4x10,4x10,4'),
+        );
     }
 }
