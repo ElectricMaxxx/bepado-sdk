@@ -12,7 +12,7 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
         $builder
             ->setApiKey('foo')
             ->setApiEndpointUrl('http://foo/bar')
-            ->configurePDOGateway(\Phake::mock('PDO'))
+            ->configurePDOGateway(new PDO('sqlite::memory:'))
             ->setProductToShop(\Phake::mock('Bepado\SDK\ProductToShop'))
             ->setProductFromShop(\Phake::mock('Bepado\SDK\ProductFromShop'))
             ->setErrorHandler(\Phake::mock('Bepado\SDK\ErrorHandler'))
@@ -30,7 +30,7 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
         $builder
             ->setApiKey('foo')
             ->setApiEndpointUrl('http://foo/bar')
-            ->configurePDOGateway(\Phake::mock('PDO'))
+            ->configurePDOGateway(new PDO('sqlite::memory:'))
             ->setProductToShop(\Phake::mock('Bepado\SDK\ProductToShop'))
             ->setProductFromShop(\Phake::mock('Bepado\SDK\ProductFromShop'))
         ;
