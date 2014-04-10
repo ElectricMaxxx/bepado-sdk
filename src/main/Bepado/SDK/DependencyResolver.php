@@ -282,7 +282,7 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'products',
-                array('fromShop', 'peakFromShop', 'peakProducts', 'toShop', 'getLastRevision'),
+                array('fromShop', 'getChanges', 'peakFromShop', 'peakProducts', 'toShop', 'replicate', 'getLastRevision'),
                 new Service\ProductService(
                     $this->gateway,
                     $this->gateway,
