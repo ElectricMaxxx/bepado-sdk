@@ -102,7 +102,7 @@ class ToShopContext extends SDKContext
             new Struct\RpcCall(
                 array(
                     'service' => 'products',
-                    'command' => 'toShop',
+                    'command' => 'replicate',
                     'arguments' => array(
                         $process
                     )

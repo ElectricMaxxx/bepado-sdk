@@ -130,7 +130,7 @@ class FromShopContext extends SDKContext
                 new Struct\RpcCall(
                     array(
                         'service' => 'products',
-                        'command' => 'fromShop',
+                        'command' => 'getChanges',
                         'arguments' => array(
                             $this->lastRevision,
                             $this->productsPerInterval
