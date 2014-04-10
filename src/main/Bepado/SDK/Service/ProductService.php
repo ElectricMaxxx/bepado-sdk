@@ -81,17 +81,25 @@ class ProductService
     }
 
     /**
-     * Export current change state to Bepado
-     *
-     * @param string $revision
-     * @param int $productCount
-     * @return \Bepado\SDK\Struct\Change[]
+     * @deprecated Use the getChanges() method directly
      */
     public function fromShop($revision, $productCount)
     {
-        $changes = $this->changes->getNextChanges($revision, $productCount);
+        return $this->getChanges($revision, $productCount);
+    }
 
-        $this->changes->cleanChangesUntil($revision);
+    /**
+     * Export current change state to Bepado
+     *
+     * @param string $since
+     * @param int $limit
+     * @return \Bepado\SDK\Struct\Change[]
+     */
+    public function getChanges($since, $limit)
+    {
+        $changes = $this->changes->getNextChanges($since, $limit);
+
+        $this->changes->cleanChangesUntil($since);
 
         return $changes;
     }
