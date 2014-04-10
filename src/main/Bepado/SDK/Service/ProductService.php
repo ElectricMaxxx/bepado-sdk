@@ -124,12 +124,20 @@ class ProductService
     }
 
     /**
+     * @deprecated Just use the replicate() method directly
+     */
+    public function toShop(array $changes)
+    {
+        return $this->replicate($changes);
+    }
+
+    /**
      * Import changes into shop
      *
      * @param \Bepado\SDK\Struct\Change[] $changes
      * @return string
      */
-    public function toShop(array $changes)
+    public function replicate(array $changes)
     {
         $this->toShop->startTransaction();
         foreach ($changes as $change) {
