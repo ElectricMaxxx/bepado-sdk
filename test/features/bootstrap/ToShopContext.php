@@ -130,7 +130,7 @@ class ToShopContext extends SDKContext
                 new Struct\RpcCall(
                     array(
                         'service' => 'products',
-                        'command' => 'getLastRevision',
+                        'command' => 'lastRevision',
                         'arguments' => array(),
                     )
                 )
