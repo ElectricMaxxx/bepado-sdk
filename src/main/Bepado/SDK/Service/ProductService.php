@@ -168,11 +168,19 @@ class ProductService
     }
 
     /**
+     * @deprecated Just use the lastRevision() method directly
+     */
+    public function getLastRevision()
+    {
+        return $this->lastRevision();
+    }
+
+    /**
      * Get last processed revision in shop
      *
      * @return string
      */
-    public function getLastRevision()
+    public function lastRevision()
     {
         return $this->revision->getLastRevision();
     }
