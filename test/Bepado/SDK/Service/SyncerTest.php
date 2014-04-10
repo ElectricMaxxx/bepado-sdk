@@ -154,11 +154,12 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
      */
     protected function assertChanges($expectation, $changes)
     {
+        $dependencies = $this->dependencies;
         $this->assertEquals(
             $expectation,
             array_map(
-                function ($change) {
-                    $this->dependencies->getVerificator()->verify($change);
+                function ($change) use ($dependencies) {
+                    $dependencies->getVerificator()->verify($change);
 
                     // We do not care to comapre revision and product in change
                     $change = clone $change;
