@@ -101,8 +101,10 @@ class Authorization extends Rpc\ServiceRegistry
 
             default:
                 throw new SecurityException(
-                    "No Authorization to call service '%s'.",
-                    $rpcCall->service
+                    sprintf(
+                        "No Authorization to call service '%s'.",
+                        $rpcCall->service
+                    )
                 );
         }
 
