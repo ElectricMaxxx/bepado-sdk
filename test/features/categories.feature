@@ -9,8 +9,8 @@ Feature: Categories are updated in SDK
          When the updater requests the last categories revision
          Then the categories revision is "123"
 
-    Scenario: Ordering of categories by revision
+    Scenario: No ordering of categories by revision
         Given categories are pushed to the shop with revision "1234"
           And categories are pushed to the shop with revision "123"
          When the updater requests the last categories revision
-         Then the categories revision is "1234"
+         Then the categories revision is "123"
