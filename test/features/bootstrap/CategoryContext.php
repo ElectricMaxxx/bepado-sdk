@@ -33,8 +33,8 @@ class CategoryContext extends SDKContext
         $this->shopRevision = $this->makeRpcCall(
             new Struct\RpcCall(
                 array(
-                    'service' => 'configuration',
-                    'command' => 'getCategoriesLastRevision',
+                    'service' => 'categories',
+                    'command' => 'lastRevision',
                     'arguments' => array(),
                 )
             )
@@ -57,9 +57,16 @@ class CategoryContext extends SDKContext
         $this->shopRevision = $this->makeRpcCall(
             new Struct\RpcCall(
                 array(
-                    'service' => 'configuration',
-                    'command' => 'updateCategories',
-                    'arguments' => array(array('/media/books' => 'Books'), $revision),
+                    'service' => 'categories',
+                    'command' => 'replicate',
+                    'arguments' => array(
+                        array(
+                            array(
+                                'revision' => $revision,
+                                'categories' => array('/media/books' => 'Books'),
+                            )
+                        )
+                    )
                 )
             )
         );
