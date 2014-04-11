@@ -153,16 +153,25 @@ final class SDK
             $serviceRegistry = new ServiceRegistry\Authorization($serviceRegistry, $token);
         }
 
+        try {
+            $response = $serviceRegistry->dispatch(
+                $this->dependencies->getUnmarshaller()->unmarshal($xml)
+            );
+        } catch (\Exception $e) {
+            $response = new \Bepado\SDK\Struct\Error(
+                array(
+                    'message' => $e->getMessage(),
+                    'debugText' => (string) $e,
+                )
+            );
+        }
+
         return $this->dependencies->getMarshaller()->marshal(
             new RpcCall(
                 array(
                     'service' => 'null',
                     'command' => 'return',
-                    'arguments' => array(
-                        $serviceRegistry->dispatch(
-                            $this->dependencies->getUnmarshaller()->unmarshal($xml)
-                        ),
-                    )
+                    'arguments' => array($response),
                 )
             )
         );
