@@ -79,16 +79,14 @@ class Configuration
     /**
      * Update the categories in this shop and increment the last revision.
      *
-     * @param array $categories
+     * @param array $changes
      * @return void
      */
-    public function updateCategories(array $categories, $revision)
+    public function updateCategories(array $changes)
     {
-        if (strcmp($this->getCategoriesLastRevision(), $revision) > 0) {
-            return;
+        foreach ($changes as $change) {
+            $this->configuration->setCategories($change['categories']);
+            $this->configuration->setCategoriesLastRevision($change['revision']);
         }
-
-        $this->configuration->setCategories($categories);
-        $this->configuration->setCategoriesLastRevision($revision);
     }
 }
