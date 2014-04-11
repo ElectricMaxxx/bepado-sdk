@@ -65,28 +65,4 @@ class Configuration
             $this->configuration->setEnabledFeatures($features);
         }
     }
-
-    /**
-     * Get the categories last revision.
-     *
-     * @return string
-     */
-    public function getCategoriesLastRevision()
-    {
-        return $this->configuration->getCategoriesLastRevision();
-    }
-
-    /**
-     * Update the categories in this shop and increment the last revision.
-     *
-     * @param array $changes
-     * @return void
-     */
-    public function updateCategories(array $changes)
-    {
-        foreach ($changes as $change) {
-            $this->configuration->setCategories($change['categories']);
-            $this->configuration->setCategoriesLastRevision($change['revision']);
-        }
-    }
 }
