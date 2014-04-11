@@ -5,12 +5,12 @@ Feature: Categories are updated in SDK
         Then the categories revision is ""
 
     Scenario: Push Categories
-        Given categories are pushed to the shop with revision "123"
+        Given categories are pushed to the shop with revision "abc123"
          When the updater requests the last categories revision
-         Then the categories revision is "123"
+         Then the categories revision is "abc123"
 
     Scenario: No ordering of categories by revision
-        Given categories are pushed to the shop with revision "1234"
-          And categories are pushed to the shop with revision "123"
+        Given categories are pushed to the shop with revision "def456"
+          And categories are pushed to the shop with revision "abc123"
          When the updater requests the last categories revision
-         Then the categories revision is "123"
+         Then the categories revision is "abc123"
