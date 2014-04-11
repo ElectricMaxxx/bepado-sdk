@@ -74,6 +74,7 @@ class Authorization extends Rpc\ServiceRegistry
     {
         switch ($rpcCall->service) {
             case 'products':
+            case 'categories':
             case 'configuration':
             case 'shippingCosts':
                 if ($this->token->userIdentifier !== "bepado") {
