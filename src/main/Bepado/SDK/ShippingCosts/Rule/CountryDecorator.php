@@ -25,6 +25,15 @@ class CountryDecorator extends Rule
     public $countries = array();
 
     /**
+     * Exclude addresses with given zip codes.
+     *
+     * Matches are evaluated from the beginning and case insensitive.
+     *
+     * @var array<string>
+     */
+    public $excludeZipCodes = array();
+
+    /**
      * @var \Bepado\SDK\ShippingCosts\Rule
      */
     public $delegatee;
@@ -37,10 +46,30 @@ class CountryDecorator extends Rule
      */
     public function isApplicable(Order $order)
     {
+        return
+            $this->matchesCountry($order->deliveryAddress->country) &&
+            !$this->matchesExcludedZipCode($order->deliveryAddress->zip)
+        ;
+    }
+
+    private function matchesCountry($country)
+    {
         return in_array(
-            $order->deliveryAddress->country,
+            $country,
             $this->countries
         );
+    }
+
+    private function matchesExcludedZipCode($zipCode)
+    {
+        return strlen($zipCode) && count(
+            array_filter(
+                $this->excludeZipCodes,
+                function ($excludeZipCode) use ($zipCode) {
+                    return stripos($zipCode, $excludeZipCode) === 0;
+                }
+            )
+        ) > 0;
     }
 
     /**

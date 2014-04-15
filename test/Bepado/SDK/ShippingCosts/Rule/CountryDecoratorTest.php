@@ -30,4 +30,31 @@ class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_is_not_applicable_when_zip_is_excluded()
+    {
+        $delegatee = $this->getMock('Bepado\SDK\ShippingCosts\Rule');
+
+        $country = new CountryDecorator(array(
+            'countries' => array('DEU'),
+            'excludeZipCodes' => array('53'),
+            'delegatee' => $delegatee
+        ));
+
+        $this->assertFalse(
+            $country->isApplicable(
+                new Struct\Order(
+                    array(
+                        'deliveryAddress' => new Struct\Address(array(
+                            'country' => 'DEU',
+                            'zip' => '53225',
+                        ))
+                    )
+                )
+            )
+        );
+    }
 }
