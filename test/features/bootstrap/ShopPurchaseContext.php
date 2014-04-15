@@ -227,6 +227,17 @@ class ShopPurchaseContext extends SDKContext
                     'phone' => '+12345678',
                 )
             );
+            $this->order->billingAddress = new Struct\Address(
+                array(
+                    'name' => 'John Doe',
+                    'line1' => 'Foo-Street 42',
+                    'zip' => '12345',
+                    'city' => 'Sindelfingen',
+                    'country' => 'DEU',
+                    'email' => 'foo@qafoo.com',
+                    'phone' => '+12345678',
+                )
+            );
         }
 
         $this->order->orderItems[] = new Struct\OrderItem(
