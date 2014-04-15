@@ -64,6 +64,8 @@ class ShopPurchaseContext extends SDKContext
      */
     protected $priceGroupMargin = 0;
 
+    protected $reservationId;
+
     public function initSDK($connection)
     {
         $this->productToShop = \Phake::mock('\\Bepado\\SDK\\ProductToShop');
@@ -259,6 +261,11 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerChecksOut()
     {
         $this->result = $this->sdk->reserveProducts($this->order);
+
+        if (current($this->result->orders)) {
+            $this->reservationId = current($this->result->orders)->reservationId;
+        }
+
         $this->dependencies->getVerificator()->verify($this->result);
 
         if ($this->result->success) {
@@ -804,6 +811,19 @@ class ShopPurchaseContext extends SDKContext
             $this->result->orders['shop-' . $shop]->shippingCosts,
             $costs,
             "Net Intrashop shipping cost comparison failed."
+        );
+    }
+
+    /**
+     * @Given /^The remote shop recieves an anonymized email$/
+     */
+    public function theRemoteShopRecievesAnAnonymizedEmail()
+    {
+        $remoteOrder = $this->remoteGateway->getOrder($this->reservationId);
+
+        Assertion::assertEquals(
+            'marketplace-shop-3a10b4a1798feed276bf434f6d49a2d4@mail.bepado.com',
+            $remoteOrder->deliveryAddress->email
         );
     }
 }

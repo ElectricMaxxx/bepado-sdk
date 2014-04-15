@@ -6,6 +6,7 @@ Feature: Interactions between shops on a purchase
           And The product is available in 1 shop
          When The Customer checks out
          Then The customer will receive the product
+          And The remote shop recieves an anonymized email
 
     Scenario: Successful purchase from multiple shops
         Given The product is listed as available
