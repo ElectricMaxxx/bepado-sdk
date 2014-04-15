@@ -3,6 +3,7 @@
 namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\Struct;
+use Phake;
 
 class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +12,8 @@ class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_is_applicable_when_from_matching_country()
     {
-        $delegatee = $this->getMock('Bepado\SDK\ShippingCosts\Rule');
+        $delegatee = Phake::mock('Bepado\SDK\ShippingCosts\Rule');
+        Phake::when($delegatee)->isApplicable(\Phake::anyParameters())->thenReturn(true);
 
         $country = new CountryDecorator(array(
             'countries' => array('DEU'),

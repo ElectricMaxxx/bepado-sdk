@@ -48,7 +48,8 @@ class CountryDecorator extends Rule
     {
         return
             $this->matchesCountry($order->deliveryAddress->country) &&
-            !$this->matchesExcludedZipCode($order->deliveryAddress->zip)
+            !$this->matchesExcludedZipCode($order->deliveryAddress->zip) &&
+            $this->delegatee->isApplicable($order)
         ;
     }
 
