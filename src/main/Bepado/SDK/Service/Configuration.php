@@ -44,13 +44,14 @@ class Configuration
      *
      * @return void
      */
-    public function update(array $configurations, array $features = null, Struct\Address $billing = null)
+    public function update(array $configurations, array $features = null)
     {
         foreach ($configurations as $configuration) {
             $this->configuration->setShopConfiguration(
                 $configuration['shopId'],
                 new Struct\ShopConfiguration(
                     array(
+                        'name'             => $configuration['shopId'],
                         'serviceEndpoint'  => $configuration['serviceEndpoint'],
                         'shippingCost'     => $configuration['shippingCost'],
                         'displayName'      => $configuration['shopDisplayName'],
@@ -65,21 +66,19 @@ class Configuration
         if ($features) {
             $this->configuration->setEnabledFeatures($features);
         }
-
-        if ($billing) {
-            $this->configuration->setBillingAddress($billing);
-        }
     }
 
     public function replicate(array $changes)
     {
         foreach ($changes as $change) {
             $config = $change['configuration'];
-            $this->update(
-                $config->shops,
-                $config->features,
-                $config->billingAddress
-            );
+
+            foreach ($config->shops as $shop) {
+                $this->configuration->setShopConfiguration($shop->name, $shop);
+            }
+
+            $this->configuration->setEnabledFeatures($config->features);
+            $this->configuration->setBillingAddress($config->billingAddress);
         }
     }
 
