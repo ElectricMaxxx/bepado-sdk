@@ -274,7 +274,7 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'configuration',
-                array('update', 'getCategoriesLastRevision', 'updateCategories'),
+                array('update', 'lastRevision', 'replicate'),
                 new Service\Configuration(
                     $this->gateway
                 )
