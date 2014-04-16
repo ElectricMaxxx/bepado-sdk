@@ -71,6 +71,11 @@ class Shopping
      */
     protected $calculator;
 
+    /**
+     * @var ShopConfiguration
+     */
+    protected $config;
+
     public function __construct(
         ShopFactory $shopFactory,
         ChangeVisitor $changeVisitor,

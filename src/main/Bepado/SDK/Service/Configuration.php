@@ -40,10 +40,11 @@ class Configuration
      *
      * @param array $configurations
      * @param array $features
+     * @param \Bepado\SDK\Struct\Address $billing
      *
      * @return void
      */
-    public function update(array $configurations, array $features = null)
+    public function update(array $configurations, array $features, Struct\Address $billing)
     {
         foreach ($configurations as $configuration) {
             $this->configuration->setShopConfiguration(
@@ -61,8 +62,24 @@ class Configuration
             );
         }
 
-        if (is_array($features)) {
-            $this->configuration->setEnabledFeatures($features);
+        $this->configuration->setEnabledFeatures($features);
+        $this->configuration->setBillingAddress($billing);
+    }
+
+    public function replicate(array $changes)
+    {
+        foreach ($changes as $change) {
+            $config = $change['configuration'];
+            $this->update(
+                $config->shops,
+                $config->features,
+                $config->billingAddress
+            );
         }
+    }
+
+    public function lastRevision()
+    {
+        return 0; // always replicate
     }
 }

@@ -378,8 +378,12 @@ final class SDK
     public function reserveProducts(Struct\Order $order)
     {
         $this->verifySdk();
-        $this->dependencies->getVerificator()->verify($order);
+
         $order->orderShop = $this->dependencies->getGateway()->getShopId();
+        $order->billingAddress = $this->dependencies->getGateway()->getBillingAddress();
+
+        $this->dependencies->getVerificator()->verify($order);
+
         return $this->dependencies->getShoppingService()->reserveProducts($order);
     }
 

@@ -104,7 +104,7 @@ class ShippingCostsContext extends SDKContext
                 array(
                     'service' => 'configuration',
                     'command' => 'update',
-                    'arguments' => array($configurations)
+                    'arguments' => array($configurations, array(), new Struct\Address())
                 )
             )
         );
