@@ -123,7 +123,23 @@ class ShopPurchaseContext extends SDKContext
 
     private function distributeShopConfiguration()
     {
+        $billingAddress = new Struct\Address(
+            array(
+                'name' => 'Shop Doe',
+                'line1' => 'Shop-Street 42',
+                'zip' => '12345',
+                'city' => 'Shopfingen',
+                'country' => 'DEU',
+                'email' => 'shop@qafoo.com',
+                'phone' => '+12345678',
+            )
+        );
+
+        $this->gateway->setBillingAddress($billingAddress);
+
         for ($i = 1; $i <= 2; ++$i) {
+            $this->remoteGateway->setBillingAddress($billingAddress);
+
             $this->gateway->setShopConfiguration(
                 'shop-' . $i,
                 new Struct\ShopConfiguration(
@@ -217,17 +233,6 @@ class ShopPurchaseContext extends SDKContext
             $this->order = new Struct\Order();
 
             $this->order->deliveryAddress = new Struct\Address(
-                array(
-                    'name' => 'John Doe',
-                    'line1' => 'Foo-Street 42',
-                    'zip' => '12345',
-                    'city' => 'Sindelfingen',
-                    'country' => 'DEU',
-                    'email' => 'foo@qafoo.com',
-                    'phone' => '+12345678',
-                )
-            );
-            $this->order->billingAddress = new Struct\Address(
                 array(
                     'name' => 'John Doe',
                     'line1' => 'Foo-Street 42',
