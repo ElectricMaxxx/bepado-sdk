@@ -65,4 +65,21 @@ class Configuration
         $this->configuration->setEnabledFeatures($features);
         $this->configuration->setBillingAddress($billing);
     }
+
+    public function replicate(array $changes)
+    {
+        foreach ($changes as $change) {
+            $config = $change['configuration'];
+            $this->update(
+                $config->shops,
+                $config->features,
+                $config->billingAddress
+            );
+        }
+    }
+
+    public function lastRevision()
+    {
+        return 0; // always replicate
+    }
 }
