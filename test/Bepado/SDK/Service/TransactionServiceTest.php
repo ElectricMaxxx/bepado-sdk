@@ -36,11 +36,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             \Phake::mock('Bepado\SDK\Struct\VerificatorDispatcher')
         );
 
-        \Phake::when($this->configuration)
-            ->getShopConfiguration(self::BUYER_SHOP_ID)
-            ->thenReturn(new Struct\ShopConfiguration(array(
-                'priceGroupMargin' => 0,
-            )));
+        $this->givenPriceGroupMarginIs(0);
     }
 
     /**
@@ -59,13 +55,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             'purchasePrice' => 0,
         ));
 
-        $products = new Struct\ProductList(array(
-            'products' => array($remoteProduct)
-        ));
-
-        \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
-
-        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
+        $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
 
         $this->assertTrue($result);
     }
@@ -81,13 +71,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             'availability' => 0,
         ));
 
-        $products = new Struct\ProductList(array(
-            'products' => array($remoteProduct)
-        ));
-
-        \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
-
-        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
+        $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
 
         $this->assertContainsOnly('Bepado\SDK\Struct\Change\InterShop\Update', $result);
     }
@@ -103,24 +87,14 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             'availability' => -1,
         ));
 
-        $products = new Struct\ProductList(array(
-            'products' => array($remoteProduct)
-        ));
-
-        \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
-
-        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
+        $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
 
         $this->assertContainsOnly('Bepado\SDK\Struct\Change\InterShop\Update', $result);
     }
 
     public function testCheckIncludesPriceGroupMarginOnPurchasePrice()
     {
-        \Phake::when($this->configuration)
-            ->getShopConfiguration(self::BUYER_SHOP_ID)
-            ->thenReturn(new Struct\ShopConfiguration(array(
-                'priceGroupMargin' => 10,
-            )));
+        $this->givenPriceGroupMarginIs(10);
 
         $remoteProduct = new Struct\Product(array(
             'sourceId' => 10,
@@ -133,15 +107,51 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             'purchasePrice' => 100,
         ));
 
+        $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
+
+        $this->assertTrue($result);
+    }
+
+    public function testIntershopUpdateIncludesPriceGroupMargin()
+    {
+        $this->givenPriceGroupMarginIs(10);
+
+        $remoteProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => 100,
+            'purchasePrice' => 50,
+        ));
+        $localProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => 100,
+            'purchasePrice' => 100,
+        ));
+
+        $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
+
+        $this->assertInstanceOf('Bepado\SDK\Struct\Change\InterShop\Update', $result[0]);
+        $this->assertEquals(50, $result[0]->oldProduct->purchasePrice);
+        $this->assertEquals(90, $result[0]->product->purchasePrice);
+    }
+
+    private function givenPriceGroupMarginIs($margin)
+    {
+        \Phake::when($this->configuration)
+            ->getShopConfiguration(self::BUYER_SHOP_ID)
+            ->thenReturn(new Struct\ShopConfiguration(array(
+                'priceGroupMargin' => $margin,
+            )));
+    }
+
+    private function whenCheckProductsWith($localProduct, $remoteProduct)
+    {
         $products = new Struct\ProductList(array(
             'products' => array($remoteProduct)
         ));
 
         \Phake::when($this->fromShop)->getProducts(array(10))->thenReturn(array($localProduct));
 
-        $result = $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
-
-        $this->assertTrue($result);
+        return $this->transaction->checkProducts($products, self::BUYER_SHOP_ID);
     }
 }
 
