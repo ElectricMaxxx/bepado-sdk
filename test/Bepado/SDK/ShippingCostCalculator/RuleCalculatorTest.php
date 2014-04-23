@@ -181,6 +181,111 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10.7, $result->grossShippingCosts);
     }
 
+    public function testCalculateVatModeProporitionately()
+    {
+        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+            new Rules(
+                array(
+                    'vatMode' => Rules::VAT_PROPORTIONATELY,
+                    'rules' => array(
+                        new Rule\FixedPrice(
+                            array(
+                                'price' => 10,
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        $result = $this->calculator->calculateShippingCosts(
+            new \Bepado\SDK\Struct\Order(
+                array(
+                    'orderShop' => 2,
+                    'providerShop' => 1,
+                    'products' => array(
+                        new \Bepado\SDK\Struct\OrderItem(
+                            array(
+                                'count' => 1,
+                                'product' => new \Bepado\SDK\Struct\Product(
+                                    array(
+                                        'shopId' => 1,
+                                        'vat' => 0.19,
+                                        'purchasePrice' => 100,
+                                    )
+                                ),
+                            )
+                        ),
+                        new \Bepado\SDK\Struct\OrderItem(
+                            array(
+                                'count' => 1,
+                                'product' => new \Bepado\SDK\Struct\Product(
+                                    array(
+                                        'shopId' => 1,
+                                        'freeDelivery' => false,
+                                        'purchasePrice' => 10,
+                                        'vat' => 0.07,
+                                    )
+                                ),
+                            )
+                        ),
+                    ),
+                )
+            ),
+            'test'
+        );
+
+        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertEquals(10, $result->shippingCosts);
+        $this->assertEquals(11.790909090909, $result->grossShippingCosts);
+    }
+
+    public function testCalculateVatModeProporitionatelySingleOrderItem()
+    {
+        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+            new Rules(
+                array(
+                    'vatMode' => Rules::VAT_PROPORTIONATELY,
+                    'rules' => array(
+                        new Rule\FixedPrice(
+                            array(
+                                'price' => 10,
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        $result = $this->calculator->calculateShippingCosts(
+            new \Bepado\SDK\Struct\Order(
+                array(
+                    'orderShop' => 2,
+                    'providerShop' => 1,
+                    'products' => array(
+                        new \Bepado\SDK\Struct\OrderItem(
+                            array(
+                                'count' => 1,
+                                'product' => new \Bepado\SDK\Struct\Product(
+                                    array(
+                                        'shopId' => 1,
+                                        'vat' => 0.19,
+                                        'purchasePrice' => 100,
+                                    )
+                                ),
+                            )
+                        ),
+                    ),
+                )
+            ),
+            'test'
+        );
+
+        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertEquals(10, $result->shippingCosts);
+        $this->assertEquals(11.9, $result->grossShippingCosts);
+    }
+
     public function testCalculationAbortedWhenProviderOrderShopAreEmpty()
     {
         $this->setExpectedException(
