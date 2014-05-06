@@ -17,9 +17,12 @@ in your account. The Key is a computed value using the bepado API Key.
 The HMAC Key is generatd using SHA-512 as an algorihtm, the secret is the bepado API Key
 and the payload is the JSON formatted body. The PHP code to build the secret is:
 
-    $data = array('pay' => 'load');
-    $payload = json_encode($data);
-    $key = hash_hmac('sha512', $payload, $apiKey);
+```php
+<?php
+$data = array('pay' => 'load');
+$payload = json_encode($data);
+$key = hash_hmac('sha512', $payload, $apiKey);
+```
 
 ## Update Order Status
 
@@ -82,50 +85,52 @@ When an order is created through bepado with two or more parties you can get not
 of the details of this order with the "order_created" hook. A sample XML request
 looks like this:
 
-    <?xml version="1.0" encoding="UTF-8"?>
-    <order-event xmlns="http://schema.bepado.de/order+v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.bepado.de/order+v1 https://sn.bepado.de/schema/order_v1.xsd">
-     <event>order_created</event>
-     <order transaction-id="" transaction-date="2014-05-06 12:15:00" supplier-shop="22" supplier-order-id="200" merchant-shop="20" merchant-order-id="100">
-      <shipping-costs net="10" gross="11.9"/>
-      <customer-total net="190" gross="214.1"/>
-      <intershop-total net="110" gross="124.9"/>
-      <delivery-address>
-        <company>Acme Corp.</company>
-        <name>Max Mustermann</name>
-        <first-name>Max</first-name>
-        <middle-name/>
-        <sur-name>Mustermann</sur-name>
-        <street>Neustraße</street>
-        <street-number>22</street-number>
-        <door-code>a</door-code>
-        <additional-address-line>foo</additional-address-line>
-        <zip>12345</zip>
-        <city>Neustadt</city>
-        <country>Germany</country>
-      </delivery-address>
-      <billing-address>
-        <company>Acme Corp.</company>
-        <first-name>Max</first-name>
-        <sur-name>Mustermann</sur-name>
-        <street>Neustraße</street>
-        <street-number>12-14a</street-number>
-        <door-code/>
-        <additional-address-line/>
-        <zip>12345</zip>
-        <city>Neustadt</city>
-        <country>Germany</country>
-        <phone>+1234</phone>
-        <email>max@mustermann.de</email>
-      </billing-address>
-      <order-items>
-        <item source-id="1" count="1">
-          <customer-price net="100" gross="107"/>
-          <intershop-price net="50" gross="53.5"/>
-        </item>
-        <item source-id="2" count="3">
-          <customer-price net="90" gross="107.1"/>
-          <intershop-price net="60" gross="71.4"/>
-        </item>
-      </order-items>
-     </order>
-    </order-event>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<order-event xmlns="http://schema.bepado.de/order+v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.bepado.de/order+v1 https://sn.bepado.de/schema/order_v1.xsd">
+ <event>order_created</event>
+ <order transaction-id="" transaction-date="2014-05-06 12:15:00" supplier-shop="22" supplier-order-id="200" merchant-shop="20" merchant-order-id="100">
+  <shipping-costs net="10" gross="11.9"/>
+  <customer-total net="190" gross="214.1"/>
+  <intershop-total net="110" gross="124.9"/>
+  <delivery-address>
+    <company>Acme Corp.</company>
+    <name>Max Mustermann</name>
+    <first-name>Max</first-name>
+    <middle-name/>
+    <sur-name>Mustermann</sur-name>
+    <street>Neustraße</street>
+    <street-number>22</street-number>
+    <door-code>a</door-code>
+    <additional-address-line>foo</additional-address-line>
+    <zip>12345</zip>
+    <city>Neustadt</city>
+    <country>Germany</country>
+  </delivery-address>
+  <billing-address>
+    <company>Acme Corp.</company>
+    <first-name>Max</first-name>
+    <sur-name>Mustermann</sur-name>
+    <street>Neustraße</street>
+    <street-number>12-14a</street-number>
+    <door-code/>
+    <additional-address-line/>
+    <zip>12345</zip>
+    <city>Neustadt</city>
+    <country>Germany</country>
+    <phone>+1234</phone>
+    <email>max@mustermann.de</email>
+  </billing-address>
+  <order-items>
+    <item source-id="1" count="1">
+      <customer-price net="100" gross="107"/>
+      <intershop-price net="50" gross="53.5"/>
+    </item>
+    <item source-id="2" count="3">
+      <customer-price net="90" gross="107.1"/>
+      <intershop-price net="60" gross="71.4"/>
+    </item>
+  </order-items>
+ </order>
+</order-event>
+```
