@@ -52,7 +52,7 @@ Example:
 ## Register Event Hooks
 
 bepado provides event hooks for events. Whenever something interesting happens inside bepado
-you may opt-in to get notified about these events via Webhook (XML over HTTP POST).
+you may opt-in to get notified about these events via Webhook.
 
 Currently the following events exist:
 
@@ -79,6 +79,48 @@ Example:
 Security of hooks: When bepado notifies your url of an event, it uses the `X-Bepado-Shop` and `X-Bepado-Key` headers as well. You can use them to verify
 that it was really bepado that sent you the event and not some malicous third party.
 
+### Ensuring Message Delivery
+
+To ensure that events are really delivered we implement the webhook as replication using incremental revisions.
+This prevents loss of data through network outage or any problems on the recieving end of the communication.
+
+Each registered webhook will recieve a stream of events ordered by the revision number. Before any
+new events are sent to the server it is checked that the previous event(s) were recieved.
+
+This is why your webhook implementation needs to implement two modes of operation:
+
+1. A GET request that returns the last successfully processed event-revision.
+2. a POST request that accepts the next event.
+
+Lets take a hypothetical "http://example.org/hook" URL and look at the communication:
+
+1. bepado asks the last processed event revision:
+
+        GET /hook
+        Host: example.org
+
+2. Your server responds with an XML snippet containing the last processed event revision, for example "1":
+
+        HTTP/1.1 200 OK
+        Content-Type: text/xml; charset=UTF-8
+
+        <last-revision>1</last-revision>
+
+3. bepado replicates the next event with id higher than "1" to your server:
+
+        POST /hook
+        Host: example.org
+
+        <order-event>
+            <revision>2</revision>
+            <!-- ... -->
+        </order-event>
+
+4. You save the Revision 2 from the `<revision>`-tag in your database as
+   the last processed revision when you can guarantee that the event was stored on
+   your side. If your server fails to save the revision then bepado will attempt
+   to send the event again some time later.
+
 ### Event "order_created"
 
 When an order is created through bepado with two or more parties you can get notified
@@ -88,6 +130,7 @@ looks like this:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <order-event xmlns="http://schema.bepado.de/order+v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.bepado.de/order+v1 https://sn.bepado.de/schema/order_v1.xsd">
+ <revision>1</revision>
  <event>order_created</event>
  <order transaction-id="" transaction-date="2014-05-06 12:15:00" supplier-shop="22" supplier-order-id="200" merchant-shop="20" merchant-order-id="100">
   <shipping-costs net="10" gross="11.9"/>
