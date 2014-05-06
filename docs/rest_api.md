@@ -116,10 +116,12 @@ Lets take a hypothetical "http://example.org/hook" URL and look at the communica
             <!-- ... -->
         </order-event>
 
-4. You save the Revision 2 from the `<revision>`-tag in your database as
-   the last processed revision when you can guarantee that the event was stored on
+4. You save the Revision 2 from the `<revision>`-tag in your database as the
+   last processed revision when you can guarantee that the event was stored on
    your side. If your server fails to save the revision then bepado will attempt
-   to send the event again some time later.
+   to send the event again some time later. Using a database transaction to save
+   both the events data and update the last revision is the best way to achieve
+   this task.
 
 ### Event "order_created"
 
@@ -132,7 +134,7 @@ looks like this:
 <order-event xmlns="http://schema.bepado.de/order+v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.bepado.de/order+v1 https://sn.bepado.de/schema/order_v1.xsd">
  <revision>1</revision>
  <event>order_created</event>
- <order transaction-id="" transaction-date="2014-05-06 12:15:00" supplier-shop="22" supplier-order-id="200" merchant-shop="20" merchant-order-id="100">
+ <order transaction-id="1" transaction-date="2014-05-06 12:15:00" supplier-shop="22" supplier-order-id="200" merchant-shop="20" merchant-order-id="100">
   <shipping-costs net="10" gross="11.9"/>
   <customer-total net="190" gross="214.1"/>
   <intershop-total net="110" gross="124.9"/>
@@ -176,4 +178,52 @@ looks like this:
   </order-items>
  </order>
 </order-event>
+```
+
+### Event: "order_status_updated"
+
+When the status of an order is updated an event is fired for this change.
+
+The following order status values are allowed:
+
+- `open` - When the transaction/order is created
+- `in_process` - When the supplier started processing the order
+- `shipped` - When the supplier sent out the order to his shipping company
+- `delivered` - When the shipping company marked the order as delivered and the supplier marks the order as delivered
+- `canceled` - When either merchant or supplier mark the order as canceled for various reasons (end customer canceled, untrustworthy customer, payment not accepted, ...)
+- `error` - When automatic processing failed
+
+Please note that not all shop systems can transition to all states.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<order-event xmlns="http://schema.bepado.de/order+v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.bepado.de/order+v1 https://sn.bepado.de/schema/order_v1.xsd">
+    <revision>2</revision>
+    <event>order_status_updated</event>
+    <order transaction-id="1" transaction-date="2014-05-06 12:15:00" supplier-shop="22" supplier-order-id="200" merchant-shop="20" merchant-order-id="100">
+        <status>in_process</status>
+    </order>
+</order>
+```
+
+### Event: "order_payment_status_updated"
+
+When the payment status of an order is updated an event is fired for this change.
+A payment here is the payment of the merchant shop to the supplier. No information
+is exchanged about the payment status of the end customer.
+
+The interesting payment states are:
+
+- "instructed" - When the supplier marks an order payed by invoice as instructed to his bank.
+- "received" - When the payment provider executed the payment or the supplier marked the invoice as payed.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<order-event xmlns="http://schema.bepado.de/order+v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.bepado.de/order+v1 https://sn.bepado.de/schema/order_v1.xsd">
+    <revision>3</revision>
+    <event>order_payment_status_updated</event>
+    <order transaction-id="1" transaction-date="2014-05-06 12:15:00" supplier-shop="22" supplier-order-id="200" merchant-shop="20" merchant-order-id="100">
+        <payment-status>received</payment-status>
+    </order>
+</order>
 ```
