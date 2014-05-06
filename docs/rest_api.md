@@ -58,11 +58,15 @@ Currently the following events exist:
 
 - `order_created` is triggered when an order was created through bepado. It will be published to both parties (supplier and dealer) when they have a hook registered. The dealer can recieve multiple events for the same order when different suppliers took part in the transaction.
 
+- `order_status_updated` is triggered when either supplier or merchant update the status of the order.
+
+- `order_payment_status_updated` is triggered when information about the payment between merchant and supplier are updated.
+
 Endpoint: https://sn.bepado.de/sdk/hooks
 Method: POST/DELETE
 Payload:
 
-- `eventName` - Name of the event to register a hook url to
+- `eventName` - Name of the event to register a hook url to or list of events seperated by comma.
 - `url` - URL where to send the hook to.
 
 Example:
@@ -72,7 +76,7 @@ Example:
     X-Bepado-Key: abcdefg
 
     {
-        "eventName": "order_created",
+        "eventName": "order_created,order_status_updated,order_payment_status_updated",
         "url": "http://example.com/my_hook.php"
     }
 
