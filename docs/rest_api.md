@@ -1,16 +1,14 @@
-REST-API Bepado Platform
-========================
+# REST-API Bepado Platform
 
 Some of the SDK calls to bepado can be done without the SDK, using the REST-API.
 The SDK has convenience methods for these calls if you are using PHP anyways.
 
-Authentication
---------------
+## Authentication
 
 Authentication to the REST API happens via HTTP headers using HMAC-SHA512.
 With every request you have to transmit:
 
-    X-Bepado-ShopId: Id
+    X-Bepado-Shop: Id
     X-Bepado-Key: HMAC-Key
 
 The shop id can be found in the bepado "Exchange" (Synchronization) tab
@@ -23,8 +21,7 @@ and the payload is the JSON formatted body. The PHP code to build the secret is:
     $payload = json_encode($data);
     $key = hash_hmac('sha512', $payload, $apiKey);
 
-Update Order Status
--------------------
+## Update Order Status
 
 As a supplier (Lieferant) I can update the status of a bepado order so that
 the dealer (Händler) and end-customer can be informed about changes.
@@ -40,7 +37,7 @@ Payload:
 Example:
 
     POST https://sn.bepado.de/sdk/update-order-status
-    X-Bepado-ShopId: 1
+    X-Bepado-Shop: 1
     X-Bepado-Key: abcdefg
 
     {
@@ -49,8 +46,7 @@ Example:
         "tracking": {"id": "ABCDEFG1234567890"}
     }
 
-Register Event Hooks
---------------------
+## Register Event Hooks
 
 bepado provides event hooks for events. Whenever something interesting happens inside bepado
 you may opt-in to get notified about these events via Webhook (XML over HTTP POST).
@@ -69,7 +65,7 @@ Payload:
 Example:
 
     POST https://sn.bepado.de/sdk/hooks
-    X-Bepado-ShopId: 1
+    X-Bepado-Shop: 1
     X-Bepado-Key: abcdefg
 
     {
@@ -77,11 +73,10 @@ Example:
         "url": "http://example.com/my_hook.php"
     }
 
-Security of hooks: When bepado notifies your url of an event, it uses the X-Bepado-ShopId and X-Bepado-Key headers as well. You can use them to verify
+Security of hooks: When bepado notifies your url of an event, it uses the `X-Bepado-Shop` and `X-Bepado-Key` headers as well. You can use them to verify
 that it was really bepado that sent you the event and not some malicous third party.
 
-Event "order_created"
-~~~~~~~~~~~~~~~~~~~~~
+### Event "order_created"
 
 When an order is created through bepado with two or more parties you can get notified
 of the details of this order with the "order_created" hook. A sample XML request
