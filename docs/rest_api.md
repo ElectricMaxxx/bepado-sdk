@@ -105,7 +105,7 @@ looks like this:
     <additional-address-line>foo</additional-address-line>
     <zip>12345</zip>
     <city>Neustadt</city>
-    <country>Germany</country>
+    <country>DEU</country>
   </delivery-address>
   <billing-address>
     <company>Acme Corp.</company>
@@ -117,7 +117,7 @@ looks like this:
     <additional-address-line/>
     <zip>12345</zip>
     <city>Neustadt</city>
-    <country>Germany</country>
+    <country>DEU</country>
     <phone>+1234</phone>
     <email>max@mustermann.de</email>
   </billing-address>
