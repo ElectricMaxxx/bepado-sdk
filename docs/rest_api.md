@@ -24,6 +24,27 @@ $payload = json_encode($data);
 $key = hash_hmac('sha512', $payload, $apiKey);
 ```
 
+## Ping / Test Authentication
+
+You can test the authenticatoin with the REST API by using the Ping endpoint:
+
+Endpoint: https://sn.bepado.de/sdk/ping
+Method: POST
+
+Every payload you send will be returned directly to you if everything
+was successful. A statuscode 200 will be set as well. If any error
+in authentication happens you will receieve a status code in the range of 400.
+
+Example:
+
+    POST https://sn.bepado.de/sdk/ping
+    X-Bepado-Shop: 1
+    X-Bepado-Key: abcdefg
+
+    {
+        "Hello": "World"
+    }
+
 ## Update Order Status
 
 As a supplier (Lieferant) I can update the status of a bepado order so that
