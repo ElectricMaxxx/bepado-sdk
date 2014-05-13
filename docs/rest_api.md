@@ -103,6 +103,8 @@ Lets take a hypothetical "http://example.org/hook" URL and look at the communica
         GET /hook
         Host: example.org
 
+    Only the `X-Bepado-Shop` header is transmitted in this GET request.
+
 2. Your server responds with an XML snippet containing the last processed event revision, for example "1":
 
         HTTP/1.1 200 OK
@@ -120,12 +122,14 @@ Lets take a hypothetical "http://example.org/hook" URL and look at the communica
             <!-- ... -->
         </order-event>
 
-4. You save the Revision 2 from the `<revision>`-tag in your database as the
-   last processed revision when you can guarantee that the event was stored on
-   your side. If your server fails to save the revision then bepado will attempt
-   to send the event again some time later. Using a database transaction to save
-   both the events data and update the last revision is the best way to achieve
-   this task.
+    In this case `X-Bepado-Shop` and `X-Bepado-Key` are transmitted and allow you to verify that the event was really sent by bepado.
+
+4. You save the Revision `2` (in this case) from the `<revision>`-tag in your
+   database as the last processed revision when you can guarantee that the event
+   was stored on your side. If your server fails to save the revision then bepado
+   will attempt to send the event again some time later. Using a database
+   transaction to save both the events data and update the last revision is the
+   best way to achieve this task.
 
 ### Event "order_created"
 
