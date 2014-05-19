@@ -17,6 +17,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'price' => 10.10,
             'purchasePrice' => 20.20,
             'availability' => 0,
+            'vendor' => 'Foo',
         ));
     }
 
@@ -34,6 +35,24 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testValidProduct()
     {
         $this->verify($this->createValidProduct());
+    }
+
+    public function testVendorEmptyIsError()
+    {
+        $product = $this->createValidProduct();
+        $product->vendor = null;
+
+        $this->setExpectedException('RuntimeException', 'Property vendor MUST be non-empty.');
+        $this->verify($product);
+    }
+
+    public function testTitleEmptyIsError()
+    {
+        $product = $this->createValidProduct();
+        $product->title = null;
+
+        $this->setExpectedException('RuntimeException', 'Property title MUST be non-empty.');
+        $this->verify($product);
     }
 
     public function testValidUnitAttributes()

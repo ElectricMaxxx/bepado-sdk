@@ -59,6 +59,12 @@ class Product extends Verificator
             }
         }
 
+        foreach (array('title', 'vendor') as $property) {
+            if (trim($struct->$property) === '') {
+                throw new \RuntimeException("Property $property MUST be non-empty.");
+            }
+        }
+
         if (empty($struct->purchasePrice) || $struct->purchasePrice <= 0) {
             throw new \RuntimeException("The purchasePrice is not allowed to be 0 or smaller.");
         }

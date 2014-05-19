@@ -120,6 +120,7 @@ class SDKContext extends BehatContext
                 'currency' => 'EUR',
                 'availability' => $productId,
                 'categories' => array('/others'),
+                'vendor' => 'Something',
             )
         );
     }

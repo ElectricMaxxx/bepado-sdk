@@ -40,6 +40,7 @@ class Test implements ProductFromShop
                         'currency' => 'EUR',
                         'availability' => $productId,
                         'categories' => array('/others'),
+                        'vendor' => 'Foo',
                     )
                 );
             },

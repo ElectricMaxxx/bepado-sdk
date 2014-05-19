@@ -136,6 +136,7 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
                 'shopId' => 'shop-1',
                 'sourceId' => (string) $productId,
                 'title' => $data,
+                'vendor' => 'Foo',
                 'price' => $productId * .89,
                 'purchasePrice' => $productId * .89,
                 'currency' => 'EUR',

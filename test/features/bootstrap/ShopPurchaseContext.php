@@ -215,6 +215,7 @@ class ShopPurchaseContext extends SDKContext
                     'availability' => 5,
                     'title' => 'Sindelfingen',
                     'categories' => array('/others'),
+                    'vendor' => 'Foo',
                 )
             );
         }
@@ -259,6 +260,7 @@ class ShopPurchaseContext extends SDKContext
                         'availability' => 5,
                         'title' => 'Sindelfingen',
                         'categories' => array('/others'),
+                        'vendor' => 'Foo',
                     )
                 ),
             )
@@ -319,6 +321,7 @@ class ShopPurchaseContext extends SDKContext
                             'availability' => 0,
                             'title' => 'Sindelfingen',
                             'categories' => array('/others'),
+                            'vendor' => 'Foo',
                         )
                     ),
                 )
@@ -344,6 +347,7 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 5,
                             'title' => 'Sindelfingen',
+                            'vendor' => 'Foo',
                             'categories' => array('/others'),
                         )
                     ),
@@ -458,6 +462,7 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 5,
                             'title' => 'Sindelfingen',
+                            'vendor' => 'Foo',
                             'categories' => array('/others'),
                         )
                     ),
@@ -515,6 +520,7 @@ class ShopPurchaseContext extends SDKContext
                             'fixedPrice' => $this->fixedPriceItems,
                             'currency' => 'EUR',
                             'availability' => 0,
+                            'vendor' => 'Foo',
                             'title' => 'Sindelfingen',
                             'categories' => array('/others'),
                         )
@@ -659,6 +665,7 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 0,
                             'title' => 'Sindelfingen',
+                            'vendor' => 'Foo',
                             'categories' => array('/others'),
                         )
                     ),
