@@ -123,8 +123,10 @@ Lets take a hypothetical "http://example.org/hook" URL and look at the communica
 
         GET /hook
         Host: example.org
+        X-Bepado-Shop: <ShopId>
+        X-Bepado-Key: <HMAC>
 
-    Only the `X-Bepado-Shop` header is transmitted in this GET request.
+    The `X-Bepado-Key` header is generated over an empty payload in this request.
 
 2. Your server responds with an XML snippet containing the last processed event revision, for example "1":
 
@@ -137,6 +139,9 @@ Lets take a hypothetical "http://example.org/hook" URL and look at the communica
 
         POST /hook
         Host: example.org
+        X-Bepado-Shop: <ShopId>
+        X-Bepado-Key: <HMAC>
+        X-Bepado-Event: <EventName>
 
         <order-event>
             <revision>2</revision>

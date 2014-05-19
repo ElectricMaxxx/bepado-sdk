@@ -9,4 +9,4 @@ services:
   - mysql
 
 before_script: "ant -logger org.apache.tools.ant.NoBannerLogger db:initialize composer:composer"
-script: "ant -logger org.apache.tools.ant.NoBannerLogger behat && php vendor/bin/phpunit"
+script: "php vendor/bin/behat && php vendor/bin/phpunit"
