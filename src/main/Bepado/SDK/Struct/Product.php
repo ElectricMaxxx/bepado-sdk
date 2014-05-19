@@ -209,6 +209,10 @@ class Product extends ShopItem
     /**
      * List of product image URLs
      *
+     * The order of the images is relevant. The main image of the product
+     * has to be at position 0 and is the only one used for presenting
+     * the product on window-shopping and the product finder inside bepado.
+     *
      * @var string[]
      */
     public $images = array();
