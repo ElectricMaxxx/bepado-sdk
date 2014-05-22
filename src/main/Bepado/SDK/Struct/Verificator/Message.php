@@ -30,11 +30,11 @@ class Message extends Verificator
     public function verify(VerificatorDispatcher $dispatcher, Struct $struct)
     {
         if (!is_string($struct->message)) {
-            throw new \RuntimeException('$message MUST be a string.');
+            throw new \Bepado\SDK\Exception\VerificationFailedException('$message MUST be a string.');
         }
 
         if (!is_array($struct->values)) {
-            throw new \RuntimeException('$values MUST be an array.');
+            throw new \Bepado\SDK\Exception\VerificationFailedException('$values MUST be an array.');
         }
     }
 }
