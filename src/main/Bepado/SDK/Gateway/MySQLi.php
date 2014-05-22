@@ -112,12 +112,12 @@ class MySQLi extends Gateway
         }
 
         // Disable cleanup for the first betas for debuggability and easier re-runs.
-        /*$this->connection->query(
+        $this->connection->query(
             'DELETE FROM
                 bepado_change
             WHERE
                 c_revision <= ' . $offset
-        );*/
+        );
     }
 
     private function ensureUtf8($product)
