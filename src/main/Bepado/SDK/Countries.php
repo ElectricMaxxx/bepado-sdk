@@ -67,7 +67,7 @@ class Countries
     {
         $iso2 = array_search($iso3, self::$countries);
         if ($iso2 === false) {
-            throw new \Exception('Country not found!2 ');
+            throw new \Exception('Country not found!');
         }
 
         return $iso2;
@@ -82,7 +82,7 @@ class Countries
     public static function getISO3($iso2)
     {
         if (!isset(self::$countries[$iso2])) {
-            throw new \Exception('Country not found! 2');
+            throw new \Exception('Country not found!');
         }
 
         return self::$countries[$iso2];
