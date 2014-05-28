@@ -31,13 +31,13 @@ class CountriesTest extends \PHPUnit_Framework_TestCase
 
     public function testISO3NotFound()
     {
-        $this->setExpectedException('Exception', 'Country not found!');
+        $this->setExpectedException('InvalidArgumentException', 'Country not found!');
         Countries::getISO3('GL');
     }
 
     public function testISO2NotFound()
     {
-        $this->setExpectedException('Exception', 'Country not found!');
+        $this->setExpectedException('InvalidArgumentException', 'Country not found!');
         Countries::getISO2('GL');
     }
 }
