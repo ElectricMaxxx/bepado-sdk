@@ -93,8 +93,8 @@ class Product extends Verificator
             throw new \Bepado\SDK\Exception\VerificationFailedException("Product#attributes has to be an array.");
         }
 
-        if (!is_array($struct->images) && $struct->images !== null) {
-            throw new \Bepado\SDK\Exception\VerificationFailedException("Product#images must be an array or null.");
+        if (!is_array($struct->images)) {
+            throw new \Bepado\SDK\Exception\VerificationFailedException("Product#images must be an array.");
         }
 
         if (is_array($struct->images) && array_values($struct->images) !== $struct->images) {

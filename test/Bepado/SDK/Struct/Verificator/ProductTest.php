@@ -125,9 +125,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                null
-            ),
-            array(
                 array()
             ),
             array(
@@ -149,7 +146,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $product->images = $images;
 
-        $this->setExpectedException('RuntimeException', 'Product#images must be an array or null.');
+        $this->setExpectedException('RuntimeException', 'Product#images must be an array.');
         $this->verify($product);
     }
 
@@ -161,6 +158,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 new \ArrayObject()
+            ),
+            array(
+                null
             ),
         );
     }
