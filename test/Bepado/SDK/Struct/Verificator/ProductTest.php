@@ -107,4 +107,87 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array('10,4x10,4x10,4'),
         );
     }
+
+    /**
+     * @param mixed $images
+     * @dataProvider dataValidImages
+     */
+    public function testValidImages($images)
+    {
+        $product = $this->createValidProduct();
+
+        $product->images = $images;
+
+        $this->verify($product);
+    }
+
+    static public function dataValidImages()
+    {
+        return array(
+            array(
+                null
+            ),
+            array(
+                array()
+            ),
+            array(
+                array('foo', 'bar')
+            ),
+            array(
+                array(0 => 'foo', 1 => 'bar')
+            ),
+        );
+    }
+
+    /**
+     * @param mixed $images
+     * @dataProvider dataInvalidImagesBasetype
+     */
+    public function testInvalidImagesBasetype($images)
+    {
+        $product = $this->createValidProduct();
+
+        $product->images = $images;
+
+        $this->setExpectedException('RuntimeException', 'Product#images must be an array or null.');
+        $this->verify($product);
+    }
+
+    static public function dataInvalidImagesBasetype()
+    {
+        return array(
+            array(
+                'foo'
+            ),
+            array(
+                new \ArrayObject()
+            ),
+        );
+    }
+
+    /**
+     * @param mixed $images
+     * @dataProvider dataInvalidImagesIndexing
+     */
+    public function testInvalidImagesIndexing($images)
+    {
+        $product = $this->createValidProduct();
+
+        $product->images = $images;
+
+        $this->setExpectedException('RuntimeException', 'Product#images must be numerically indexed starting with 0.');
+        $this->verify($product);
+    }
+
+    static public function dataInvalidImagesIndexing()
+    {
+        return array(
+            array(
+                array('foo' => 'foo', 'bar' => 'bar')
+            ),
+            array(
+                array(1 => 'foo', 2 => 'bar')
+            ),
+        );
+    }
 }
