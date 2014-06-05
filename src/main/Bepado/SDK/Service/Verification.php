@@ -58,7 +58,7 @@ class Verification
      */
     public function isVerified()
     {
-        return $this->config->getShopId() > 0;
+        return $this->config->getShopId() !== null;
     }
 
     /**
