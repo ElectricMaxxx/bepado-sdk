@@ -44,11 +44,12 @@ class Verification
      * Checks if verification is still valid
      *
      * @return bool
+     * @deprecated Use {@link isVerified()} instead.
      */
     public function isValid()
     {
-        return $this->config->getShopId() &&
-            ($this->config->getLastVerificationDate() > (time() - (7 * 86400)));
+        // Legacy fallback, does not force re-verification anymore
+        return $this->isVerified();
     }
 
     /**
