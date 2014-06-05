@@ -42,13 +42,6 @@ final class SDK
     private $apiEndpointUrl;
 
     /**
-     * Indicator if the SDK is verified agianst Bepado
-     *
-     * @var bool
-     */
-    private $verified = false;
-
-    /**
      * Dependency resolver for SDK dependencies
      *
      * @var DependencyResolver
@@ -105,8 +98,7 @@ final class SDK
      */
     public function isVerified()
     {
-        return ($this->verified ||
-            $this->dependencies->getVerificationService()->isVerified());
+        return $this->dependencies->getVerificationService()->isVerified();
     }
 
     /**
@@ -120,8 +112,7 @@ final class SDK
      */
     public function verifySdk()
     {
-        if ($this->verified ||
-            $this->dependencies->getVerificationService()->isValid()) {
+        if ($this->dependencies->getVerificationService()->isValid()) {
             return;
         }
 
