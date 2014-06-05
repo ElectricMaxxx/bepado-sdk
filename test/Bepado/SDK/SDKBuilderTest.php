@@ -8,6 +8,10 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildSdkWithAllParameters()
     {
+        if (!extension_loaded('pdo') || !extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('Test requires PDO and PDO_SQLITE.');
+        }
+
         $builder = new \Bepado\SDK\SDKBuilder();
         $builder
             ->setApiKey('foo')
@@ -26,6 +30,10 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildSdkWithRequiredOnly()
     {
+        if (!extension_loaded('pdo') || !extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('Test requires PDO and PDO_SQLITE.');
+        }
+
         $builder = new \Bepado\SDK\SDKBuilder();
         $builder
             ->setApiKey('foo')
