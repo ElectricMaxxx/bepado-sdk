@@ -16,7 +16,7 @@ There are two way to obtain the bepado SDK:
    If you download the SDK this way you need to integrate it into
    your project's class autoloader:
 
-        spl_function_register(function ($class) {
+        spl_autoload_register(function ($class) {
             if (strpos($class, 'Bepado\\SDK') === 0) {
                 $file = '/path/to/sdk/' . str_replace('\\', '/', $class) . '.php';
                 require_once($file);
@@ -162,6 +162,8 @@ URL using `$_SERVER`:
             ->setPluginSoftwareVersion('my Plugin v1.2.4')
         ;
         $sdk = $builder->build();
+
+        return $sdk;
     }
 
 You should obviously adjust this to the configuration system and style of your

@@ -118,6 +118,8 @@ might look like this:
             foreach ($products as $product) {
                 $sdkProducts[] = $this->convertToSdkProduct($product);
             }
+
+            return $sdkProducts;
         }
 
         private function convertToSdkProduct(ShopProduct $product)
