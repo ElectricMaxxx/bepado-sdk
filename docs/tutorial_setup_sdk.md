@@ -52,6 +52,7 @@ with empty method bodies for now:
 
     <?php
     use Bepado\SDK\ProductFromShop;
+    use Bepado\SDK\ProductToShop;
     use Bepado\SDK\Struct;
 
     class MyProductFromShop implements ProductFromShop
@@ -118,7 +119,7 @@ plugin.
     ;
     $sdk = $builder->build();
 
-    echo $sdk->handle(file_get_contents('php://input'));
+    echo $sdk->handle(file_get_contents('php://input'), $_SERVER);
 
 You now have an instance of the Bepado SDK. Open the page in the browser and
 you should get an Authorization error message.  bepado uses the API Key for
