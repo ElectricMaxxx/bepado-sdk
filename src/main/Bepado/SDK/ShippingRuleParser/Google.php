@@ -35,6 +35,16 @@ class Google extends ShippingRuleParser
     );
 
     /**
+     * Delivery times
+     *
+     * @var array
+     */
+    private $deliveryTimes = array(
+        'D' => 1,
+        'H' => 24,
+    );
+
+    /**
      * Parse shipping rules out of string
      *
      * @param string $string
@@ -124,7 +134,7 @@ class Google extends ShippingRuleParser
         $this->read($tokens, array('T_ELEMENT_SEPARATOR'));
 
         $rule->service = trim($this->read($tokens, array('T_DELIVERY_NAME'), true));
-        $rule->deliveryWorkDays = $this->read($tokens, array('T_DELIVERY_TIME'), true);
+        $rule->deliveryWorkDays = $this->convertDeliveryTime($this->read($tokens, array('T_DELIVERY_TIME'), true));
         $this->read($tokens, array('T_ELEMENT_SEPARATOR'));
 
         $rule->price = (float) $this->read($tokens, array('T_NUMBER'));
@@ -161,5 +171,26 @@ class Google extends ShippingRuleParser
         }
 
         return $token->value;
+    }
+
+    /**
+     * Convert delivery time
+     *
+     * @param string $definition
+     * @return int
+     */
+    protected function convertDeliveryTime($definition)
+    {
+        if ($definition === null) {
+            return null;
+        }
+
+        foreach ($this->deliveryTimes as $type => $factor) {
+            if (preg_match('(^(?P<value>\\d+)' . $type . '$)', $definition, $match)) {
+                return $match['value'] / $factor;
+            }
+        }
+
+        throw new \UnexpectedValueException("Unparsable delivery time $definition");
     }
 }
