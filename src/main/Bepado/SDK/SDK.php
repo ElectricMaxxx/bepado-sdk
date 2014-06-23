@@ -135,7 +135,7 @@ final class SDK
      */
     public function handle($xml, array $headers = null)
     {
-        if ($this->isPingRequest($xml)) {
+        if ($this->isPingRequest($headers)) {
             return $this->generatePongResponse();
         }
 
@@ -164,12 +164,13 @@ final class SDK
     }
 
     /**
-     * @param mixed $body
+     * @param array $headers
      * @return bool
      */
-    private function isPingRequest($body)
+    private function isPingRequest(array $headers = null)
     {
-        return strpos($body, '<ping/>') > 0;
+        return ($headers !== null && isset($headers['HTTP_X_BEPADO_PING'])
+            || $headers === null && isset($_SERVER['HTTP_X_BEPADO_PING']));
     }
 
     /**

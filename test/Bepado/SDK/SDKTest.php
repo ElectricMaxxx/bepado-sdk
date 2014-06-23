@@ -88,10 +88,7 @@ class SDKTest extends \PHPUnit_Framework_TestCase
 
     public function testPingRequest()
     {
-        $responseBody = $this->sdk->handle(
-            '<?xml version="1.0" encoding="utf-8"?>'. "\n"
-                . '<ping/>'
-        );
+        $responseBody = $this->sdk->handle('', array('HTTP_X_BEPADO_PING' => ''));
 
         $this->assertEquals(
             '<?xml version="1.0" encoding="utf-8"?>'. "\n"
