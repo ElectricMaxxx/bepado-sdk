@@ -135,6 +135,10 @@ final class SDK
      */
     public function handle($xml, array $headers = null)
     {
+        if ($this->isPingRequest($xml)) {
+            return $this->generatePongResponse();
+        }
+
         $this->verifySdk();
         $token = $this->verifyRequest($xml, $headers);
 
@@ -157,6 +161,24 @@ final class SDK
                 )
             )
         );
+    }
+
+    /**
+     * @param mixed $body
+     * @return bool
+     */
+    private function isPingRequest($body)
+    {
+        return strpos($body, '<ping/>') > 0;
+    }
+
+    /**
+     * @return string
+     */
+    private function generatePongResponse()
+    {
+        return '<?xml version="1.0" encoding="utf-8"?>'. "\n"
+            . '<pong/>';
     }
 
     /**
