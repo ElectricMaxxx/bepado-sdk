@@ -132,23 +132,23 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 ':',
-                'Unexpected T_EOF at position 1 – expected one of: T_ELEMENT_SEPARATOR'
+                'Unexpected end of input at position 1 – expected one of: Element separator ":", Zip code or region (eg. 45886 or 45*), Region identifier (eg. NRW), Country Code (ISO 3166-1) (eg. DE)'
             ),
             array(
                 ':::',
-                'Unexpected T_EOF at position 3 – expected one of: T_PRICE'
+                'Unexpected end of input at position 3 – expected one of: Price (english locale) (eg. 1.95)'
             ),
             array(
                 'invalid:::',
-                'Unexpected T_DELIVERY_NAME at position 0 – expected one of: T_ELEMENT_SEPARATOR, T_COUNTRY'
+                'Unexpected Delivery name (free text) at position 0 – expected one of: Element separator ":", Country Code (ISO 3166-1) (eg. DE)'
             ),
             array(
                 ':foo::',
-                'Unexpected T_DELIVERY_NAME at position 1 – expected one of: T_ELEMENT_SEPARATOR, T_ZIP, T_REGION, T_COUNTRY'
+                'Unexpected Delivery name (free text) at position 1 – expected one of: Element separator ":", Zip code or region (eg. 45886 or 45*), Region identifier (eg. NRW), Country Code (ISO 3166-1) (eg. DE)'
             ),
             array(
                 '::foo []:',
-                'Unexpected T_STRING at position 6 – expected one of: T_ELEMENT_SEPARATOR, T_DELIVERY_NAME'
+                'Unexpected random text at position 6 – expected one of: Element separator ":", Delivery name (free text)'
             ),
         );
     }

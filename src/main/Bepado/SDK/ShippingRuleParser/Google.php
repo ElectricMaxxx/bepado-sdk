@@ -35,6 +35,26 @@ class Google extends ShippingRuleParser
     );
 
     /**
+     * Token names
+     *
+     * @var array
+     */
+    private $tokenNames = array(
+        'T_WHITESPACE' => 'Whitespace',
+        'T_CURRENCY' => 'Currency code (ISO 4217) (eg. EUR)',
+        'T_COUNTRY' => 'Country Code (ISO 3166-1) (eg. DE)',
+        'T_PRICE' => 'Price (english locale) (eg. 1.95)',
+        'T_ZIP' => 'Zip code or region (eg. 45886 or 45*)',
+        'T_REGION' => 'Region identifier (eg. NRW)',
+        'T_ELEMENT_SEPARATOR' => 'Element separator ":"',
+        'T_RULE_SEPARATOR' => 'Rule separator ","',
+        'T_DELIVERY_NAME' => 'Delivery name (free text)',
+        'T_DELIVERY_TIME' => 'Delivery time (eg. [5D] or [48H])',
+        'T_STRING' => 'random text',
+        'T_EOF' => 'end of input',
+    );
+
+    /**
      * Delivery times
      *
      * If you extend this array, also adapt the T_DELIVERY_TIME rule
@@ -161,7 +181,7 @@ class Google extends ShippingRuleParser
     protected function read(array &$tokens, array $types, $optional = false)
     {
         if (!isset($tokens[0])) {
-            throw new \UnexpectedValueException("Empty token stack – expected one of: " . implode(', ', $types));
+            throw new \UnexpectedValueException("Empty token stack – expected one of: " . $this->getTokenNames($types));
         }
 
         if ($optional &&
@@ -172,11 +192,36 @@ class Google extends ShippingRuleParser
         $token = array_shift($tokens);
         if (!in_array($token->type, $types)) {
             throw new \UnexpectedValueException(
-                "Unexpected {$token->type} at position {$token->position} – expected one of: " . implode(', ', $types)
+                sprintf(
+                    "Unexpected %s at position %d – expected one of: %s",
+                    $this->getTokenNames($token->type),
+                    $token->position,
+                    $this->getTokenNames($types)
+                )
             );
         }
 
         return $token->value;
+    }
+
+    /**
+     * Get token names
+     *
+     * @param array $tokens
+     * @return string
+     */
+    protected function getTokenNames($tokens)
+    {
+        if (!is_array($tokens)) {
+            $tokens = array($tokens);
+        }
+
+        $names = array();
+        foreach ($tokens as $token) {
+            $names[] = $this->tokenNames[$token];
+        }
+
+        return implode(', ', $names);
     }
 
     /**
