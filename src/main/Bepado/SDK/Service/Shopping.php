@@ -296,9 +296,11 @@ class Shopping
                 $order->orderShop,
                 md5($remoteOrder->deliveryAddress->email)
             );
+
+            return $remoteOrder;
         }
 
-        return $remoteOrder;
+        return $order;
     }
 
     /**
