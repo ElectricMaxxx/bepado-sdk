@@ -150,6 +150,10 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 '::foo []:',
                 'Unexpected random text at position 6 – expected one of: Element separator ":", Delivery name (free text)'
             ),
+            array(
+                ':::7,45 EUR',
+                'Unexpected Zip code or region (eg. 45886 or 45*) at position 3 – expected one of: Price (english locale) (eg. 1.95)'
+            ),
         );
     }
 
