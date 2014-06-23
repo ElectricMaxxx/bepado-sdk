@@ -12,24 +12,39 @@ use Bepado\SDK\Struct\ShopConfiguration;
 
 class SDKTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetCategories()
+    private $sdk;
+
+    private $gatewayMock;
+
+    private $productToShopMock;
+
+    private $productFromShopMock;
+
+    public function setUp()
     {
-        $sdk = new SDK(
+        $this->gatewayMock = $this->getMock('\\Bepado\\SDK\\Gateway');
+        $this->productToShopMock = $this->getMock('\\Bepado\\SDK\\ProductToShop');
+        $this->productFromShopMock = $this->getMock('\\Bepado\\SDK\\ProductFromShop');
+
+        $this->sdk = new SDK(
             'apiKey',
             'http://example.com/api',
-            $gatewayMock = $this->getMock('\\Bepado\\SDK\\Gateway'),
-            $this->getMock('\\Bepado\\SDK\\ProductToShop'),
-            $this->getMock('\\Bepado\\SDK\\ProductFromShop'),
+            $this->gatewayMock,
+            $this->productToShopMock,
+            $this->productFromShopMock,
             null,
             new HttpClient\NoSecurityRequestSigner()
         );
+    }
 
-        $gatewayMock
+    public function testGetCategories()
+    {
+        $this->gatewayMock
             ->expects($this->at(0))
             ->method('getShopId')
             ->will($this->returnValue(1));
 
-        $gatewayMock
+        $this->gatewayMock
             ->expects($this->at(1))
             ->method('getLastVerificationDate')
             ->will($this->returnValue(time()));
@@ -38,14 +53,14 @@ class SDKTest extends \PHPUnit_Framework_TestCase
             '/other' => "Other",
         );
 
-        $gatewayMock
+        $this->gatewayMock
             ->expects($this->at(2))
             ->method('getCategories')
             ->will($this->returnValue($categories));
 
         $this->assertEquals(
             $categories,
-            $sdk->getCategories()
+            $this->sdk->getCategories()
         );
     }
 
@@ -57,21 +72,13 @@ class SDKTest extends \PHPUnit_Framework_TestCase
             'url' => 'http://foo',
         ));
 
-        $sdk = new SDK(
-            'apiKey',
-            'http://example.com/api',
-            $gatewayMock = $this->getMock('\\Bepado\\SDK\\Gateway'),
-            $this->getMock('\\Bepado\\SDK\\ProductToShop'),
-            $this->getMock('\\Bepado\\SDK\\ProductFromShop')
-        );
-
-        $gatewayMock
+        $this->gatewayMock
             ->expects($this->once())
             ->method('getShopConfiguration')
             ->with($this->equalTo($shopId))
             ->will($this->returnValue($shopConfig));
 
-        $shop = $sdk->getShop($shopId);
+        $shop = $this->sdk->getShop($shopId);
 
         $this->assertInstanceOf('Bepado\SDK\Struct\Shop', $shop);
         $this->assertEquals('Test-Shop', $shop->name);
