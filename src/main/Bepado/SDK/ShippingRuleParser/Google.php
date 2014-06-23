@@ -24,7 +24,7 @@ class Google extends ShippingRuleParser
         'T_CURRENCY' => '(\\A(?P<value>AED|AFN|ALL|AMD|ANG|AOA|ARS|AUD|AWG|AZN|BAM|BBD|BDT|BGN|BHD|BIF|BMD|BND|BOB|BOV|BRL|BSD|BTN|BWP|BYR|BZD|CAD|CDF|CHE|CHF|CHW|CLF|CLP|CNY|COP|COU|CRC|CUC|CUP|CVE|CZK|DJF|DKK|DOP|DZD|EGP|ERN|ETB|EUR|FJD|FKP|GBP|GEL|GHS|GIP|GMD|GNF|GTQ|GYD|HKD|HNL|HRK|HTG|HUF|IDR|ILS|INR|IQD|IRR|ISK|JMD|JOD|JPY|KES|KGS|KHR|KMF|KPW|KRW|KWD|KYD|KZT|LAK|LBP|LKR|LRD|LSL|LTL|LYD|MAD|MDL|MGA|MKD|MMK|MNT|MOP|MRO|MUR|MVR|MWK|MXN|MXV|MYR|MZN|NAD|NGN|NIO|NOK|NPR|NZD|OMR|PAB|PEN|PGK|PHP|PKR|PLN|PYG|QAR|RON|RSD|RUB|RWF|SAR|SBD|SCR|SDG|SSP|SEK|SGD|SHP|SLL|SOS|SRD|STD|SVC|SYP|SZL|THB|TJS|TMT|TND|TOP|TRY|TTD|TWD|TZS|UAH|UGX|USD|UYI|UYU|UZS|VEF|VND|VUV|WST|XAF|XCD|XOF|XPF|YER|ZAR|ZMW|ZWL))S',
         // ISO 3166-1 (23.06.2014)
         'T_COUNTRY' => '(\\A(?P<value>AF|EG|AX|AL|DZ|AS|VI|AD|AO|AI|AQ|AG|GQ|AR|AM|AW|AC|AZ|ET|AU|BS|BH|BD|BB|BY|BE|BZ|BJ|BM|BT|BO|BQ|BA|BW|BV|BR|VG|IO|BN|BG|BF|BU|BI|EA|CL|CN|CP|CK|CR|CI|CW|DK|DD|DE|DG|DM|DO|DJ|EC|SV|ER|EE|CE|EU|FK|FO|FJ|FI|FR|FX|GF|PF|TF|GA|GM|GE|GH|GI|GD|GR|GL|GP|GU|GT|GG|GN|GW|GY|HT|HM|HN|HK|IN|ID|IM|IQ|IR|IE|IS|IL|IT|JM|JP|YE|JE|JO|YU|KY|KH|CM|CA|IC|CV|KZ|QA|KE|KG|KI|CC|CO|KM|CD|CG|KP|KR|HR|CU|KW|LA|LS|LV|LB|LR|LY|LI|LT|LU|MO|MG|MW|MY|MV|ML|MT|MA|MH|MQ|MR|MU|YT|MK|MX|FM|MD|MC|MN|ME|MS|MZ|MM|NA|NR|NP|NC|NZ|NT|NI|NL|AN|NE|NG|NU|MP|NF|NO|OM|AT|TL|PK|PS|PW|PA|PG|PY|PE|PH|PN|PL|PT|PR|RE|RW|RO|RU|SB|BL|MF|ZM|WS|SM|ST|SA|SE|CH|SN|RS|CS|SC|SL|ZW|SG|SX|SK|SI|SO|ES|LK|SH|KN|LC|PM|VC|ZA|SD|GS|SS|SR|SJ|SZ|SY|TJ|TW|TZ|TH|TG|TK|TO|TT|TA|TD|CZ|CS|TN|TR|TM|TC|TV|SU|UG|UA|HU|UM|UY|UZ|VU|VA|VE|AE|US|GB|UK|VN|WF|CX|EH|ZR|CF|CY))S',
-        'T_NUMBER' => '(\\A(?P<value>\\d+\\.\\d+))S',
+        'T_PRICE' => '(\\A(?P<value>\\d+\\.\\d+))S',
         'T_ZIP' => '(\\A(?P<value>\\d{1,5}\\*?))S',
         'T_REGION' => '(\\A(?P<value>[A-Z]{2,3}\\*))S',
         'T_ELEMENT_SEPARATOR' => '(\\A:)S',
@@ -36,6 +36,8 @@ class Google extends ShippingRuleParser
 
     /**
      * Delivery times
+     *
+     * If you extend this array, also adapt the T_DELIVERY_TIME rule
      *
      * @var array
      */
@@ -52,6 +54,10 @@ class Google extends ShippingRuleParser
      */
     public function parseString($string)
     {
+        if (!$string) {
+            return null;
+        }
+
         $tokens = $this->tokenize($string);
         return $this->reduceRules($tokens);
     }
@@ -127,17 +133,17 @@ class Google extends ShippingRuleParser
         $rule = new ShippingRule();
 
         $rule->country = $this->read($tokens, array('T_COUNTRY'), true);
-        $this->read($tokens, array('T_ELEMENT_SEPARATOR'));
+        $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_COUNTRY'));
 
         $rule->zipRange = $this->read($tokens, array('T_ZIP'), true);
         $rule->region = $this->read($tokens, array('T_REGION', 'T_COUNTRY'), true);
-        $this->read($tokens, array('T_ELEMENT_SEPARATOR'));
+        $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_ZIP', 'T_REGION', 'T_COUNTRY'));
 
         $rule->service = trim($this->read($tokens, array('T_DELIVERY_NAME'), true));
         $rule->deliveryWorkDays = $this->convertDeliveryTime($this->read($tokens, array('T_DELIVERY_TIME'), true));
-        $this->read($tokens, array('T_ELEMENT_SEPARATOR'));
+        $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_DELIVERY_NAME'));
 
-        $rule->price = (float) $this->read($tokens, array('T_NUMBER'));
+        $rule->price = (float) $this->read($tokens, array('T_PRICE'));
         $rule->currency = $this->read($tokens, array('T_CURRENCY'));
         $this->read($tokens, array('T_RULE_SEPARATOR', 'T_EOF'));
 

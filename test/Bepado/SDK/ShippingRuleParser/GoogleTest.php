@@ -11,6 +11,10 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
+                '',
+                null,
+            ),
+            array(
                 ':::7.95 USD',
                 new ShippingRules(array(
                     'rules' => array(
@@ -116,5 +120,47 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
 
         $actual = $parser->parseString($original);
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Get parse errors
+     *
+     * @return array
+     */
+    public function getParseErrors()
+    {
+        return array(
+            array(
+                ':',
+                'Unexpected T_EOF at position 1 – expected one of: T_ELEMENT_SEPARATOR'
+            ),
+            array(
+                ':::',
+                'Unexpected T_EOF at position 3 – expected one of: T_PRICE'
+            ),
+            array(
+                'invalid:::',
+                'Unexpected T_DELIVERY_NAME at position 0 – expected one of: T_ELEMENT_SEPARATOR, T_COUNTRY'
+            ),
+            array(
+                ':foo::',
+                'Unexpected T_DELIVERY_NAME at position 1 – expected one of: T_ELEMENT_SEPARATOR, T_ZIP, T_REGION, T_COUNTRY'
+            ),
+            array(
+                '::foo []:',
+                'Unexpected T_STRING at position 6 – expected one of: T_ELEMENT_SEPARATOR, T_DELIVERY_NAME'
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getParseErrors
+     */
+    public function testParseError($input, $error)
+    {
+        $this->setExpectedException('UnexpectedValueException', $error);
+
+        $parser = new Google();
+        $parser->parseString($input);
     }
 }
