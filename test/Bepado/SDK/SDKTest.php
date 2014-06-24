@@ -85,4 +85,15 @@ class SDKTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($shopId, $shop->id);
         $this->assertEquals('http://foo', $shop->url);
     }
+
+    public function testPingRequest()
+    {
+        $responseBody = $this->sdk->handle('', array('HTTP_X_BEPADO_PING' => ''));
+
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?>'. "\n"
+                . '<pong/>',
+            $responseBody
+        );
+    }
 }

@@ -135,6 +135,10 @@ final class SDK
      */
     public function handle($xml, array $headers = null)
     {
+        if ($this->isPingRequest($headers)) {
+            return $this->generatePongResponse();
+        }
+
         $this->verifySdk();
         $token = $this->verifyRequest($xml, $headers);
 
@@ -157,6 +161,25 @@ final class SDK
                 )
             )
         );
+    }
+
+    /**
+     * @param array $headers
+     * @return bool
+     */
+    private function isPingRequest(array $headers = null)
+    {
+        return ($headers !== null && isset($headers['HTTP_X_BEPADO_PING'])
+            || $headers === null && isset($_SERVER['HTTP_X_BEPADO_PING']));
+    }
+
+    /**
+     * @return string
+     */
+    private function generatePongResponse()
+    {
+        return '<?xml version="1.0" encoding="utf-8"?>'. "\n"
+            . '<pong/>';
     }
 
     /**
