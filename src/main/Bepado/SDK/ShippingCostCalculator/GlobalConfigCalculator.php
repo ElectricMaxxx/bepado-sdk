@@ -49,10 +49,12 @@ class GlobalConfigCalculator implements ShippingCostCalculator
         }
 
         return $this->getShippingCosts(
-            array_map(function (OrderItem $item) {
-                return $item->product;
-            },
-            $order->products)
+            array_map(
+                function (OrderItem $item) {
+                    return $item->product;
+                },
+                $order->products
+            )
         );
     }
 
