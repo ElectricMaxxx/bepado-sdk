@@ -101,6 +101,11 @@ class ProductCalculator implements ShippingCostCalculator
     {
         $orderItem->shippingCosts = $rule->price * $orderItem->count;
 
+        if (isset($rule->country) &&
+            ($rule->country !== $order->deliveryAddress->country)) {
+            return false;
+        }
+
         return true;
     }
 }
