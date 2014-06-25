@@ -4,6 +4,8 @@ namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\ShippingCosts\Rules;
+use Bepado\SDK\Struct\Order;
+use Bepado\SDK\Struct\ShippingCosts;
 
 class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,29 +22,42 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCalculateSingleProductRule()
+    /**
+     * Get baskets
+     *
+     * @return array
+     */
+    public function getBaskets()
     {
-        $result = $this->calculator->calculateShippingCosts(
-            new \Bepado\SDK\Struct\Order(
-                array(
+        return array(
+            array(
+                new \Bepado\SDK\Struct\Order(array(
                     'orderItems' => array(
-                        new \Bepado\SDK\Struct\OrderItem(
-                            array(
-                                'count' => 1,
-                                'product' => new \Bepado\SDK\Struct\Product(
-                                    array(
-                                        'shipping' => ':::5.95 EUR',
-                                    )
-                                ),
-                            )
-                        ),
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => ':::5.95 EUR',
+                            )),
+                        )),
                     ),
-                )
+                )),
+                new \Bepado\SDK\Struct\ShippingCosts(array(
+                    'isShippable' => true,
+                    'shippingCosts' => 5.95,
+                    'grossShippingCosts' => 7.08,
+                )),
             ),
-            'test'
         );
+    }
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
-        $this->assertEquals(5.95, $result->shippingCosts);
+    /**
+     * @dataProvider getBaskets
+     */
+    public function testCalculate(Order $order, ShippingCosts $expected)
+    {
+        $shippingCosts = $this->calculator->calculateShippingCosts($order, 'test');
+
+        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $shippingCosts);
+        $this->assertEquals($expected, $shippingCosts, "Calculated wrong shipping costs", 0.01);
     }
 }
