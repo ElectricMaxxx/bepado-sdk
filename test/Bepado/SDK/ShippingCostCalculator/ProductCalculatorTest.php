@@ -44,7 +44,47 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                 new \Bepado\SDK\Struct\ShippingCosts(array(
                     'isShippable' => true,
                     'shippingCosts' => 5.95,
-                    'grossShippingCosts' => 7.08,
+                    'grossShippingCosts' => 5.95 * 1.19,
+                )),
+            ),
+            array(
+                new \Bepado\SDK\Struct\Order(array(
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 2,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => ':::5.95 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\ShippingCosts(array(
+                    'isShippable' => true,
+                    'shippingCosts' => 5.95 * 2,
+                    'grossShippingCosts' => 5.95 * 1.19 * 2,
+                )),
+            ),
+            array(
+                new \Bepado\SDK\Struct\Order(array(
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => ':::5.95 EUR',
+                            )),
+                        )),
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => ':::7.95 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\ShippingCosts(array(
+                    'isShippable' => true,
+                    'shippingCosts' => 5.95 + 7.95,
+                    'grossShippingCosts' => (5.95 + 7.95) * 1.19,
                 )),
             ),
         );

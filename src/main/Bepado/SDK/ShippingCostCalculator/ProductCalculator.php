@@ -99,7 +99,7 @@ class ProductCalculator implements ShippingCostCalculator
      */
     protected function matchRule(ShippingRule $rule, Order $order, OrderItem $orderItem)
     {
-        $orderItem->shippingCosts = $rule->price;
+        $orderItem->shippingCosts = $rule->price * $orderItem->count;
 
         return true;
     }
