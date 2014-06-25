@@ -37,7 +37,7 @@ class Sum extends Aggregator
             )
         );
 
-        return new Struct\ShippingCosts(array(
+        return new ShippingCosts(array(
             'isShippable' => true,
             'shippingCosts' => $netShippingCosts,
             'grossShippingCosts' => $netShippingCosts * (1 + $vat),
