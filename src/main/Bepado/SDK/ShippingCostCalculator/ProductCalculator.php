@@ -60,21 +60,24 @@ class ProductCalculator implements ShippingCostCalculator
             }
         );
 
+        $isShippable = true;
         foreach ($productOrder->orderItems as $orderItem) {
             $rules = $this->parser->parseString($orderItem->product->shipping);
 
             foreach ($rules->rules as $rule) {
                 if ($this->matchRule($rule, $order, $orderItem)) {
-                    break;
+                    continue 2;
                 }
             }
+
+            $isShippable = false;
         }
 
         $productOrder->shippingCosts = $this->aggregator->aggregateShippingCosts($productOrder);
         $commonOrder->shippingCosts = $this->aggregate->calculateShippingCosts($commonOrder, $type);
 
         $productOrder->shippingCosts->isShippable =
-            $productOrder->shippingCosts->isShippable &&
+            $isShippable &&
             $commonOrder->shippingCosts->isShippable;
         $productOrder->shippingCosts->shippingCosts =
             $productOrder->shippingCosts->shippingCosts +
@@ -99,13 +102,17 @@ class ProductCalculator implements ShippingCostCalculator
      */
     protected function matchRule(ShippingRule $rule, Order $order, OrderItem $orderItem)
     {
-        $orderItem->shippingCosts = $rule->price * $orderItem->count;
-
         if (isset($rule->country) &&
             ($rule->country !== $order->deliveryAddress->country)) {
             return false;
         }
 
+        if (isset($rule->zipRange) &&
+            !fnmatch($rule->zipRange, $order->deliveryAddress->zip)) {
+            return false;
+        }
+
+        $orderItem->shippingCosts = $rule->price * $orderItem->count;
         return true;
     }
 }

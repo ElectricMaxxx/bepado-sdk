@@ -132,6 +132,90 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                     'grossShippingCosts' => 7.00 * 1.19,
                 )),
             ),
+            array(
+                new \Bepado\SDK\Struct\Order(array(
+                    'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
+                        'country' => 'DE',
+                        'zip' => '45886',
+                    )),
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => 'US:::5.00 EUR,DE:50*::7.00 EUR,DE:::9.00 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\ShippingCosts(array(
+                    'isShippable' => true,
+                    'shippingCosts' => 9.00,
+                    'grossShippingCosts' => 9.00 * 1.19,
+                )),
+            ),
+            array(
+                new \Bepado\SDK\Struct\Order(array(
+                    'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
+                        'country' => 'DE',
+                        'zip' => '45886',
+                    )),
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => 'US:::5.00 EUR,DE:45*::7.00 EUR,DE:::9.00 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\ShippingCosts(array(
+                    'isShippable' => true,
+                    'shippingCosts' => 7.00,
+                    'grossShippingCosts' => 7.00 * 1.19,
+                )),
+            ),
+            array(
+                new \Bepado\SDK\Struct\Order(array(
+                    'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
+                        'country' => 'DE',
+                        'zip' => '45886',
+                    )),
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => 'US:::5.00 EUR,DE:45886::7.00 EUR,DE:::9.00 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\ShippingCosts(array(
+                    'isShippable' => true,
+                    'shippingCosts' => 7.00,
+                    'grossShippingCosts' => 7.00 * 1.19,
+                )),
+            ),
+            array(
+                new \Bepado\SDK\Struct\Order(array(
+                    'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
+                        'country' => 'DE',
+                        'zip' => '45886',
+                    )),
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => 'US:::5.00 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\ShippingCosts(array(
+                    'isShippable' => false,
+                    'shippingCosts' => 0.00,
+                    'grossShippingCosts' => 0.00,
+                )),
+            ),
         );
     }
 
