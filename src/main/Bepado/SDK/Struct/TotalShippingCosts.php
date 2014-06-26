@@ -17,7 +17,7 @@ class TotalShippingCosts extends Struct
     /**
      * Key value pairs of shop ids and shipping costs.
      *
-     * @var array<int,ShippingCosts>
+     * @var array<int,Shipping>
      */
     public $shops = array();
 

@@ -9,7 +9,7 @@ namespace Bepado\SDK\Struct;
 
 use Bepado\SDK\Struct;
 
-class ShippingCosts extends Struct
+class Shipping extends Struct
 {
     /**
      * @var integer
@@ -39,4 +39,18 @@ class ShippingCosts extends Struct
      * @var float
      */
     public $grossShippingCosts;
+
+    /**
+     * Delivery time in days
+     *
+     * @var int
+     */
+    public $deliveryTime;
+
+    /**
+     * Delivery service
+     *
+     * @var string
+     */
+    public $service;
 }

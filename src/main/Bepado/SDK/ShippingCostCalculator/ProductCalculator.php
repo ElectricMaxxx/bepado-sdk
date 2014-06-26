@@ -12,7 +12,7 @@ use Bepado\SDK\ShippingRuleParser;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\OrderItem;
 use Bepado\SDK\Struct\ShippingRule;
-use Bepado\SDK\Struct\ShippingCosts;
+use Bepado\SDK\Struct\Shipping;
 
 /**
  * Calculate shipping costs based on product rules
@@ -39,7 +39,7 @@ class ProductCalculator implements ShippingCostCalculator
      * @param \Bepado\SDK\Struct\Order $order
      * @param string $type
      *
-     * @return Struct\ShippingCosts
+     * @return Struct\Shipping
      */
     public function calculateShippingCosts(Order $order, $type)
     {
@@ -109,6 +109,11 @@ class ProductCalculator implements ShippingCostCalculator
 
         if (isset($rule->zipRange) &&
             !fnmatch($rule->zipRange, $order->deliveryAddress->zip)) {
+            return false;
+        }
+
+        if (isset($rule->region) &&
+            ($rule->region !== $order->deliveryAddress->state)) {
             return false;
         }
 

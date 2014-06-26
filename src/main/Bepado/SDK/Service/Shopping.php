@@ -124,7 +124,7 @@ class Shopping
         );
 
         $netShippingCosts = array_sum(
-            array_map(function (Struct\ShippingCosts $costs) {
+            array_map(function (Struct\Shipping $costs) {
                     return $costs->shippingCosts;
                 },
                 $shops
@@ -132,7 +132,7 @@ class Shopping
         );
 
         $grossShippingCosts = array_sum(
-            array_map(function (Struct\ShippingCosts $costs) {
+            array_map(function (Struct\Shipping $costs) {
                     return $costs->grossShippingCosts;
                 },
                 $shops

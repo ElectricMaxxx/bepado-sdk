@@ -10,7 +10,7 @@ namespace Bepado\SDK\ShippingCostCalculator\Aggregator;
 use Bepado\SDK\ShippingCostCalculator\Aggregator;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\OrderItem;
-use Bepado\SDK\Struct\ShippingCosts;
+use Bepado\SDK\Struct\Shipping;
 
 class Sum extends Aggregator
 {
@@ -21,7 +21,7 @@ class Sum extends Aggregator
      * shipping costs.
      *
      * @param Order $order
-     * @return ShippingCosts
+     * @return Shipping
      */
     public function aggregateShippingCosts(Order $order)
     {
@@ -37,7 +37,9 @@ class Sum extends Aggregator
             )
         );
 
-        return new ShippingCosts(array(
+        // @TODO Aggregate service and delivery time
+
+        return new Shipping(array(
             'isShippable' => true,
             'shippingCosts' => $netShippingCosts,
             'grossShippingCosts' => $netShippingCosts * (1 + $vat),

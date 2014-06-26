@@ -17,8 +17,8 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
         );
 
         \Phake::when($calc)->calculateShippingCosts(\Phake::anyParameters())
-            ->thenReturn(new \Bepado\SDK\Struct\ShippingCosts(array('shippingCosts' => 1, 'grossShippingCosts' => 2)))
-            ->thenReturn(new \Bepado\SDK\Struct\ShippingCosts(array('shippingCosts' => 4, 'grossShippingCosts' => 8)))
+            ->thenReturn(new \Bepado\SDK\Struct\Shipping(array('shippingCosts' => 1, 'grossShippingCosts' => 2)))
+            ->thenReturn(new \Bepado\SDK\Struct\Shipping(array('shippingCosts' => 4, 'grossShippingCosts' => 8)))
         ;
 
         $result = $shopping->calculateShippingCosts(
