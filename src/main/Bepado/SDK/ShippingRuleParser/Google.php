@@ -159,7 +159,7 @@ class Google extends ShippingRuleParser
         $rule->region = $this->read($tokens, array('T_REGION', 'T_COUNTRY'), true);
         $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_ZIP', 'T_REGION', 'T_COUNTRY'));
 
-        $rule->service = trim($this->read($tokens, array('T_DELIVERY_NAME'), true));
+        $rule->service = trim($this->read($tokens, array('T_DELIVERY_NAME', 'T_COUNTRY', 'T_REGION'), true));
         $rule->deliveryWorkDays = $this->convertDeliveryTime($this->read($tokens, array('T_DELIVERY_TIME'), true));
         $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_DELIVERY_NAME'));
 
