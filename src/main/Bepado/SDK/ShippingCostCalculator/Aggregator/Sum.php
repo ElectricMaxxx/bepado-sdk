@@ -37,6 +37,9 @@ class Sum extends Aggregator
                     $shipping->deliveryWorkDays,
                     $orderItem->shipping->deliveryWorkDays
                 );
+
+                // @TODO: How do we want to work with mismatching services? Is
+                // it even possible to aggregate this?
                 $shipping->service = $shipping->service ?: $orderItem->shipping->service;
 
                 return $shipping;
