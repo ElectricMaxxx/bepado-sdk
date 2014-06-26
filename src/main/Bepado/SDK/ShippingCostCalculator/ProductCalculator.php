@@ -74,20 +74,18 @@ class ProductCalculator implements ShippingCostCalculator
             $isShippable = false;
         }
 
-        $productOrder->shippingCosts = $this->aggregator->aggregateShippingCosts($productOrder);
-        $commonOrder->shippingCosts = $this->aggregate->calculateShippingCosts($commonOrder, $type);
+        $order->shippingCosts = $this->aggregator->aggregateShippingCosts(
+            array_merge(
+                array_map(
+                    function (OrderItem $orderItem) {
+                        return $orderItem->shipping;
+                    },
+                    $productOrder->orderItems
+                ),
+                array($this->aggregate->calculateShippingCosts($commonOrder, $type))
+            )
+        );
 
-        $productOrder->shippingCosts->isShippable =
-            $isShippable &&
-            $commonOrder->shippingCosts->isShippable;
-        $productOrder->shippingCosts->shippingCosts =
-            $productOrder->shippingCosts->shippingCosts +
-            $commonOrder->shippingCosts->shippingCosts;
-        $productOrder->shippingCosts->grossShippingCosts =
-            $productOrder->shippingCosts->grossShippingCosts +
-            $commonOrder->shippingCosts->grossShippingCosts;
-
-        $order->shippingCosts = $productOrder->shippingCosts;
         return $order->shippingCosts;
     }
 

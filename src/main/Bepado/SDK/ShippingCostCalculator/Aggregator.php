@@ -7,7 +7,6 @@
 
 namespace Bepado\SDK\ShippingCostCalculator;
 
-use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\Shipping;
 
 abstract class Aggregator
@@ -18,8 +17,8 @@ abstract class Aggregator
      * Aggregate shipping costs of order items and return the sum of all
      * shipping costs.
      *
-     * @param Order $order
+     * @param Shipping[] $shippings
      * @return Shipping
      */
-    abstract public function aggregateShippingCosts(Order $order);
+    abstract public function aggregateShippingCosts(array $shippings);
 }

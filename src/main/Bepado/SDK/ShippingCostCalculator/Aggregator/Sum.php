@@ -8,8 +8,6 @@
 namespace Bepado\SDK\ShippingCostCalculator\Aggregator;
 
 use Bepado\SDK\ShippingCostCalculator\Aggregator;
-use Bepado\SDK\Struct\Order;
-use Bepado\SDK\Struct\OrderItem;
 use Bepado\SDK\Struct\Shipping;
 
 class Sum extends Aggregator
@@ -20,25 +18,25 @@ class Sum extends Aggregator
      * Aggregate shipping costs of order items and return the sum of all
      * shipping costs.
      *
-     * @param Order $order
+     * @param Shipping[] $shippings
      * @return Shipping
      */
-    public function aggregateShippingCosts(Order $order)
+    public function aggregateShippingCosts(array $shippings)
     {
         // @TODO: Handle VAT correctly
         $vat = .19;
 
         $shipping = array_reduce(
-            $order->orderItems,
-            function (Shipping $shipping, OrderItem $orderItem) {
-                $shipping->isShippable = $shipping->isShippable && $orderItem->shipping->isShippable;
-                $shipping->shippingCosts += $orderItem->shipping->shippingCosts;
+            $shippings,
+            function (Shipping $shipping, Shipping $next) {
+                $shipping->isShippable = $shipping->isShippable && $next->isShippable;
+                $shipping->shippingCosts += $next->shippingCosts;
                 $shipping->deliveryWorkDays = max(
                     $shipping->deliveryWorkDays,
-                    $orderItem->shipping->deliveryWorkDays
+                    $next->deliveryWorkDays
                 );
 
-                $shipping->service = implode(', ', array_filter(array_unique(array_merge(explode(', ', $shipping->service), array($orderItem->shipping->service)))));
+                $shipping->service = implode(', ', array_filter(array_unique(array_merge(explode(', ', $shipping->service), array($next->service)))));
 
                 return $shipping;
             },
