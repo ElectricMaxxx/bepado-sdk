@@ -297,7 +297,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                 new \Bepado\SDK\Struct\Shipping(array(
                     'isShippable' => true,
                     'service' => 'DHL',
-                    'deliveryTime' => 5,
+                    'deliveryWorkDays' => 5,
                     'shippingCosts' => 5.00,
                     'grossShippingCosts' => 5.00 * 1.19,
                 )),

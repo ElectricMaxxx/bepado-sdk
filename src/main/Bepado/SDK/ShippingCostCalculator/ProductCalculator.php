@@ -64,6 +64,7 @@ class ProductCalculator implements ShippingCostCalculator
         foreach ($productOrder->orderItems as $orderItem) {
             $rules = $this->parser->parseString($orderItem->product->shipping);
 
+            $orderItem->shipping = new Shipping(array('isShippable' => false));
             foreach ($rules->rules as $rule) {
                 if ($this->matchRule($rule, $order, $orderItem)) {
                     continue 2;
@@ -117,7 +118,14 @@ class ProductCalculator implements ShippingCostCalculator
             return false;
         }
 
-        $orderItem->shippingCosts = $rule->price * $orderItem->count;
+        $orderItem->shipping = new Shipping(
+            array(
+                'service' => $rule->service,
+                'deliveryWorkDays' => $rule->deliveryWorkDays,
+                'isShippable' => true,
+                'shippingCosts' => $rule->price * $orderItem->count,
+            )
+        );
         return true;
     }
 }

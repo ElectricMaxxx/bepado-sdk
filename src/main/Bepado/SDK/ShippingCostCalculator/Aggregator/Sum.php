@@ -28,21 +28,23 @@ class Sum extends Aggregator
         // @TODO: Handle VAT correctly
         $vat = .19;
 
-        $netShippingCosts = array_sum(
-            array_map(
-                function (OrderItem $orderItem) {
-                    return $orderItem->shippingCosts;
-                },
-                $order->orderItems
-            )
+        $shipping = array_reduce(
+            $order->orderItems,
+            function (Shipping $shipping, OrderItem $orderItem) {
+                $shipping->isShippable = $shipping->isShippable && $orderItem->shipping->isShippable;
+                $shipping->shippingCosts += $orderItem->shipping->shippingCosts;
+                $shipping->deliveryWorkDays = max(
+                    $shipping->deliveryWorkDays,
+                    $orderItem->shipping->deliveryWorkDays
+                );
+                $shipping->service = $shipping->service ?: $orderItem->shipping->service;
+
+                return $shipping;
+            },
+            new Shipping()
         );
 
-        // @TODO Aggregate service and delivery time
-
-        return new Shipping(array(
-            'isShippable' => true,
-            'shippingCosts' => $netShippingCosts,
-            'grossShippingCosts' => $netShippingCosts * (1 + $vat),
-        ));
+        $shipping->grossShippingCosts = $shipping->shippingCosts * (1 + $vat);
+        return $shipping;
     }
 }

@@ -28,11 +28,11 @@ class OrderItem extends Struct
     public $product;
 
     /**
-     * Shipping costs
+     * Shipping information
      *
-     * @var float
+     * @var Shipping
      */
-    public $shippingCosts;
+    public $shipping;
 
     /**
      * Restores an order item from a previously stored state array.

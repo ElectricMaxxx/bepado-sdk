@@ -45,7 +45,7 @@ class Shipping extends Struct
      *
      * @var int
      */
-    public $deliveryTime;
+    public $deliveryWorkDays;
 
     /**
      * Delivery service
