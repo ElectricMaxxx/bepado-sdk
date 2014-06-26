@@ -94,6 +94,21 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 ))
             ),
             array(
+                'DE:NRW:Standard [3D]:4.95 EUR',
+                new ShippingRules(array(
+                    'rules' => array(
+                        new ShippingRule(array(
+                            'country' => 'DE',
+                            'region' => 'NRW',
+                            'service' => 'Standard',
+                            'deliveryWorkDays' => 3,
+                            'price' => 4.95,
+                            'currency' => 'EUR'
+                        )),
+                    )
+                ))
+            ),
+            array(
                 'DE:53*:Standard [24H]:4.95 EUR',
                 new ShippingRules(array(
                     'rules' => array(
