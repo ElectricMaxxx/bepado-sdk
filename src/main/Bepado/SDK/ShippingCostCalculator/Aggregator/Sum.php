@@ -38,9 +38,7 @@ class Sum extends Aggregator
                     $orderItem->shipping->deliveryWorkDays
                 );
 
-                // @TODO: How do we want to work with mismatching services? Is
-                // it even possible to aggregate this?
-                $shipping->service = $shipping->service ?: $orderItem->shipping->service;
+                $shipping->service = implode(', ', array_filter(array_unique(array_merge(explode(', ', $shipping->service), array($orderItem->shipping->service)))));
 
                 return $shipping;
             },
