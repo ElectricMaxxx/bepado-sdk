@@ -177,7 +177,7 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
      */
     public function testParseError($input, $error)
     {
-        $this->setExpectedException('UnexpectedValueException', $error);
+        $this->setExpectedException('\\Bepado\\SDK\\Exception\\ParserException', $error);
 
         $parser = new Google();
         $parser->parseString($input);

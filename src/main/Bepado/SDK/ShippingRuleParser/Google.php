@@ -10,6 +10,7 @@ namespace Bepado\SDK\ShippingRuleParser;
 use Bepado\SDK\ShippingRuleParser;
 use Bepado\SDK\Struct\ShippingRules;
 use Bepado\SDK\ShippingCosts\Rule;
+use Bepado\SDK\Exception\ParserException;
 
 class Google extends ShippingRuleParser
 {
@@ -107,7 +108,7 @@ class Google extends ShippingRuleParser
                 }
             }
 
-            throw new \UnexpectedValueException("Cannot parse string at position $offset: $string.");
+            throw new ParserException("Cannot parse string at position $offset: $string.");
         }
 
         $tokens[] = (object) array(
@@ -181,7 +182,7 @@ class Google extends ShippingRuleParser
     protected function read(array &$tokens, array $types, $optional = false)
     {
         if (!isset($tokens[0])) {
-            throw new \UnexpectedValueException("Empty token stack – expected one of: " . $this->getTokenNames($types));
+            throw new ParserException("Empty token stack – expected one of: " . $this->getTokenNames($types));
         }
 
         if ($optional &&
@@ -191,7 +192,7 @@ class Google extends ShippingRuleParser
 
         $token = array_shift($tokens);
         if (!in_array($token->type, $types)) {
-            throw new \UnexpectedValueException(
+            throw new ParserException(
                 sprintf(
                     "Unexpected %s at position %d – expected one of: %s",
                     $this->getTokenNames($token->type),
@@ -242,6 +243,6 @@ class Google extends ShippingRuleParser
             }
         }
 
-        throw new \UnexpectedValueException("Unparsable delivery time $definition");
+        throw new ParserException("Unparsable delivery time $definition");
     }
 }
