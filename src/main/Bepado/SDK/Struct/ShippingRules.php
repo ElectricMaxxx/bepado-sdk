@@ -7,8 +7,8 @@
 
 namespace Bepado\SDK\Struct;
 
-use Bepado\SDK\Exception\InvalidArgumentException;
 use Bepado\SDK\Struct;
+use Bepado\SDK\ShippingCosts\Rule;
 
 /**
  * Definition of Product Shipping rules.
@@ -18,7 +18,7 @@ class ShippingRules extends Struct
     /**
      * Array of shipping rules
      *
-     * @var array<ShippingRule>
+     * @var Rule\Product[]
      */
     public $rules = array();
 }

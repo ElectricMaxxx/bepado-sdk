@@ -13,6 +13,7 @@ use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\OrderItem;
 use Bepado\SDK\Struct\ShippingRule;
 use Bepado\SDK\Struct\Shipping;
+use Bepado\SDK\ShippingCosts\Rule;
 
 /**
  * Calculate shipping costs based on product rules
@@ -94,13 +95,14 @@ class ProductCalculator implements ShippingCostCalculator
      *
      * Returns true, if rule processing shuld be stopped
      *
-     * @param ShippingRule $rule
+     * @param Rule\Product $rule
      * @param Order $order
      * @param OrderItem $orderItem
      * @return bool
      */
-    protected function matchRule(ShippingRule $rule, Order $order, OrderItem $orderItem)
+    protected function matchRule(Rule\Product $rule, Order $order, OrderItem $orderItem)
     {
+
         if (isset($rule->country) &&
             ($rule->country !== $order->deliveryAddress->country)) {
             return false;

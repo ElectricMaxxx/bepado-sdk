@@ -9,7 +9,7 @@ namespace Bepado\SDK\ShippingRuleParser;
 
 use Bepado\SDK\ShippingRuleParser;
 use Bepado\SDK\Struct\ShippingRules;
-use Bepado\SDK\Struct\ShippingRule;
+use Bepado\SDK\ShippingCosts\Rule;
 
 class Google extends ShippingRuleParser
 {
@@ -146,11 +146,11 @@ class Google extends ShippingRuleParser
      * reduceRule
      *
      * @param array $tokens
-     * @return ShippingRule
+     * @return Rule\Product
      */
     protected function reduceRule(array &$tokens)
     {
-        $rule = new ShippingRule();
+        $rule = new Rule\Product();
 
         $rule->country = $this->read($tokens, array('T_COUNTRY'), true);
         $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_COUNTRY'));
