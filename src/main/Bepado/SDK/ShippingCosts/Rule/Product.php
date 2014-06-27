@@ -55,6 +55,16 @@ class Product extends Rule
     public $currency;
 
     /**
+     * @var int
+     */
+    public $orderItemCount;
+
+    /**
+     * @var float
+     */
+    public $vat;
+
+    /**
      * Check if shipping cost is applicable to given order
      *
      * @param Order $order
@@ -88,7 +98,7 @@ class Product extends Rule
      * @param Order $order
      * @return float
      */
-    public function getShippingCosts(Order $order, OrderItem $orderItem = null)
+    public function getShippingCosts(Order $order)
     {
         return new Shipping(
             array(
@@ -96,7 +106,8 @@ class Product extends Rule
                 'service' => $this->service,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
                 'isShippable' => true,
-                'shippingCosts' => $this->price * $orderItem->count,
+                'shippingCosts' => $this->price * $this->orderItemCount,
+                'grossShippingCosts' => $this->price * $this->orderItemCount * (1 + $this->vat),
             )
         );
     }
