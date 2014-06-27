@@ -376,6 +376,10 @@ class DependencyResolver
                         new Struct\Verificator\OrderStatus(),
                     'Bepado\\SDK\\Struct\\Shipping' =>
                         new Struct\Verificator\Shipping(),
+                    'Bepado\\SDK\\Struct\\ShippingRules' =>
+                        new Struct\Verificator\ShippingRules(),
+                    'Bepado\\SDK\\ShippingCosts\\Rule\\Product' =>
+                        new Struct\Verificator\ProductRule(),
                 )
             );
         }
