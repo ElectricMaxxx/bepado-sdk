@@ -67,8 +67,12 @@ class ProductCalculator implements ShippingCostCalculator
 
             $orderItem->shipping = new Shipping(array('isShippable' => false));
             foreach ($rules->rules as $rule) {
-                if ($this->matchRule($rule, $order, $orderItem)) {
-                    continue 2;
+                if ($rule->isApplicable($productOrder)) {
+                    $orderItem->shipping = $rule->getShippingCosts($productOrder, $orderItem);
+
+                    if ($rule->shouldStopProcessing($productOrder)) {
+                        continue 2;
+                    }
                 }
             }
 
@@ -88,44 +92,5 @@ class ProductCalculator implements ShippingCostCalculator
         );
 
         return $order->shipping;
-    }
-
-    /**
-     * Match rule
-     *
-     * Returns true, if rule processing shuld be stopped
-     *
-     * @param Rule\Product $rule
-     * @param Order $order
-     * @param OrderItem $orderItem
-     * @return bool
-     */
-    protected function matchRule(Rule\Product $rule, Order $order, OrderItem $orderItem)
-    {
-
-        if (isset($rule->country) &&
-            ($rule->country !== $order->deliveryAddress->country)) {
-            return false;
-        }
-
-        if (isset($rule->zipRange) &&
-            !fnmatch($rule->zipRange, $order->deliveryAddress->zip)) {
-            return false;
-        }
-
-        if (isset($rule->region) &&
-            ($rule->region !== $order->deliveryAddress->state)) {
-            return false;
-        }
-
-        $orderItem->shipping = new Shipping(
-            array(
-                'service' => $rule->service,
-                'deliveryWorkDays' => $rule->deliveryWorkDays,
-                'isShippable' => true,
-                'shippingCosts' => $rule->price * $orderItem->count,
-            )
-        );
-        return true;
     }
 }

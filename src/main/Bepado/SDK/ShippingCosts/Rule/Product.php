@@ -9,6 +9,8 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\Struct\OrderItem;
+use Bepado\SDK\Struct\Shipping;
 
 /**
  * Class: FixedPrice
