@@ -82,7 +82,7 @@ class ProductCalculator implements ShippingCostCalculator
             $isShippable = false;
         }
 
-        $order->shipping = $this->aggregator->aggregateShippingCosts(
+        return $this->aggregator->aggregateShippingCosts(
             array_merge(
                 array_map(
                     function (OrderItem $orderItem) {
@@ -93,7 +93,5 @@ class ProductCalculator implements ShippingCostCalculator
                 array($this->aggregate->calculateShippingCosts($commonOrder, $type))
             )
         );
-
-        return $order->shipping;
     }
 }
