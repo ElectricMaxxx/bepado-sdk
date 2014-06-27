@@ -12,6 +12,6 @@ namespace Bepado\SDK\Exception;
  *
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
-class ParserException extends \UnexpectedValueException
+class ParserException extends \UnexpectedValueException implements SDKException
 {
 }

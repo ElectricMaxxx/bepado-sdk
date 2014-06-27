@@ -14,6 +14,6 @@ use RuntimeException;
  *
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
-class VerificationFailedException extends RuntimeException
+class VerificationFailedException extends RuntimeException implements SDKException
 {
 }

@@ -7,6 +7,13 @@
 
 namespace Bepado\SDK\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException implements SDKException
+/**
+ * Class: SDKException
+ *
+ * This is just a marker interface to flag all Bepado SDK exceptions.
+ *
+ * @version $Revision$
+ */
+interface SDKException
 {
 }
