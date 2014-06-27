@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit bootstrap="vendor/autoload.php">
+    <php>
+        <const name="PHPUNIT" value="true"/>
+    </php>
+
     <testsuites>
         <testsuite name="Bepado SDK">
             <directory>test/Bepado</directory>
