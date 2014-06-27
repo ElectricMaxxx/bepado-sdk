@@ -27,10 +27,10 @@ class ProductCalculator implements ShippingCostCalculator
      */
     private $aggregate;
 
-    public function __construct(ShippingCostCalculator $aggregate, ShippingRuleParser $parser = null, Aggregator $aggregator = null)
+    public function __construct(ShippingCostCalculator $aggregate, ShippingRuleParser $parser, Aggregator $aggregator = null)
     {
         $this->aggregate = $aggregate;
-        $this->parser = $parser ?: new ShippingRuleParser\Google();
+        $this->parser = $parser;
         $this->aggregator = $aggregator ?: new Aggregator\Sum();
     }
 

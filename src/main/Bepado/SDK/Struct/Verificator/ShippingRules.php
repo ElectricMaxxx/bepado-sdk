@@ -10,7 +10,7 @@ namespace Bepado\SDK\Struct\Verificator;
 use Bepado\SDK\Struct\Verificator;
 use Bepado\SDK\Struct\VerificatorDispatcher;
 use Bepado\SDK\Struct;
-use Bepado\SDK\ShippingCosts\Rule\Product;
+use Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\Exception\VerificationFailedException;
 
@@ -37,7 +37,7 @@ class ShippingRules extends Verificator
         }
 
         foreach ($struct->rules as $product) {
-            if (!$product instanceof Product) {
+            if (!$product instanceof Rule\Product) {
                 throw new VerificationFailedException(
                     'Rules array MUST contain only instances of \\Bepado\\SDK\\ShippingCosts\\Rule\\Product.'
                 );
