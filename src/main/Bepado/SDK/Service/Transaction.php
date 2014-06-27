@@ -265,8 +265,8 @@ class Transaction
             ));
         }
 
-        if (!$this->floatsEqual($order->shippingCosts, $myShippingCosts->shippingCosts) ||
-            !$this->floatsEqual($order->grossShippingCosts, $myShippingCosts->grossShippingCosts)) {
+        if (!$this->floatsEqual($order->shipping->shippingCosts, $myShippingCosts->shipping->shippingCosts) ||
+            !$this->floatsEqual($order->shipping->grossShippingCosts, $myShippingCosts->shipping->grossShippingCosts)) {
 
             return new Struct\Message(
                 array(
