@@ -249,7 +249,7 @@ class Shopping
         }
 
         foreach ($orders as $shopId => $order) {
-            $order->shipping = $shippingCosts->shops[$shopId]->shipping;
+            $order->shipping = $shippingCosts->shops[$shopId];
 
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
             $responses[$shopId] = $shopGateway->reserveProducts($this->anonymizeCustomerEmail($order));
