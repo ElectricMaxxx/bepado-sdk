@@ -12,7 +12,7 @@ use Bepado\SDK\Struct;
 class Shipping extends Struct
 {
     /**
-     * @var integer
+     * @var string
      */
     public $shopId;
 

@@ -77,7 +77,7 @@ class Order extends Verificator
             );
         }
 
-        if ($struct->shipping && !($struct->shiping instanceof \Bepado\SDK\Struct\Shipping)) {
+        if ($struct->shipping && !($struct->shipping instanceof \Bepado\SDK\Struct\Shipping)) {
             throw new VerificationFailedException('Shipping MUST be an instance of \\Bepado\\SDK\\Struct\\Shipping.');
         }
         $dispatcher->verify($struct->shipping);

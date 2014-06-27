@@ -374,6 +374,8 @@ class DependencyResolver
                         new Struct\Verificator\Tracking(),
                     'Bepado\\SDK\\Struct\\OrderStatus' =>
                         new Struct\Verificator\OrderStatus(),
+                    'Bepado\\SDK\\Struct\\Shipping' =>
+                        new Struct\Verificator\Shipping(),
                 )
             );
         }
