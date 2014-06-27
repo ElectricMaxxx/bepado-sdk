@@ -68,8 +68,7 @@ class ProductCalculator implements ShippingCostCalculator
             $orderItem->shipping = new Shipping(array('isShippable' => false));
             foreach ($rules->rules as $rule) {
                 $rule->orderItemCount = $orderItem->count;
-                // @TODO: Correctly calculate VAT
-                $rule->vat = 0.19;
+                $rule->vat = $orderItem->product->vat;
 
                 if ($rule->isApplicable($productOrder)) {
                     $orderItem->shipping = $rule->getShippingCosts($productOrder, $orderItem);
