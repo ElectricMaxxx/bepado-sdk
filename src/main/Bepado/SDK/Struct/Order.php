@@ -69,15 +69,6 @@ class Order extends Struct
     public $shipping;
 
     /**
-     * The delivery type that is used for this order.
-     *
-     * Is calculated internally by the SDK.
-     *
-     * @var \Bepado\SDK\ShippingCosts\Rule
-     */
-    public $shippingRule;
-
-    /**
      * The payment type that is used for this order.
      *
      * @var string
@@ -139,6 +130,9 @@ class Order extends Struct
             case 'products':
                 return $this->orderItems;
 
+            case 'shippingRule':
+                return $this->shipping->rule;
+
             case 'shippingCosts':
                 return $this->shipping->shippingCosts;
 
@@ -162,6 +156,10 @@ class Order extends Struct
         switch ($property) {
             case 'products':
                 $this->orderItems = $value;
+                break;
+
+            case 'shippingRule':
+                $this->shipping->rule = $value;
                 break;
 
             case 'shippingCosts':
