@@ -17,8 +17,11 @@ abstract class Aggregator
      * Aggregate shipping costs of order items and return the sum of all
      * shipping costs.
      *
+     * Optionally provide return object.
+     *
      * @param Shipping[] $shippings
+     * @param Shipping $shipping
      * @return Shipping
      */
-    abstract public function aggregateShippingCosts(array $shippings);
+    abstract public function aggregateShippingCosts(array $shippings, Shipping $shipping = null);
 }

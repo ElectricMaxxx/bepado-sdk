@@ -18,10 +18,13 @@ class Sum extends Aggregator
      * Aggregate shipping costs of order items and return the sum of all
      * shipping costs.
      *
+     * Optionally provide return object.
+     *
      * @param Shipping[] $shippings
+     * @param Shipping $shipping
      * @return Shipping
      */
-    public function aggregateShippingCosts(array $shippings)
+    public function aggregateShippingCosts(array $shippings, Shipping $shipping = null)
     {
         // @TODO: Handle VAT correctly
         $vat = .19;
@@ -40,7 +43,7 @@ class Sum extends Aggregator
 
                 return $shipping;
             },
-            new Shipping()
+            $shipping ?: new Shipping()
         );
 
         $shipping->grossShippingCosts = $shipping->shippingCosts * (1 + $vat);
