@@ -443,8 +443,14 @@ class DependencyResolver
     {
         if ($this->shippingCostCalculator === null) {
             if ($this->gateway->isFeatureEnabled('shipping_rules')) {
-                $this->shippingCostCalculator = new ShippingCostCalculator\RuleCalculator(
-                    $this->gateway
+                $this->shippingCostCalculator = new ShippingCostCalculator\ProductCalculator(
+                    new ShippingCostCalculator\RuleCalculator(
+                        $this->gateway
+                    ),
+                    new ShippingRuleParser\Validator(
+                        new ShippingRuleParser\Google(),
+                        $this->getVerificator()
+                    )
                 );
             } else {
                 $this->shippingCostCalculator = new ShippingCostCalculator\GlobalConfigCalculator(
