@@ -115,13 +115,9 @@ class Shopping
             $shops[$shopId]->shopId = $shopId;
         }
 
-        var_dump($shops);
-
         $aggregator = new ShippingCostCalculator\Aggregator\Sum();
         $shipping = $aggregator->aggregateShippingCosts($shops, new Struct\TotalShippingCosts());
         $shipping->shops = $shops;
-
-        var_dump($shipping);
 
         return $shipping;
     }
