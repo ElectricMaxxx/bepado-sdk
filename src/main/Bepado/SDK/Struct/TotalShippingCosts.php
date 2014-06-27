@@ -7,12 +7,10 @@
 
 namespace Bepado\SDK\Struct;
 
-use Bepado\SDK\Struct;
-
 /**
  * The shipping cost total for all the remote bepado orders.
  */
-class TotalShippingCosts extends Struct
+class TotalShippingCosts extends Shipping
 {
     /**
      * Key value pairs of shop ids and shipping costs.
@@ -20,23 +18,4 @@ class TotalShippingCosts extends Struct
      * @var array<int,Shipping>
      */
     public $shops = array();
-
-    /**
-     * @var bool
-     */
-    public $isShippable = true;
-
-    /**
-     * Net shipping costs.
-     *
-     * @var float
-     */
-    public $shippingCosts;
-
-    /**
-     * Gross shipping costs with VAT applied.
-     *
-     * @var float
-     */
-    public $grossShippingCosts;
 }
