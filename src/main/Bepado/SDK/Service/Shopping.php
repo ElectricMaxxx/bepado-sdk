@@ -115,36 +115,15 @@ class Shopping
             $shops[$shopId]->shopId = $shopId;
         }
 
-        $isShippable = array_reduce(
-            $shops,
-            function ($all, $shippingCosts) {
-                return $all && $shippingCosts->isShippable;
-            },
-            true
-        );
+        var_dump($shops);
 
-        $netShippingCosts = array_sum(
-            array_map(function (Struct\Shipping $costs) {
-                    return $costs->shippingCosts;
-                },
-                $shops
-            )
-        );
+        $aggregator = new ShippingCostCalculator\Aggregator\Sum();
+        $shipping = $aggregator->aggregateShippingCosts($shops, new Struct\TotalShippingCosts());
+        $shipping->shops = $shops;
 
-        $grossShippingCosts = array_sum(
-            array_map(function (Struct\Shipping $costs) {
-                    return $costs->grossShippingCosts;
-                },
-                $shops
-            )
-        );
+        var_dump($shipping);
 
-        return new Struct\TotalShippingCosts(array(
-            'shops' => $shops,
-            'isShippable' => $isShippable,
-            'shippingCosts' => $netShippingCosts,
-            'grossShippingCosts' => $grossShippingCosts,
-        ));
+        return $shipping;
     }
 
     /**

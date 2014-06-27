@@ -26,14 +26,12 @@ class Sum extends Aggregator
      */
     public function aggregateShippingCosts(array $shippings, Shipping $shipping = null)
     {
-        // @TODO: Handle VAT correctly
-        $vat = .19;
-
-        $shipping = array_reduce(
+        return array_reduce(
             $shippings,
             function (Shipping $shipping, Shipping $next) {
                 $shipping->isShippable = $shipping->isShippable && $next->isShippable;
                 $shipping->shippingCosts += $next->shippingCosts;
+                $shipping->grossShippingCosts += $next->grossShippingCosts;
                 $shipping->deliveryWorkDays = max(
                     $shipping->deliveryWorkDays,
                     $next->deliveryWorkDays
@@ -45,8 +43,5 @@ class Sum extends Aggregator
             },
             $shipping ?: new Shipping()
         );
-
-        $shipping->grossShippingCosts = $shipping->shippingCosts * (1 + $vat);
-        return $shipping;
     }
 }
