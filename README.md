@@ -2,8 +2,8 @@
 
 This package contains the SDK for bepado - the Vending Network, http://www.bepado.de
 
-bepado is currently **in closed beta**. To request an account for testing the SDK
-in integration with bepado send an e-mail to `bepado@shopware.com`.
+To request an account for testing the SDK in integration with bepado send an
+e-mail to `bepado@shopware.com`.
 
 The license of this SDK is [MIT](https://github.com/ShopwareAG/bepado-sdk/tree/master/LICENSE).
 

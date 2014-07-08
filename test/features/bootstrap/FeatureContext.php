@@ -10,17 +10,11 @@ use Behat\Behat\Event\ScenarioEvent;
 
 use Bepado\SDK\MySQLi;
 
-// ABC .pear directory location
-$pearDirectory = __DIR__ . '/../../../../.pear/pear/php/';
-set_include_path(get_include_path() . PATH_SEPARATOR . $pearDirectory);
-
 require __DIR__ . '/../../../vendor/autoload.php';
 
 require __DIR__ . '/FromShopContext.php';
 require __DIR__ . '/ToShopContext.php';
 require __DIR__ . '/ShopPurchaseContext.php';
-
-require_once 'PHPUnit/Autoload.php';
 
 /**
  * Features context.
