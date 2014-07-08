@@ -528,7 +528,9 @@ class MySQLi extends Gateway
     /**
      * Get own shop ID
      *
-     * @return string
+     * Returns null if the shop ID is not set, yet.
+     *
+     * @return string|null
      */
     public function getShopId()
     {
@@ -543,7 +545,7 @@ class MySQLi extends Gateway
 
         $rows = $result->fetch_all(\MYSQLI_ASSOC);
         if (!count($rows)) {
-            return false;
+            return null;
         }
 
         return $rows[0]['s_config'];

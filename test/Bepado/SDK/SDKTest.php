@@ -44,17 +44,12 @@ class SDKTest extends \PHPUnit_Framework_TestCase
             ->method('getShopId')
             ->will($this->returnValue(1));
 
-        $this->gatewayMock
-            ->expects($this->at(1))
-            ->method('getLastVerificationDate')
-            ->will($this->returnValue(time()));
-
         $categories = array(
             '/other' => "Other",
         );
 
         $this->gatewayMock
-            ->expects($this->at(2))
+            ->expects($this->at(1))
             ->method('getCategories')
             ->will($this->returnValue($categories));
 
