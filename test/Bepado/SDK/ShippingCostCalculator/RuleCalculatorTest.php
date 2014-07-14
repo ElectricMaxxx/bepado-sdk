@@ -71,7 +71,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             'test'
         );
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $result);
         $this->assertEquals(10, $result->shippingCosts);
         $this->assertEquals(10.7, $result->grossShippingCosts);
     }
@@ -129,7 +129,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             'test'
         );
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $result);
         $this->assertEquals(10, $result->shippingCosts);
         $this->assertEquals(11.9, $result->grossShippingCosts);
     }
@@ -176,7 +176,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             'test'
         );
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $result);
         $this->assertEquals(10, $result->shippingCosts);
         $this->assertEquals(10.7, $result->grossShippingCosts);
     }
@@ -235,7 +235,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             'test'
         );
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $result);
         $this->assertEquals(10, $result->shippingCosts);
         $this->assertEquals(11.790909090909, $result->grossShippingCosts);
     }
@@ -281,7 +281,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             'test'
         );
 
-        $this->assertInstanceOf('Bepado\SDK\Struct\ShippingCosts', $result);
+        $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $result);
         $this->assertEquals(10, $result->shippingCosts);
         $this->assertEquals(11.9, $result->grossShippingCosts);
     }

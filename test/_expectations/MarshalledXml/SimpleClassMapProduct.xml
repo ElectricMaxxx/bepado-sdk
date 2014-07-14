@@ -40,9 +40,9 @@
       <currency>
         <string:string>EUR</string:string>
       </currency>
-      <freeDelivery>
-        <boolean:boolean>false</boolean:boolean>
-      </freeDelivery>
+      <shipping>
+        <null:null/>
+      </shipping>
       <deliveryDate>
         <null:null/>
       </deliveryDate>
