@@ -72,10 +72,7 @@ class ProductCalculator implements ShippingCostCalculator
 
                 if ($rule->isApplicable($productOrder)) {
                     $orderItem->shipping = $rule->getShippingCosts($productOrder, $orderItem);
-
-                    if ($rule->shouldStopProcessing($productOrder)) {
-                        continue 2;
-                    }
+                    continue 2;
                 }
             }
 

@@ -43,25 +43,28 @@ class RuleCalculator implements ShippingCostCalculator
     {
         $shippingCostRules = $this->getShippingCostRules($order, $type);
         $vat = $this->calculateVat($order, $shippingCostRules);
-        $netShippingCosts = 0;
-        $isShippable = false;
 
+        $minShippingCosts = null;
+        $minShippingCostValue = PHP_INT_MAX;
         foreach ($shippingCostRules as $shippingCostRule) {
             if ($shippingCostRule->isApplicable($order)) {
-                $isShippable = true;
-                $netShippingCosts += $shippingCostRule->getShippingCosts($order);
-
-                if ($shippingCostRule->shouldStopProcessing($order)) {
-                    break;
+                $shippingCosts = $shippingCostRule->getShippingCosts($order);
+                if ($shippingCosts->shippingCosts < $minShippingCostValue) {
+                    $minShippingCosts = $shippingCosts;
                 }
             }
         }
 
-        return new Struct\Shipping(array(
-            'isShippable' => $isShippable,
-            'shippingCosts' => $netShippingCosts,
-            'grossShippingCosts' => $netShippingCosts * (1 + $vat),
-        ));
+        if (!$shippingCosts) {
+            return new Shipping(
+                array(
+                    'isShippable' => false,
+                )
+            );
+        }
+
+        $shippingCosts->grossShippingCosts = $shippingCosts->shippingCosts * (1 + $vat);
+        return $shippingCosts;
     }
 
     /**
