@@ -65,7 +65,7 @@ class UnitPrice extends Rule
         return new Shipping(
             array(
                 'rule' => $this,
-                'service' => $this->service,
+                'service' => $this->label,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
                 'shippingCosts' => $this->price * $units,
             )
