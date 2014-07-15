@@ -41,13 +41,4 @@ class FixedPriceTest extends RuleTest
             $rule->getShippingCosts($this->getValidOrder())
         );
     }
-
-    public function testShouldStopProcessing()
-    {
-        $rule = new FixedPrice();
-
-        $this->assertTrue(
-            $rule->shouldStopProcessing($this->getValidOrder())
-        );
-    }
 }

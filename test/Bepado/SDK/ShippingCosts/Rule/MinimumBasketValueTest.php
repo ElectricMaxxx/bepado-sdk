@@ -64,24 +64,6 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     */
-    public function delegate_order_stop_check()
-    {
-        $order = $this->getOrder();
-        $delegatee = Phake::mock('Bepado\SDK\ShippingCosts\Rule');
-        Phake::when($delegatee)->shouldStopProcessing($order)->thenReturn(true);
-
-        $rule = new MinimumBasketValue(array(
-            'minimum' => 200,
-            'delegatee' => $delegatee
-        ));
-
-        $this->assertTrue($rule->shouldStopProcessing($order));
-        Phake::verify($delegatee, Phake::times(1))->shouldStopProcessing($order);
-    }
-
-    /**
      * Get test order
      *
      * @return Order
