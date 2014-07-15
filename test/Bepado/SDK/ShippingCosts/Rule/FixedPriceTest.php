@@ -3,6 +3,7 @@
 namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\ShippingCosts\RuleTest;
+use Bepado\SDK\Struct\Shipping;
 
 require_once __DIR__ . '/../RuleTest.php';
 
@@ -37,7 +38,11 @@ class FixedPriceTest extends RuleTest
         );
 
         $this->assertEquals(
-            5.0,
+            new Shipping(array(
+                'rule' => $rule,
+                'shippingCosts' => 5.,
+                'deliveryWorkDays' => 10,
+            )),
             $rule->getShippingCosts($this->getValidOrder())
         );
     }
