@@ -9,6 +9,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\Struct\Shipping;
 
 /**
  * Class: FixedPrice
@@ -51,22 +52,18 @@ class FixedPrice extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
-     * @return float
+     * @return Shipping
      */
     public function getShippingCosts(Order $order)
     {
-        return $this->price;
-    }
-
-    /**
-     * Get delivery work days for the given order
-     *
-     * @param Order $order
-     * @return int
-     */
-    public function getDeliveryWorkDays(Order $order)
-    {
-        return $this->deliveryWorkDays;
+        return new Shipping(
+            array(
+                'rule' => $this,
+                'service' => $this->label,
+                'deliveryWorkDays' => $this->deliveryWorkDays,
+                'shippingCosts' => $this->price,
+            )
+        );
     }
 
     /**

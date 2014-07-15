@@ -9,6 +9,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\Struct\Shipping;
 
 /**
  * Price is multiplied by unit.
@@ -49,7 +50,7 @@ class UnitPrice extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
-     * @return float
+     * @return Shipping
      */
     public function getShippingCosts(Order $order)
     {
@@ -61,18 +62,14 @@ class UnitPrice extends Rule
             0
         );
 
-        return $this->price * $units;
-    }
-
-    /**
-     * Get delivery work days for the given order
-     *
-     * @param Order $order
-     * @return int
-     */
-    public function getDeliveryWorkDays(Order $order)
-    {
-        return $this->deliveryWorkDays;
+        return new Shipping(
+            array(
+                'rule' => $this,
+                'service' => $this->service,
+                'deliveryWorkDays' => $this->deliveryWorkDays,
+                'shippingCosts' => $this->price * $units,
+            )
+        );
     }
 
     /**

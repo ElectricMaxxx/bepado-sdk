@@ -9,6 +9,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\Struct\Shipping;
 
 /**
  * Decorator for orders from specific countries.
@@ -79,22 +80,11 @@ class CountryDecorator extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
-     * @return float
+     * @return Shipping
      */
     public function getShippingCosts(Order $order)
     {
         return $this->delegatee->getShippingCosts($order);
-    }
-
-    /**
-     * Get delivery work days for the given order
-     *
-     * @param Order $order
-     * @return int
-     */
-    public function getDeliveryWorkDays(Order $order)
-    {
-        return $this->delegatee->getDeliveryWorkDays($order);
     }
 
     /**

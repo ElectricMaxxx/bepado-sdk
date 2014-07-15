@@ -31,17 +31,9 @@ abstract class Rule extends Struct
      * Returns the net shipping costs.
      *
      * @param Order $order
-     * @return float
+     * @return Shipping
      */
     abstract public function getShippingCosts(Order $order);
-
-    /**
-     * Get delivery work days for the given order
-     *
-     * @param Order $order
-     * @return int
-     */
-    abstract public function getDeliveryWorkDays(Order $order);
 
     /**
      * If processing should stop after this rule

@@ -67,22 +67,11 @@ class WeightDecorator extends Rule
      * Returns the net shipping costs.
      *
      * @param Struct\Order $order
-     * @return float
+     * @return Struct\Shipping
      */
     public function getShippingCosts(Struct\Order $order)
     {
         return $this->delegatee->getShippingCosts($order);
-    }
-
-    /**
-     * Get delivery work days for the given order
-     *
-     * @param Order $order
-     * @return int
-     */
-    public function getDeliveryWorkDays(Struct\Order $order)
-    {
-        return $this->delegatee->getDeliveryWorkDays($order);
     }
 
     /**

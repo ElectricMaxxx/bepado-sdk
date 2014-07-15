@@ -96,7 +96,7 @@ class Product extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
-     * @return float
+     * @return Shipping
      */
     public function getShippingCosts(Order $order)
     {
@@ -105,22 +105,9 @@ class Product extends Rule
                 'rule' => $this,
                 'service' => $this->service,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
-                'isShippable' => true,
                 'shippingCosts' => $this->price * $this->orderItemCount,
-                'grossShippingCosts' => $this->price * $this->orderItemCount * (1 + $this->vat),
             )
         );
-    }
-
-    /**
-     * Get delivery work days for the given order
-     *
-     * @param Order $order
-     * @return int
-     */
-    public function getDeliveryWorkDays(Order $order)
-    {
-        return $this->deliveryWorkDays;
     }
 
     /**
