@@ -63,6 +63,17 @@ class MinimumBasketValue extends Rule
     }
 
     /**
+     * Get delivery work days for the given order
+     *
+     * @param Order $order
+     * @return int
+     */
+    public function getDeliveryWorkDays(Order $order)
+    {
+        return $this->delegatee->getDeliveryWorkDays($order);
+    }
+
+    /**
      * If processing should stop after this rule
      *
      * @param Order $order

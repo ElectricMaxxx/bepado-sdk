@@ -75,6 +75,17 @@ class WeightDecorator extends Rule
     }
 
     /**
+     * Get delivery work days for the given order
+     *
+     * @param Order $order
+     * @return int
+     */
+    public function getDeliveryWorkDays(Struct\Order $order)
+    {
+        return $this->delegatee->getDeliveryWorkDays($order);
+    }
+
+    /**
      * If processing should stop after this rule
      *
      * @param Struct\Order $order

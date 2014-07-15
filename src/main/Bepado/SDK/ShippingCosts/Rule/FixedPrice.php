@@ -28,6 +28,13 @@ class FixedPrice extends Rule
     public $price = 0;
 
     /**
+     * Delivery work days
+     *
+     * @var int
+     */
+    public $deliveryWorkDays = 10;
+
+    /**
      * Check if shipping cost is applicable to given order
      *
      * @param Order $order
@@ -49,6 +56,17 @@ class FixedPrice extends Rule
     public function getShippingCosts(Order $order)
     {
         return $this->price;
+    }
+
+    /**
+     * Get delivery work days for the given order
+     *
+     * @param Order $order
+     * @return int
+     */
+    public function getDeliveryWorkDays(Order $order)
+    {
+        return $this->deliveryWorkDays;
     }
 
     /**

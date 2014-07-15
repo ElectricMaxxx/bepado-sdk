@@ -26,6 +26,13 @@ class UnitPrice extends Rule
     public $price = 0;
 
     /**
+     * Delivery work days
+     *
+     * @var int
+     */
+    public $deliveryWorkDays = 10;
+
+    /**
      * Check if shipping cost is applicable to given order
      *
      * @param Order $order
@@ -55,6 +62,17 @@ class UnitPrice extends Rule
         );
 
         return $this->price * $units;
+    }
+
+    /**
+     * Get delivery work days for the given order
+     *
+     * @param Order $order
+     * @return int
+     */
+    public function getDeliveryWorkDays(Order $order)
+    {
+        return $this->deliveryWorkDays;
     }
 
     /**

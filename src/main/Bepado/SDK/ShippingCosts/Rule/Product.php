@@ -113,6 +113,17 @@ class Product extends Rule
     }
 
     /**
+     * Get delivery work days for the given order
+     *
+     * @param Order $order
+     * @return int
+     */
+    public function getDeliveryWorkDays(Order $order)
+    {
+        return $this->getShippingCosts($order)->deliveryWorkDays;
+    }
+
+    /**
      * If processing should stop after this rule
      *
      * @param Order $order

@@ -36,6 +36,14 @@ abstract class Rule extends Struct
     abstract public function getShippingCosts(Order $order);
 
     /**
+     * Get delivery work days for the given order
+     *
+     * @param Order $order
+     * @return int
+     */
+    abstract public function getDeliveryWorkDays(Order $order);
+
+    /**
      * If processing should stop after this rule
      *
      * @param Order $order
