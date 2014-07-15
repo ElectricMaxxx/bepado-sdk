@@ -120,7 +120,7 @@ class Product extends Rule
      */
     public function getDeliveryWorkDays(Order $order)
     {
-        return $this->getShippingCosts($order)->deliveryWorkDays;
+        return $this->deliveryWorkDays;
     }
 
     /**
