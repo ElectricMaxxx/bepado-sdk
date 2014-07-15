@@ -17,9 +17,11 @@ use Bepado\SDK\Struct\Order;
 class MinimumBasketValue extends Rule
 {
     /**
+     * Minimum order value to apply delegatee
+     *
      * @var float
      */
-    public $freeLimit;
+    public $minimum;
 
     /**
      * @var \Bepado\SDK\ShippingCosts\Rule
@@ -34,6 +36,16 @@ class MinimumBasketValue extends Rule
      */
     public function isApplicable(Order $order)
     {
+        $total = 0;
+
+        foreach ($order->orderItems as $item) {
+            $total += ($item->count * $item->product->purchasePrice * (1 + $item->product->vat));
+        }
+
+        if ($total < $this->minimum) {
+            return false;
+        }
+
         return $this->delegatee->isApplicable($order);
     }
 
@@ -47,16 +59,6 @@ class MinimumBasketValue extends Rule
      */
     public function getShippingCosts(Order $order)
     {
-        $total = 0;
-
-        foreach ($order->orderItems as $item) {
-            $total += ($item->count * $item->product->purchasePrice * (1 + $item->product->vat));
-        }
-
-        if ($total >= $this->freeLimit) {
-            return 0;
-        }
-
         return $this->delegatee->getShippingCosts($order);
     }
 
