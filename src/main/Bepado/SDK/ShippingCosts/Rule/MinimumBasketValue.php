@@ -11,9 +11,10 @@ use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
 
 /**
- * Free shipping costs when the order exceeds a specific monetary volume.
+ * Rule decorator, which applies the delegatee only if a given basket value is
+ * reached.
  */
-class FreeCarriageLimit extends Rule
+class MinimumBasketValue extends Rule
 {
     /**
      * @var float

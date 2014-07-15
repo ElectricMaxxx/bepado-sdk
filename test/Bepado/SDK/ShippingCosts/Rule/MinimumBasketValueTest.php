@@ -5,7 +5,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct;
 use Phake;
 
-class FreeCarriageLimitTest extends \PHPUnit_Framework_TestCase
+class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -14,7 +14,7 @@ class FreeCarriageLimitTest extends \PHPUnit_Framework_TestCase
     {
         $delegatee = Phake::mock('Bepado\SDK\ShippingCosts\Rule');
 
-        $rule = new FreeCarriageLimit(array(
+        $rule = new MinimumBasketValue(array(
             'freeLimit' => 100,
             'delegatee' => $delegatee
         ));
@@ -51,7 +51,7 @@ class FreeCarriageLimitTest extends \PHPUnit_Framework_TestCase
         $delegatee = Phake::mock('Bepado\SDK\ShippingCosts\Rule');
         Phake::when($delegatee)->getShippingCosts(Phake::anyParameters())->thenReturn(10);
 
-        $rule = new FreeCarriageLimit(array(
+        $rule = new MinimumBasketValue(array(
             'freeLimit' => 100,
             'delegatee' => $delegatee
         ));

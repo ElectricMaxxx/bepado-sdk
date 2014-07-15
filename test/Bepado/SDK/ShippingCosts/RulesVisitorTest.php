@@ -14,7 +14,7 @@ class RulesVisitorTest extends \PHPUnit_Framework_TestCase
         $visitor = \Phake::partialMock('Bepado\SDK\ShippingCosts\RulesVisitor');
         $visitor->visit(new Rules(array('rules' => array(
             new Rule\CountryDecorator(array(
-                'delegatee' => new Rule\FreeCarriageLimit(array(
+                'delegatee' => new Rule\MinimumBasketValue(array(
                     'delegatee' => new Rule\WeightDecorator(array(
                         'delegatee' => new Rule\FixedPrice()
                     ))
@@ -28,7 +28,7 @@ class RulesVisitorTest extends \PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($visitor)->startVisitRules($p),
             Phake::verify($visitor, \Phake::times(2))->startVisitRule($p),
-            Phake::verify($visitor)->visitFreeCarriageLimit($p),
+            Phake::verify($visitor)->visitMinimumBasketValue($p),
             Phake::verify($visitor)->visitWeightDecorator($p),
             Phake::verify($visitor)->visitFixedPrice($p),
             Phake::verify($visitor, \Phake::times(2))->stopVisitRule($p),
