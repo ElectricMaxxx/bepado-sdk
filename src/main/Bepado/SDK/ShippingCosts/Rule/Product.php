@@ -106,6 +106,7 @@ class Product extends Rule
                 'service' => $this->service,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
                 'shippingCosts' => $this->price * $this->orderItemCount,
+                'grossShippingCosts' => $this->price * $this->orderItemCount * (1 + $this->vat),
             )
         );
     }
