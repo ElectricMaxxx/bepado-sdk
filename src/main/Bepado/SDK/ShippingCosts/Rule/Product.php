@@ -109,15 +109,4 @@ class Product extends Rule
             )
         );
     }
-
-    /**
-     * If processing should stop after this rule
-     *
-     * @param Order $order
-     * @return bool
-     */
-    public function shouldStopProcessing(Order $order)
-    {
-        return true;
-    }
 }

@@ -73,15 +73,4 @@ class WeightDecorator extends Rule
     {
         return $this->delegatee->getShippingCosts($order);
     }
-
-    /**
-     * If processing should stop after this rule
-     *
-     * @param Struct\Order $order
-     * @return bool
-     */
-    public function shouldStopProcessing(Struct\Order $order)
-    {
-        return $this->delegatee->shouldStopProcessing($order);
-    }
 }

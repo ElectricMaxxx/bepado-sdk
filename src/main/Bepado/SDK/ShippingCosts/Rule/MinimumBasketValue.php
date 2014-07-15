@@ -61,15 +61,4 @@ class MinimumBasketValue extends Rule
     {
         return $this->delegatee->getShippingCosts($order);
     }
-
-    /**
-     * If processing should stop after this rule
-     *
-     * @param Order $order
-     * @return bool
-     */
-    public function shouldStopProcessing(Order $order)
-    {
-        return $this->delegatee->shouldStopProcessing($order);
-    }
 }

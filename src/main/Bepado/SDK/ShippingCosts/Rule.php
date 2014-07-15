@@ -36,14 +36,6 @@ abstract class Rule extends Struct
     abstract public function getShippingCosts(Order $order);
 
     /**
-     * If processing should stop after this rule
-     *
-     * @param Order $order
-     * @return bool
-     */
-    abstract public function shouldStopProcessing(Order $order);
-
-    /**
      * Restore rule after var_export
      *
      * @param array $values
