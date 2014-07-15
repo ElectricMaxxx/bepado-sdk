@@ -13,6 +13,7 @@ use Bepado\SDK\ShippingCosts\Rules;
 use Bepado\SDK\Struct;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\OrderItem;
+use Bepado\SDK\Struct\Shipping;
 
 /**
  * Calculate shipping costs based on rules from the gateway.
@@ -55,7 +56,7 @@ class RuleCalculator implements ShippingCostCalculator
             }
         }
 
-        if (!$shippingCosts) {
+        if (!$minShippingCosts) {
             return new Shipping(
                 array(
                     'isShippable' => false,
@@ -63,8 +64,8 @@ class RuleCalculator implements ShippingCostCalculator
             );
         }
 
-        $shippingCosts->grossShippingCosts = $shippingCosts->shippingCosts * (1 + $vat);
-        return $shippingCosts;
+        $minShippingCosts->grossShippingCosts = $minShippingCosts->shippingCosts * (1 + $vat);
+        return $minShippingCosts;
     }
 
     /**
