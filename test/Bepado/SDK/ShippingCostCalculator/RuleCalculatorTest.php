@@ -344,4 +344,9 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
             'test'
         );
     }
+
+    public function testFindMinimumShippingCostsRule()
+    {
+        $this->markTestIncomplete("@TODO: Implement Test.");
+    }
 }
