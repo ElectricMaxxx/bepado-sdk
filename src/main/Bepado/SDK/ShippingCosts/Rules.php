@@ -48,6 +48,12 @@ class Rules extends Struct implements IteratorAggregate
      */
     public $vatConfig;
 
+    public function __construct(array $values = array())
+    {
+        $this->vatConfig = new VatConfig();
+        parent::__construct($values);
+    }
+
     public function getIterator()
     {
         return new ArrayIterator($this->rules);
@@ -80,10 +86,6 @@ class Rules extends Struct implements IteratorAggregate
      */
     public function __set($property, $value)
     {
-        if (!isset($this->vatConfig)) {
-            $this->vatConfig = new VatConfig();
-        }
-
         switch ($property) {
             case 'vat':
                 return $this->vatConfig->vat = $value;
