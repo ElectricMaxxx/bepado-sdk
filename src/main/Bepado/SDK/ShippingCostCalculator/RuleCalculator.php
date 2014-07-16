@@ -98,7 +98,12 @@ class RuleCalculator implements ShippingCostCalculator
             }
         }
 
-        return $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
+        $rules = $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
+        if (is_array($rules)) {
+            $rules = new Rules(array('rules' => $rules));
+        }
+
+        return $rules;
     }
 
     /**
@@ -108,14 +113,12 @@ class RuleCalculator implements ShippingCostCalculator
      * products to the shipping costs.
      *
      * @param \Bepado\SDK\Struct\Order $order
-     * @param array|\Bepado\SDK\ShippingCosts\Rules $rules
+     * @param \Bepado\SDK\ShippingCosts\Rules $rules
      * @return float
      */
-    protected function calculateVat(Order $order, $rules)
+    protected function calculateVat(Order $order, Rules $rules)
     {
-        $vatMode = is_array($rules) ? Rules::VAT_MAX : $rules->vatMode;
-
-        switch ($vatMode) {
+        switch ($rules->vatMode) {
             case Rules::VAT_MAX:
                 return max(
                     array_map(
