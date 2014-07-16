@@ -4,6 +4,7 @@ namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\ShippingCosts\Rules;
+use Bepado\SDK\ShippingCosts\VatConfig;
 
 class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -400,43 +401,35 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     public function testGrossShippingCosts()
     {
         \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
-            new Rules(
-                array(
-                    'vatMode' => Rules::VAT_FIX,
+            new Rules(array(
+                'vatConfig' => new VatConfig(array(
+                    'mode' => Rules::VAT_FIX,
                     'vat' => 0.07,
                     'isNet' => false,
-                    'rules' => array(
-                        new Rule\FixedPrice(
-                            array(
-                                'price' => 10,
-                            )
-                        ),
-                    )
+                )),
+                'rules' => array(
+                    new Rule\FixedPrice(array(
+                        'price' => 10,
+                    )),
                 )
-            )
+            ))
         );
 
         $result = $this->calculator->calculateShippingCosts(
-            new \Bepado\SDK\Struct\Order(
-                array(
-                    'orderShop' => 2,
-                    'providerShop' => 1,
-                    'products' => array(
-                        new \Bepado\SDK\Struct\OrderItem(
-                            array(
-                                'count' => 1,
-                                'product' => new \Bepado\SDK\Struct\Product(
-                                    array(
-                                        'shopId' => 1,
-                                        'freeDelivery' => false,
-                                        'vat' => 0.19,
-                                    )
-                                ),
-                            )
-                        ),
-                    ),
-                )
-            ),
+            new \Bepado\SDK\Struct\Order(array(
+                'orderShop' => 2,
+                'providerShop' => 1,
+                'products' => array(
+                    new \Bepado\SDK\Struct\OrderItem(array(
+                        'count' => 1,
+                        'product' => new \Bepado\SDK\Struct\Product(array(
+                            'shopId' => 1,
+                            'freeDelivery' => false,
+                            'vat' => 0.19,
+                        )),
+                    )),
+                ),
+            )),
             'test'
         );
 

@@ -37,28 +37,16 @@ class Rules extends Struct implements IteratorAggregate
     const VAT_PROPORTIONATELY = 'proportionately';
 
     /**
-     * How to calculate the VAT for the shipping costs.
-     *
-     * @var string
-     */
-    public $vatMode = self::VAT_MAX;
-
-    /**
-     * @var float
-     */
-    public $vat = 0;
-
-    /**
      * @var \Bepado\SDK\Struct\ShippingCost\Rule[]
      */
     public $rules = array();
 
     /**
-     * Flag if shipping costs are provided as net (or gross)
+     * VAT config
      *
-     * @var bool
+     * @var VatConfig
      */
-    public $isNet = true;
+    public $vatConfig;
 
     public function getIterator()
     {
@@ -66,13 +54,43 @@ class Rules extends Struct implements IteratorAggregate
     }
 
     /**
-     * Restores Rules from a previously stored state array.
+     * Getter for legacy conformity
      *
-     * @param array $state
-     * @return \Bepado\SDK\ShippingCosts\Rules
+     * @param string $property
+     * @return mixed
      */
-    public static function __set_state(array $state)
+    public function __get($property)
     {
-        return new Rules($state);
+        switch ($property) {
+            case 'vat':
+                return $this->vatConfig->vat;
+            case 'vatMode':
+                return $this->vatConfig->mode;
+            default:
+                return parent::__get($property);
+        }
+    }
+
+    /**
+     * Setter for legacy conformity
+     *
+     * @param string $property
+     * @param mixed $value
+     * @return void
+     */
+    public function __set($property, $value)
+    {
+        if (!isset($this->vatConfig)) {
+            $this->vatConfig = new VatConfig();
+        }
+
+        switch ($property) {
+            case 'vat':
+                return $this->vatConfig->vat = $value;
+            case 'vatMode':
+                return $this->vatConfig->mode = $value;
+            default:
+                return parent::__set($property, $value);
+        }
     }
 }
