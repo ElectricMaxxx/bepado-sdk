@@ -64,7 +64,13 @@ class RuleCalculator implements ShippingCostCalculator
             );
         }
 
-        $minShippingCosts->grossShippingCosts = $minShippingCosts->shippingCosts * (1 + $vat);
+        if ($shippingCostRules->isNet) {
+            $minShippingCosts->grossShippingCosts = $minShippingCosts->shippingCosts * (1 + $vat);
+        } else {
+            $minShippingCosts->grossShippingCosts = $minShippingCosts->shippingCosts;
+            $minShippingCosts->shippingCosts = $minShippingCosts->grossShippingCosts / (1 + $vat);
+        }
+
         return $minShippingCosts;
     }
 

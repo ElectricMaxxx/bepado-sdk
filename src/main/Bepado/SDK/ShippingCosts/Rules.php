@@ -53,6 +53,13 @@ class Rules extends Struct implements IteratorAggregate
      */
     public $rules = array();
 
+    /**
+     * Flag if shipping costs are provided as net (or gross)
+     *
+     * @var bool
+     */
+    public $isNet = true;
+
     public function getIterator()
     {
         return new ArrayIterator($this->rules);
