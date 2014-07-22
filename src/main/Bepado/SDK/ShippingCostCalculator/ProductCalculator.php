@@ -88,18 +88,19 @@ class ProductCalculator implements ShippingCostCalculator
             }
         );
 
-        $vatConfig = $this->getVatConfig($order, $type);
+        $shippingCosts = $this->getShippingCosts($order, $type);
         $isShippable = true;
         foreach ($productOrder->orderItems as $orderItem) {
             $rules = $this->parser->parseString($orderItem->product->shipping);
 
             $orderItem->shipping = new Shipping(array('isShippable' => false));
             foreach ($rules->rules as $rule) {
+                $rule->deliveryWorkDays = $rule->deliveryWorkDays ?: $shippingCosts->defaultDeliveryWorkDays;
                 $rule->orderItemCount = $orderItem->count;
                 $rule->vat = $orderItem->product->vat;
 
                 if ($rule->isApplicable($productOrder)) {
-                    $orderItem->shipping = $rule->getShippingCosts($productOrder, $vatConfig);
+                    $orderItem->shipping = $rule->getShippingCosts($productOrder, $shippingCosts->vatConfig);
                     continue 2;
                 }
             }
@@ -126,14 +127,16 @@ class ProductCalculator implements ShippingCostCalculator
      * @param \Bepado\SDK\Struct\Order $order
      * @return Rule[]
      */
-    protected function getVatConfig(Order $order, $type)
+    protected function getShippingCosts(Order $order, $type)
     {
         $rules = $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
         if (is_array($rules)) {
             // This is for legacy shops, where the rules are still just an array
-            return new VatConfig();
+            return new Rules(array(
+                'rules' => $rules,
+            ));
         }
 
-        return $rules->vatConfig;
+        return $rules;
     }
 }
