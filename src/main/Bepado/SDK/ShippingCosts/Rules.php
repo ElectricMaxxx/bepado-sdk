@@ -42,6 +42,13 @@ class Rules extends Struct implements IteratorAggregate
     public $rules = array();
 
     /**
+     * Default delivery work days
+     *
+     * @var int
+     */
+    public $defaultDeliveryWorkDays = 10;
+
+    /**
      * VAT config
      *
      * @var VatConfig
