@@ -89,7 +89,6 @@ class ProductCalculator implements ShippingCostCalculator
         );
 
         $shippingCosts = $this->getShippingCosts($order, $type);
-        $isShippable = true;
         foreach ($productOrder->orderItems as $orderItem) {
             $rules = $this->parser->parseString($orderItem->product->shipping);
 
@@ -101,11 +100,9 @@ class ProductCalculator implements ShippingCostCalculator
 
                 if ($rule->isApplicable($productOrder)) {
                     $orderItem->shipping = $rule->getShippingCosts($productOrder, $shippingCosts->vatConfig);
-                    continue 2;
+                    break;
                 }
             }
-
-            $isShippable = false;
         }
 
         return $this->aggregator->aggregateShippingCosts(
