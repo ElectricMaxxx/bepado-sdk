@@ -20,6 +20,10 @@ class VatCalculator
      * This seems to be a safe assumption to apply the maximum VAT of all
      * products to the shipping costs.
      *
+     * @note We could refactor this into a dispatcher with different
+     * VatCalculators for the different VAT modes. This would reduce the method
+     * complexity drastically.
+     *
      * @param Order $order
      * @param VatConfig $vatConfig
      * @return void
