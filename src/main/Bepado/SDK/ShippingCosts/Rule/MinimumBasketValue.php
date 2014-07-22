@@ -38,7 +38,6 @@ class MinimumBasketValue extends Rule
     public function isApplicable(Order $order)
     {
         $total = 0;
-
         foreach ($order->orderItems as $item) {
             $total += ($item->count * $item->product->purchasePrice * (1 + $item->product->vat));
         }
