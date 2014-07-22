@@ -51,7 +51,7 @@ class RuleCalculator implements ShippingCostCalculator
     public function calculateShippingCosts(Order $order, $type)
     {
         $shippingCostRules = $this->getShippingCostRules($order, $type);
-        $this->vatCalculator->calculateVat($order, $shippingCostRules->vatConfig);
+        $shippingCostRules->vatConfig->vat = $this->vatCalculator->calculateVat($order, $shippingCostRules->vatConfig);
 
         $minShippingCosts = null;
         $minShippingCostValue = PHP_INT_MAX;

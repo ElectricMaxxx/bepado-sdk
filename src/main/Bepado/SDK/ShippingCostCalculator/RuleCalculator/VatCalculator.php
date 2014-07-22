@@ -26,13 +26,13 @@ class VatCalculator
      *
      * @param Order $order
      * @param VatConfig $vatConfig
-     * @return void
+     * @return float
      */
     public function calculateVat(Order $order, VatConfig $vatConfig)
     {
         switch ($vatConfig->mode) {
             case Rules::VAT_MAX:
-                return $vatConfig->vat = max(
+                return max(
                     array_map(
                         function (OrderItem $orderItem) {
                             return $orderItem->product->vat;
@@ -55,14 +55,14 @@ class VatCalculator
                 arsort($prices);
                 reset($prices);
 
-                return $vatConfig->vat = key($prices);
+                return key($prices);
 
             case Rules::VAT_PROPORTIONATELY:
                 $totalPrice = 0;
                 $vat = 0;
 
                 if (count($order->orderItems) === 1) {
-                    return $vatConfig->vat = $order->orderItems[0]->product->vat;
+                    return $order->orderItems[0]->product->vat;
                 }
 
                 foreach ($order->orderItems as $orderItem) {
@@ -74,7 +74,7 @@ class VatCalculator
                     $vat += ($productPrice / $totalPrice) * $orderItem->product->vat;
                 }
 
-                return $vatConfig->vat = $vat;
+                return $vat;
 
             case Rules::VAT_FIX:
                 return $vatConfig->vat;
