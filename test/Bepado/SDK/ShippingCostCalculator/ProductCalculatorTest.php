@@ -12,11 +12,13 @@ use Bepado\SDK\ShippingRuleParser;
 class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     private $aggregate;
+    private $gateway;
     private $calculator;
 
     public function setUp()
     {
         $this->aggregate = \Phake::mock('Bepado\SDK\ShippingCostCalculator');
+        $this->gateway = \Phake::mock('Bepado\SDK\Gateway\ShippingCosts');
         $this->calculator = new ProductCalculator(
             $this->aggregate,
             new ShippingRuleParser\Validator(
@@ -29,7 +31,13 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                             new Struct\Verificator\ProductRule(),
                     )
                 )
-            )
+            ),
+            $this->gateway
+        );
+
+        \Phake::when($this->gateway)->getShippingCosts(\Phake::anyParameters())->thenReturn(
+            new \Bepado\SDK\ShippingCosts\Rules(array(
+            ))
         );
 
         \Phake::when($this->aggregate)->calculateShippingCosts(\Phake::anyParameters())->thenReturn(
@@ -370,6 +378,9 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalculate(Order $order, Shipping $expected)
     {
+        $order->providerShop = 1;
+        $order->orderShop = 2;
+
         $shippingCosts = $this->calculator->calculateShippingCosts($order, 'test');
 
         $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $shippingCosts);

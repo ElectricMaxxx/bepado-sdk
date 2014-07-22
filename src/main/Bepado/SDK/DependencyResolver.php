@@ -450,7 +450,8 @@ class DependencyResolver
                     new ShippingRuleParser\Validator(
                         new ShippingRuleParser\Google(),
                         $this->getVerificator()
-                    )
+                    ),
+                    $this->gateway
                 );
             } else {
                 $this->shippingCostCalculator = new ShippingCostCalculator\GlobalConfigCalculator(

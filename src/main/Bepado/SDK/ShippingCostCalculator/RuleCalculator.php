@@ -43,13 +43,13 @@ class RuleCalculator implements ShippingCostCalculator
     public function calculateShippingCosts(Order $order, $type)
     {
         $shippingCostRules = $this->getShippingCostRules($order, $type);
-        $vat = $this->calculateVat($order, $shippingCostRules);
+        $shippingCostRules->vatConfig->vat = $this->calculateVat($order, $shippingCostRules);
 
         $minShippingCosts = null;
         $minShippingCostValue = PHP_INT_MAX;
         foreach ($shippingCostRules as $shippingCostRule) {
             if ($shippingCostRule->isApplicable($order)) {
-                $shippingCosts = $shippingCostRule->getShippingCosts($order);
+                $shippingCosts = $shippingCostRule->getShippingCosts($order, $shippingCostRules->vatConfig);
                 if ($shippingCosts->shippingCosts < $minShippingCostValue) {
                     $minShippingCosts = $shippingCosts;
                 }
@@ -62,13 +62,6 @@ class RuleCalculator implements ShippingCostCalculator
                     'isShippable' => false,
                 )
             );
-        }
-
-        if ($shippingCostRules->vatConfig->isNet) {
-            $minShippingCosts->grossShippingCosts = $minShippingCosts->shippingCosts * (1 + $vat);
-        } else {
-            $minShippingCosts->grossShippingCosts = $minShippingCosts->shippingCosts;
-            $minShippingCosts->shippingCosts = $minShippingCosts->grossShippingCosts / (1 + $vat);
         }
 
         return $minShippingCosts;
@@ -100,6 +93,7 @@ class RuleCalculator implements ShippingCostCalculator
 
         $rules = $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
         if (is_array($rules)) {
+            // This is for legacy shops, where the rules are still just an array
             $rules = new Rules(array('rules' => $rules));
         }
 
