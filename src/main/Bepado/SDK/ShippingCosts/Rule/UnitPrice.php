@@ -10,6 +10,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\Shipping;
+use Bepado\SDK\ShippingCosts\VatConfig;
 
 /**
  * Price is multiplied by unit.
@@ -50,9 +51,10 @@ class UnitPrice extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
+     * @param VatConfig $vatConfig
      * @return Shipping
      */
-    public function getShippingCosts(Order $order)
+    public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
         $units = array_reduce(
             $order->orderItems,
@@ -67,7 +69,8 @@ class UnitPrice extends Rule
                 'rule' => $this,
                 'service' => $this->label,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
-                'shippingCosts' => $this->price * $units,
+                'shippingCosts' => $this->price * $units / ($vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
+                'grossShippingCosts' => $this->price * $units * (!$vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
             )
         );
     }

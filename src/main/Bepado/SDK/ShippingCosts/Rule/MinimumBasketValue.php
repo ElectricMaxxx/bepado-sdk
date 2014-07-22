@@ -9,6 +9,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\ShippingCosts\VatConfig;
 
 /**
  * Rule decorator, which applies the delegatee only if a given basket value is
@@ -55,10 +56,11 @@ class MinimumBasketValue extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
+     * @param VatConfig $vatConfig
      * @return Shipping
      */
-    public function getShippingCosts(Order $order)
+    public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
-        return $this->delegatee->getShippingCosts($order);
+        return $this->delegatee->getShippingCosts($order, $vatConfig);
     }
 }

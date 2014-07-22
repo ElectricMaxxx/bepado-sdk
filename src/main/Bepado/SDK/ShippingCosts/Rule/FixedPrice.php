@@ -10,6 +10,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\Shipping;
+use Bepado\SDK\ShippingCosts\VatConfig;
 
 /**
  * Class: FixedPrice
@@ -52,16 +53,18 @@ class FixedPrice extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
+     * @param VatConfig $vatConfig
      * @return Shipping
      */
-    public function getShippingCosts(Order $order)
+    public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
         return new Shipping(
             array(
                 'rule' => $this,
                 'service' => $this->label,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
-                'shippingCosts' => $this->price,
+                'shippingCosts' => $this->price / ($vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
+                'grossShippingCosts' => $this->price * (!$vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
             )
         );
     }

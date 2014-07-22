@@ -10,6 +10,7 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\Shipping;
+use Bepado\SDK\ShippingCosts\VatConfig;
 
 /**
  * Charges for Shippingcosts are calculated downstream and cannot be calculated beforehand.
@@ -43,16 +44,16 @@ class DownstreamCharges extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
+     * @param VatConfig $vatConfig
      * @return Shipping
      */
-    public function getShippingCosts(Order $order)
+    public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
         return new Shipping(
             array(
                 'rule' => $this,
                 'service' => $this->label,
                 'deliveryWorkDays' => 10,
-                'shippingCosts' => 0,
             )
         );
     }

@@ -3,6 +3,7 @@
 namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\Struct;
+use Bepado\SDK\ShippingCosts\VatConfig;
 use Phake;
 
 class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
@@ -48,8 +49,9 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
     public function delegate_shipping_cost_calculation()
     {
         $order = $this->getOrder();
+        $vatConfig = new VatConfig();
         $delegatee = Phake::mock('Bepado\SDK\ShippingCosts\Rule');
-        Phake::when($delegatee)->getShippingCosts($order)->thenReturn(42);
+        Phake::when($delegatee)->getShippingCosts($order, $vatConfig)->thenReturn(42);
 
         $rule = new MinimumBasketValue(array(
             'minimum' => 200,
@@ -58,9 +60,9 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             42,
-            $rule->getShippingCosts($order)
+            $rule->getShippingCosts($order, $vatConfig)
         );
-        Phake::verify($delegatee, Phake::times(1))->getShippingCosts($order);
+        Phake::verify($delegatee, Phake::times(1))->getShippingCosts($order, $vatConfig);
     }
 
     /**
