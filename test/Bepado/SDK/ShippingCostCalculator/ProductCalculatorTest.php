@@ -370,6 +370,29 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                     'grossShippingCosts' => 10.00 * 1.19,
                 )),
             ),
+            array( // #14
+                new \Bepado\SDK\Struct\Order(array(
+                    'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
+                        'country' => 'DE',
+                        'state' => 'NRW',
+                    )),
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => 'DE:NRW:DHL:5.00 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\Shipping(array(
+                    'isShippable' => true,
+                    'service' => 'DHL',
+                    'deliveryWorkDays' => 10,
+                    'shippingCosts' => 5.00,
+                    'grossShippingCosts' => 5.00 * 1.19,
+                )),
+            ),
         );
     }
 
