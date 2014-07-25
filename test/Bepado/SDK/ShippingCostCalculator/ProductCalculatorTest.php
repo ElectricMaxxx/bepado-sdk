@@ -266,6 +266,34 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                 new \Bepado\SDK\Struct\Order(array(
                     'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
                         'country' => 'DE',
+                        'zip' => '45886',
+                    )),
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => 'DE::Service [3D]:5.00 EUR',
+                            )),
+                        )),
+                    ),
+                    'orderItems' => array(
+                        new \Bepado\SDK\Struct\OrderItem(array(
+                            'count' => 1,
+                            'product' => new \Bepado\SDK\Struct\Product(array(
+                                'shipping' => 'US::Service [3D]:5.00 EUR',
+                            )),
+                        )),
+                    ),
+                )),
+                new \Bepado\SDK\Struct\Shipping(array(
+                    'isShippable' => false,
+                )),
+                "One order item is not shippable, if no rule matches",
+            ),
+            array( // #10
+                new \Bepado\SDK\Struct\Order(array(
+                    'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
+                        'country' => 'DE',
                         'state' => 'NRW',
                     )),
                     'orderItems' => array(
@@ -286,7 +314,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                 )),
                 "Calculate shipping costs using a matching region string rule from multiple rules",
             ),
-            array( // #10
+            array( // #11
                 new \Bepado\SDK\Struct\Order(array(
                     'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
                         'country' => 'DE',
@@ -310,7 +338,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                 )),
                 "Calculate shipping costs using a non matching region string rule from multiple rules",
             ),
-            array( // #11
+            array( // #12
                 new \Bepado\SDK\Struct\Order(array(
                     'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
                         'country' => 'DE',
@@ -334,7 +362,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                 )),
                 "Set service name of matched shipping cost rule",
             ),
-            array( // #12
+            array( // #13
                 new \Bepado\SDK\Struct\Order(array(
                     'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
                         'country' => 'DE',
@@ -364,7 +392,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                 )),
                 "Aggregate service names of matched shipping cost rules",
             ),
-            array( // #13
+            array( // #14
                 new \Bepado\SDK\Struct\Order(array(
                     'deliveryAddress' => new \Bepado\SDK\Struct\Address(array(
                         'country' => 'DE',
