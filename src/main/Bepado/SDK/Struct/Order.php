@@ -95,6 +95,25 @@ class Order extends Struct
     public $billingAddress;
 
     /**
+     * Net shipping costs.
+     * @var float
+     */
+    public $shippingCosts;
+
+    /**
+     * Gross shipping costs with VAT applied.
+     * @var float
+     */
+    public $grossShippingCosts;
+
+    /**
+     * The delivery type that is used for this order.
+     * Is calculated internally by the SDK.
+     * @var \Bepado\SDK\ShippingCosts\Rule
+     */
+    public $shippingRule;
+
+    /**
      * __construct
      *
      * @param array $values
