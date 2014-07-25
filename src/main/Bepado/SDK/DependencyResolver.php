@@ -86,6 +86,13 @@ class DependencyResolver
     protected $shoppingService;
 
     /**
+     * Shipping costs service
+     *
+     * @var Service\ShippingCosts
+     */
+    protected $shippingCostsService;
+
+    /**
      * Verification service
      *
      * @var Service\Verification
@@ -308,7 +315,7 @@ class DependencyResolver
                     $this->gateway,
                     $this->getLogger(),
                     $this->gateway,
-                    $this->getShippingCostCalculator(),
+                    $this->getShippingCostsService(),
                     $this->getVerificator()
                 )
             );
@@ -316,10 +323,7 @@ class DependencyResolver
             $this->registry->registerService(
                 'shippingCosts',
                 array('lastRevision', 'replicate'),
-                new Service\ShippingCosts(
-                    $this->gateway,
-                    $this->getShippingCostCalculator()
-                )
+                $this->getShippingCostsService()
             );
         }
 
@@ -436,7 +440,7 @@ class DependencyResolver
                 $this->toShop,
                 $this->getLogger(),
                 $this->errorHandler,
-                $this->getShippingCostCalculator(),
+                $this->getShippingCostsService(),
                 $this->gateway
             );
         }
@@ -444,19 +448,31 @@ class DependencyResolver
         return $this->shoppingService;
     }
 
+    /**
+     * @return Service\ShippingCosts
+     */
+    public function getShippingCostsService()
+    {
+        if ($this->shippingCostsService === null) {
+            $this->shippingCostsService = new Service\ShippingCosts(
+                $this->gateway,
+                $this->getShippingCostCalculator()
+            );
+        }
+
+        return $this->shippingCostsService;
+    }
+
     public function getShippingCostCalculator()
     {
         if ($this->shippingCostCalculator === null) {
             if ($this->gateway->isFeatureEnabled('shipping_rules')) {
                 $this->shippingCostCalculator = new ShippingCostCalculator\ProductCalculator(
-                    new ShippingCostCalculator\RuleCalculator(
-                        $this->gateway
-                    ),
+                    new ShippingCostCalculator\RuleCalculator(),
                     new ShippingRuleParser\Validator(
                         new ShippingRuleParser\Google(),
                         $this->getVerificator()
-                    ),
-                    $this->gateway
+                    )
                 );
             } else {
                 $this->shippingCostCalculator = new ShippingCostCalculator\GlobalConfigCalculator(

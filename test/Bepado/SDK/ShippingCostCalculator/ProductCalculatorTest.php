@@ -18,7 +18,6 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->aggregate = \Phake::mock('Bepado\SDK\ShippingCostCalculator');
-        $this->gateway = \Phake::mock('Bepado\SDK\Gateway\ShippingCosts');
         $this->calculator = new ProductCalculator(
             $this->aggregate,
             new ShippingRuleParser\Validator(
@@ -31,13 +30,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
                             new Struct\Verificator\ProductRule(),
                     )
                 )
-            ),
-            $this->gateway
-        );
-
-        \Phake::when($this->gateway)->getShippingCosts(\Phake::anyParameters())->thenReturn(
-            new \Bepado\SDK\ShippingCosts\Rules(array(
-            ))
+            )
         );
 
         \Phake::when($this->aggregate)->calculateShippingCosts(\Phake::anyParameters())->thenReturn(
@@ -427,7 +420,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
         $order->providerShop = 1;
         $order->orderShop = 2;
 
-        $shippingCosts = $this->calculator->calculateShippingCosts($order, 'test');
+        $shippingCosts = $this->calculator->calculateShippingCosts(new Rules(), $order);
 
         $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $shippingCosts);
         $this->assertEquals($expected, $shippingCosts, "Calculated wrong shipping costs for test: $message", 0.01);
