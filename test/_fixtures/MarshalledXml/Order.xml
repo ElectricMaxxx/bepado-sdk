@@ -4,33 +4,6 @@
   <command>testOrder</command>
   <arguments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <order xmlns="urn:bepado:api:order" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" struct="Bepado\SDK\Struct\Order" xsi:schemaLocation="urn:bepado:api:order http://api.bepado.com/schemas/order.xsd urn:bepado:api:shipping http://api.bepado.com/schemas/shipping.xsd">
-      <orderShop>
-        <null:null/>
-      </orderShop>
-      <providerShop>
-        <null:null/>
-      </providerShop>
-      <reservationId>
-        <null:null/>
-      </reservationId>
-      <localOrderId>
-        <null:null/>
-      </localOrderId>
-      <providerOrderId>
-        <null:null/>
-      </providerOrderId>
-      <paymentType>
-        <string:string>unknown</string:string>
-      </paymentType>
-      <orderItems>
-        <null:null/>
-      </orderItems>
-      <deliveryAddress>
-        <null:null/>
-      </deliveryAddress>
-      <billingAddress>
-        <null:null/>
-      </billingAddress>
       <shippingCosts>
         <float:float>5</float:float>
       </shippingCosts>
