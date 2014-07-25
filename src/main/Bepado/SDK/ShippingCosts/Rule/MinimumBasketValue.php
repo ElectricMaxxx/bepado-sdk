@@ -9,16 +9,20 @@ namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\ShippingCosts\Rule;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\ShippingCosts\VatConfig;
 
 /**
- * Free shipping costs when the order exceeds a specific monetary volume.
+ * Rule decorator, which applies the delegatee only if a given basket value is
+ * reached.
  */
-class FreeCarriageLimit extends Rule
+class MinimumBasketValue extends Rule
 {
     /**
+     * Minimum order value to apply delegatee
+     *
      * @var float
      */
-    public $freeLimit;
+    public $minimum;
 
     /**
      * @var \Bepado\SDK\ShippingCosts\Rule
@@ -33,6 +37,15 @@ class FreeCarriageLimit extends Rule
      */
     public function isApplicable(Order $order)
     {
+        $total = 0;
+        foreach ($order->orderItems as $item) {
+            $total += ($item->count * $item->product->purchasePrice * (1 + $item->product->vat));
+        }
+
+        if ($total < $this->minimum) {
+            return false;
+        }
+
         return $this->delegatee->isApplicable($order);
     }
 
@@ -42,31 +55,11 @@ class FreeCarriageLimit extends Rule
      * Returns the net shipping costs.
      *
      * @param Order $order
-     * @return float
+     * @param VatConfig $vatConfig
+     * @return Shipping
      */
-    public function getShippingCosts(Order $order)
+    public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
-        $total = 0;
-
-        foreach ($order->orderItems as $item) {
-            $total += ($item->count * $item->product->purchasePrice * (1 + $item->product->vat));
-        }
-
-        if ($total >= $this->freeLimit) {
-            return 0;
-        }
-
-        return $this->delegatee->getShippingCosts($order);
-    }
-
-    /**
-     * If processing should stop after this rule
-     *
-     * @param Order $order
-     * @return bool
-     */
-    public function shouldStopProcessing(Order $order)
-    {
-        return $this->delegatee->shouldStopProcessing($order);
+        return $this->delegatee->getShippingCosts($order, $vatConfig);
     }
 }

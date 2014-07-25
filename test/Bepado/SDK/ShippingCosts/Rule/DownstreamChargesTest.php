@@ -3,6 +3,8 @@
 namespace Bepado\SDK\ShippingCosts\Rule;
 
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\ShippingCosts\VatConfig;
+use Bepado\SDK\Struct\Shipping;
 
 class DownstreamChargesTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,6 +12,12 @@ class DownstreamChargesTest extends \PHPUnit_Framework_TestCase
     {
         $rule = new DownstreamCharges();
 
-        $this->assertEquals(0, $rule->getShippingCosts(new Order()));
+        $this->assertEquals(
+            new Shipping(array(
+                'rule' => $rule,
+                'deliveryWorkDays' => 10,
+            )),
+            $rule->getShippingCosts(new Order(), new VatConfig())
+        );
     }
 }

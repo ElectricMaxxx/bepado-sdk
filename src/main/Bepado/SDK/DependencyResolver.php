@@ -409,7 +409,10 @@ class DependencyResolver
         if ($this->marshaller === null) {
             $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
                 new \Bepado\SDK\XmlHelper(),
-                new Rpc\Marshaller\Converter\ExceptionToErrorConverter()
+                new Rpc\Marshaller\Converter\ChainingConverter(array(
+                    new Rpc\Marshaller\Converter\ExceptionToErrorConverter(),
+                    new Rpc\Marshaller\Converter\LegacyOrderConverter(),
+                ))
             );
         }
 
@@ -450,7 +453,8 @@ class DependencyResolver
                     new ShippingRuleParser\Validator(
                         new ShippingRuleParser\Google(),
                         $this->getVerificator()
-                    )
+                    ),
+                    $this->gateway
                 );
             } else {
                 $this->shippingCostCalculator = new ShippingCostCalculator\GlobalConfigCalculator(

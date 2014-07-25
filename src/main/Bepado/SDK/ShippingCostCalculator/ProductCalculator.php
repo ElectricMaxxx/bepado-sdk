@@ -7,6 +7,7 @@
 
 namespace Bepado\SDK\ShippingCostCalculator;
 
+use Bepado\SDK\Gateway\ShippingCosts;
 use Bepado\SDK\ShippingCostCalculator;
 use Bepado\SDK\ShippingRuleParser;
 use Bepado\SDK\Struct\Order;
@@ -27,10 +28,36 @@ class ProductCalculator implements ShippingCostCalculator
      */
     private $aggregate;
 
-    public function __construct(ShippingCostCalculator $aggregate, ShippingRuleParser $parser, Aggregator $aggregator = null)
-    {
+    /**
+     * Shipping rule parser
+     *
+     * @var ShippingRuleParser
+     */
+    private $parser;
+
+    /**
+     * Shipping cost aggregator
+     *
+     * @var Aggregator
+     */
+    private $aggregator;
+
+    /**
+     * Shipping costs gateway
+     *
+     * @var Gateway\ShippingCosts
+     */
+    protected $shippingCosts;
+
+    public function __construct(
+        ShippingCostCalculator $aggregate,
+        ShippingRuleParser $parser,
+        ShippingCosts $shippingCosts,
+        Aggregator $aggregator = null
+    ) {
         $this->aggregate = $aggregate;
         $this->parser = $parser;
+        $this->shippingCosts = $shippingCosts;
         $this->aggregator = $aggregator ?: new Aggregator\Sum();
     }
 
@@ -61,25 +88,21 @@ class ProductCalculator implements ShippingCostCalculator
             }
         );
 
-        $isShippable = true;
+        $shippingCosts = $this->getShippingCosts($order, $type);
         foreach ($productOrder->orderItems as $orderItem) {
             $rules = $this->parser->parseString($orderItem->product->shipping);
 
             $orderItem->shipping = new Shipping(array('isShippable' => false));
             foreach ($rules->rules as $rule) {
+                $rule->deliveryWorkDays = $rule->deliveryWorkDays ?: $shippingCosts->defaultDeliveryWorkDays;
                 $rule->orderItemCount = $orderItem->count;
                 $rule->vat = $orderItem->product->vat;
 
                 if ($rule->isApplicable($productOrder)) {
-                    $orderItem->shipping = $rule->getShippingCosts($productOrder, $orderItem);
-
-                    if ($rule->shouldStopProcessing($productOrder)) {
-                        continue 2;
-                    }
+                    $orderItem->shipping = $rule->getShippingCosts($productOrder, $shippingCosts->vatConfig);
+                    break;
                 }
             }
-
-            $isShippable = false;
         }
 
         return $this->aggregator->aggregateShippingCosts(
@@ -93,5 +116,24 @@ class ProductCalculator implements ShippingCostCalculator
                 array($this->aggregate->calculateShippingCosts($commonOrder, $type))
             )
         );
+    }
+
+    /**
+     * Get shipping cost rules for current order
+     *
+     * @param \Bepado\SDK\Struct\Order $order
+     * @return Rule[]
+     */
+    protected function getShippingCosts(Order $order, $type)
+    {
+        $rules = $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
+        if (is_array($rules)) {
+            // This is for legacy shops, where the rules are still just an array
+            return new Rules(array(
+                'rules' => $rules,
+            ));
+        }
+
+        return $rules;
     }
 }

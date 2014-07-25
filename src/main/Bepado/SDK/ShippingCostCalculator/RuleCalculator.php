@@ -13,6 +13,7 @@ use Bepado\SDK\ShippingCosts\Rules;
 use Bepado\SDK\Struct;
 use Bepado\SDK\Struct\Order;
 use Bepado\SDK\Struct\OrderItem;
+use Bepado\SDK\Struct\Shipping;
 
 /**
  * Calculate shipping costs based on rules from the gateway.
@@ -26,9 +27,17 @@ class RuleCalculator implements ShippingCostCalculator
      */
     protected $shippingCosts;
 
-    public function __construct(ShippingCosts $shippingCosts)
+    /**
+     * VAT calculator
+     *
+     * @var RuleCalculator\VatCalculator
+     */
+    protected $vatCalculator;
+
+    public function __construct(ShippingCosts $shippingCosts, RuleCalculator\VatCalculator $vatCalculator = null)
     {
         $this->shippingCosts = $shippingCosts;
+        $this->vatCalculator = $vatCalculator ?: new RuleCalculator\VatCalculator();
     }
 
     /**
@@ -42,26 +51,28 @@ class RuleCalculator implements ShippingCostCalculator
     public function calculateShippingCosts(Order $order, $type)
     {
         $shippingCostRules = $this->getShippingCostRules($order, $type);
-        $vat = $this->calculateVat($order, $shippingCostRules);
-        $netShippingCosts = 0;
-        $isShippable = false;
+        $shippingCostRules->vatConfig->vat = $this->vatCalculator->calculateVat($order, $shippingCostRules->vatConfig);
 
+        $minShippingCosts = null;
+        $minShippingCostValue = PHP_INT_MAX;
         foreach ($shippingCostRules as $shippingCostRule) {
             if ($shippingCostRule->isApplicable($order)) {
-                $isShippable = true;
-                $netShippingCosts += $shippingCostRule->getShippingCosts($order);
-
-                if ($shippingCostRule->shouldStopProcessing($order)) {
-                    break;
+                $shippingCosts = $shippingCostRule->getShippingCosts($order, $shippingCostRules->vatConfig);
+                if ($shippingCosts->shippingCosts < $minShippingCostValue) {
+                    $minShippingCosts = $shippingCosts;
                 }
             }
         }
 
-        return new Struct\Shipping(array(
-            'isShippable' => $isShippable,
-            'shippingCosts' => $netShippingCosts,
-            'grossShippingCosts' => $netShippingCosts * (1 + $vat),
-        ));
+        if (!$minShippingCosts) {
+            return new Shipping(
+                array(
+                    'isShippable' => false,
+                )
+            );
+        }
+
+        return $minShippingCosts;
     }
 
     /**
@@ -88,74 +99,12 @@ class RuleCalculator implements ShippingCostCalculator
             }
         }
 
-        return $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
-    }
-
-    /**
-     * Get maximum VAT of all products
-     *
-     * This seems to be a safe assumption to apply the maximum VAT of all
-     * products to the shipping costs.
-     *
-     * @param \Bepado\SDK\Struct\Order $order
-     * @param array|\Bepado\SDK\ShippingCosts\Rules $rules
-     * @return float
-     */
-    protected function calculateVat(Order $order, $rules)
-    {
-        $vatMode = is_array($rules) ? Rules::VAT_MAX : $rules->vatMode;
-
-        switch ($vatMode) {
-            case Rules::VAT_MAX:
-                return max(
-                    array_map(
-                        function (OrderItem $orderItem) {
-                            return $orderItem->product->vat;
-                        },
-                        $order->orderItems
-                    )
-                );
-
-            case Rules::VAT_DOMINATING:
-                $prices = array();
-
-                foreach ($order->orderItems as $orderItem) {
-                    if (!isset($prices[(string)$orderItem->product->vat])) {
-                        $prices[(string)$orderItem->product->vat] = 0;
-                    }
-
-                    $prices[(string)$orderItem->product->vat] += $orderItem->product->price * $orderItem->count;
-                }
-
-                arsort($prices);
-                reset($prices);
-
-                return key($prices);
-
-            case Rules::VAT_PROPORTIONATELY:
-                $totalPrice = 0;
-                $vat = 0;
-
-                if (count($order->orderItems) === 1) {
-                    return $order->orderItems[0]->product->vat;
-                }
-
-                foreach ($order->orderItems as $orderItem) {
-                    $totalPrice += $orderItem->product->purchasePrice * $orderItem->count;
-                }
-
-                foreach ($order->orderItems as $orderItem) {
-                    $productPrice = $orderItem->product->purchasePrice * $orderItem->count;
-                    $vat += ($productPrice / $totalPrice) * $orderItem->product->vat;
-                }
-
-                return $vat;
-
-            case Rules::VAT_FIX:
-                return $rules->vat;
-
-            default:
-                throw new \RuntimeException("Unknown VAT mode specified: " . $vatMode);
+        $rules = $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
+        if (is_array($rules)) {
+            // This is for legacy shops, where the rules are still just an array
+            $rules = new Rules(array('rules' => $rules));
         }
+
+        return $rules;
     }
 }
