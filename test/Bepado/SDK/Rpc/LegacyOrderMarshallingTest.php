@@ -34,7 +34,7 @@ class LegacyOrderMarshallingTest extends \PHPUnit_Framework_TestCase
      * @param string $xml
      * @dataProvider provideMarshalData
      */
-    public function testMarshalRpcCall($rpcCall, $xml)
+    public function testMarshalToLegacyOrder($rpcCall, $xml)
     {
         $marshaller = new \Bepado\SDK\Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
             new \Bepado\SDK\XmlHelper(),
@@ -48,6 +48,36 @@ class LegacyOrderMarshallingTest extends \PHPUnit_Framework_TestCase
         $expected = file_get_contents(
             "{$this->expectationsDirectory}/{$xml}.xml"
         );
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Provide sets of RpcCalls and marshalled XML structs
+     *
+     * @return array
+     */
+    public function provideUnmarshalData()
+    {
+        return array(
+            array("MarshalledXml/Order", "RpcCalls/Order"),
+        );
+    }
+
+    /**
+     * @param string $rpcCall
+     * @param string $xml
+     * @dataProvider provideUnmarshalData
+     */
+    public function testUnmarshalFromLegacyOrder($xml, $rpcCall)
+    {
+        $unmarshaller = new \Bepado\SDK\Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller();
+
+        $result = $unmarshaller->unmarshal(
+            file_get_contents("{$this->fixturesDirectory}/{$xml}.xml")
+        );
+
+        $expected = include "{$this->expectationsDirectory}/{$rpcCall}.php";
 
         $this->assertEquals($expected, $result);
     }
