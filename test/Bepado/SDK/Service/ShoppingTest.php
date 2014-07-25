@@ -12,7 +12,7 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
             \Phake::mock('Bepado\SDK\ProductToShop'),
             \Phake::mock('Bepado\SDK\Logger'),
             \Phake::mock('Bepado\SDK\ErrorHandler'),
-            $calc = \Phake::mock('Bepado\SDK\ShippingCostCalculator'),
+            $calc = \Phake::mock('Bepado\SDK\Service\ShippingCosts'),
             \Phake::mock('Bepado\SDK\Gateway\ShopConfiguration')
         );
 

@@ -8,18 +8,16 @@ use Bepado\SDK\ShippingCosts\VatConfig;
 
 class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 {
-    private $gateway;
     private $calculator;
 
     public function setUp()
     {
-        $this->gateway = \Phake::mock('Bepado\SDK\Gateway\ShippingCosts');
-        $this->calculator = new RuleCalculator($this->gateway);
+        $this->calculator = new RuleCalculator();
     }
 
     public function testCalculateMixedVatUsesDominantStrategy()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+        $result = $this->calculator->calculateShippingCosts(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_DOMINATING,
@@ -31,10 +29,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        );
-
-        $result = $this->calculator->calculateShippingCosts(
+            ),
             new \Bepado\SDK\Struct\Order(
                 array(
                     'orderShop' => 2,
@@ -79,7 +74,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateWithMixedVatProductsUsesMaxVat()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+        $result = $this->calculator->calculateShippingCosts(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_MAX,
@@ -91,10 +86,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        );
-
-        $result = $this->calculator->calculateShippingCosts(
+            ),
             new \Bepado\SDK\Struct\Order(
                 array(
                     'orderShop' => 2,
@@ -137,7 +129,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateVatModeFixedVat()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+        $result = $this->calculator->calculateShippingCosts(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_FIX,
@@ -150,10 +142,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        );
-
-        $result = $this->calculator->calculateShippingCosts(
+            ),
             new \Bepado\SDK\Struct\Order(
                 array(
                     'orderShop' => 2,
@@ -184,7 +173,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateVatModeProporitionately()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+        $result = $this->calculator->calculateShippingCosts(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_PROPORTIONATELY,
@@ -196,10 +185,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        );
-
-        $result = $this->calculator->calculateShippingCosts(
+            ),
             new \Bepado\SDK\Struct\Order(
                 array(
                     'orderShop' => 2,
@@ -243,7 +229,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateVatModeProporitionatelySingleOrderItem()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+        $result = $this->calculator->calculateShippingCosts(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_PROPORTIONATELY,
@@ -255,10 +241,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        );
-
-        $result = $this->calculator->calculateShippingCosts(
+            ),
             new \Bepado\SDK\Struct\Order(
                 array(
                     'orderShop' => 2,
@@ -287,68 +270,9 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(11.9, $result->grossShippingCosts);
     }
 
-    public function testCalculationAbortedWhenProviderOrderShopAreEmpty()
-    {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'Order#providerShop and Order#orderShop must be non-empty to calculate the shipping costs.'
-        );
-
-        $this->calculator->calculateShippingCosts(
-            new \Bepado\SDK\Struct\Order(
-                array()
-            ),
-            'test'
-        );
-    }
-
-    public function testCalculationAbortedWhenProductsFromMultipleShops()
-    {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'ShippingCostCalculator can only calculate shipping costs for products belonging to exactly one remote shop.'
-        );
-
-        $this->calculator->calculateShippingCosts(
-            new \Bepado\SDK\Struct\Order(
-                array(
-                    'orderShop' => 2,
-                    'providerShop' => 1,
-                    'products' => array(
-                        new \Bepado\SDK\Struct\OrderItem(
-                            array(
-                                'count' => 1,
-                                'product' => new \Bepado\SDK\Struct\Product(
-                                    array(
-                                        'shopId' => 1,
-                                        'freeDelivery' => false,
-                                        'vat' => 0.07,
-                                    )
-                                ),
-                            )
-                        ),
-                        new \Bepado\SDK\Struct\OrderItem(
-                            array(
-                                'count' => 1,
-                                'product' => new \Bepado\SDK\Struct\Product(
-                                    array(
-                                        'shopId' => 2,
-                                        'freeDelivery' => false,
-                                        'vat' => 0.19,
-                                    )
-                                ),
-                            )
-                        ),
-                    ),
-                )
-            ),
-            'test'
-        );
-    }
-
     public function testFindMinimumShippingCostsRule()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+        $result = $this->calculator->calculateShippingCosts(
             new Rules(
                 array(
                     'vatMode' => Rules::VAT_FIX,
@@ -366,10 +290,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        );
-
-        $result = $this->calculator->calculateShippingCosts(
+            ),
             new \Bepado\SDK\Struct\Order(
                 array(
                     'orderShop' => 2,
@@ -400,7 +321,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGrossShippingCosts()
     {
-        \Phake::when($this->gateway)->getShippingCosts(1, 2, 'test')->thenReturn(
+        $result = $this->calculator->calculateShippingCosts(
             new Rules(array(
                 'vatConfig' => new VatConfig(array(
                     'mode' => Rules::VAT_FIX,
@@ -412,10 +333,7 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
                         'price' => 10,
                     )),
                 )
-            ))
-        );
-
-        $result = $this->calculator->calculateShippingCosts(
+            )),
             new \Bepado\SDK\Struct\Order(array(
                 'orderShop' => 2,
                 'providerShop' => 1,

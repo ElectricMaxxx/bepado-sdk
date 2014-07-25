@@ -3,6 +3,7 @@
 namespace Bepado\SDK\Struct\Verificator;
 
 use Bepado\SDK\Struct;
+use Bepado\SDK\ShippingRuleParser;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +25,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->dispatcher = \Phake::mock('Bepado\SDK\Struct\VerificatorDispatcher');
-        $this->verificator = new Product();
+        $this->verificator = new Product(
+            new ShippingRuleParser\Google()
+        );
     }
 
     private function verify($product)
@@ -52,6 +55,15 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->title = null;
 
         $this->setExpectedException('RuntimeException', 'Property title MUST be non-empty.');
+        $this->verify($product);
+    }
+
+    public function testInvalidShippingRule()
+    {
+        $product = $this->createValidProduct();
+        $product->shipping = "Invalid:::";
+
+        $this->setExpectedException('RuntimeException', 'Unexpected Delivery name (free text) at position 0 – expected one of: Element separator ":", Country Code (ISO 3166-1) (eg. DE)');
         $this->verify($product);
     }
 

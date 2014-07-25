@@ -3,6 +3,7 @@
 namespace Bepado\SDK\ShippingCostCalculator;
 
 use Bepado\SDK\Struct;
+use Bepado\SDK\ShippingCosts\Rules;
 
 class GlobalConfigCalculatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,6 +27,7 @@ class GlobalConfigCalculatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $result = $this->calculator->calculateShippingCosts(
+            new Rules(),
             new Struct\Order(
                 array(
                     'products' => array(
@@ -67,6 +69,7 @@ class GlobalConfigCalculatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->calculator->calculateShippingCosts(
+            new Rules(),
             new Struct\Order(
                 array(
                     'products' => array(
