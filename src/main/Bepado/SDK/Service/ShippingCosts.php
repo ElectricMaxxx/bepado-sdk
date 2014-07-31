@@ -117,9 +117,17 @@ class ShippingCosts
         }
 
         $rules = $this->shippingCosts->getShippingCosts($order->providerShop, $order->orderShop, $type);
+
         if (is_array($rules)) {
             // This is for legacy shops, where the rules are still just an array
             $rules = new Rules(array('rules' => $rules));
+        }
+
+        if ( ! $rules->vatConfig) {
+            $rules->vatConfig = new \Bepado\SDK\ShippingCosts\VatConfig(array(
+                'mode' => isset($rules->vatMode) ? $rules->vatMode : \Bepado\SDK\ShippingCosts\Rules::VAT_MAX,
+                'vat' => $rules->vat,
+            ));
         }
 
         return $rules;
