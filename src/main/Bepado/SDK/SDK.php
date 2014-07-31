@@ -550,6 +550,7 @@ final class SDK
     public function getShippingCostRules()
     {
         $gateway = $this->dependencies->getGateway();
+        $service = $this->dependencies->getShippingCostsService();
 
         $shopId = $gateway->getShopId();
         $connectedShopIds = $gateway->getConnectedShopIds();
@@ -557,7 +558,7 @@ final class SDK
         $rules = array();
 
         foreach ($connectedShopIds as $connectedShopId) {
-            $rules[$connectedShopId] = $gateway->getShippingCosts(
+            $rules[$connectedShopId] = $service->getShippingCostRules(
                 $connectedShopId,
                 $shopId,
                 Gateway\ShippingCosts::SHIPPING_COSTS_CUSTOMER
