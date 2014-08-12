@@ -70,7 +70,7 @@
         </exec>
     </target>
 
-    <target name="sdk-release" depends="verify,user-docs">
+    <target name="build-release" depends="verify,user-docs">
 
         <property name="releasedir" value="${commons:builddir}/release/${build.file}" />
 
@@ -96,12 +96,6 @@
                 <exclude name="**/*.swp" />
                 <exclude name="**/*.swo" />
             </fileset>
-
-            <filterchain>
-                <replacetokens begintoken="$" endtoken="$">
-                    <token key="Revision" value="${build.version.release}" />
-                </replacetokens>
-            </filterchain>
         </copy>
 
         <copy tofile="${releasedir}/composer.json" file="${basedir}/composer.json" />
@@ -128,5 +122,62 @@
             <fileset dir="${releasedir}/.." includes="**/*.*" />
         </zip>
     </target>
+
+    <target name="make-release-commit" depends="check-git-checkout-clean,verify,user-docs">
+        <replace file="src/main/Bepado/SDK/SDK.php" token="$Revision$" value="${build.version.release}" failOnNoReplacements="true" />
+        <exec executable="/usr/bin/php" outputproperty="bepado_sdk.current_version" failonerror="true">
+            <arg value="-r" />
+            <arg value="require_once 'src/main/Bepado/SDK/SDK.php';echo \Bepado\SDK\SDK::VERSION;" />
+        </exec>
+        <git-commit file="${project.version_file}" message="Release ${bepado_sdk.current_version}" />
+        <git-tag version="v${bepado_sdk.current_version}" />
+        <replace file="${project.version_file}" token="${bepado_sdk.current_version}" value="$Revision$" />
+        <git-commit file="${project.version_file}" message="Revert SDK-Version to dev-$Revision$" />
+    </target>
+
+    <target name="check-git-checkout-clean">
+        <!-- Abort if Git working tree is not clean -->
+        <exec executable="git" failonerror="true">
+            <arg value="diff" />
+            <arg value="--quiet" />
+        </exec>
+
+        <!-- Abort if Git staging area is not clean -->
+        <exec executable="git" failonerror="true">
+            <arg value="diff" />
+            <arg value="--cached" />
+            <arg value="--quiet" />
+        </exec>
+    </target>
+
+    <macrodef name="git-commit">
+        <attribute name="file" default="NOT SET"/>
+        <attribute name="message" default="NOT SET"/>
+
+        <sequential>
+            <exec executable="git">
+                <arg value="add" />
+                <arg value="@{file}" />
+            </exec>
+            <exec executable="git">
+                <arg value="commit" />
+                <arg value="-m" />
+                <arg value="@{message}" />
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="git-tag">
+        <attribute name="version" default="NOT SET" />
+
+        <sequential>
+            <exec executable="git">
+                <arg value="tag" />
+                <arg value="-m" />
+                <arg value="v@{version}" />
+                <arg value="v@{version}" />
+            </exec>
+        </sequential>
+    </macrodef>
 
 </project>
