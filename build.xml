@@ -71,8 +71,12 @@
     </target>
 
     <target name="build-release" depends="verify,user-docs">
+        <exec executable="/usr/bin/php" outputproperty="bepado_sdk.current_version" failonerror="true">
+            <arg value="-r" />
+            <arg value="require_once 'src/main/Bepado/SDK/SDK.php';echo \Bepado\SDK\SDK::VERSION;" />
+        </exec>
 
-        <property name="releasedir" value="${commons:builddir}/release/${build.file}" />
+        <property name="releasedir" value="${commons:builddir}/release/SDK-${bepado_sdk.current_version}" />
 
         <delete>
             <fileset dir="${commons:builddir}">
@@ -118,7 +122,7 @@
             <fileset dir="${releasedir}/src/schema" includes="**/*.sql" />
         </move>
 
-        <zip destfile="${commons:builddir}/dist/${build.file}.zip">
+        <zip destfile="${commons:builddir}/dist/SDK-${bepado_sdk.current_version}.zip">
             <fileset dir="${releasedir}/.." includes="**/*.*" />
         </zip>
     </target>
