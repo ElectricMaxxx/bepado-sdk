@@ -129,10 +129,10 @@
             <arg value="-r" />
             <arg value="require_once 'src/main/Bepado/SDK/SDK.php';echo \Bepado\SDK\SDK::VERSION;" />
         </exec>
-        <git-commit file="src\main\Bepado\SDK\SDK.php" message="Release ${bepado_sdk.current_version}" />
+        <git-commit file="src/main/Bepado/SDK/SDK.php" message="Release ${bepado_sdk.current_version}" />
         <git-tag version="v${bepado_sdk.current_version}" />
-        <replace file="src\main\Bepado\SDK\SDK.php" token="${bepado_sdk.current_version}" value="$Revision$" />
-        <git-commit file="src\main\Bepado\SDK\SDK.php" message="Revert SDK-Version to dev-$Revision$" />
+        <replace file="src/main/Bepado/SDK/SDK.php" token="${bepado_sdk.current_version}" value="$Revision$" />
+        <git-commit file="src/main/Bepado/SDK/SDK.php" message="Revert SDK-Version to dev-$Revision$" />
     </target>
 
     <target name="check-git-checkout-clean">
