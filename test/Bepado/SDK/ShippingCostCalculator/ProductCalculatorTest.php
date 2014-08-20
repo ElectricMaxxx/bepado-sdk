@@ -425,4 +425,41 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $shippingCosts);
         $this->assertEquals($expected, $shippingCosts, "Calculated wrong shipping costs for test: $message", 0.01);
     }
+
+    public function testDoNotCallAggregateWithEmptyOrder()
+    {
+        $this->aggregate = \Phake::mock('Bepado\SDK\ShippingCostCalculator');
+        $this->calculator = new ProductCalculator(
+            $this->aggregate,
+            new ShippingRuleParser\Validator(
+                new ShippingRuleParser\Google(),
+                new Struct\VerificatorDispatcher(
+                    array(
+                        'Bepado\\SDK\\Struct\\ShippingRules' =>
+                            new Struct\Verificator\ShippingRules(),
+                        'Bepado\\SDK\\ShippingCosts\\Rule\\Product' =>
+                            new Struct\Verificator\ProductRule(),
+                    )
+                )
+            )
+        );
+
+        $order = new \Bepado\SDK\Struct\Order(array(
+            'orderItems' => array(
+                new \Bepado\SDK\Struct\OrderItem(array(
+                    'count' => 1,
+                    'product' => new \Bepado\SDK\Struct\Product(array(
+                        'shipping' => '::Service [3D]:5.00 EUR',
+                    )),
+                )),
+            ),
+        ));
+        $order->providerShop = 1;
+        $order->orderShop = 2;
+
+        $shippingCosts = $this->calculator->calculateShippingCosts(new Rules(), $order);
+
+        $this->assertInstanceOf('Bepado\SDK\Struct\Shipping', $shippingCosts);
+        \Phake::verifyNoInteraction($this->aggregate);
+    }
 }
