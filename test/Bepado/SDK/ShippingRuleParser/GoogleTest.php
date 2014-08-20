@@ -26,11 +26,11 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 )),
             ),
             array(
-                'US:::7.95 USD',
+                'GB:::7.95 USD',
                 new ShippingRules(array(
                     'rules' => array(
                         new Rule\Product(array(
-                            'country' => 'US',
+                            'country' => 'GBR',
                             'price' => 7.95,
                             'currency' => 'USD'
                         )),
@@ -38,18 +38,18 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 )),
             ),
             array(
-                'US:MA:Ground:5.95 USD,US:024*:Ground:7.95 USD',
+                'GB:MA:Ground:5.95 USD,GB:024*:Ground:7.95 USD',
                 new ShippingRules(array(
                     'rules' => array(
                         new Rule\Product(array(
-                            'country' => 'US',
+                            'country' => 'GBR',
                             'region' => 'MA',
                             'service' => 'Ground',
                             'price' => 5.95,
                             'currency' => 'USD'
                         )),
                         new Rule\Product(array(
-                            'country' => 'US',
+                            'country' => 'GBR',
                             'zipRange' => '024*',
                             'service' => 'Ground',
                             'price' => 7.95,
@@ -63,13 +63,13 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 new ShippingRules(array(
                     'rules' => array(
                         new Rule\Product(array(
-                            'country' => 'DE',
+                            'country' => 'DEU',
                             'service' => 'Standard',
                             'price' => 4.95,
                             'currency' => 'EUR'
                         )),
                         new Rule\Product(array(
-                            'country' => 'DE',
+                            'country' => 'DEU',
                             'region' => '',
                             'service' => 'Express',
                             'price' => 10.00,
@@ -83,7 +83,7 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 new ShippingRules(array(
                     'rules' => array(
                         new Rule\Product(array(
-                            'country' => 'DE',
+                            'country' => 'DEU',
                             'zipRange' => '53*',
                             'service' => 'Standard',
                             'deliveryWorkDays' => 3,
@@ -98,7 +98,7 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 new ShippingRules(array(
                     'rules' => array(
                         new Rule\Product(array(
-                            'country' => 'DE',
+                            'country' => 'DEU',
                             'region' => 'NRW',
                             'service' => 'Standard',
                             'deliveryWorkDays' => 3,
@@ -113,7 +113,7 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
                 new ShippingRules(array(
                     'rules' => array(
                         new Rule\Product(array(
-                            'country' => 'DE',
+                            'country' => 'DEU',
                             'zipRange' => '53*',
                             'service' => 'Standard',
                             'deliveryWorkDays' => 1,
