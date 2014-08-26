@@ -68,6 +68,33 @@
         <exec executable="rst2html" failonerror="true" dir="${basedir}" output="${docsdir}/usage.html">
             <arg value="${basedir}/docs/api.txt" />
         </exec>
+
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/bepado.latex" />
+            <arg value="-o" />
+            <arg value="docs/rest_api.pdf" />
+            <arg value="docs/rest_api.md" />
+        </exec>
+
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/bepado.latex" />
+            <arg value="-o" />
+            <arg value="docs/tutorial_setup_sdk.pdf" />
+            <arg value="docs/tutorial_setup_sdk.md" />
+        </exec>
+
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/bepado.latex" />
+            <arg value="-o" />
+            <arg value="docs/tutorial_export.pdf" />
+            <arg value="docs/tutorial_export.md" />
+        </exec>
     </target>
 
     <target name="build-release" depends="verify,user-docs">

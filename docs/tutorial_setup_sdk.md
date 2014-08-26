@@ -1,3 +1,7 @@
+% Setting up the bepado SDK
+% support@bepado.com
+% 26th August 2014
+
 # Tutorial: Setting up the bepado SDK
 
 This tutorial explains to developers how to setup the SDK when building a new

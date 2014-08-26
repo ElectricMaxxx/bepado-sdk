@@ -1,3 +1,7 @@
+% REST-API Bepado Platform
+% support@bepado.com
+% 26th August 2014
+
 # REST-API Bepado Platform
 
 Some of the SDK calls to bepado can be done without the SDK, using the REST-API.

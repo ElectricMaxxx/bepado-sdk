@@ -1,3 +1,7 @@
+% Using the SDK to export products to bepado
+% support@bepado.com
+% 26th August 2014
+
 # Tutorial: Using the SDK to export products to bepado
 
 Exporting products to bepado is the most simple step that you can implement.
