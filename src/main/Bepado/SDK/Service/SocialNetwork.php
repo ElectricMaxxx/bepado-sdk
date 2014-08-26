@@ -87,6 +87,15 @@ class SocialNetwork
         $this->handleResponse($response, "Unsubscribe products");
     }
 
+    public function getPaymentInfo()
+    {
+        $response = $this->request('/sdk/get-payment-info', array());
+        $this->handleResponse($response, "Get payment information");
+
+        $return = json_decode($response->body);
+        return $return->payments;
+    }
+
     private function verifyProductIds(array $productIds)
     {
         foreach ($productIds as $productId) {

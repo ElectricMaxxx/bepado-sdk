@@ -567,4 +567,11 @@ final class SDK
 
         return $rules;
     }
+
+    public function getPaymentInfo()
+    {
+        $this->verifySdkIfNecessary();
+
+        return $this->dependencies->getSocialNetworkService()->getPaymentInfo();
+    }
 }
