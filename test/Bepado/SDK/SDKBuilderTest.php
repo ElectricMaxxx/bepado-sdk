@@ -21,6 +21,7 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
             ->setProductFromShop(\Phake::mock('Bepado\SDK\ProductFromShop'))
             ->setErrorHandler(\Phake::mock('Bepado\SDK\ErrorHandler'))
             ->setPluginSoftwareVersion('Foo')
+            ->setProductPayments(\Phake::mock('Bepado\SDK\ProductPayments'))
         ;
 
         $sdk = $builder->build();
@@ -41,6 +42,7 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
             ->configurePDOGateway(new PDO('sqlite::memory:'))
             ->setProductToShop(\Phake::mock('Bepado\SDK\ProductToShop'))
             ->setProductFromShop(\Phake::mock('Bepado\SDK\ProductFromShop'))
+            ->setProductPayments(\Phake::mock('Bepado\SDK\ProductPayments'))
         ;
 
         $sdk = $builder->build();
