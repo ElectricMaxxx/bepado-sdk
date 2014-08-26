@@ -72,7 +72,7 @@ final class SDK
         ErrorHandler $errorHandler = null,
         HttpClient\RequestSigner $requestSigner = null,
         $pluginSoftwareVersion = null,
-        ProductPayments $productPayments
+        ProductPayments $productPayments = null
     ) {
         $this->apiKey = $apiKey;
         $this->apiEndpointUrl = $apiEndpointUrl;

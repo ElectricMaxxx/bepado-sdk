@@ -209,7 +209,7 @@ class DependencyResolver
         $apiKey,
         HttpClient\RequestSigner $requestSigner = null,
         $pluginSoftwareVersion = null,
-        ProductPayments $productPayments
+        ProductPayments $productPayments = null
     ) {
         $this->gateway = $gateway;
         $this->toShop = $toShop;
@@ -230,7 +230,7 @@ class DependencyResolver
 
         $this->apiKey = $apiKey;
         $this->pluginSoftwareVersion = $pluginSoftwareVersion;
-        $this->productPayments = $productPayments;
+        $this->productPayments = $productPayments ?: new NoopProductPayments();
     }
 
     /**
