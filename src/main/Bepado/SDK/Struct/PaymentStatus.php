@@ -9,7 +9,7 @@ namespace Bepado\SDK\Struct;
 
 use Bepado\SDK\Struct;
 
-class Payment extends Struct
+class PaymentStatus extends Struct
 {
     /**
      * @var string
