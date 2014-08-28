@@ -21,7 +21,7 @@ class NoopProductPayments implements ProductPayments
      */
     public function lastRevision()
     {
-        return '';
+        return (string)microtime(true);
     }
 
     /**
