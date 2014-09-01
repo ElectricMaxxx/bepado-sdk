@@ -71,7 +71,8 @@ final class SDK
         ProductFromShop $fromShop,
         ErrorHandler $errorHandler = null,
         HttpClient\RequestSigner $requestSigner = null,
-        $pluginSoftwareVersion = null
+        $pluginSoftwareVersion = null,
+        ProductPayments $productPayments = null
     ) {
         $this->apiKey = $apiKey;
         $this->apiEndpointUrl = $apiEndpointUrl;
@@ -87,7 +88,8 @@ final class SDK
             $errorHandler ? $errorHandler : new ErrorHandler\Exception(),
             $apiKey,
             $requestSigner,
-            $pluginSoftwareVersion
+            $pluginSoftwareVersion,
+            $productPayments
         );
     }
 
