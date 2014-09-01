@@ -11,6 +11,8 @@ use Bepado\SDK\Gateway;
 use Bepado\SDK\ShippingCostCalculator;
 use Bepado\SDK\ShippingCosts\Rules;
 use Bepado\SDK\Struct\Order;
+use Bepado\SDK\Struct\Product;
+use Bepado\SDK\ShippingRuleParser;
 
 /**
  * Service to maintain transactions
@@ -34,6 +36,13 @@ class ShippingCosts
     protected $calculator;
 
     /**
+     * Shipping rule parser
+     *
+     * @var ShippingRuleParser
+     */
+    protected $parser;
+
+    /**
      * COnstruct from gateway
      *
      * @param Gateway\ShippingCosts $shippingCosts
@@ -42,10 +51,12 @@ class ShippingCosts
      */
     public function __construct(
         Gateway\ShippingCosts $shippingCosts,
-        ShippingCostCalculator $calculator
+        ShippingCostCalculator $calculator,
+        ShippingRuleParser $parser
     ) {
         $this->shippingCosts = $shippingCosts;
         $this->calculator = $calculator;
+        $this->parser = $parser;
     }
 
     /**
@@ -146,5 +157,16 @@ class ShippingCosts
         }
 
         return $rules;
+    }
+
+    /**
+     * Get shipping cost rules for current product
+     *
+     * @param Product $product
+     * @return \Bepado\SDK\Struct\ShippingRules
+     */
+    public function getProductShippingCostRules(Product $product)
+    {
+        return $this->parser->parseString($product->shipping);
     }
 }

@@ -337,7 +337,8 @@ class DependencyResolver
             $this->registry->registerService(
                 'shippingCosts',
                 array('lastRevision', 'replicate'),
-                $this->getShippingCostsService()
+                $this->getShippingCostsService(),
+                new ShippingRuleParser\Google()
             );
 
             $this->registry->registerService(

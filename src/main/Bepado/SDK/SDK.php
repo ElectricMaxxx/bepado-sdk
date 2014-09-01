@@ -9,6 +9,7 @@ namespace Bepado\SDK;
 
 use Bepado\SDK\Struct\RpcCall;
 use Bepado\SDK\Struct\Shop;
+use Bepado\SDK\Struct\Product;
 
 /**
  * Central SDK class, which serves as an etnry point and service fromShop.
@@ -568,5 +569,17 @@ final class SDK
         }
 
         return $rules;
+    }
+
+    /**
+     * Return all shipping rules by given product
+     *
+     * @param Product $product
+     * @return mixed
+     */
+    public function getProductShippingCostRules(Product $product)
+    {
+        $service = $this->dependencies->getShippingCostsService();
+        return $service->getProductShippingCostRules($product);
     }
 }

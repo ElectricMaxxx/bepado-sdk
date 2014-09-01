@@ -42,6 +42,10 @@ abstract class RulesVisitor
             $this->visitWeightDecorator($struct);
 
             $this->visit($struct->delegatee);
+        } else if ($struct instanceof Rule\Product) {
+            $this->visitProductDecorator($struct);
+
+            $this->visit($struct->delegatee);
         }
     }
 
@@ -64,4 +68,6 @@ abstract class RulesVisitor
     abstract public function visitMinimumBasketValue(Rule\MinimumBasketValue $rule);
 
     abstract public function visitWeightDecorator(Rule\WeightDecorator $rule);
+
+    abstract public function visitProductDecorator(Rule\Product $rule);
 }

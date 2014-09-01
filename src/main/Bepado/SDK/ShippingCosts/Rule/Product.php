@@ -66,6 +66,11 @@ class Product extends Rule
     public $vat;
 
     /**
+     * @var \Bepado\SDK\ShippingCosts\Rule
+     */
+    public $delegatee;
+
+    /**
      * Check if shipping cost is applicable to given order
      *
      * @param Order $order
