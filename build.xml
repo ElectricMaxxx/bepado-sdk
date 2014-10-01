@@ -95,6 +95,15 @@
             <arg value="docs/tutorial_export.pdf" />
             <arg value="docs/tutorial_export.md" />
         </exec>
+
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/bepado.latex" />
+            <arg value="-o" />
+            <arg value="docs/csv_provider.pdf" />
+            <arg value="docs/csv_provider.md" />
+        </exec>
     </target>
 
     <target name="build-release" depends="verify,user-docs">
