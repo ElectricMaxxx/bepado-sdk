@@ -27,9 +27,10 @@ class NoopProductPayments implements ProductPayments
     /**
      * @param int $localOrderId
      * @param PaymentStatus $status
+     * @param int $orderShop
      * @return mixed|void
      */
-    public function updatePaymentStatus($localOrderId, PaymentStatus $status)
+    public function updatePaymentStatus($localOrderId, PaymentStatus $status, $orderShop)
     {
 
     }

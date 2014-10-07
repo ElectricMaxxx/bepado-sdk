@@ -41,10 +41,11 @@ class PaymentStatus
      *
      * @param $localOrderId
      * @param \Bepado\SDK\Struct\PaymentStatus $status
+     * @param int $orderShop
      */
-    public function updatePaymentStatus($localOrderId, \Bepado\SDK\Struct\PaymentStatus $status)
+    public function updatePaymentStatus($localOrderId, \Bepado\SDK\Struct\PaymentStatus $status, $orderShop)
     {
-        $this->productPayments->updatePaymentStatus($localOrderId, $status);
+        $this->productPayments->updatePaymentStatus($localOrderId, $status, $orderShop);
     }
 
 } 

@@ -28,7 +28,8 @@ interface ProductPayments
      *
      * @param int $localOrderId
      * @param PaymentStatus $status
+     * @param int $orderShop
      * @return mixed
      */
-    public function updatePaymentStatus($localOrderId, PaymentStatus $status);
+    public function updatePaymentStatus($localOrderId, PaymentStatus $status, $orderShop);
 } 
