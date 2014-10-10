@@ -89,7 +89,7 @@ final class SDK
             $apiKey,
             $requestSigner,
             $pluginSoftwareVersion,
-            $productPayments
+            $productPayments ?: new NoopProductPayments()
         );
     }
 
