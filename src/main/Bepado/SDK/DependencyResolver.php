@@ -342,7 +342,7 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'productPayments',
-                array('lastRevision', 'updatePaymentStatus'),
+                array('lastRevision', 'replicate'),
                 $this->getPaymentStatusService()
             );
         }
