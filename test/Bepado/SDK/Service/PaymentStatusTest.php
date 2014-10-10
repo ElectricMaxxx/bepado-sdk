@@ -13,7 +13,7 @@ class PaymentStatusTest extends \PHPUnit_Framework_TestCase
             $shopConfiguration = \Phake::mock('Bepado\SDK\Gateway\ShopConfiguration')
         );
 
-        $service->updatePaymentStatus(array(
+        $service->replicate(array(
             $status = new Struct\PaymentStatus(array(
                 'revision' => '1234'
             ))

@@ -48,10 +48,9 @@ class PaymentStatus
     /**
      * Update payment status
      *
-     * @param $localOrderId
-     * @param arra<\Bepado\SDK\Struct\PaymentStatus> $statuses
+     * @param array<\Bepado\SDK\Struct\PaymentStatus> $statuses
      */
-    public function updatePaymentStatus(array $statuses)
+    public function replicate(array $statuses)
     {
         foreach ($statuses as $status) {
             $this->productPayments->updatePaymentStatus($status);
