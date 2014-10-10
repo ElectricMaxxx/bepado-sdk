@@ -17,7 +17,8 @@ use Bepado\SDK\Struct\PaymentStatus;
 class NoopProductPayments implements ProductPayments
 {
     /**
-     * @param int $localOrderId
+     * Update payment status
+     *
      * @param PaymentStatus $status
      * @return mixed|void
      */

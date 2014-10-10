@@ -19,7 +19,6 @@ interface ProductPayments
     /**
      * Update payment status
      *
-     * @param int $localOrderId
      * @param PaymentStatus $status
      * @return mixed
      */
