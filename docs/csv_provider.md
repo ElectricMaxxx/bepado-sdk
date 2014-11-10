@@ -94,9 +94,22 @@ In Ihrem FTP-Zugang finden Sie die folgenden Ordner:
 ## Abholung der CSV-Datei von URL
 
 Alternativ zum FTP kann die CSV Datei auch von einer definierten URL abgerufen
-werden.  Diese Funktion wird aktuell vom Support für Sie freigeschaltet, bitte
-wenden Sie sich daher an bepado@shopware.com und geben Sie die URL und die
-Shop-ID an, die Sie im Bereich „Synchronisation“ finden.
+werden. Diese Funktion wird aktuell entweder über REST API oder vom Support für
+Sie freigeschaltet. Bitte wenden Sie sich an bepado@shopware.com und
+geben Sie die URL und die Shop-ID an, die Sie im Bereich „Synchronisation“
+finden.
+
+Die REST API funktioniert wie folgt:
+
+    POST https://sn.bepado.de/sdk/provider/import-url
+    X-Bepado-ShopId: <ShopId>
+    X-Bepado-Key: <hmac-key>
+
+    {
+        "url": "<import csv url>"
+    }
+
+Die Details zur HMAC-Message Authentifzierung finden Sie in der REST API Dokumentation.
 
 ## CSV-Format Produkt import.csv
 

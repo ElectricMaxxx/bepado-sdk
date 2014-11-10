@@ -74,6 +74,21 @@ Example:
         "tracking": {"id": "ABCDEFG1234567890"}
     }
 
+## Register Import CSV Url
+
+For accounts that use the CSV shop you can register a feed url to download
+products from instead of using the FTP.
+
+The following call has to be made to register the URL:
+
+    POST https://sn.bepado.de/sdk/provider/import-url
+    X-Bepado-ShopId: <ShopId>
+    X-Bepado-Key: <hmac-key>
+
+    {
+        "url": "<import csv url>"
+    }
+
 ## Register Event Hooks
 
 bepado provides event hooks for events. Whenever something interesting happens inside bepado
